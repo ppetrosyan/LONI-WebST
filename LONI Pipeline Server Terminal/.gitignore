@@ -21,3 +21,6 @@ war/WEB-INF/classes/
 
 # test dir #
 test-classes/
+
+# Eclipse settings #
+.settings/
