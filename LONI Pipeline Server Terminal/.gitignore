@@ -4,8 +4,12 @@
 *.jar
 *.war
 
+# except the following #
+!raphaelgwt-r42.jar
+!smartgwt.jar
+
 # gwt caches and compiled units #
-war/gwt_bree/
+war/loni_pipeline_server_terminal/
 gwt-unitCache/
 
 # boilerplate generated classes #
@@ -14,3 +18,6 @@ gwt-unitCache/
 # more caches and things from deploy #
 war/WEB-INF/deploy/
 war/WEB-INF/classes/
+
+# test dir #
+test-classes/
