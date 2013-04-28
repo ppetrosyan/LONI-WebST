@@ -15,7 +15,7 @@ public class LineChartExample extends DockLayoutPanel {
 	private LineChart chart;
 
 	public LineChartExample() {
-		super(Unit.PX);
+		super(Unit.EM);
 		initialize();
 	}
 
@@ -34,22 +34,22 @@ public class LineChartExample extends DockLayoutPanel {
 	}
 
 	private void draw() {
-		String[] countries = new String[] { "Initial Memory", "Used Memory", "Committed Memory", "Max Memory" };
-		int[] years = new int[] { 0, 1, 2, 3, 4, 5 };
-		int[][] values = new int[][] { { 1336060, 1538156, 1576579, 1600652, 1968113, 1901067 },
-				{ 400361, 366849, 440514, 434552, 393032, 517206 },
-				{ 1001582, 1119450, 993360, 1004163, 979198, 916965 },
-				{ 997974, 941795, 930593, 897127, 1080887, 1056036 } };
+		String[] memory = new String[] { "Initial Memory", "Used Memory", "Committed Memory", "Max Memory" };
+		String[] time = new String[] { "4:47:55 PM", "4:48:00 PM", "4:48:05 PM", "4:48:10 PM", "4:48:15 PM", "4:48:20 PM" };
+		int[][] values = new int[][] { { 0, 0, 0, 0, 0, 0 },
+				{ 417, 417, 417, 417, 417, 417 },
+				{ 495, 495, 495, 495, 495, 495 },
+				{ 7281, 7281, 7281, 7281, 7281, 7281 } };
 
 		// Prepare the data
 		DataTable dataTable = DataTable.create();
 		dataTable.addColumn(ColumnType.STRING, "Time");
-		for (int i = 0; i < countries.length; i++) {
-			dataTable.addColumn(ColumnType.NUMBER, countries[i]);
+		for (int i = 0; i < memory.length; i++) {
+			dataTable.addColumn(ColumnType.NUMBER, memory[i]);
 		}
-		dataTable.addRows(years.length);
-		for (int i = 0; i < years.length; i++) {
-			dataTable.setValue(i, 0, String.valueOf(years[i]));
+		dataTable.addRows(time.length);
+		for (int i = 0; i < time.length; i++) {
+			dataTable.setValue(i, 0, time[i]);
 		}
 		for (int col = 0; col < values.length; col++) {
 			for (int row = 0; row < values[col].length; row++) {
