@@ -24,3 +24,6 @@ test-classes/
 
 # Eclipse settings #
 .settings/
+
+# GWT logs #
+.gwt
