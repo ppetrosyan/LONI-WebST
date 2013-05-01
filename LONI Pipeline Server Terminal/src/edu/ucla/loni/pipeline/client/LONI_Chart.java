@@ -1,14 +1,11 @@
 package edu.ucla.loni.pipeline.client;
 
 import com.google.gwt.dom.client.Style.Unit;
-import com.google.gwt.user.client.ui.Button;
+import com.google.gwt.event.dom.client.ClickEvent;
+import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.HasVerticalAlignment;
-import com.google.gwt.user.client.ui.HorizontalPanel;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.LayoutPanel;
-import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class LONI_Chart {
@@ -34,14 +31,10 @@ public class LONI_Chart {
     		chart = new LineChartPanel("Memory");
     		VerticalPanel topLeftPanel = new VerticalPanel();
     		VerticalPanel topRightPanel = new VerticalPanel();
-    		VerticalPanel bottomLeftPanel = new VerticalPanel();
-    		VerticalPanel bottomRightPanel = new VerticalPanel();
-    		HorizontalPanel browse = new HorizontalPanel();
     		LayoutPanel topPanel = new LayoutPanel();
-    		LayoutPanel bottomPanel = new LayoutPanel();
+    		new LayoutPanel();
     		FlexTable statistics = new FlexTable();
     	    FlexTable checkBoxes = new FlexTable();
-    	    FlexTable download = new FlexTable();
     	    
 			statistics.setText(0, 0,  "Initial memory:  ");
 			statistics.setText(0, 1, "0 MB  ");
@@ -61,15 +54,39 @@ public class LONI_Chart {
 			checkBoxes.setWidget(0, 1, new CheckBox("Initial Memory"));
 			setter = (CheckBox) checkBoxes.getWidget(0, 1);
 			setter.setChecked(true);
+			setter.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					boolean checked = ((CheckBox) event.getSource()).isChecked();
+					chart.updateType("Initial Memory", checked);
+				}
+			});
 			checkBoxes.setWidget(1, 1, new CheckBox("Used Memory"));
 			setter = (CheckBox) checkBoxes.getWidget(1, 1);
 			setter.setChecked(true);
+			setter.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					boolean checked = ((CheckBox) event.getSource()).isChecked();
+					chart.updateType("Used Memory", checked);
+				}
+			});
 			checkBoxes.setWidget(2, 1, new CheckBox("Committed Memory"));
 			setter = (CheckBox) checkBoxes.getWidget(2, 1);
 			setter.setChecked(true);
+			setter.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					boolean checked = ((CheckBox) event.getSource()).isChecked();
+					chart.updateType("Committed Memory", checked);
+				}
+			});
 			checkBoxes.setWidget(3, 1, new CheckBox("Max Memory"));
 			setter = (CheckBox) checkBoxes.getWidget(3, 1);
 			setter.setChecked(true);
+			setter.addClickHandler(new ClickHandler() {
+				public void onClick(ClickEvent event) {
+					boolean checked = ((CheckBox) event.getSource()).isChecked();
+					chart.updateType("Max Memory", checked);
+				}
+			});
 			topRightPanel.add(checkBoxes);
 	
 			topPanel.add(topLeftPanel);
@@ -77,23 +94,6 @@ public class LONI_Chart {
 			topPanel.setWidgetLeftWidth(topLeftPanel, 0, Unit.PCT, 50, Unit.PCT);
 			topPanel.setWidgetRightWidth(topRightPanel, 0, Unit.PCT, 50, Unit.PCT);
 			chart.addNorth(topPanel, 10);
-			
-			download.setText(0, 0, "Download a log of the memory statistics:");
-			browse.setVerticalAlignment(HasVerticalAlignment.ALIGN_MIDDLE);
-			browse.add(new Label("Download Location:  "));
-			browse.add(new TextBox());
-			browse.add(new Button("Browse"));
-			download.setWidget(1, 0, browse);
-			download.setWidget(2, 0, new Button("Download"));
-			download.setText(3, 0, "Connected to medulla.loni.ucla.edu (Server version 5.6 (105.7.0), running on Firefox, HOME SKILLET BISCUIT!!)");
-			bottomLeftPanel.add(download);
-			
-			bottomRightPanel.add(new Button("Perform Garbage Collection"));
-			bottomPanel.add(bottomLeftPanel);
-			bottomPanel.add(bottomRightPanel);
-			bottomPanel.setWidgetLeftWidth(bottomLeftPanel, 0, Unit.PCT, 50, Unit.PCT);
-			bottomPanel.setWidgetRightWidth(bottomRightPanel, 0, Unit.PCT, 50, Unit.PCT);
-			chart.addSouth(bottomPanel, 10);
     	}
     	else if(this.monitorType == "Thread")
     	{
