@@ -10,6 +10,7 @@ import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.types.AutoFitWidthApproach;
 import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.layout.VLayout;
+import com.smartgwt.client.types.Alignment;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -29,6 +30,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabset.setSize("100%", "100%");
 		
 		Tab tabWorkflows = new Tab("Workflows");
+		
 		VLayout layoutWorkflows = new VLayout();
 		layoutWorkflows.setSize("100%", "100%");
 		layoutWorkflows.setMembersMargin(5);
@@ -94,6 +96,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		VLayout layoutUsersUsage = new VLayout();
 		layoutUsersUsage.setSize("100%", "100%");
+		layoutUsersUsage.setDefaultLayoutAlign(Alignment.CENTER);	// Horizontal centering
 		layoutUsersUsage.setMembersMargin(5);
 		
 		listUsersUsage = new ListGrid();
