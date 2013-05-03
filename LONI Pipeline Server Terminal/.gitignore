@@ -8,6 +8,7 @@
 !raphaelgwt-r42.jar
 !smartgwt.jar
 !smartgwt-skins.jar
+!org.moxieapps.gwt.uploader-1.1.0.jar
 
 # gwt caches and compiled units #
 war/loni_pipeline_server_terminal/
