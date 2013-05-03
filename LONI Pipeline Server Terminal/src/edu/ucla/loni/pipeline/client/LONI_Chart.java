@@ -7,8 +7,9 @@ import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartgwt.client.widgets.layout.VLayout;
 
-public class LONI_Chart {
+public class LONI_Chart extends VLayout {
 
 	private LineChartPanel chart;
     private String monitorType;
@@ -28,6 +29,7 @@ public class LONI_Chart {
     {
     	if(this.monitorType == "Memory")
     	{
+    		// TODO: use smartgwt stuffs
     		chart = new LineChartPanel("Memory");
     		VerticalPanel topLeftPanel = new VerticalPanel();
     		VerticalPanel topRightPanel = new VerticalPanel();
@@ -93,10 +95,13 @@ public class LONI_Chart {
 			topPanel.add(topRightPanel);
 			topPanel.setWidgetLeftWidth(topLeftPanel, 0, Unit.PCT, 50, Unit.PCT);
 			topPanel.setWidgetRightWidth(topRightPanel, 0, Unit.PCT, 50, Unit.PCT);
-			chart.addNorth(topPanel, 10);
+			//chart.addNorth(topPanel, 10);
+			addMember(topPanel);
+    		addMember(chart);
     	}
     	else if(this.monitorType == "Thread")
     	{
+    		// TODO: use smartgwt stuffs
     		chart = new LineChartPanel("Thread");
     		VerticalPanel topPanel = new VerticalPanel();
     		FlexTable statistics = new FlexTable();
@@ -108,7 +113,9 @@ public class LONI_Chart {
     		
     		topPanel.add(statistics);
     		
-    		chart.addNorth(topPanel, 10);
+    		//chart.addNorth(topPanel, 10);
+    		addMember(topPanel);
+    		addMember(chart);
     	}
     	else
     	{

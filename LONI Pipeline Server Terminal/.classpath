@@ -7,5 +7,6 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/smartgwt.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/gwt-charts-0.9.9.jar"/>
+	<classpathentry kind="lib" path="D:/Documents/College/Senior/Spring 13/CS 130/LONI-WebST/LONI Pipeline Server Terminal/war/WEB-INF/lib/gwt-charts-0.9.9.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
