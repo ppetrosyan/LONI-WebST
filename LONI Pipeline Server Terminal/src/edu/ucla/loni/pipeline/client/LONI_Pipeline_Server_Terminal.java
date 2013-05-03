@@ -130,6 +130,11 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		Tab tabPreferences = new Tab("Preferences");
 		tabset.addTab(tabPreferences);
+		
+		Tab tabUpload = new Tab("Upload");
+		tabUpload.addTabSelectedHandler(new UploadTabSelectedHandler(tabUpload));
+		tabset.addTab(tabUpload);
+		
 		rootPanel.add(tabset, 0, 0);
 	}
 }
