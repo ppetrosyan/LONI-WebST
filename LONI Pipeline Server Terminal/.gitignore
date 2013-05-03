@@ -7,6 +7,7 @@
 # except the following #
 !raphaelgwt-r42.jar
 !smartgwt.jar
+!gwt-charts-0.9.9.jar
 
 # gwt caches and compiled units #
 war/loni_pipeline_server_terminal/
