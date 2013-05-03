@@ -8,12 +8,12 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>greetServlet</servlet-name>
-    <servlet-class>edu.ucla.loni.pipeline.server.FileUploadServlet</servlet-class>
+    <servlet-class>edu.ucla.loni.pipeline.server.GreetingServiceImpl</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>FileUploadServlet</servlet-name>
-    <url-pattern>/FileUploadServlet</url-pattern>
+    <servlet-name>greetServlet</servlet-name>
+    <url-pattern>/loni_pipeline_server_terminal/greet</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
