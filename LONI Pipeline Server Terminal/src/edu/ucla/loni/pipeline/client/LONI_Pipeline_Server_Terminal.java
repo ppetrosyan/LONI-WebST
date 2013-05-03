@@ -157,7 +157,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 			@Override
 			public void onTabSelected(TabSelectedEvent event) {
-				memChart.redraw();
+				memChart.getChart().redraw();
 			}});
 		
 		tabMemoryUsage.setPane(memChart);
@@ -171,8 +171,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 			@Override
 			public void onTabSelected(TabSelectedEvent event) {
-				thrdChart.redraw();
-				
+				thrdChart.getChart().redraw();
 			}});
 		
 		tabThreadUsage.setPane(thrdChart);
@@ -193,7 +192,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		final VerticalPanel progressBarPanel = new VerticalPanel();  
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();  
 		final Uploader uploader = new Uploader();  
-		uploader.setUploadURL("/DevNullUploadServlet")  
+		uploader.setUploadURL("/FileUploadServlet")  
 		.setButtonImageURL(GWT.getModuleBaseURL() + "resources/images/buttons/upload_new_version_button.png")  
 		.setButtonWidth(133)  
 		.setButtonHeight(22)  
