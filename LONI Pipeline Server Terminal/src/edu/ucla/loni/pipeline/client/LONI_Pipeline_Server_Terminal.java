@@ -23,9 +23,6 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	 * This is generated and managed by the visual designer.
 	 */
 	public void onModuleLoad() {
-		final RootPanel rootPanel = RootPanel.get("rootPanel");
-		rootPanel.getElement().getStyle().setPosition(Position.RELATIVE);
-
 		TabSet tabset = new TabSet();
 		tabset.setSize("100%", "100%");
 		
@@ -135,6 +132,6 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabUpload.addTabSelectedHandler(new UploadTabSelectedHandler(tabUpload));
 		tabset.addTab(tabUpload);
 		
-		rootPanel.add(tabset, 0, 0);
+		tabset.draw();
 	}
 }
