@@ -10,6 +10,7 @@
 !smartgwt-skins.jar
 !org.moxieapps.gwt.uploader-1.1.0.jar
 !org.moxieapps.gwt.highcharts-1.5.0.jar
+!gwt-charts-0.9.9.jar
 
 # gwt caches and compiled units #
 war/loni_pipeline_server_terminal/

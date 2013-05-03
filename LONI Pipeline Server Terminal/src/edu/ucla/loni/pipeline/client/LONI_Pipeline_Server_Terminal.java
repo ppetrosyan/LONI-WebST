@@ -1,8 +1,6 @@
 package edu.ucla.loni.pipeline.client;
 
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.dom.client.Style.Position;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.smartgwt.client.widgets.tab.TabSet;
 import com.smartgwt.client.widgets.tab.Tab;
 import com.smartgwt.client.widgets.grid.ListGrid;
@@ -120,11 +118,17 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabset.addTab(tabUsersUsage);
 		
 		Tab tabMemoryUsage = new Tab("Memory Usage");
-		tabMemoryUsage.addTabSelectedHandler(new MemoryTabSelectedHandler(tabMemoryUsage));
+		
+		LONI_Chart memChart = new LONI_Chart("Memory");
+		tabMemoryUsage.setPane(memChart);
+		
 		tabset.addTab(tabMemoryUsage);
 		
 		Tab tabThreadUsage = new Tab("Thread Usage");
-		tabThreadUsage.addTabSelectedHandler(new ThreadTabSelectedHandler(tabThreadUsage));
+		
+		final LONI_Chart thrdChart = new LONI_Chart("Thread");
+		tabThreadUsage.setPane(thrdChart);
+		
 		tabset.addTab(tabThreadUsage);
 		
 		Tab tabPreferences = new Tab("Preferences");

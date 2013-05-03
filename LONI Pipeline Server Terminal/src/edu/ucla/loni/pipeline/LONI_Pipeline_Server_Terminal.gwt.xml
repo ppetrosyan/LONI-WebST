@@ -20,6 +20,7 @@
   <!-- Other module inherits                                      -->
   <inherits name="com.smartgwt.SmartGwt"/>
   <inherits name="org.moxieapps.gwt.uploader.Uploader"/>
+  <inherits name='com.googlecode.gwt.charts.Charts'/>
 
   <!-- Specify the app entry point class.                         -->
   <entry-point class='edu.ucla.loni.pipeline.client.LONI_Pipeline_Server_Terminal'/>
