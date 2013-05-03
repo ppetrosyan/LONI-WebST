@@ -140,12 +140,10 @@ public class UploadTabSelectedHandler implements TabSelectedHandler {
 		horizontalPanel.add(progressBarPanel);  
 		horizontalPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);  
 		horizontalPanel.setCellHorizontalAlignment(uploader, HorizontalPanel.ALIGN_LEFT);  
-		horizontalPanel.setCellHorizontalAlignment(progressBarPanel, HorizontalPanel.ALIGN_RIGHT);  
-
-		// TODO: Get this panel on the upload Tab.
+		horizontalPanel.setCellHorizontalAlignment(progressBarPanel, HorizontalPanel.ALIGN_RIGHT);
 		
-		/*VLayout uploadLayout = new VLayout();
+		VLayout uploadLayout = new VLayout();
 		uploadLayout.addMember(horizontalPanel);
-		tabUpload.setPane(uploadLayout);*/
+		tabUpload.setPane(uploadLayout);
 	}
 }
