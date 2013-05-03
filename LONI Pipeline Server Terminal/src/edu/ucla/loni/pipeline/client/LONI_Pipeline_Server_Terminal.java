@@ -120,9 +120,11 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabset.addTab(tabUsersUsage);
 		
 		Tab tabMemoryUsage = new Tab("Memory Usage");
+		tabMemoryUsage.addTabSelectedHandler(new MemoryTabSelectedHandler(tabMemoryUsage));
 		tabset.addTab(tabMemoryUsage);
 		
 		Tab tabThreadUsage = new Tab("Thread Usage");
+		tabThreadUsage.addTabSelectedHandler(new ThreadTabSelectedHandler(tabThreadUsage));
 		tabset.addTab(tabThreadUsage);
 		
 		Tab tabPreferences = new Tab("Preferences");
