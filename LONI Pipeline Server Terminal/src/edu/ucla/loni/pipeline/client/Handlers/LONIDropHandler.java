@@ -26,7 +26,7 @@ public class LONIDropHandler implements DropHandler {
 	
 	@Override
 	public void onDrop(DropEvent event) {
-		dropFilesLabel.removeStyleName("dropFilesLabelHover");
+		dropFilesLabel.setStyleName("dropFilesLabel");
 
 		if (uploader.getStats().getUploadsInProgress() <= 0) {
 			progressBarPanel.clear();
