@@ -2,7 +2,10 @@ package edu.ucla.loni.pipeline.client;
 
 import java.util.ArrayList;
 
+import com.google.gwt.event.logical.shared.ResizeEvent;
+import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Random;
+import com.google.gwt.user.client.Window;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.ColumnType;
@@ -43,6 +46,7 @@ public class LineChartPanel extends Layout {
 	private boolean maxUsed = false;
 
 
+	// TODO: change constructor to populate ArrayLists with config data
 	public LineChartPanel(String mt) {
 		//super(Unit.EM);
 		initialize(mt);
@@ -52,6 +56,7 @@ public class LineChartPanel extends Layout {
 		draw();
 	}
 	
+	// use random data for testing purposes
 	public void testUpdate() {
 		times.remove(times.indexOf(start));
 		times.add(end);
@@ -92,6 +97,7 @@ public class LineChartPanel extends Layout {
 	}
 	
 	private void calculateStatistics() {
+		// calculate memory statistics
 		if(monitorType == "Memory" && !initMem.isEmpty() && !usedMem.isEmpty() 
 				&& !commMem.isEmpty() && !maxMem.isEmpty()) {
 			
@@ -113,6 +119,7 @@ public class LineChartPanel extends Layout {
 			memStats.setUsedMaxMemPercent(usedMaxPercent);
 			memStats.setCommMaxMemPercent(commMaxPercent);
 		}
+		// calculate thread statistics
 		else if(monitorType == "Thread" && !threadCnt.isEmpty() && !threadPk.isEmpty()) {
 			thrdStats.clear();
 			thrdStats.add(threadCnt.get(threadCnt.size() - 1));
@@ -132,6 +139,7 @@ public class LineChartPanel extends Layout {
 	}
 
 	public void updateType(String typeChange, boolean checked) {
+		// add checked graphs
 		if(checked) {
 			if(typeChange == "Initial Memory" && !initUsed) {
 				initUsed = true;
@@ -148,8 +156,8 @@ public class LineChartPanel extends Layout {
 			else
 				// fail
 				return;
-			redraw();
 		}
+		// remove unchecked graphs
 		else if(!checked && type.indexOf(typeChange) != -1) {
 			if(typeChange == "Initial Memory" && initUsed) {
 				initUsed = false;
@@ -166,10 +174,12 @@ public class LineChartPanel extends Layout {
 			else
 				// fail
 				return;
-			redraw();
 		}
+		
+		redraw();
 	}
 
+	// TODO: change initializers to use actual data from config
 	private void initializeMemory() {
 		// add chart types
 		type.add("Initial Memory");
@@ -190,6 +200,7 @@ public class LineChartPanel extends Layout {
 			maxMem.add(7281);
 		}
 
+		// set used flags
 		initUsed = true;
 		usedUsed = true;
 		commUsed = true;
@@ -244,6 +255,7 @@ public class LineChartPanel extends Layout {
 			return;
 		}
 
+		// set up chart
 		ChartLoader chartLoader = new ChartLoader(ChartPackage.CORECHART);
 		chartLoader.loadApi(new Runnable() {
 
@@ -251,11 +263,21 @@ public class LineChartPanel extends Layout {
 			public void run() {
 				// Create and attach the chart
 				chart = new LineChart();
-				//add(chart);
-				//add(chart, CENTER);
-				chart.setSize("100%", "640px");
-				//setSize("100%", "100%");
-				//addMember(chart);
+				int height = Window.getClientHeight() - 200;
+				int width = Window.getClientWidth() - 65;
+				chart.setSize(width + "px", height + "px");
+				
+				// listen to resize events
+				Window.addResizeHandler(new ResizeHandler() {
+					public void onResize(ResizeEvent event) {
+						int height = event.getHeight() - 200;
+						int width = event.getWidth() - 65;
+						chart.setHeight(height + "px");
+						chart.setWidth(width + "px");
+						draw();
+					}
+				});
+				
 				addChild(chart);
 				draw();
 			}
@@ -266,6 +288,7 @@ public class LineChartPanel extends Layout {
 		// prepare the data
 		DataTable dataTable = DataTable.create();
 		dataTable.addColumn(ColumnType.NUMBER, "Time");
+		
 		for(String t : type) {
 			dataTable.addColumn(ColumnType.NUMBER, t);
 		}
@@ -273,6 +296,7 @@ public class LineChartPanel extends Layout {
 		for(int t = 0; t < maxEntries; t++) {
 			dataTable.setValue(t, 0, times.get(t));
 		}
+		
 		if(monitorType == "Memory") {
 			if(initUsed) {
 				// TODO: for(int row = 0, next = start; row < initMem.size(), next < end; row++, next++) {
