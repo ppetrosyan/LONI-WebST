@@ -18,6 +18,7 @@ public class LONI_Chart extends VLayout {
     private String monitorType;
     private FlexTable statistics;
     
+    // timer redraws charts and updates statistics
 	private Timer timer = new Timer() {
 		public void run() {
 			chart.testUpdate();
@@ -43,6 +44,10 @@ public class LONI_Chart extends VLayout {
 	    		statistics.setText(1, 0, "Thread Peak");
 	    		statistics.setText(1, 1, thrdStats.get(1) + "");
 			}
+			else {
+				// fail
+				return;
+			}
 		}
 	};
     
@@ -59,15 +64,18 @@ public class LONI_Chart extends VLayout {
     
     private void initialize()
     {
+    	// set up memory chart panels
     	if(this.monitorType == "Memory")
     	{
     		setHeight100();
     		setWidth100();
     		
+    		// create memory chart
     		chart = new LineChartPanel("Memory");
     		
     		MemoryStatistics memStats = chart.getMemStatistics();
     		
+    		// create statistics table
 			statistics = new FlexTable();
     		statistics.setText(0, 0,  "Initial memory:  ");
 			statistics.setText(0, 1, memStats.getInitMemMB() + " MB");
@@ -86,6 +94,7 @@ public class LONI_Chart extends VLayout {
 			topLeft.setWidth("50%");
 			topLeft.addChild(statistics);
 			
+			// create graph selection check boxes
 			FlexTable checkBoxes = new FlexTable();
 			CheckBox setter;
 			checkBoxes.setText(0, 0, "Select Visible Graphs:");
@@ -127,42 +136,48 @@ public class LONI_Chart extends VLayout {
 			});
 			checkBoxes.setWidth("250px");
 			
+			// add panels layout
 			Canvas topRight = new Canvas();
 			topRight.setWidth("50%");
 			topRight.addChild(checkBoxes);
 			
 			HLayout top = new HLayout();
-			top.setHeight("15%");
-			//top.addChild(topLeft);
-			//top.addChild(topRight);
+			top.setHeight("100px");
 			top.setMembers(topLeft, topRight);
     		
 			addMember(top);
     		addMember(chart);
     		
+    		// set timer for 5 seconds
     		timer.scheduleRepeating(5000);
     	}
+    	// set up thread panels
     	else if(this.monitorType == "Thread")
     	{
     		setHeight100();
     		setWidth100();
     		
+    		// create thread chart
     		chart = new LineChartPanel("Thread");
-    		VerticalPanel topPanel = new VerticalPanel();
     		
     		ArrayList<Integer> thrdStats = chart.getThrdStatistics();
     		
+    		// create statistics table
     		statistics = new FlexTable();
     		statistics.setText(0, 0, "Thread Count:  ");
     		statistics.setText(0, 1, thrdStats.get(0) + "");
     		statistics.setText(1, 0, "Thread Peak");
     		statistics.setText(1, 1, thrdStats.get(1) + "");
     		
+    		// add panels to layout
+    		VerticalPanel topPanel = new VerticalPanel();
+    		topPanel.setHeight("100px");
     		topPanel.add(statistics);
     		
     		addMember(topPanel);
     		addMember(chart);
     		
+    		// set timer for 5 seconds
     		timer.scheduleRepeating(5000);
     	}
     	else
