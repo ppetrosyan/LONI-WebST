@@ -19,6 +19,7 @@ import org.moxieapps.gwt.uploader.client.events.UploadErrorHandler;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.DragLeaveEvent;
@@ -231,6 +232,15 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabUsersUsage.setPane(layoutUsersUsage);
 		tabset.addTab(tabUsersUsage);
 
+	    GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+
+			@Override
+			public void onUncaughtException(Throwable e) {
+				// TODO Auto-generated method stub
+				
+			}
+	    });
+	    
 		Tab tabMemoryUsage = new Tab("Memory Usage");
 
 		final LONI_Chart memChart = new LONI_Chart("Memory");
