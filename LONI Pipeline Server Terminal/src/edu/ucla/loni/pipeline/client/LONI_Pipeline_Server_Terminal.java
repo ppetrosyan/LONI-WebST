@@ -16,6 +16,8 @@ import org.moxieapps.gwt.uploader.client.events.UploadCompleteEvent;
 import org.moxieapps.gwt.uploader.client.events.UploadCompleteHandler;
 import org.moxieapps.gwt.uploader.client.events.UploadErrorEvent;
 import org.moxieapps.gwt.uploader.client.events.UploadErrorHandler;
+import org.moxieapps.gwt.uploader.client.events.UploadSuccessEvent;
+import org.moxieapps.gwt.uploader.client.events.UploadSuccessHandler;
 
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
@@ -44,15 +46,10 @@ import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.UploadItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
-import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.types.AutoFitWidthApproach;
-import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.widgets.Button;
-import com.smartgwt.client.widgets.Canvas;
-import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
-
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -326,6 +323,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		final VerticalPanel progressBarPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
 		final Uploader uploader = new Uploader();
+
 		uploader.setUploadURL("/FileUploadServlet")
 				.setButtonImageURL(
 						GWT.getModuleBaseURL()
@@ -335,6 +333,14 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 				.setFileSizeLimit("50 MB")
 				.setButtonCursor(Uploader.Cursor.HAND)
 				.setButtonAction(Uploader.ButtonAction.SELECT_FILES)
+				.setUploadSuccessHandler(new UploadSuccessHandler() {
+					
+					@Override
+					public boolean onUploadSuccess(
+							UploadSuccessEvent uploadSuccessEvent) {
+						Window.alert(uploadSuccessEvent.getServerData());
+						return true;
+					}})
 				.setFileQueuedHandler(new FileQueuedHandler() {
 					public boolean onFileQueued(
 							final FileQueuedEvent fileQueuedEvent) {
@@ -393,7 +399,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 						}
 						return true;
 					}
-				}).setFileQueueErrorHandler(new FileQueueErrorHandler() {
+				})
+				.setFileQueueErrorHandler(new FileQueueErrorHandler() {
 					public boolean onFileQueueError(
 							FileQueueErrorEvent fileQueueErrorEvent) {
 						Window.alert("Upload of file "
@@ -403,7 +410,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 								+ "]: " + fileQueueErrorEvent.getMessage());
 						return true;
 					}
-				}).setUploadErrorHandler(new UploadErrorHandler() {
+				})
+				.setUploadErrorHandler(new UploadErrorHandler() {
 					public boolean onUploadError(
 							UploadErrorEvent uploadErrorEvent) {
 						cancelButtons.get(uploadErrorEvent.getFile().getId())
