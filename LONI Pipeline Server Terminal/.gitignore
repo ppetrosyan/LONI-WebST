@@ -17,6 +17,9 @@
 !xom-1.2.9.jar
 !commons-lang-2.6.jar
 !commons-logging-1.1.2.jar
+!ezmorph-1.0.6.jar
+!commons-collections-3.2.1.jar
+!commons-beanutils-1.8.3.jar
 
 # gwt caches and compiled units #
 war/loni_pipeline_server_terminal/

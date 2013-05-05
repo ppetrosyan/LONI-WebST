@@ -3,8 +3,11 @@ package edu.ucla.loni.pipeline.server;
 import net.sf.json.JSON;
 import net.sf.json.xml.XMLSerializer;
 
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
+import javax.annotation.RegEx;
 import javax.servlet.ServletException;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServlet;
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 
 public class FileUploadServlet extends HttpServlet {
@@ -22,47 +26,23 @@ public class FileUploadServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
-		// process only multipart requests
-        /*if (ServletFileUpload.isMultipartContent(req)) {
-            
-            XMLSerializer xmlSerializer = new XMLSerializer();
-			JSON json = xmlSerializer.readFromStream(req.getInputStream());
-			
-			resp.setContentType("text/html");
-            resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.getWriter().print(json.toString(2));
-            resp.flushBuffer();
-        } 
-        else {
-            resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
-                    "Request contents type is not supported by the servlet.");
-        }*/
-		
-		if (ServletFileUpload.isMultipartContent(req)) {
+		try {
+			ServletFileUpload upload = new ServletFileUpload();
+			resp.setContentType("text/xml");
 
-            ServletInputStream sis = req.getInputStream();
+			FileItemIterator iterator = upload.getItemIterator(req);
+			while (iterator.hasNext()) {
+				FileItemStream item = iterator.next();
+				InputStream stream = item.openStream();
 
-            BufferedReader bufferedReader = new BufferedReader(
-                    new InputStreamReader(sis));
-            StringBuilder stringBuilder = new StringBuilder();
-            String line = null;
+				XMLSerializer xmlSerializer = new XMLSerializer();
+				JSON json = xmlSerializer.readFromStream(stream);
 
-            while ((line = bufferedReader.readLine()) != null) {
-                stringBuilder.append(line);
-            }
-
-            bufferedReader.close();
-
-            String xml = stringBuilder.toString();
-
-            resp.setContentType("text/html");
-            resp.setStatus(HttpServletResponse.SC_CREATED);
-            resp.getWriter().print(xml);
-            resp.flushBuffer();
-
-        } else {
-            resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
-                    "Request contents type is not supported by the servlet.");
-        }
+				resp.getWriter().print(json.toString(2));
+				resp.flushBuffer();
+			}
+		} catch (Exception ex) {
+			throw new ServletException(ex);
+		}
 	}
 }
