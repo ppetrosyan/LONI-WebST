@@ -39,6 +39,10 @@ import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
+import com.smartgwt.client.widgets.form.fields.SpinnerItem;
+import com.smartgwt.client.widgets.form.fields.CanvasItem;
+import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.form.fields.StaticTextItem;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -47,8 +51,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	private ListGrid listWorkflows, listUsersOnline, listUsersUsage,
 			listUsersUsageCount;
 	
-	private void alignFieldTitles(DynamicForm form)
+	private void formatForm(DynamicForm form)
 	{
+		form.setTitleWidth(200);
 		for(FormItem i : form.getFields())
 			i.setTitleAlign(Alignment.LEFT);
 	}
@@ -285,8 +290,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		nativeCheckboxItem_2.setTitle("Secure");
 		IntegerItem basicPort = new IntegerItem("newTextItem_4", "Port");
 		basicPort.setValue("8001");
-		formGeneralBasic.setFields(new FormItem[] { new TextItem("newTextItem_1", "Host"), basicPort, new UploadItem("newUploadItem_5", "Temp. Directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scratch Directory"), new UploadItem("newUploadItem_4", "Log File"), nativeCheckboxItem, nativeCheckboxItem_1});
-		alignFieldTitles(formGeneralBasic);
+		formGeneralBasic.setFields(new FormItem[] { new TextItem("newTextItem_1", "Host"), basicPort, new UploadItem("newUploadItem_5", "Temporary Directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scratch Directory"), new UploadItem("newUploadItem_4", "Log File"), nativeCheckboxItem, nativeCheckboxItem_1});
+		formatForm(formGeneralBasic);
 		layoutGeneral.addMember(formGeneralBasic);
 		formGeneralBasic.moveTo(100, 17);
 		
@@ -295,8 +300,12 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		layoutGeneral.addMember(labelGeneralPersistence);
 		
 		DynamicForm formGeneralPersistence = new DynamicForm();
-		TextItem linkItem = new TextItem();
-		formGeneralPersistence.setFields(new FormItem[] { new TextItem("newTextItem_10", "URL"), new TextItem("newTextItem_11", "Username"), new PasswordItem("newTextItem_12", "Password")});
+		SpinnerItem spinnerItem = new SpinnerItem("newSpinnerItem_4", "Session Time-to-live");
+		spinnerItem.setValue(30);
+		StaticTextItem staticTextItem = new StaticTextItem("newStaticTextItem_5", "");
+		staticTextItem.setValue("(days from the end of this session)");
+		formGeneralPersistence.setFields(new FormItem[] { new TextItem("newTextItem_10", "URL"), new TextItem("newTextItem_11", "Username"), new PasswordItem("newTextItem_12", "Password"), spinnerItem, staticTextItem, new UploadItem("newUploadItem_15", "History Directory"), new TextItem("newTextItem_13", "Crawler Persistence URL")});
+		formatForm(formGeneralPersistence);
 		layoutGeneral.addMember(formGeneralPersistence);
 		tabGeneral.setPane(layoutGeneral);
 		tabSet.addTab(tabGeneral);
