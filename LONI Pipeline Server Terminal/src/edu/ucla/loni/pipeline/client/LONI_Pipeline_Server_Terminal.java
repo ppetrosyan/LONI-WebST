@@ -8,15 +8,9 @@ import org.moxieapps.gwt.uploader.client.Uploader;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.event.dom.client.DragLeaveEvent;
-import com.google.gwt.event.dom.client.DragLeaveHandler;
-import com.google.gwt.event.dom.client.DragOverEvent;
-import com.google.gwt.event.dom.client.DragOverHandler;
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.DropHandler;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.smartgwt.client.widgets.tab.TabSet;
 import com.smartgwt.client.widgets.tab.Tab;
@@ -38,6 +32,7 @@ import com.smartgwt.client.types.Alignment;
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
+import edu.ucla.loni.pipeline.client.Uploaders.SimulatedDataUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
 import com.smartgwt.client.widgets.form.fields.CanvasItem;
@@ -338,21 +333,27 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	public void createUploadTab(Tab tabUpload) {
 		final VerticalPanel progressBarPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
-		final ConfigurationUploader uploader = new ConfigurationUploader(cancelButtons, progressBarPanel);
-
+		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, progressBarPanel);
+		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, progressBarPanel);
+		
 		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(uploader);
-
+		verticalPanel.add(configurationUploader);
+		verticalPanel.add(simulatedDataUploader);
+		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel dropFilesLabel = new LONIDragandDropLabel("Drop Files Here", uploader, cancelButtons, verticalPanel);
-			verticalPanel.add(dropFilesLabel);
+			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("Drop Configuration Data", configurationUploader, cancelButtons, verticalPanel);
+			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("Drop Simulated Data", simulatedDataUploader, cancelButtons, verticalPanel);
+			verticalPanel.add(configurationLabel);
+			verticalPanel.add(simulatedDataLabel);
 		}
-
+		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(verticalPanel);
 		horizontalPanel.add(progressBarPanel);
 		horizontalPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
-		horizontalPanel.setCellHorizontalAlignment(uploader,
+		horizontalPanel.setCellHorizontalAlignment(configurationUploader,
+				HorizontalPanel.ALIGN_LEFT);
+		horizontalPanel.setCellHorizontalAlignment(simulatedDataUploader,
 				HorizontalPanel.ALIGN_LEFT);
 		horizontalPanel.setCellHorizontalAlignment(progressBarPanel,
 				HorizontalPanel.ALIGN_RIGHT);

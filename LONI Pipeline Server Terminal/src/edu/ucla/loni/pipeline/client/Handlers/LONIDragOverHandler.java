@@ -18,7 +18,7 @@ public class LONIDragOverHandler implements DragOverHandler {
 	@Override
 	public void onDragOver(DragOverEvent event) {
 		if (!uploader.getButtonDisabled()) {
-			dropFilesLabel.addStyleName("dropFilesLabelHover");
+			dropFilesLabel.setStyleName("dropFilesLabelHover");
 		}
 	}
 	
