@@ -150,7 +150,12 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		
 		// input data into the list.
-		listWorkflows.setData(WorkFlowsData.getRecords());
+		//method 1 - reading strings
+		//listWorkflows.setData(WorkFlowsData.getRecords());
+		
+		//method 2 - reading directly from Xml file
+		listWorkflows.setDataSource(WorkFlowsXmlDS.getInstance());
+		listWorkflows.setAutoFetchData(true); 
 		
 		layoutWorkflows.addMember(listWorkflows);		
 		listWorkflows.moveTo(30, 0);
