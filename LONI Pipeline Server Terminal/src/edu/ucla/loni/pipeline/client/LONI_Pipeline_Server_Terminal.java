@@ -43,10 +43,14 @@ import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.UploadItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
+import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.types.AutoFitWidthApproach;
+import com.smartgwt.client.types.ListGridFieldType;
 import com.smartgwt.client.widgets.Button;
+import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.layout.VLayout;
-import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.Alignment; 
 
 
 /**
@@ -61,21 +65,83 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	 * visual designer.
 	 */
 	public void onModuleLoad() {
-
+		
+		//The following function causes an error on gwt designer.
+		//Please uncomment it when not using gwt designer.
+		//And also comment out the following line(around line 125):
+		//        listWorkflows = new ListGrid();
+		
+		/*
+		//Start of function
+		//this function displays the buttons in the ListGrids
+		final ListGrid listWorkflows = new ListGrid() {  
+            @Override  
+            protected Canvas createRecordComponent(final ListGridRecord record, Integer colNum) {  
+  
+                String fieldName = this.getFieldName(colNum);  
+  
+                if (fieldName.equals("stop")) {  
+                    IButton button = new IButton();  
+                    button.setHeight(18);  
+                    button.setWidth(75);                        
+                    button.setTitle("Stop/Reset");  
+                    //insert a click handler here
+                    //we are using gwt click handler here
+                    return button;  
+                } else if(fieldName.equals("pause")){  
+                	IButton button = new IButton();  
+                    button.setHeight(18);  
+                    button.setWidth(65);                        
+                    button.setTitle("Pause");  
+                    //insert a click handler here
+                    //we are using gwt click handler here
+                    return button; 
+                } else if(fieldName.equals("view")){  
+                	IButton button = new IButton();  
+                    button.setHeight(18);  
+                    button.setWidth(65);                        
+                    button.setTitle("View");  
+                    //insert a click handler here
+                    //we are using gwt click handler here
+                    return button; 
+                } else{
+                	return null;
+                }  
+            }  
+        };  //end of function
+		*/
+		
 		TabSet tabset = new TabSet();
 		tabset.setSize("100%", "100%");
+		tabset.setPaneMargin(30);
 
 		Tab tabWorkflows = new Tab("Workflows");
 
 		VLayout layoutWorkflows = new VLayout();
 		layoutWorkflows.setSize("100%", "100%");
-		layoutWorkflows.setMembersMargin(5);
+		layoutWorkflows.setDefaultLayoutAlign(Alignment.CENTER);
+		layoutWorkflows.setMembersMargin(20);
 
 		
 		//work flows tab
 		listWorkflows = new ListGrid();
+		listWorkflows.setShowRecordComponents(true); 
+		listWorkflows.setShowRecordComponentsByCell(true);
+		listWorkflows.setShowAllRecords(true); 
 		listWorkflows.setSize("100%", "100%");
+		listWorkflows.setCellPadding(2);
 		listWorkflows.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		
+		//Need to declare these fields here so we can edit their behavior
+		ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
+		stopfield.setAlign(Alignment.CENTER); 
+		
+		ListGridField pausefield = new ListGridField("pause","Pause/Rsm");
+		pausefield.setAlign(Alignment.CENTER); 
+		
+		ListGridField viewfield = new ListGridField("view", "View");
+		viewfield.setAlign(Alignment.CENTER); 
+		
 		listWorkflows.setFields(new ListGridField("workflowID", "Workflow ID"),
 								new ListGridField("username", "Username"), 
 								new ListGridField("state", "State"), 
@@ -89,14 +155,17 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 								new ListGridField("numQueued",	"Q"), 
 								new ListGridField("numRunning", "R"),
 								new ListGridField("numCompleted", "C"), 
-								new ListGridField("stop", "Stop/Reset"), 
-								new ListGridField("pause","Pause/Rsm"), 
-								new ListGridField("view", "View"));
+								stopfield,
+								pausefield, 
+								viewfield);
+		
+		
 		
 		// input data into the list.
 		listWorkflows.setData(WorkFlowsData.getRecords());
 		
 		layoutWorkflows.addMember(listWorkflows);		
+		listWorkflows.moveTo(30, 0);
 
 		tabWorkflows.setPane(layoutWorkflows);
 		tabset.addTab(tabWorkflows);
