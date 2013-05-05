@@ -8,15 +8,9 @@ import org.moxieapps.gwt.uploader.client.Uploader;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.event.dom.client.DragLeaveEvent;
-import com.google.gwt.event.dom.client.DragLeaveHandler;
-import com.google.gwt.event.dom.client.DragOverEvent;
-import com.google.gwt.event.dom.client.DragOverHandler;
-import com.google.gwt.event.dom.client.DropEvent;
-import com.google.gwt.event.dom.client.DropHandler;
+
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.smartgwt.client.widgets.tab.TabSet;
 import com.smartgwt.client.widgets.tab.Tab;
@@ -26,6 +20,7 @@ import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
+import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.UploadItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
@@ -35,7 +30,14 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
+import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
+import edu.ucla.loni.pipeline.client.Uploaders.SimulatedDataUploader;
+import com.smartgwt.client.widgets.form.fields.PasswordItem;
+import com.smartgwt.client.widgets.form.fields.SpinnerItem;
+import com.smartgwt.client.widgets.form.fields.CanvasItem;
+import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.form.fields.StaticTextItem;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -43,7 +45,14 @@ import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
 public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	private ListGrid listWorkflows, listUsersOnline, listUsersUsage,
 			listUsersUsageCount;
-
+	
+	private void formatForm(DynamicForm form)
+	{
+		form.setTitleWidth(200);
+		for(FormItem i : form.getFields())
+			i.setTitleAlign(Alignment.LEFT);
+	}
+	
 	/**
 	 * This is the entry point method. This is generated and managed by the
 	 * visual designer.
@@ -263,20 +272,36 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		VLayout layoutGeneral = new VLayout();
 		
-		com.smartgwt.client.widgets.Label lblNewLabel = new com.smartgwt.client.widgets.Label("Basic");
-		lblNewLabel.setSize("69px", "17px");
-		layoutGeneral.addMember(lblNewLabel);
+		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label("Basic");
+		labelGeneralBasic.setSize("69px", "17px");
+		layoutGeneral.addMember(labelGeneralBasic);
 		
-		DynamicForm GeneralForm = new DynamicForm();
+		DynamicForm formGeneralBasic = new DynamicForm();
 		NativeCheckboxItem nativeCheckboxItem = new NativeCheckboxItem();
 		nativeCheckboxItem.setTitle("Use privilege escalation: Pipeline server will run commands as the user (sudo as user)");
 		NativeCheckboxItem nativeCheckboxItem_1 = new NativeCheckboxItem();
 		nativeCheckboxItem_1.setTitle("Enable guests");
 		NativeCheckboxItem nativeCheckboxItem_2 = new NativeCheckboxItem();
 		nativeCheckboxItem_2.setTitle("Secure");
-		GeneralForm.setFields(new FormItem[] { new TextItem("newTextItem_1", "Host"), new TextItem("newTextItem_4", "Port"), new UploadItem("newUploadItem_5", "Temp. Directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scratch Directory"), new UploadItem("newUploadItem_4", "Log File"), nativeCheckboxItem, nativeCheckboxItem_1});
-		layoutGeneral.addMember(GeneralForm);
-		GeneralForm.moveTo(100, 17);
+		IntegerItem basicPort = new IntegerItem("newTextItem_4", "Port");
+		basicPort.setValue("8001");
+		formGeneralBasic.setFields(new FormItem[] { new TextItem("newTextItem_1", "Host"), basicPort, new UploadItem("newUploadItem_5", "Temporary Directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scratch Directory"), new UploadItem("newUploadItem_4", "Log File"), nativeCheckboxItem, nativeCheckboxItem_1});
+		formatForm(formGeneralBasic);
+		layoutGeneral.addMember(formGeneralBasic);
+		formGeneralBasic.moveTo(100, 17);
+		
+		com.smartgwt.client.widgets.Label labelGeneralPersistence = new com.smartgwt.client.widgets.Label("Persistence");
+		labelGeneralPersistence.setSize("69px", "17px");
+		layoutGeneral.addMember(labelGeneralPersistence);
+		
+		DynamicForm formGeneralPersistence = new DynamicForm();
+		SpinnerItem spinnerItem = new SpinnerItem("newSpinnerItem_4", "Session Time-to-live");
+		spinnerItem.setValue(30);
+		StaticTextItem staticTextItem = new StaticTextItem("newStaticTextItem_5", "");
+		staticTextItem.setValue("(days from the end of this session)");
+		formGeneralPersistence.setFields(new FormItem[] { new TextItem("newTextItem_10", "URL"), new TextItem("newTextItem_11", "Username"), new PasswordItem("newTextItem_12", "Password"), spinnerItem, staticTextItem, new UploadItem("newUploadItem_15", "History Directory"), new TextItem("newTextItem_13", "Crawler Persistence URL")});
+		formatForm(formGeneralPersistence);
+		layoutGeneral.addMember(formGeneralPersistence);
 		tabGeneral.setPane(layoutGeneral);
 		tabSet.addTab(tabGeneral);
 		
@@ -308,54 +333,34 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	public void createUploadTab(Tab tabUpload) {
 		final VerticalPanel progressBarPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
-		final ConfigurationUploader uploader = new ConfigurationUploader(cancelButtons, progressBarPanel);
-
+		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, progressBarPanel);
+		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, progressBarPanel);
+		
 		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(uploader);
-
+		verticalPanel.add(configurationUploader);
+		verticalPanel.add(simulatedDataUploader);
+		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final Label dropFilesLabel = new Label("Drop Files Here");
-			dropFilesLabel.setStyleName("dropFilesLabel");
-			dropFilesLabel.addDragOverHandler(new DragOverHandler() {
-				public void onDragOver(DragOverEvent event) {
-					if (!uploader.getButtonDisabled()) {
-						dropFilesLabel.addStyleName("dropFilesLabelHover");
-					}
-				}
-			});
-			dropFilesLabel.addDragLeaveHandler(new DragLeaveHandler() {
-				public void onDragLeave(DragLeaveEvent event) {
-					dropFilesLabel.removeStyleName("dropFilesLabelHover");
-				}
-			});
-			dropFilesLabel.addDropHandler(new DropHandler() {
-				public void onDrop(DropEvent event) {
-					dropFilesLabel.removeStyleName("dropFilesLabelHover");
-
-					if (uploader.getStats().getUploadsInProgress() <= 0) {
-						progressBarPanel.clear();
-						cancelButtons.clear();
-					}
-
-					uploader.addFilesToQueue(Uploader.getDroppedFiles(event
-							.getNativeEvent()));
-					event.preventDefault();
-				}
-			});
-			verticalPanel.add(dropFilesLabel);
+			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("Drop Configuration Data", configurationUploader, cancelButtons, verticalPanel);
+			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("Drop Simulated Data", simulatedDataUploader, cancelButtons, verticalPanel);
+			verticalPanel.add(configurationLabel);
+			verticalPanel.add(simulatedDataLabel);
 		}
-
+		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(verticalPanel);
 		horizontalPanel.add(progressBarPanel);
 		horizontalPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
-		horizontalPanel.setCellHorizontalAlignment(uploader,
+		horizontalPanel.setCellHorizontalAlignment(configurationUploader,
+				HorizontalPanel.ALIGN_LEFT);
+		horizontalPanel.setCellHorizontalAlignment(simulatedDataUploader,
 				HorizontalPanel.ALIGN_LEFT);
 		horizontalPanel.setCellHorizontalAlignment(progressBarPanel,
 				HorizontalPanel.ALIGN_RIGHT);
 
 		VLayout uploadLayout = new VLayout();
 		uploadLayout.addMember(horizontalPanel);
+		
 		tabUpload.setPane(uploadLayout);
 	}
 }
