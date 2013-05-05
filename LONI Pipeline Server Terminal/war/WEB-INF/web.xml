@@ -7,13 +7,23 @@
 
   <!-- Servlets -->
   <servlet>
-    <servlet-name>FileUploadServlet</servlet-name>
-    <servlet-class>edu.ucla.loni.pipeline.server.FileUploadServlet</servlet-class>
+    <servlet-name>ConfigurationServlet</servlet-name>
+    <servlet-class>edu.ucla.loni.pipeline.server.ConfigurationServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
-    <servlet-name>FileUploadServlet</servlet-name>
-    <url-pattern>/FileUploadServlet</url-pattern>
+    <servlet-name>ConfigurationServlet</servlet-name>
+    <url-pattern>/ConfigurationServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SimulatedDataServlet</servlet-name>
+    <servlet-class>edu.ucla.loni.pipeline.server.SimulatedDataServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SimulatedDataServlet</servlet-name>
+    <url-pattern>/SimulatedDataServlet</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
