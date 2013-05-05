@@ -30,11 +30,9 @@ public class LONIUploader extends Uploader {
 	}
 
 	public boolean configure() {
-		setButtonImageURL(
-				GWT.getModuleBaseURL()
-				+ "resources/images/buttons/upload_new_version_button.png");
-		setButtonWidth(133);
-		setButtonHeight(22);
+		setButtonImageURL(GWT.getModuleBaseURL() + "resources/upload.png");
+		setButtonWidth(75);
+		setButtonHeight(27);
 		setFileSizeLimit("50 MB");
 		setButtonCursor(Uploader.Cursor.HAND);
 		setButtonAction(Uploader.ButtonAction.SELECT_FILES);

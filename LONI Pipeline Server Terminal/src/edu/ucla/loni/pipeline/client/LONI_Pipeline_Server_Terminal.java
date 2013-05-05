@@ -329,15 +329,21 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		VerticalPanel verticalPanel = new VerticalPanel();
 		verticalPanel.add(configurationUploader);
-		verticalPanel.add(simulatedDataUploader);
 		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("Drop Configuration Data", configurationUploader, cancelButtons, verticalPanel);
-			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("Drop Simulated Data", simulatedDataUploader, cancelButtons, verticalPanel);
+			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("", configurationUploader, cancelButtons, verticalPanel);
 			verticalPanel.add(configurationLabel);
-			verticalPanel.add(simulatedDataLabel);
+			
 		}
-		
+
+		verticalPanel.add(simulatedDataUploader);
+
+		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
+			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("", simulatedDataUploader, cancelButtons, verticalPanel);
+			verticalPanel.add(simulatedDataLabel);
+			
+		}
+
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(verticalPanel);
 		horizontalPanel.add(progressBarPanel);
