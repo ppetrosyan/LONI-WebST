@@ -36,6 +36,11 @@ import com.smartgwt.client.widgets.tab.TabSet;
 import com.smartgwt.client.widgets.tab.Tab;
 import com.smartgwt.client.widgets.tab.events.TabSelectedEvent;
 import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
+import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
+import com.smartgwt.client.widgets.form.fields.TextItem;
+import com.smartgwt.client.widgets.form.fields.UploadItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.types.AutoFitWidthApproach;
@@ -43,63 +48,67 @@ import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment;
 
+
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class LONI_Pipeline_Server_Terminal implements EntryPoint {
-	private ListGrid listWorkflows, listUsersOnline, listUsersUsage, listUsersUsageCount;
-	
+	private ListGrid listWorkflows, listUsersOnline, listUsersUsage,
+			listUsersUsageCount;
+
 	/**
-	 * This is the entry point method. 
-	 * This is generated and managed by the visual designer.
+	 * This is the entry point method. This is generated and managed by the
+	 * visual designer.
 	 */
 	public void onModuleLoad() {
+
 		TabSet tabset = new TabSet();
 		tabset.setSize("100%", "100%");
-		
+
 		Tab tabWorkflows = new Tab("Workflows");
-		
+
 		VLayout layoutWorkflows = new VLayout();
 		layoutWorkflows.setSize("100%", "100%");
 		layoutWorkflows.setMembersMargin(5);
+
 		
+		//work flows tab
 		listWorkflows = new ListGrid();
 		listWorkflows.setSize("100%", "100%");
 		listWorkflows.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
-		listWorkflows.setFields(
-				new ListGridField("workflowID", "Workflow ID"),
-				new ListGridField("username", "Username"),
-				new ListGridField("state", "State"),
-				new ListGridField("startTime", "Start Time"),
-				new ListGridField("endTime", "End Time"),
-				new ListGridField("duration", "Duration"),
-				// TODO (Jeff): find out what some of fields mean
-				new ListGridField("jobsN", "N"),
-				new ListGridField("jobsI", "I"),
-				new ListGridField("jobsB", "B"),
-				new ListGridField("jobsS", "S"),
-				new ListGridField("jobsQueued", "Q"),
-				new ListGridField("jobsRunning", "R"),
-				new ListGridField("jobsCompleted", "C"),
-				new ListGridField("stop", "Stop/Reset"),
-				new ListGridField("pause", "Pause/Rsm"),
-				new ListGridField("view", "View")
-		);
+		listWorkflows.setFields(new ListGridField("workflowID", "Workflow ID"),
+								new ListGridField("username", "Username"), 
+								new ListGridField("state", "State"), 
+								new ListGridField("startTime", "Start Time"),
+								new ListGridField("endTime", "End Time"),
+								new ListGridField("duration", "Duration"),
+								new ListGridField("numofnode","N"), 
+								new ListGridField("numofinstances", "I"),
+								new ListGridField("numBacklab", "B"),
+								new ListGridField("numSubmitting", "S"), 
+								new ListGridField("numQueued",	"Q"), 
+								new ListGridField("numRunning", "R"),
+								new ListGridField("numCompleted", "C"), 
+								new ListGridField("stop", "Stop/Reset"), 
+								new ListGridField("pause","Pause/Rsm"), 
+								new ListGridField("view", "View"));
 		
-		layoutWorkflows.addMember(listWorkflows);
+		// input data into the list.
+		listWorkflows.setData(WorkFlowsData.getRecords());
 		
-		Button exportWorkflows = new Button("Export to CSV...");
-		layoutWorkflows.addMember(exportWorkflows);
-		
+		layoutWorkflows.addMember(listWorkflows);		
+
 		tabWorkflows.setPane(layoutWorkflows);
 		tabset.addTab(tabWorkflows);
-		
+		//end work flows tab
+
+		//Users online tab
 		Tab tabUsersOnline = new Tab("Users Online");
-		
+
 		VLayout layoutUsersOnline = new VLayout();
 		layoutUsersOnline.setSize("100%", "100%");
 		layoutUsersOnline.setMembersMargin(5);
-		
+
 		listUsersOnline = new ListGrid();
 		listUsersOnline.setSize("100%", "100%");
 		listUsersOnline.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
@@ -111,201 +120,268 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 				new ListGridField("osVersion", "OS Version"),
 				new ListGridField("connectTime", "Connect Time"),
 				new ListGridField("lastActivity", "Last Activity"),
-				new ListGridField("disconnect", "Disconnect")
-		);
-		layoutUsersOnline.addMember(listUsersOnline);
+				new ListGridField("disconnect", "Disconnect"));
 		
+		//get data from OnlineData.java
+		listUsersOnline.setData(OnlineData.getRecords());  
+		
+		layoutUsersOnline.addMember(listUsersOnline);
+
 		Button exportUsersOnline = new Button("Export to CSV...");
 		layoutUsersOnline.addMember(exportUsersOnline);
 		tabUsersOnline.setPane(layoutUsersOnline);
 		tabset.addTab(tabUsersOnline);
+		//end Users online tab
 		
 		Tab tabUsersUsage = new Tab("User Usage");
-		
+
 		VLayout layoutUsersUsage = new VLayout();
 		layoutUsersUsage.setSize("100%", "100%");
-		layoutUsersUsage.setDefaultLayoutAlign(Alignment.CENTER);	// Horizontal centering
+		layoutUsersUsage.setDefaultLayoutAlign(Alignment.CENTER); // Horizontal
+																	// centering
 		layoutUsersUsage.setMembersMargin(5);
-		
+
 		listUsersUsage = new ListGrid();
 		listUsersUsage.setSize("100%", "50%");
 		listUsersUsage.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
 		listUsersUsage.setFields(
 				new ListGridField("username", "Username"),
 				new ListGridField("workflowID", "Workflow ID"),
-				new ListGridField("nodeName", "NodeName"),
-				new ListGridField("instance", "Instance")
-		);
+				new ListGridField("nodeName", "NodeName"), 
+				new ListGridField("instance", "Instance"));
 		layoutUsersUsage.addMember(listUsersUsage);
-		
+
 		listUsersUsageCount = new ListGrid();
 		listUsersUsageCount.setSize("50%", "50%");
 		listUsersUsageCount.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
 		listUsersUsageCount.setFields(
-				new ListGridField("username", "Username"),
-				new ListGridField("count", "Count")
-		);
+				new ListGridField("username", "Username"), new ListGridField(
+						"count", "Count"));
 		layoutUsersUsage.addMember(listUsersUsageCount);
-		
+
 		tabUsersUsage.setPane(layoutUsersUsage);
 		tabset.addTab(tabUsersUsage);
-		
+
 		Tab tabMemoryUsage = new Tab("Memory Usage");
-		
+
 		final LONI_Chart memChart = new LONI_Chart("Memory");
 		tabMemoryUsage.addTabSelectedHandler(new TabSelectedHandler() {
 
 			@Override
 			public void onTabSelected(TabSelectedEvent event) {
 				memChart.getChart().redraw();
-			}});
-		
+			}
+		});
+
 		tabMemoryUsage.setPane(memChart);
-		
+
 		tabset.addTab(tabMemoryUsage);
-		
+
 		Tab tabThreadUsage = new Tab("Thread Usage");
-		
+
 		final LONI_Chart thrdChart = new LONI_Chart("Thread");
-		tabThreadUsage.addTabSelectedHandler(new TabSelectedHandler(){
+		tabThreadUsage.addTabSelectedHandler(new TabSelectedHandler() {
 
 			@Override
 			public void onTabSelected(TabSelectedEvent event) {
 				thrdChart.getChart().redraw();
-			}});
-		
+			}
+		});
+
 		tabThreadUsage.setPane(thrdChart);
-		
+
 		tabset.addTab(tabThreadUsage);
-		
+
+		//preferences tab
 		Tab tabPreferences = new Tab("Preferences");
-		tabset.addTab(tabPreferences);
 		
+		TabSet tabSet = new TabSet();
+		
+		Tab tabGeneral = new Tab("General");
+		
+		VLayout layoutGeneral = new VLayout();
+		
+		com.smartgwt.client.widgets.Label lblNewLabel = new com.smartgwt.client.widgets.Label("Basic");
+		lblNewLabel.setSize("69px", "17px");
+		layoutGeneral.addMember(lblNewLabel);
+		
+		DynamicForm GeneralForm = new DynamicForm();
+		NativeCheckboxItem nativeCheckboxItem = new NativeCheckboxItem();
+		nativeCheckboxItem.setTitle("Use privilege escalation: Pipeline server will run commands as the user(sudo as user)");
+		NativeCheckboxItem nativeCheckboxItem_1 = new NativeCheckboxItem();
+		nativeCheckboxItem_1.setTitle("Enable guests");
+		NativeCheckboxItem nativeCheckboxItem_2 = new NativeCheckboxItem();
+		nativeCheckboxItem_2.setTitle("Secure");
+		GeneralForm.setFields(new FormItem[] { new TextItem("newTextItem_1", "Server_hostname"), new TextItem("newTextItem_4", "Port"), new UploadItem("newUploadItem_5", "Temportary directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scrath directroy"), new UploadItem("newUploadItem_4", "Log file location"), nativeCheckboxItem, nativeCheckboxItem_1});
+		layoutGeneral.addMember(GeneralForm);
+		GeneralForm.moveTo(100, 17);
+		tabGeneral.setPane(layoutGeneral);
+		tabSet.addTab(tabGeneral);
+		
+		Tab tabGrid = new Tab("Grid");
+		tabSet.addTab(tabGrid);
+		
+		Tab tabAccess = new Tab("Access");
+		tabSet.addTab(tabAccess);
+		
+		Tab tabPackages = new Tab("Packages");
+		tabSet.addTab(tabPackages);
+		
+		Tab tabExecutables = new Tab("Executables");
+		tabSet.addTab(tabExecutables);
+		
+		Tab tabAdvanced = new Tab("Advanced");
+		tabSet.addTab(tabAdvanced);
+		tabPreferences.setPane(tabSet);
+		tabset.addTab(tabPreferences);
+		//end preferences tab
+
 		Tab tabUpload = new Tab("Upload");
 		createUploadTab(tabUpload);
 		tabset.addTab(tabUpload);
-		
+
 		tabset.draw();
 	}
-	
+
 	public void createUploadTab(Tab tabUpload) {
-		final VerticalPanel progressBarPanel = new VerticalPanel();  
-		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();  
-		final Uploader uploader = new Uploader();  
-		uploader.setUploadURL("/FileUploadServlet")  
-		.setButtonImageURL(GWT.getModuleBaseURL() + "resources/images/buttons/upload_new_version_button.png")  
-		.setButtonWidth(133)  
-		.setButtonHeight(22)  
-		.setFileSizeLimit("50 MB")  
-		.setButtonCursor(Uploader.Cursor.HAND)  
-		.setButtonAction(Uploader.ButtonAction.SELECT_FILES)  
-		.setFileQueuedHandler(new FileQueuedHandler() {  
-			public boolean onFileQueued(final FileQueuedEvent fileQueuedEvent) {  
-				// Add Cancel Button Image  
-				final Image cancelButton = new Image(GWT.getModuleBaseURL() + "resources/images/icons/cancel.png");  
-				cancelButton.setStyleName("cancelButton");  
-				cancelButton.addClickHandler(new ClickHandler() {  
-					public void onClick(ClickEvent event) {  
-						uploader.cancelUpload(fileQueuedEvent.getFile().getId(), false);  
-						cancelButton.removeFromParent();  
-					}  
-				});  
-				cancelButtons.put(fileQueuedEvent.getFile().getId(), cancelButton);  
+		final VerticalPanel progressBarPanel = new VerticalPanel();
+		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
+		final Uploader uploader = new Uploader();
+		uploader.setUploadURL("/FileUploadServlet")
+				.setButtonImageURL(
+						GWT.getModuleBaseURL()
+								+ "resources/images/buttons/upload_new_version_button.png")
+				.setButtonWidth(133)
+				.setButtonHeight(22)
+				.setFileSizeLimit("50 MB")
+				.setButtonCursor(Uploader.Cursor.HAND)
+				.setButtonAction(Uploader.ButtonAction.SELECT_FILES)
+				.setFileQueuedHandler(new FileQueuedHandler() {
+					public boolean onFileQueued(
+							final FileQueuedEvent fileQueuedEvent) {
+						// Add Cancel Button Image
+						final Image cancelButton = new Image(GWT
+								.getModuleBaseURL()
+								+ "resources/images/icons/cancel.png");
+						cancelButton.setStyleName("cancelButton");
+						cancelButton.addClickHandler(new ClickHandler() {
+							public void onClick(ClickEvent event) {
+								uploader.cancelUpload(fileQueuedEvent.getFile()
+										.getId(), false);
+								cancelButton.removeFromParent();
+							}
+						});
+						cancelButtons.put(fileQueuedEvent.getFile().getId(),
+								cancelButton);
 
-				// Add the Bar and Button to the interface  
-				HorizontalPanel progressBarAndButtonPanel = new HorizontalPanel();  
-				progressBarAndButtonPanel.add(cancelButton);  
-				progressBarPanel.add(progressBarAndButtonPanel);  
+						// Add the Bar and Button to the interface
+						HorizontalPanel progressBarAndButtonPanel = new HorizontalPanel();
+						progressBarAndButtonPanel.add(cancelButton);
+						progressBarPanel.add(progressBarAndButtonPanel);
 
-				return true;  
-			}  
-		})    
-		.setUploadCompleteHandler(new UploadCompleteHandler() {  
-			public boolean onUploadComplete(UploadCompleteEvent uploadCompleteEvent) {  
-				cancelButtons.get(uploadCompleteEvent.getFile().getId()).removeFromParent();  
-				uploader.startUpload();  
-				return true;  
-			}  
-		})  
-		.setFileDialogStartHandler(new FileDialogStartHandler() {  
-			public boolean onFileDialogStartEvent(FileDialogStartEvent fileDialogStartEvent) {  
-				if (uploader.getStats().getUploadsInProgress() <= 0) {  
-					// Clear the uploads that have completed, if none are in process  
-					progressBarPanel.clear();  
-					cancelButtons.clear();  
-				}  
-				return true;  
-			}  
-		})  
-		.setFileDialogCompleteHandler(new FileDialogCompleteHandler() {  
-			public boolean onFileDialogComplete(FileDialogCompleteEvent fileDialogCompleteEvent) {  
-				if (fileDialogCompleteEvent.getTotalFilesInQueue() > 0) {  
-					if (uploader.getStats().getUploadsInProgress() <= 0) {  
-						uploader.startUpload();  
-					}  
-				}  
-				return true;  
-			}  
-		})  
-		.setFileQueueErrorHandler(new FileQueueErrorHandler() {  
-			public boolean onFileQueueError(FileQueueErrorEvent fileQueueErrorEvent) {  
-				Window.alert("Upload of file " + fileQueueErrorEvent.getFile().getName() + " failed due to [" +  
-						fileQueueErrorEvent.getErrorCode().toString() + "]: " + fileQueueErrorEvent.getMessage()  
-						);  
-				return true;  
-			}  
-		})  
-		.setUploadErrorHandler(new UploadErrorHandler() {  
-			public boolean onUploadError(UploadErrorEvent uploadErrorEvent) {  
-				cancelButtons.get(uploadErrorEvent.getFile().getId()).removeFromParent();  
-				Window.alert("Upload of file " + uploadErrorEvent.getFile().getName() + " failed due to [" +  
-						uploadErrorEvent.getErrorCode().toString() + "]: " + uploadErrorEvent.getMessage()  
-						);  
-				return true;  
-			}  
-		});  
+						return true;
+					}
+				})
+				.setUploadCompleteHandler(new UploadCompleteHandler() {
+					public boolean onUploadComplete(
+							UploadCompleteEvent uploadCompleteEvent) {
+						cancelButtons
+								.get(uploadCompleteEvent.getFile().getId())
+								.removeFromParent();
+						uploader.startUpload();
+						return true;
+					}
+				})
+				.setFileDialogStartHandler(new FileDialogStartHandler() {
+					public boolean onFileDialogStartEvent(
+							FileDialogStartEvent fileDialogStartEvent) {
+						if (uploader.getStats().getUploadsInProgress() <= 0) {
+							// Clear the uploads that have completed, if none
+							// are in process
+							progressBarPanel.clear();
+							cancelButtons.clear();
+						}
+						return true;
+					}
+				})
+				.setFileDialogCompleteHandler(new FileDialogCompleteHandler() {
+					public boolean onFileDialogComplete(
+							FileDialogCompleteEvent fileDialogCompleteEvent) {
+						if (fileDialogCompleteEvent.getTotalFilesInQueue() > 0) {
+							if (uploader.getStats().getUploadsInProgress() <= 0) {
+								uploader.startUpload();
+							}
+						}
+						return true;
+					}
+				}).setFileQueueErrorHandler(new FileQueueErrorHandler() {
+					public boolean onFileQueueError(
+							FileQueueErrorEvent fileQueueErrorEvent) {
+						Window.alert("Upload of file "
+								+ fileQueueErrorEvent.getFile().getName()
+								+ " failed due to ["
+								+ fileQueueErrorEvent.getErrorCode().toString()
+								+ "]: " + fileQueueErrorEvent.getMessage());
+						return true;
+					}
+				}).setUploadErrorHandler(new UploadErrorHandler() {
+					public boolean onUploadError(
+							UploadErrorEvent uploadErrorEvent) {
+						cancelButtons.get(uploadErrorEvent.getFile().getId())
+								.removeFromParent();
+						Window.alert("Upload of file "
+								+ uploadErrorEvent.getFile().getName()
+								+ " failed due to ["
+								+ uploadErrorEvent.getErrorCode().toString()
+								+ "]: " + uploadErrorEvent.getMessage());
+						return true;
+					}
+				});
 
-		VerticalPanel verticalPanel = new VerticalPanel();  
-		verticalPanel.add(uploader);  
+		VerticalPanel verticalPanel = new VerticalPanel();
+		verticalPanel.add(uploader);
 
-		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {  
-			final Label dropFilesLabel = new Label("Drop Files Here");  
-			dropFilesLabel.setStyleName("dropFilesLabel");  
-			dropFilesLabel.addDragOverHandler(new DragOverHandler() {  
-				public void onDragOver(DragOverEvent event) {  
-					if (!uploader.getButtonDisabled()) {  
-						dropFilesLabel.addStyleName("dropFilesLabelHover");  
-					}  
-				}  
-			});  
-			dropFilesLabel.addDragLeaveHandler(new DragLeaveHandler() {  
-				public void onDragLeave(DragLeaveEvent event) {  
-					dropFilesLabel.removeStyleName("dropFilesLabelHover");  
-				}  
-			});  
-			dropFilesLabel.addDropHandler(new DropHandler() {  
-				public void onDrop(DropEvent event) {  
-					dropFilesLabel.removeStyleName("dropFilesLabelHover");  
+		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
+			final Label dropFilesLabel = new Label("Drop Files Here");
+			dropFilesLabel.setStyleName("dropFilesLabel");
+			dropFilesLabel.addDragOverHandler(new DragOverHandler() {
+				public void onDragOver(DragOverEvent event) {
+					if (!uploader.getButtonDisabled()) {
+						dropFilesLabel.addStyleName("dropFilesLabelHover");
+					}
+				}
+			});
+			dropFilesLabel.addDragLeaveHandler(new DragLeaveHandler() {
+				public void onDragLeave(DragLeaveEvent event) {
+					dropFilesLabel.removeStyleName("dropFilesLabelHover");
+				}
+			});
+			dropFilesLabel.addDropHandler(new DropHandler() {
+				public void onDrop(DropEvent event) {
+					dropFilesLabel.removeStyleName("dropFilesLabelHover");
 
-					if (uploader.getStats().getUploadsInProgress() <= 0) {  
-						progressBarPanel.clear();  
-						cancelButtons.clear();  
-					}  
+					if (uploader.getStats().getUploadsInProgress() <= 0) {
+						progressBarPanel.clear();
+						cancelButtons.clear();
+					}
 
-					uploader.addFilesToQueue(Uploader.getDroppedFiles(event.getNativeEvent()));  
-					event.preventDefault();  
-				}  
-			});  
-			verticalPanel.add(dropFilesLabel);  
-		}  
+					uploader.addFilesToQueue(Uploader.getDroppedFiles(event
+							.getNativeEvent()));
+					event.preventDefault();
+				}
+			});
+			verticalPanel.add(dropFilesLabel);
+		}
 
-		HorizontalPanel horizontalPanel = new HorizontalPanel();  
-		horizontalPanel.add(verticalPanel);  
-		horizontalPanel.add(progressBarPanel);  
-		horizontalPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);  
-		horizontalPanel.setCellHorizontalAlignment(uploader, HorizontalPanel.ALIGN_LEFT);  
-		horizontalPanel.setCellHorizontalAlignment(progressBarPanel, HorizontalPanel.ALIGN_RIGHT);
-		
+		HorizontalPanel horizontalPanel = new HorizontalPanel();
+		horizontalPanel.add(verticalPanel);
+		horizontalPanel.add(progressBarPanel);
+		horizontalPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
+		horizontalPanel.setCellHorizontalAlignment(uploader,
+				HorizontalPanel.ALIGN_LEFT);
+		horizontalPanel.setCellHorizontalAlignment(progressBarPanel,
+				HorizontalPanel.ALIGN_RIGHT);
+
 		VLayout uploadLayout = new VLayout();
 		uploadLayout.addMember(horizontalPanel);
 		tabUpload.setPane(uploadLayout);
