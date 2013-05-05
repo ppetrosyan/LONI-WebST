@@ -1,5 +1,15 @@
 /** Add css rules here for your application. */
+.dropFilesLabel {
+  background-image: url("./loni_pipeline_server_terminal/resources/drop01.png"); !important;
+  height: 75px;
+  width: 75px;
+}
 
+.dropFilesLabelHover {
+  background-image: url("./loni_pipeline_server_terminal/resources/drop02.png"); !important;
+  height: 75px;
+  width: 75px;
+}
 
 /** Example rules used by the template application (remove for your app) */
 h1 {
