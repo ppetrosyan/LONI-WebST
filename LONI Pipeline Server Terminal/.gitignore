@@ -23,6 +23,7 @@
 
 # gwt caches and compiled units #
 war/loni_pipeline_server_terminal/
+!war/loni_pipeline_server_terminal/resources/
 gwt-unitCache/
 
 # boilerplate generated classes #
