@@ -42,7 +42,13 @@ import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
 public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	private ListGrid listWorkflows, listUsersOnline, listUsersUsage,
 			listUsersUsageCount;
-
+	
+	private void alignFieldTitles(DynamicForm form)
+	{
+		for(FormItem i : form.getFields())
+			i.setTitleAlign(Alignment.LEFT);
+	}
+	
 	/**
 	 * This is the entry point method. This is generated and managed by the
 	 * visual designer.
@@ -273,7 +279,10 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		nativeCheckboxItem_1.setTitle("Enable guests");
 		NativeCheckboxItem nativeCheckboxItem_2 = new NativeCheckboxItem();
 		nativeCheckboxItem_2.setTitle("Secure");
-		GeneralForm.setFields(new FormItem[] { new TextItem("newTextItem_1", "Host"), new TextItem("newTextItem_4", "Port"), new UploadItem("newUploadItem_5", "Temp. Directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scratch Directory"), new UploadItem("newUploadItem_4", "Log File"), nativeCheckboxItem, nativeCheckboxItem_1});
+		TextItem textItem = new TextItem("newTextItem_4", "Port");
+		textItem.setValue("8001");
+		GeneralForm.setFields(new FormItem[] { new TextItem("newTextItem_1", "Host"), textItem, new UploadItem("newUploadItem_5", "Temp. Directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scratch Directory"), new UploadItem("newUploadItem_4", "Log File"), nativeCheckboxItem, nativeCheckboxItem_1});
+		alignFieldTitles(GeneralForm);
 		layoutGeneral.addMember(GeneralForm);
 		GeneralForm.moveTo(100, 17);
 		tabGeneral.setPane(layoutGeneral);
