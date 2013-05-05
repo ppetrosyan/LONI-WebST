@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class FileUploadServlet extends HttpServlet {
+public class ConfigurationServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 8683470156282697544L;
 
