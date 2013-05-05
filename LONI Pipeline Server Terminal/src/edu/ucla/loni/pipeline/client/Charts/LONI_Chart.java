@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client;
+package edu.ucla.loni.pipeline.client.Charts;
 
 import java.util.ArrayList;
 
@@ -11,6 +11,8 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
+
+import edu.ucla.loni.pipeline.client.MemoryStatistics;
 
 public class LONI_Chart extends VLayout {
 

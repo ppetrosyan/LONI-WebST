@@ -34,6 +34,7 @@ import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
+import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
 
 /**
