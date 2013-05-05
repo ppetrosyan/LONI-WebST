@@ -36,6 +36,7 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
+import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 
@@ -334,34 +335,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		verticalPanel.add(uploader);
 
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final Label dropFilesLabel = new Label("Drop Files Here");
-			dropFilesLabel.setStyleName("dropFilesLabel");
-			dropFilesLabel.addDragOverHandler(new DragOverHandler() {
-				public void onDragOver(DragOverEvent event) {
-					if (!uploader.getButtonDisabled()) {
-						dropFilesLabel.addStyleName("dropFilesLabelHover");
-					}
-				}
-			});
-			dropFilesLabel.addDragLeaveHandler(new DragLeaveHandler() {
-				public void onDragLeave(DragLeaveEvent event) {
-					dropFilesLabel.removeStyleName("dropFilesLabelHover");
-				}
-			});
-			dropFilesLabel.addDropHandler(new DropHandler() {
-				public void onDrop(DropEvent event) {
-					dropFilesLabel.removeStyleName("dropFilesLabelHover");
-
-					if (uploader.getStats().getUploadsInProgress() <= 0) {
-						progressBarPanel.clear();
-						cancelButtons.clear();
-					}
-
-					uploader.addFilesToQueue(Uploader.getDroppedFiles(event
-							.getNativeEvent()));
-					event.preventDefault();
-				}
-			});
+			final LONIDragandDropLabel dropFilesLabel = new LONIDragandDropLabel("Drop Files Here", uploader, cancelButtons, verticalPanel);
 			verticalPanel.add(dropFilesLabel);
 		}
 
@@ -376,6 +350,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 		VLayout uploadLayout = new VLayout();
 		uploadLayout.addMember(horizontalPanel);
+		
 		tabUpload.setPane(uploadLayout);
 	}
 }
