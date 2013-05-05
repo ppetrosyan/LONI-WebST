@@ -2,13 +2,18 @@ package edu.ucla.loni.pipeline.client.Charts;
 
 import java.util.ArrayList;
 
-import com.google.gwt.event.dom.client.ClickEvent;
-import com.google.gwt.event.dom.client.ClickHandler;
+//import com.google.gwt.event.dom.client.ClickEvent;
+//import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.fields.FormItem;
+import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
+import com.smartgwt.client.widgets.form.fields.events.ClickEvent;
+import com.smartgwt.client.widgets.form.fields.events.ClickHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
@@ -97,49 +102,62 @@ public class LONI_Chart extends VLayout {
 			topLeft.addChild(statistics);
 			
 			// create graph selection check boxes
-			FlexTable checkBoxes = new FlexTable();
-			CheckBox setter;
-			checkBoxes.setText(0, 0, "Select Visible Graphs:");
-			checkBoxes.setWidget(0, 1, new CheckBox("Initial Memory"));
-			setter = (CheckBox) checkBoxes.getWidget(0, 1);
-			setter.setChecked(true);
-			setter.addClickHandler(new ClickHandler() {
+			DynamicForm checkBoxes = new DynamicForm();
+			final NativeCheckboxItem initMem = new NativeCheckboxItem();
+			initMem.setTitle("Initial Memory");
+			initMem.setValue(true);
+			initMem.addClickHandler(new ClickHandler() {
+
+				@Override
 				public void onClick(ClickEvent event) {
-					boolean checked = ((CheckBox) event.getSource()).isChecked();
-					chart.updateType("Initial Memory", checked);
+					boolean checked = initMem.getValueAsBoolean();
+					chart.updateType("Initial Memory", !checked);
 				}
+				
 			});
-			checkBoxes.setWidget(1, 1, new CheckBox("Used Memory"));
-			setter = (CheckBox) checkBoxes.getWidget(1, 1);
-			setter.setChecked(true);
-			setter.addClickHandler(new ClickHandler() {
+			final NativeCheckboxItem usedMem = new NativeCheckboxItem();
+			usedMem.setTitle("Used Memory");
+			usedMem.setValue(true);
+			usedMem.addClickHandler(new ClickHandler() {
+
+				@Override
 				public void onClick(ClickEvent event) {
-					boolean checked = ((CheckBox) event.getSource()).isChecked();
-					chart.updateType("Used Memory", checked);
+					boolean checked = usedMem.getValueAsBoolean();
+					chart.updateType("Used Memory", !checked);
 				}
+				
 			});
-			checkBoxes.setWidget(2, 1, new CheckBox("Committed Memory"));
-			setter = (CheckBox) checkBoxes.getWidget(2, 1);
-			setter.setChecked(true);
-			setter.addClickHandler(new ClickHandler() {
+			final NativeCheckboxItem commMem = new NativeCheckboxItem();
+			commMem.setTitle("Committed Memory");
+			commMem.setValue(true);
+			commMem.addClickHandler(new ClickHandler() {
+
+				@Override
 				public void onClick(ClickEvent event) {
-					boolean checked = ((CheckBox) event.getSource()).isChecked();
-					chart.updateType("Committed Memory", checked);
+					boolean checked = commMem.getValueAsBoolean();
+					chart.updateType("Committed Memory", !checked);
 				}
+				
 			});
-			checkBoxes.setWidget(3, 1, new CheckBox("Max Memory"));
-			setter = (CheckBox) checkBoxes.getWidget(3, 1);
-			setter.setChecked(true);
-			setter.addClickHandler(new ClickHandler() {
+			final NativeCheckboxItem maxMem = new NativeCheckboxItem();
+			maxMem.setTitle("Max Memory");
+			maxMem.setValue(true);
+			maxMem.addClickHandler(new ClickHandler() {
+
+				@Override
 				public void onClick(ClickEvent event) {
-					boolean checked = ((CheckBox) event.getSource()).isChecked();
-					chart.updateType("Max Memory", checked);
+					boolean checked = maxMem.getValueAsBoolean();
+					chart.updateType("Max Memory", !checked);
 				}
+				
 			});
+			checkBoxes.setFields(new FormItem[] { initMem, usedMem, commMem, maxMem });
+			checkBoxes.setAlign(Alignment.LEFT);
 			checkBoxes.setWidth("250px");
 			
-			// add panels layout
+			// add panels to layout
 			Canvas topRight = new Canvas();
+			topRight.setNoDoubleClicks(true);
 			topRight.setWidth("50%");
 			topRight.addChild(checkBoxes);
 			
