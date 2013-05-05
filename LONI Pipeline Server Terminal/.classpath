@@ -17,5 +17,8 @@
 	<classpathentry kind="lib" path="war/WEB-INF/lib/xom-1.2.9.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-lang-2.6.jar"/>
 	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-logging-1.1.2.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/ezmorph-1.0.6.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-collections-3.2.1.jar"/>
+	<classpathentry kind="lib" path="war/WEB-INF/lib/commons-beanutils-1.8.3.jar"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>
