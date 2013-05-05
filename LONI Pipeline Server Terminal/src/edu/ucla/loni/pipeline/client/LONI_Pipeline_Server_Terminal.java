@@ -37,6 +37,7 @@ import com.smartgwt.client.types.Alignment;
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
+import edu.ucla.loni.pipeline.client.Uploaders.SimulatedDataUploader;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -318,21 +319,27 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	public void createUploadTab(Tab tabUpload) {
 		final VerticalPanel progressBarPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
-		final ConfigurationUploader uploader = new ConfigurationUploader(cancelButtons, progressBarPanel);
-
+		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, progressBarPanel);
+		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, progressBarPanel);
+		
 		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(uploader);
-
+		verticalPanel.add(configurationUploader);
+		verticalPanel.add(simulatedDataUploader);
+		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel dropFilesLabel = new LONIDragandDropLabel("Drop Files Here", uploader, cancelButtons, verticalPanel);
-			verticalPanel.add(dropFilesLabel);
+			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("Drop Configuration Data", configurationUploader, cancelButtons, verticalPanel);
+			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("Drop Simulated Data", simulatedDataUploader, cancelButtons, verticalPanel);
+			verticalPanel.add(configurationLabel);
+			verticalPanel.add(simulatedDataLabel);
 		}
-
+		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(verticalPanel);
 		horizontalPanel.add(progressBarPanel);
 		horizontalPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
-		horizontalPanel.setCellHorizontalAlignment(uploader,
+		horizontalPanel.setCellHorizontalAlignment(configurationUploader,
+				HorizontalPanel.ALIGN_LEFT);
+		horizontalPanel.setCellHorizontalAlignment(simulatedDataUploader,
 				HorizontalPanel.ALIGN_LEFT);
 		horizontalPanel.setCellHorizontalAlignment(progressBarPanel,
 				HorizontalPanel.ALIGN_RIGHT);
