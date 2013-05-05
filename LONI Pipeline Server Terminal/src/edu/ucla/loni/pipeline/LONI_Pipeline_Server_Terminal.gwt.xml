@@ -18,8 +18,8 @@
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
 
   <!-- Other module inherits                                      -->
-  <inherits name="com.smartgwt.SmartGwt"/>
-  <inherits name="org.moxieapps.gwt.uploader.Uploader"/>
+  <inherits name='com.smartgwt.SmartGwt'/>
+  <inherits name='org.moxieapps.gwt.uploader.Uploader'/>
   <inherits name='com.googlecode.gwt.charts.Charts'/>
 
   <!-- Specify the app entry point class.                         -->
