@@ -283,12 +283,12 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		DynamicForm GeneralForm = new DynamicForm();
 		NativeCheckboxItem nativeCheckboxItem = new NativeCheckboxItem();
-		nativeCheckboxItem.setTitle("Use privilege escalation: Pipeline server will run commands as the user(sudo as user)");
+		nativeCheckboxItem.setTitle("Use privilege escalation: Pipeline server will run commands as the user (sudo as user)");
 		NativeCheckboxItem nativeCheckboxItem_1 = new NativeCheckboxItem();
 		nativeCheckboxItem_1.setTitle("Enable guests");
 		NativeCheckboxItem nativeCheckboxItem_2 = new NativeCheckboxItem();
 		nativeCheckboxItem_2.setTitle("Secure");
-		GeneralForm.setFields(new FormItem[] { new TextItem("newTextItem_1", "Server_hostname"), new TextItem("newTextItem_4", "Port"), new UploadItem("newUploadItem_5", "Temportary directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scrath directroy"), new UploadItem("newUploadItem_4", "Log file location"), nativeCheckboxItem, nativeCheckboxItem_1});
+		GeneralForm.setFields(new FormItem[] { new TextItem("newTextItem_1", "Host"), new TextItem("newTextItem_4", "Port"), new UploadItem("newUploadItem_5", "Temp. Directory"), nativeCheckboxItem_2, new UploadItem("newUploadItem_7", "Scratch Directory"), new UploadItem("newUploadItem_4", "Log File"), nativeCheckboxItem, nativeCheckboxItem_1});
 		layoutGeneral.addMember(GeneralForm);
 		GeneralForm.moveTo(100, 17);
 		tabGeneral.setPane(layoutGeneral);
