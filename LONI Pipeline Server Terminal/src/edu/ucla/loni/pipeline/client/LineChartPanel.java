@@ -3,7 +3,6 @@ package edu.ucla.loni.pipeline.client;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Random;
-import com.google.gwt.user.client.Timer;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.ColumnType;
@@ -34,44 +33,15 @@ public class LineChartPanel extends Layout {
 	private ArrayList<Integer> maxMem = new ArrayList<Integer>();
 	private ArrayList<Integer> threadCnt = new ArrayList<Integer>();
 	private ArrayList<Integer> threadPk = new ArrayList<Integer>();
+	
+	private MemoryStatistics memStats = new MemoryStatistics();
+	private ArrayList<Integer> thrdStats = new ArrayList<Integer>();
 
 	private boolean initUsed = false;
 	private boolean usedUsed = false;
 	private boolean commUsed = false;
 	private boolean maxUsed = false;
 
-	private Timer timer = new Timer() {
-		public void run() {
-			// TODO: move this timer to LONI_Chart
-			times.remove(times.indexOf(start));
-			times.add(end);
-			if(initUsed) {
-				initMem.remove(0);
-				initMem.add(Random.nextInt(7281));
-			}
-			if(usedUsed) {
-				usedMem.remove(0);
-				usedMem.add(Random.nextInt(7281));
-			}
-			if(commUsed) {
-				commMem.remove(0);
-				commMem.add(Random.nextInt(7281));
-			}
-			if(maxUsed) {
-				maxMem.remove(0);
-				maxMem.add(Random.nextInt(7281));
-			}
-			if(monitorType == "Thread") {
-				threadCnt.remove(0);
-				threadCnt.add(Random.nextInt(440));
-				threadPk.remove(0);
-				threadPk.add(Random.nextInt(440));
-			}
-			start++;
-			end++;
-			redraw();
-		}
-	};
 
 	public LineChartPanel(String mt) {
 		//super(Unit.EM);
@@ -81,11 +51,78 @@ public class LineChartPanel extends Layout {
 	public void redraw() {
 		draw();
 	}
+	
+	public void testUpdate() {
+		times.remove(times.indexOf(start));
+		times.add(end);
+		if(initUsed) {
+			//initMem.remove(0);
+			//initMem.add(Random.nextInt(7281));
+		}
+		if(usedUsed) {
+			usedMem.remove(0);
+			usedMem.add(Random.nextInt(7281));
+		}
+		if(commUsed) {
+			commMem.remove(0);
+			commMem.add(Random.nextInt(7281));
+		}
+		if(maxUsed) {
+			//maxMem.remove(0);
+			//maxMem.add(Random.nextInt(7281));
+		}
+		if(monitorType == "Thread") {
+			threadCnt.remove(0);
+			threadCnt.add(Random.nextInt(440));
+			threadPk.remove(0);
+			threadPk.add(Random.nextInt(440));
+		}
+		start++;
+		end++;
+		calculateStatistics();
+		redraw();
+	}
+	
+	public MemoryStatistics getMemStatistics() {
+		return this.memStats;
+	}
+	
+	public ArrayList<Integer> getThrdStatistics() {
+		return this.thrdStats;
+	}
+	
+	private void calculateStatistics() {
+		if(monitorType == "Memory" && !initMem.isEmpty() && !usedMem.isEmpty() 
+				&& !commMem.isEmpty() && !maxMem.isEmpty()) {
+			
+			int currInitMem = initMem.get(initMem.size() - 1);
+			int currUsedMem = usedMem.get(usedMem.size() -1);
+			int currCommMem = commMem.get(commMem.size() - 1);
+			int currMaxMem = maxMem.get(maxMem.size() - 1);
+			
+			memStats.setInitMemMB(currInitMem);
+			memStats.setUsedMemMB(currUsedMem);
+			memStats.setCommMemMB(currCommMem);
+			memStats.setMaxMemMB(currMaxMem);
+			
+			int usedCommPercent = (int) ((double) currUsedMem / (double) currCommMem * 100.0);
+			int usedMaxPercent = (int) ((double) currUsedMem / (double) currMaxMem * 100.0);
+			int commMaxPercent = (int) ((double) currCommMem / (double) currMaxMem * 100.0);
+			
+			memStats.setUsedCommMemPercent(usedCommPercent);
+			memStats.setUsedMaxMemPercent(usedMaxPercent);
+			memStats.setCommMaxMemPercent(commMaxPercent);
+		}
+		else if(monitorType == "Thread" && !threadCnt.isEmpty() && !threadPk.isEmpty()) {
+			thrdStats.clear();
+			thrdStats.add(threadCnt.get(threadCnt.size() - 1));
+			thrdStats.add(threadPk.get(threadPk.size() - 1));
+		}
+	}
 
 	public void updateValues() {
 		// TODO: add diff start/end for all plots (?)
 		// TODO: call updateValues from timer in LONI_Chart
-		// TODO: calculate percentages and send them back to LONI_Chart
 		// TODO: change draw to populate chart from start to end values
 		if(end < initMem.size()) {
 			start++;
@@ -153,11 +190,6 @@ public class LineChartPanel extends Layout {
 			maxMem.add(7281);
 		}
 
-		/*values.add(initMem);
-		values.add(usedMem);
-		values.add(commMem);
-		values.add(maxMem);*/
-
 		initUsed = true;
 		usedUsed = true;
 		commUsed = true;
@@ -169,6 +201,8 @@ public class LineChartPanel extends Layout {
 		options.setTitle("Memory Usage");
 		options.setHAxis(HAxis.create("Time"));
 		options.setVAxis(VAxis.create("Memory Usage (MB)"));
+		
+		calculateStatistics();
 	}
 
 	private void initializeThread() {
@@ -182,34 +216,27 @@ public class LineChartPanel extends Layout {
 		}
 
 		// add initial values
-		//ArrayList<Integer> threadCnt = new ArrayList<Integer>();
-		//ArrayList<Integer> threadPk = new ArrayList<Integer>();
-
 		for(int val = 0; val < maxEntries; val++) {
 			threadCnt.add(211);
 			threadPk.add(440);
 		}
-
-		/*values.add(threadCnt);
-		values.add(threadPk);*/
 
 		// set chart options
 		options.setBackgroundColor(color);
 		options.setFontName("Tahoma");
 		options.setTitle("Thread Usage");
 		options.setHAxis(HAxis.create("Time"));
-		options.setVAxis(VAxis.create("Number of Threads"));	
+		options.setVAxis(VAxis.create("Number of Threads"));
+		calculateStatistics();
 	}
 
 	private void initialize(String mt) {
 		monitorType = mt;
 
 		if(monitorType == "Memory") {
-			timer.scheduleRepeating(5000);
 			initializeMemory();
 		}
 		else if(monitorType == "Thread") {
-			timer.scheduleRepeating(5000);
 			initializeThread();
 		}
 		else {
@@ -239,8 +266,8 @@ public class LineChartPanel extends Layout {
 		// prepare the data
 		DataTable dataTable = DataTable.create();
 		dataTable.addColumn(ColumnType.NUMBER, "Time");
-		for(String mem : type) {
-			dataTable.addColumn(ColumnType.NUMBER, mem);
+		for(String t : type) {
+			dataTable.addColumn(ColumnType.NUMBER, t);
 		}
 		dataTable.addRows(times.size());
 		for(int t = 0; t < maxEntries; t++) {
@@ -273,11 +300,11 @@ public class LineChartPanel extends Layout {
 			}
 		}
 		else if(monitorType == "Thread") {
-			for(int row = 0; row < threadPk.size(); row++) {
-				dataTable.setValue(row, 1, threadPk.get(row));
-			}
 			for(int row = 0; row < threadCnt.size(); row++) {
-				dataTable.setValue(row, 2, threadCnt.get(row));
+				dataTable.setValue(row, 1, threadCnt.get(row));
+			}
+			for(int row = 0; row < threadPk.size(); row++) {
+				dataTable.setValue(row, 2, threadPk.get(row));
 			}
 		}
 		else

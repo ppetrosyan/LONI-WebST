@@ -1,18 +1,50 @@
 package edu.ucla.loni.pipeline.client;
 
-import com.google.gwt.dom.client.Style.Unit;
+import java.util.ArrayList;
+
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.CheckBox;
 import com.google.gwt.user.client.ui.FlexTable;
-import com.google.gwt.user.client.ui.LayoutPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
 public class LONI_Chart extends VLayout {
 
 	private LineChartPanel chart;
     private String monitorType;
+    private FlexTable statistics;
+    
+	private Timer timer = new Timer() {
+		public void run() {
+			chart.testUpdate();
+			
+			if(monitorType == "Memory") {
+				MemoryStatistics stats = chart.getMemStatistics();
+				statistics.setText(0, 0,  "Initial memory:  ");
+				statistics.setText(0, 1, stats.getInitMemMB() + " MB");
+				statistics.setText(1, 0, "Used memory:  ");
+				statistics.setText(1, 1, stats.getUsedMemMB() + " MB");
+				statistics.setText(1, 2, stats.getUsedCommMemPercent() + "% of committed");
+				statistics.setText(1, 3, stats.getUsedMaxMemPercent() + "% of the max");
+				statistics.setText(2, 0, "Committed memory:  ");
+				statistics.setText(2, 1, stats.getCommMemMB() + " MB");
+				statistics.setText(2, 2, stats.getCommMaxMemPercent() + "% of the max");
+				statistics.setText(3, 0, "Maximum memory:  ");
+				statistics.setText(3, 1, stats.getMaxMemMB() + " MB");
+			}
+			else if(monitorType == "Thread") {
+	    		ArrayList<Integer> thrdStats = chart.getThrdStatistics();
+	    		statistics.setText(0, 0, "Thread Count:  ");
+	    		statistics.setText(0, 1, thrdStats.get(0) + "");
+	    		statistics.setText(1, 0, "Thread Peak");
+	    		statistics.setText(1, 1, thrdStats.get(1) + "");
+			}
+		}
+	};
     
     public LONI_Chart(String mt)
     {
@@ -29,28 +61,32 @@ public class LONI_Chart extends VLayout {
     {
     	if(this.monitorType == "Memory")
     	{
-    		// TODO: use smartgwt stuffs
+    		setHeight100();
+    		setWidth100();
+    		
     		chart = new LineChartPanel("Memory");
-    		VerticalPanel topLeftPanel = new VerticalPanel();
-    		VerticalPanel topRightPanel = new VerticalPanel();
-    		LayoutPanel topPanel = new LayoutPanel();
-    		new LayoutPanel();
-    		FlexTable statistics = new FlexTable();
-    	    FlexTable checkBoxes = new FlexTable();
-    	    
-			statistics.setText(0, 0,  "Initial memory:  ");
-			statistics.setText(0, 1, "0 MB  ");
+    		
+    		MemoryStatistics memStats = chart.getMemStatistics();
+    		
+			statistics = new FlexTable();
+    		statistics.setText(0, 0,  "Initial memory:  ");
+			statistics.setText(0, 1, memStats.getInitMemMB() + " MB");
 			statistics.setText(1, 0, "Used memory:  ");
-			statistics.setText(1, 1, "417 MB  ");
-			statistics.setText(1, 2, "84% of committed  ");
-			statistics.setText(1, 3, "5% of the max  ");
+			statistics.setText(1, 1, memStats.getUsedMemMB() + " MB");
+			statistics.setText(1, 2, memStats.getUsedCommMemPercent() + "% of committed");
+			statistics.setText(1, 3, memStats.getUsedMaxMemPercent() + "% of the max");
 			statistics.setText(2, 0, "Committed memory:  ");
-			statistics.setText(2, 1, "495 MB  ");
-			statistics.setText(2, 2, "6% of the max  ");
+			statistics.setText(2, 1, memStats.getCommMemMB() + " MB");
+			statistics.setText(2, 2, memStats.getCommMaxMemPercent() + "% of the max");
 			statistics.setText(3, 0, "Maximum memory:  ");
-			statistics.setText(3, 1, "7281 MB  ");
-			topLeftPanel.add(statistics);
-
+			statistics.setText(3, 1, memStats.getMaxMemMB() + " MB");
+			statistics.setWidth("350px");
+			
+			Canvas topLeft = new Canvas();
+			topLeft.setWidth("50%");
+			topLeft.addChild(statistics);
+			
+			FlexTable checkBoxes = new FlexTable();
 			CheckBox setter;
 			checkBoxes.setText(0, 0, "Select Visible Graphs:");
 			checkBoxes.setWidget(0, 1, new CheckBox("Initial Memory"));
@@ -89,33 +125,45 @@ public class LONI_Chart extends VLayout {
 					chart.updateType("Max Memory", checked);
 				}
 			});
-			topRightPanel.add(checkBoxes);
-
-			topPanel.add(topLeftPanel);
-			topPanel.add(topRightPanel);
-			topPanel.setWidgetLeftWidth(topLeftPanel, 0, Unit.PCT, 50, Unit.PCT);
-			topPanel.setWidgetRightWidth(topRightPanel, 0, Unit.PCT, 50, Unit.PCT);
-			//chart.addNorth(topPanel, 10);
-			addMember(topPanel);
+			checkBoxes.setWidth("250px");
+			
+			Canvas topRight = new Canvas();
+			topRight.setWidth("50%");
+			topRight.addChild(checkBoxes);
+			
+			HLayout top = new HLayout();
+			top.setHeight("15%");
+			//top.addChild(topLeft);
+			//top.addChild(topRight);
+			top.setMembers(topLeft, topRight);
+    		
+			addMember(top);
     		addMember(chart);
+    		
+    		timer.scheduleRepeating(5000);
     	}
     	else if(this.monitorType == "Thread")
     	{
-    		// TODO: use smartgwt stuffs
+    		setHeight100();
+    		setWidth100();
+    		
     		chart = new LineChartPanel("Thread");
     		VerticalPanel topPanel = new VerticalPanel();
-    		FlexTable statistics = new FlexTable();
     		
+    		ArrayList<Integer> thrdStats = chart.getThrdStatistics();
+    		
+    		statistics = new FlexTable();
     		statistics.setText(0, 0, "Thread Count:  ");
-    		statistics.setText(0, 1, "211");
+    		statistics.setText(0, 1, thrdStats.get(0) + "");
     		statistics.setText(1, 0, "Thread Peak");
-    		statistics.setText(1, 1, "440");
+    		statistics.setText(1, 1, thrdStats.get(1) + "");
     		
     		topPanel.add(statistics);
     		
-    		//chart.addNorth(topPanel, 10);
     		addMember(topPanel);
     		addMember(chart);
+    		
+    		timer.scheduleRepeating(5000);
     	}
     	else
     	{
