@@ -13,5 +13,4 @@ public class SimulatedDataUploader extends LONIUploader {
 		
 		setUploadURL("/SimulatedDataServlet");
 	}
-
 }
