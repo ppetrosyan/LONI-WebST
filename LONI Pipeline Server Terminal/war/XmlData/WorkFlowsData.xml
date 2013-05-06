@@ -1,0 +1,52 @@
+<List>  
+  
+<workflow>  
+    <workflowID>11374</workflowID>  
+    <username>William</username>  
+    <state>Running</state>  
+    <startTime>12:30</startTime>  
+    <endTime>13:00</endTime>  
+    <duration>00:30</duration>  
+    <numofnode>4</numofnode>  
+    <numofinstances>3</numofinstances>  
+    <numBacklab>1</numBacklab>  
+    <numSubmitting>0</numSubmitting>  
+    <numQueued>0</numQueued>  
+    <numRunning>2</numRunning>  
+    <numCompleted>1</numCompleted>  
+</workflow>  
+
+<workflow>  
+    <workflowID>26453</workflowID>  
+    <username>Peter</username>  
+    <state>Running</state>  
+    <startTime>11:30</startTime>  
+    <endTime>14:00</endTime>  
+    <duration>02:30</duration>  
+    <numofnode>1</numofnode>  
+    <numofinstances>0</numofinstances>  
+    <numBacklab>2</numBacklab>  
+    <numSubmitting>0</numSubmitting>  
+    <numQueued>0</numQueued>  
+    <numRunning>1</numRunning>  
+    <numCompleted>1</numCompleted>  
+</workflow>  
+
+<workflow>  
+    <workflowID>32135</workflowID>  
+    <username>John</username>  
+    <state>Waiting</state>  
+    <startTime>13:30</startTime>  
+    <endTime>14:00</endTime>  
+    <duration>00:30</duration>  
+    <numofnode>3</numofnode>  
+    <numofinstances>4</numofinstances>  
+    <numBacklab>0</numBacklab>  
+    <numSubmitting>0</numSubmitting>  
+    <numQueued>0</numQueued>  
+    <numRunning>0</numRunning>  
+    <numCompleted>0</numCompleted>  
+</workflow>  
+
+
+</List> 
