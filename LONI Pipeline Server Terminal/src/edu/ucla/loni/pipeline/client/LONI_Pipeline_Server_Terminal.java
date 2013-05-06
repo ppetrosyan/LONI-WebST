@@ -331,38 +331,40 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	}
 
 	public void createUploadTab(Tab tabUpload) {
-		final VerticalPanel progressBarPanel = new VerticalPanel();
+		final VerticalPanel configurationPanel = new VerticalPanel();
+		final VerticalPanel simulatedDataPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
-		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, progressBarPanel);
-		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, progressBarPanel);
+		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, configurationPanel);
+		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, simulatedDataPanel);
 		
-		VerticalPanel verticalPanel = new VerticalPanel();
-		verticalPanel.add(configurationUploader);
 		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("", configurationUploader, cancelButtons, verticalPanel);
-			verticalPanel.add(configurationLabel);
-			
+			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("Drop Configuration File", configurationUploader, cancelButtons, configurationPanel);
+			configurationPanel.add(configurationLabel);
 		}
-
-		verticalPanel.add(simulatedDataUploader);
+		configurationPanel.add(configurationUploader);
 
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("", simulatedDataUploader, cancelButtons, verticalPanel);
-			verticalPanel.add(simulatedDataLabel);
-			
+			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("Drop Simulated Data", simulatedDataUploader, cancelButtons, simulatedDataPanel);
+			simulatedDataPanel.add(simulatedDataLabel);
 		}
+		simulatedDataPanel.add(simulatedDataUploader);
+
 
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.add(verticalPanel);
-		horizontalPanel.add(progressBarPanel);
-		horizontalPanel.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
-		horizontalPanel.setCellHorizontalAlignment(configurationUploader,
-				HorizontalPanel.ALIGN_LEFT);
-		horizontalPanel.setCellHorizontalAlignment(simulatedDataUploader,
-				HorizontalPanel.ALIGN_LEFT);
-		horizontalPanel.setCellHorizontalAlignment(progressBarPanel,
-				HorizontalPanel.ALIGN_RIGHT);
+		horizontalPanel.add(configurationPanel);
+		horizontalPanel.add(simulatedDataPanel);
+
+		// horizontalPanel.setCellHorizontalAlignment(configurationPanel,
+		// 		HorizontalPanel.ALIGN_CENTER);
+		// horizontalPanel.setCellHorizontalAlignment(configurationUploader,
+		// 		HorizontalPanel.ALIGN_CENTER);
+		// horizontalPanel.setCellHorizontalAlignment(simulatedDataPanel,
+		// 		HorizontalPanel.ALIGN_CENTER);
+		// horizontalPanel.setCellHorizontalAlignment(simulatedDataUploader,
+		// 		HorizontalPanel.ALIGN_CENTER);
+		// horizontalPanel.setCellHorizontalAlignment(progressBarPanel,
+		// 		HorizontalPanel.ALIGN_RIGHT);
 
 		VLayout uploadLayout = new VLayout();
 		uploadLayout.addMember(horizontalPanel);

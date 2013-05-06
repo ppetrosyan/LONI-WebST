@@ -14,7 +14,7 @@ public class LONIDragLeaveHandler implements DragLeaveHandler {
 	
 	@Override
 	public void onDragLeave(DragLeaveEvent event) {
-		dropFilesLabel.setStyleName("dropFilesLabel");
+		dropFilesLabel.removeStyleName("dropFilesLabelHover");
 	}
 
 }
