@@ -124,6 +124,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listWorkflows.setSize("100%", "100%");
 		listWorkflows.setCellPadding(2);
 		listWorkflows.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listWorkflows.setCanPickFields(false);
+		listWorkflows.setCanFreezeFields(false);
+		listWorkflows.setAutoFitFieldWidths(true);
 		
 		//Need to declare these fields here so we can edit their behavior
 		ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
@@ -179,6 +182,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listUsersOnline = new ListGrid();
 		listUsersOnline.setSize("100%", "100%");
 		listUsersOnline.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersOnline.setCanPickFields(false);
+		listUsersOnline.setCanFreezeFields(false);
+		listUsersOnline.setAutoFitFieldWidths(true);
 		listUsersOnline.setFields(
 				new ListGridField("username", "Username"),
 				new ListGridField("ipAddress", "IP Address"),
@@ -211,6 +217,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listUsersUsage = new ListGrid();
 		listUsersUsage.setSize("100%", "50%");
 		listUsersUsage.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersUsage.setCanPickFields(false);
+		listUsersUsage.setCanFreezeFields(false);
+		listUsersUsage.setAutoFitFieldWidths(true);
 		listUsersUsage.setFields(
 				new ListGridField("username", "Username"),
 				new ListGridField("workflowID", "Workflow ID"),
@@ -221,6 +230,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listUsersUsageCount = new ListGrid();
 		listUsersUsageCount.setSize("50%", "50%");
 		listUsersUsageCount.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersUsageCount.setCanPickFields(false);
+		listUsersUsageCount.setCanFreezeFields(false);
+		listUsersUsageCount.setAutoFitFieldWidths(true);
 		listUsersUsageCount.setFields(
 				new ListGridField("username", "Username"), new ListGridField(
 						"count", "Count"));
