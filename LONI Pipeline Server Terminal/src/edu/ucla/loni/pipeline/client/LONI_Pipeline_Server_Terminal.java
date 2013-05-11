@@ -24,6 +24,7 @@ import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.UploadItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
+import com.smartgwt.client.data.DataSource;
 import com.smartgwt.client.types.AutoFitWidthApproach;
 import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.layout.VLayout;
@@ -38,6 +39,7 @@ import com.smartgwt.client.widgets.form.fields.SpinnerItem;
 import com.smartgwt.client.widgets.form.fields.CanvasItem;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.form.fields.StaticTextItem;
+import com.smartgwt.client.widgets.Label;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -52,6 +54,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		for(FormItem i : form.getFields())
 			i.setTitleAlign(Alignment.LEFT);
 	}
+	
+	
 	
 	/**
 	 * This is the entry point method. This is generated and managed by the
@@ -162,7 +166,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//listWorkflows.setData(WorkFlowsData.getRecords());
 		
 		//method 2 - reading directly from Xml file
-		listWorkflows.setDataSource(WorkFlowsXmlDS.getInstance());
+		DataSource workFlowsSource = WorkFlowsXmlDS.getInstance();
+		listWorkflows.setDataSource(workFlowsSource);
 		listWorkflows.setAutoFetchData(true); 
 		
 		layoutWorkflows.addMember(listWorkflows);		
@@ -284,6 +289,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		Tab tabPreferences = new Tab("Preferences");
 		
 		TabSet tabSet = new TabSet();
+		tabSet.setPaneMargin(20);
 		
 		Tab tabGeneral = new Tab("General");
 		
@@ -329,9 +335,22 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabSet.addTab(tabAccess);
 		
 		Tab tabPackages = new Tab("Packages");
+		
+		VLayout packageLayout = new VLayout();
+		packageLayout.setHeight("218px");
+		
+		Label packetLabel = new Label("Packages: Please use the Server Terminal tool to connect to server and edit.\r\nFor more information, click the help button on lower left corner.");
+		packageLayout.addMember(packetLabel);
+		tabPackages.setPane(packageLayout);
 		tabSet.addTab(tabPackages);
 		
 		Tab tabExecutables = new Tab("Executables");
+		
+		VLayout executeablesLayout = new VLayout();
+		
+		Label executablesLabel = new Label("Executables: Please use the Server Terminal tool to connect to server and edit.\r\nFor more information, click the help button on lower left corner.");
+		executeablesLayout.addMember(executablesLabel);
+		tabExecutables.setPane(executeablesLayout);
 		tabSet.addTab(tabExecutables);
 		
 		Tab tabAdvanced = new Tab("Advanced");
