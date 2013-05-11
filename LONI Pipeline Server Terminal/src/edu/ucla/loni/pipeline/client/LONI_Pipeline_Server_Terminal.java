@@ -24,6 +24,7 @@ import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.UploadItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
+import com.smartgwt.client.data.DataSource;
 import com.smartgwt.client.types.AutoFitWidthApproach;
 import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.layout.VLayout;
@@ -36,13 +37,16 @@ import edu.ucla.loni.pipeline.client.Uploaders.SimulatedDataUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
 import com.smartgwt.client.widgets.form.fields.CanvasItem;
-import com.smartgwt.client.widgets.layout.HLayout;
+
 import com.smartgwt.client.widgets.form.fields.StaticTextItem;
 import com.smartgwt.client.widgets.Label;
+
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
 import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
-import com.smartgwt.client.widgets.form.fields.ButtonItem;
+
+
+
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -57,6 +61,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		for(FormItem i : form.getFields())
 			i.setTitleAlign(Alignment.LEFT);
 	}
+	
+	
 	
 	/**
 	 * This is the entry point method. This is generated and managed by the
@@ -129,6 +135,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listWorkflows.setSize("100%", "100%");
 		listWorkflows.setCellPadding(2);
 		listWorkflows.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listWorkflows.setCanPickFields(false);
+		listWorkflows.setCanFreezeFields(false);
+		listWorkflows.setAutoFitFieldWidths(true);
 		
 		//Need to declare these fields here so we can edit their behavior
 		ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
@@ -164,7 +173,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//listWorkflows.setData(WorkFlowsData.getRecords());
 		
 		//method 2 - reading directly from Xml file
-		listWorkflows.setDataSource(WorkFlowsXmlDS.getInstance());
+		DataSource workFlowsSource = WorkFlowsXmlDS.getInstance();
+		listWorkflows.setDataSource(workFlowsSource);
 		listWorkflows.setAutoFetchData(true); 
 		
 		layoutWorkflows.addMember(listWorkflows);		
@@ -184,6 +194,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listUsersOnline = new ListGrid();
 		listUsersOnline.setSize("100%", "100%");
 		listUsersOnline.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersOnline.setCanPickFields(false);
+		listUsersOnline.setCanFreezeFields(false);
+		listUsersOnline.setAutoFitFieldWidths(true);
 		listUsersOnline.setFields(
 				new ListGridField("username", "Username"),
 				new ListGridField("ipAddress", "IP Address"),
@@ -216,6 +229,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listUsersUsage = new ListGrid();
 		listUsersUsage.setSize("100%", "50%");
 		listUsersUsage.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersUsage.setCanPickFields(false);
+		listUsersUsage.setCanFreezeFields(false);
+		listUsersUsage.setAutoFitFieldWidths(true);
 		listUsersUsage.setFields(
 				new ListGridField("username", "Username"),
 				new ListGridField("workflowID", "Workflow ID"),
@@ -226,6 +242,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listUsersUsageCount = new ListGrid();
 		listUsersUsageCount.setSize("50%", "50%");
 		listUsersUsageCount.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersUsageCount.setCanPickFields(false);
+		listUsersUsageCount.setCanFreezeFields(false);
+		listUsersUsageCount.setAutoFitFieldWidths(true);
 		listUsersUsageCount.setFields(
 				new ListGridField("username", "Username"), new ListGridField(
 						"count", "Count"));
@@ -277,7 +296,11 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		Tab tabPreferences = new Tab("Preferences");
 		
 		TabSet tabSet = new TabSet();
+
 		tabSet.setSize("439px", "272px");
+
+		tabSet.setPaneMargin(20);
+
 		
 		Tab tabGeneral = new Tab("General");
 		
@@ -368,9 +391,22 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabSet.addTab(tabAccess);
 		
 		Tab tabPackages = new Tab("Packages");
+		
+		VLayout packageLayout = new VLayout();
+		packageLayout.setHeight("218px");
+		
+		Label packetLabel = new Label("Packages: Please use the Server Terminal tool to connect to server and edit.\r\nFor more information, click the help button on lower left corner.");
+		packageLayout.addMember(packetLabel);
+		tabPackages.setPane(packageLayout);
 		tabSet.addTab(tabPackages);
 		
 		Tab tabExecutables = new Tab("Executables");
+		
+		VLayout executeablesLayout = new VLayout();
+		
+		Label executablesLabel = new Label("Executables: Please use the Server Terminal tool to connect to server and edit.\r\nFor more information, click the help button on lower left corner.");
+		executeablesLayout.addMember(executablesLabel);
+		tabExecutables.setPane(executeablesLayout);
 		tabSet.addTab(tabExecutables);
 		
 		Tab tabAdvanced = new Tab("Advanced");
