@@ -38,6 +38,11 @@ import com.smartgwt.client.widgets.form.fields.SpinnerItem;
 import com.smartgwt.client.widgets.form.fields.CanvasItem;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.form.fields.StaticTextItem;
+import com.smartgwt.client.widgets.Label;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
+import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
+import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
+import com.smartgwt.client.widgets.form.fields.ButtonItem;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -272,6 +277,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		Tab tabPreferences = new Tab("Preferences");
 		
 		TabSet tabSet = new TabSet();
+		tabSet.setSize("439px", "272px");
 		
 		Tab tabGeneral = new Tab("General");
 		
@@ -314,6 +320,51 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabSet.addTab(tabGrid);
 		
 		Tab tabAccess = new Tab("Access");
+		
+		VLayout layout = new VLayout();
+		
+		DynamicForm dynamicForm = new DynamicForm();
+		dynamicForm.setHeight("191px");
+		
+		final SpinnerItem spinnerItem_1 = new SpinnerItem("spinnerItem_1", "One user cannot take more than");
+		spinnerItem_1.setValue(50);
+		spinnerItem_1.setHint("% of free slots at submission time");
+		spinnerItem_1.setShowHint(true);
+		spinnerItem_1.setMin(0);
+		spinnerItem_1.setMax(100);
+		spinnerItem_1.setDisabled(true);
+		final SpinnerItem spinnerItem_2 = new SpinnerItem("spinnerItem_2", "Maximum active (running & paused) workflows per user");
+		spinnerItem_2.setMin(0);
+		spinnerItem_2.setMax(9999);
+		spinnerItem_2.setValue(20);
+		spinnerItem_2.setDisabled(true);
+		CanvasItem canvasItem = new CanvasItem("newCanvasItem_8", "Workflow Management");
+		
+		DynamicForm dynamicForm_1 = new DynamicForm();
+		CheckboxItem checkboxItem_1 = new CheckboxItem("newCheckboxItem_1", "Enable                                                                                      ");
+		checkboxItem_1.setTextAlign(Alignment.LEFT);
+		checkboxItem_1.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+			  spinnerItem_2.setDisabled(!((Boolean) event.getValue()));
+			}
+		});
+		dynamicForm_1.setFields(new FormItem[] { checkboxItem_1});
+		canvasItem.setCanvas(dynamicForm_1);
+		CanvasItem canvasItem_1 = new CanvasItem("newCanvasItem_8", "User-Based Job Management");
+		
+		DynamicForm dynamicForm_2 = new DynamicForm();
+		CheckboxItem checkboxItem = new CheckboxItem("CheckboxItem1", "Enable (NOTE: Enabling user managemetn may require some time to adjust user usage accuracy)");
+		checkboxItem.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				spinnerItem_1.setDisabled(!((Boolean) event.getValue()));
+			}
+		});
+		checkboxItem.setValue(false);
+		dynamicForm_2.setFields(new FormItem[] { checkboxItem});
+		canvasItem_1.setCanvas(dynamicForm_2);
+		dynamicForm.setFields(new FormItem[] { new TextItem("newTextItem_1", "Server Admins"), new TextItem("newTextItem_2", "Controlled users"), new TextItem("newTextItem_3", "Controlled directories"), canvasItem_1, spinnerItem_1, canvasItem, spinnerItem_2});
+		layout.addMember(dynamicForm);
+		tabAccess.setPane(layout);
 		tabSet.addTab(tabAccess);
 		
 		Tab tabPackages = new Tab("Packages");
