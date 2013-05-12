@@ -16,7 +16,6 @@ import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
 import com.smartgwt.client.widgets.layout.Layout;
 
-import edu.ucla.loni.pipeline.client.MemoryStatistics;
 
 // TODO: add error messages to all 'fail' cases
 public class LineChartPanel extends Layout {
