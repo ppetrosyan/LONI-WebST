@@ -19,6 +19,7 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
+import com.smartgwt.client.widgets.form.fields.SelectItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.UploadItem;
@@ -341,6 +342,98 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabSet.addTab(tabGeneral);
 		
 		Tab tabGrid = new Tab("Grid");
+		DynamicForm gridForm = new DynamicForm();
+		NativeCheckboxItem enableGrid = new NativeCheckboxItem();
+		enableGrid.setTitle("Enable Grid");
+		final TextItem gridEngineNativeSpec = new TextItem("gridEngineNativeSpec", "Grid engine native specification");
+		gridEngineNativeSpec.setDisabled(true);
+		final TextItem jobNamePrefix = new TextItem("jobNamePrefix", "Job name prefix");
+		jobNamePrefix.setDisabled(true);
+		TextItem jobSubmissionQueue = new TextItem("jobSubmissionQueue", "Job submission queue");
+		final TextItem complexResourceAttributes = new TextItem("complexResourceAttributes", "Complex resource attributes");
+		complexResourceAttributes.setDisabled(true);
+		NativeCheckboxItem sgeMem = new NativeCheckboxItem();
+		sgeMem.setTitle("Report SGE memory usage");
+		final SelectItem gridVariablesPolicy = new SelectItem();
+		gridVariablesPolicy.setDisabled(true);
+		gridVariablesPolicy.setTitle("Grid Variables policy");
+		final TextItem gridVariablesPolicyText = new TextItem("gridVariablesPolicyText");
+		gridVariablesPolicyText.setDisabled(true);
+		final TextItem prefixBeforeVar = new TextItem("prefixBeforeVar", "Prefix before each variable");
+		prefixBeforeVar.setDisabled(true);
+		final SpinnerItem maxParallelThreads = new SpinnerItem("maxParallelThreads", "Max number of parallel submission threads");
+		maxParallelThreads.setValue(50);
+		maxParallelThreads.setDisabled(true);
+		final SpinnerItem maxNumResubmissions = new SpinnerItem("maxNumResubmissions", "Max number of resubmissions for \"error stated\" jobs");
+		maxNumResubmissions.setValue(3);
+		maxNumResubmissions.setDisabled(true);
+		final CanvasItem arrayJob = new CanvasItem();
+		arrayJob.setTitle("Array Job");
+		DynamicForm arrayJobForm = new DynamicForm();
+		final NativeCheckboxItem arrayJobEnable = new NativeCheckboxItem();
+		arrayJobEnable.setTitle("Enable");
+		arrayJobForm.setFields(new FormItem[] { arrayJobEnable });
+		arrayJob.setCanvas(arrayJobForm);
+		arrayJob.setDisabled(true);
+		final IntegerItem chunks = new IntegerItem("chunks", "Break into chunks when number of jobs exceeds");
+		chunks.setValue(200);
+		chunks.setHint("(default: 200)");
+		chunks.setDisabled(true);
+		final SpinnerItem fileStat = new SpinnerItem("fileStat", "Use File Stat with Timeout");
+		fileStat.setValue(0);
+		// TODO: implement total number of slots... thing
+		fileStat.setHint("0 - [insert total number of slots here]");
+		fileStat.setDisabled(true);
+		final IntegerItem chunkSize = new IntegerItem("chunkSize", "Chunk size");
+		chunkSize.setValue(50);
+		chunkSize.setHint("(default: 50)");
+		chunkSize.setDisabled(true);
+		final NativeCheckboxItem increaseChunkSize = new NativeCheckboxItem();
+		increaseChunkSize.setTitle("Gradually increase chunk size.");
+		increaseChunkSize.setDisabled(true);
+		final SelectItem gridPlugin = new SelectItem();
+		gridPlugin.setTitle("Grid Plugin");
+		gridPlugin.setDisabled(true);
+		final TextItem jarFiles = new TextItem("jarFiles", "Jar file(s)");
+		jarFiles.setDisabled(true);
+		final TextItem jarFilesClass = new TextItem("jarFilesClass", "Class");
+		jarFilesClass.setDisabled(true);
+		// TODO: add the rest of the fields
+				
+		enableGrid.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				gridEngineNativeSpec.setDisabled(!((Boolean) event.getValue()));
+				jobNamePrefix.setDisabled(!((Boolean) event.getValue()));
+				complexResourceAttributes.setDisabled(!((Boolean) event.getValue()));
+				gridVariablesPolicy.setDisabled(!((Boolean) event.getValue()));
+				gridVariablesPolicyText.setDisabled(!((Boolean) event.getValue()));
+				prefixBeforeVar.setDisabled(!((Boolean) event.getValue()));
+				maxParallelThreads.setDisabled(!((Boolean) event.getValue()));
+				maxNumResubmissions.setDisabled(!((Boolean) event.getValue()));
+				arrayJob.setDisabled(!((Boolean) event.getValue()));
+				gridPlugin.setDisabled(!((Boolean) event.getValue()));
+				jarFiles.setDisabled(!((Boolean) event.getValue()));
+				jarFilesClass.setDisabled(!((Boolean) event.getValue()));
+			}
+		});
+		
+		arrayJobEnable.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				chunks.setDisabled(!((Boolean) event.getValue()));
+				fileStat.setDisabled(!((Boolean) event.getValue()));
+				chunkSize.setDisabled(!((Boolean) event.getValue()));
+				increaseChunkSize.setDisabled(!((Boolean) event.getValue()));
+			}
+		});
+		
+		gridForm.setFields(new FormItem[] { enableGrid, gridEngineNativeSpec, jobNamePrefix, jobSubmissionQueue,
+											complexResourceAttributes, sgeMem, gridVariablesPolicy, gridVariablesPolicyText,
+											prefixBeforeVar, maxParallelThreads, maxNumResubmissions, arrayJob, 
+											chunks, fileStat, chunkSize, increaseChunkSize, gridPlugin, jarFiles, jarFilesClass });
+		formatForm(gridForm);
+		VLayout gridLayout = new VLayout();
+		gridLayout.addMember(gridForm);
+		tabGrid.setPane(gridLayout);
 		tabSet.addTab(tabGrid);
 		
 		Tab tabAccess = new Tab("Access");

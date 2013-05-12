@@ -17,7 +17,6 @@ import com.smartgwt.client.widgets.form.fields.events.ClickHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-import edu.ucla.loni.pipeline.client.MemoryStatistics;
 
 public class LONI_Chart extends VLayout {
 
