@@ -33,6 +33,7 @@ import com.smartgwt.client.types.Alignment;
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
+import edu.ucla.loni.pipeline.client.Uploaders.LONIFileUploader;
 import edu.ucla.loni.pipeline.client.Uploaders.SimulatedDataUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
@@ -425,9 +426,11 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	public void createUploadTab(Tab tabUpload) {
 		final VerticalPanel configurationPanel = new VerticalPanel();
 		final VerticalPanel simulatedDataPanel = new VerticalPanel();
+		final VerticalPanel fileuploadPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
 		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, configurationPanel);
 		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, simulatedDataPanel);
+		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, fileuploadPanel);
 		
 		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
@@ -442,10 +445,16 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		}
 		simulatedDataPanel.add(simulatedDataUploader);
 
-
+		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
+			final LONIDragandDropLabel fileuploadLabel = new LONIDragandDropLabel("Drop Files", LONIfileUploader, cancelButtons, configurationPanel);
+			fileuploadPanel.add(fileuploadLabel);
+		}
+		fileuploadPanel.add(LONIfileUploader);
+		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
 		horizontalPanel.add(configurationPanel);
 		horizontalPanel.add(simulatedDataPanel);
+		horizontalPanel.add(fileuploadPanel);
 
 		// horizontalPanel.setCellHorizontalAlignment(configurationPanel,
 		// 		HorizontalPanel.ALIGN_CENTER);

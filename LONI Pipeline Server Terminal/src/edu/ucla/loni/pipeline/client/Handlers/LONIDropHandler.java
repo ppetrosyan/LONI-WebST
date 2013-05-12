@@ -29,7 +29,7 @@ public class LONIDropHandler implements DropHandler {
 		dropFilesLabel.removeStyleName("dropFilesLabelHover");
 
 		if (uploader.getStats().getUploadsInProgress() <= 0) {
-			progressBarPanel.clear();
+			//progressBarPanel.clear();
 			cancelButtons.clear();
 		}
 
