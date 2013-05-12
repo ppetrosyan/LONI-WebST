@@ -357,7 +357,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		final SelectItem gridVariablesPolicy = new SelectItem();
 		gridVariablesPolicy.setDisabled(true);
 		gridVariablesPolicy.setTitle("Grid Variables policy");
-		final TextItem gridVariablesPolicyText = new TextItem("gridVariablesPolicyText");
+		final TextItem gridVariablesPolicyText = new TextItem("gridVariablesPolicyText", "");
 		gridVariablesPolicyText.setDisabled(true);
 		final TextItem prefixBeforeVar = new TextItem("prefixBeforeVar", "Prefix before each variable");
 		prefixBeforeVar.setDisabled(true);
@@ -398,6 +398,33 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		jarFiles.setDisabled(true);
 		final TextItem jarFilesClass = new TextItem("jarFilesClass", "Class");
 		jarFilesClass.setDisabled(true);
+		final NativeCheckboxItem restartService = new NativeCheckboxItem();
+		restartService.setTitle("Use Restartable Service");
+		restartService.setDisabled(true);
+		final IntegerItem gridPort = new IntegerItem("gridPort", "Port");
+		gridPort.setValue(8111);
+		gridPort.setHint("(default: 8111)");
+		gridPort.setDisabled(true);
+		final IntegerItem memItem = new IntegerItem("memItem", "Memory (MB)");
+		memItem.setDisabled(true);
+		final TextItem jarFile = new TextItem("jarFile", "JAR File");
+		jarFile.setHint("(default: <SERVER_PATH>/dist/gridplugins/PipelineGridService.jar)");
+		jarFile.setDisabled(true);
+		final NativeCheckboxItem retrieveList = new NativeCheckboxItem();
+		retrieveList.setTitle("Retrieve lists for finished job checkings");
+		retrieveList.setDisabled(true);
+		final NativeCheckboxItem gridEngineAdmin = new NativeCheckboxItem();
+		gridEngineAdmin.setTitle("Pipeline user is a grid engine admin");
+		gridEngineAdmin.setDisabled(true);
+		final StaticTextItem gridAcctLabel = new StaticTextItem("gridAcctLabel", "Grid Accounting");
+		gridAcctLabel.setDisabled(true);
+		final TextItem gridAcctURL = new TextItem("gridAcctURL", "URL");
+		gridAcctURL.setDisabled(true);
+		final TextItem gridUsername = new TextItem("gridUsername", "Username");
+		gridUsername.setDisabled(true);
+		final PasswordItem gridPassword = new PasswordItem("gridPassword", "Password");
+		gridPassword.setDisabled(true);
+		
 		// TODO: add the rest of the fields
 				
 		enableGrid.addChangeHandler(new ChangeHandler() {
@@ -414,6 +441,16 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 				gridPlugin.setDisabled(!((Boolean) event.getValue()));
 				jarFiles.setDisabled(!((Boolean) event.getValue()));
 				jarFilesClass.setDisabled(!((Boolean) event.getValue()));
+				restartService.setDisabled(!((Boolean) event.getValue()));
+				gridPort.setDisabled(!((Boolean) event.getValue()));
+				memItem.setDisabled(!((Boolean) event.getValue()));
+				jarFile.setDisabled(!((Boolean) event.getValue()));
+				retrieveList.setDisabled(!((Boolean) event.getValue()));
+				gridEngineAdmin.setDisabled(!((Boolean) event.getValue()));
+				gridAcctLabel.setDisabled(!((Boolean) event.getValue()));
+				gridAcctURL.setDisabled(!((Boolean) event.getValue()));
+				gridUsername.setDisabled(!((Boolean) event.getValue()));
+				gridPassword.setDisabled(!((Boolean) event.getValue()));
 			}
 		});
 		
@@ -429,7 +466,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		gridForm.setFields(new FormItem[] { enableGrid, gridEngineNativeSpec, jobNamePrefix, jobSubmissionQueue,
 											complexResourceAttributes, sgeMem, gridVariablesPolicy, gridVariablesPolicyText,
 											prefixBeforeVar, maxParallelThreads, maxNumResubmissions, arrayJob, 
-											chunks, fileStat, chunkSize, increaseChunkSize, gridPlugin, jarFiles, jarFilesClass });
+											chunks, fileStat, chunkSize, increaseChunkSize, gridPlugin, jarFiles, jarFilesClass,
+											restartService, gridPort, memItem, jarFile, retrieveList, gridEngineAdmin, gridAcctLabel,
+											gridAcctURL, gridUsername, gridPassword });
 		formatForm(gridForm);
 		VLayout gridLayout = new VLayout();
 		gridLayout.addMember(gridForm);
@@ -470,7 +509,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		CanvasItem canvasItem_1 = new CanvasItem("newCanvasItem_8", "User-Based Job Management");
 		
 		DynamicForm dynamicForm_2 = new DynamicForm();
-		CheckboxItem checkboxItem = new CheckboxItem("CheckboxItem1", "Enable (NOTE: Enabling user managemetn may require some time to adjust user usage accuracy)");
+		CheckboxItem checkboxItem = new CheckboxItem("CheckboxItem1", "Enable (NOTE: Enabling user management may require some time to adjust user usage accuracy)");
 		checkboxItem.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				spinnerItem_1.setDisabled(!((Boolean) event.getValue()));
