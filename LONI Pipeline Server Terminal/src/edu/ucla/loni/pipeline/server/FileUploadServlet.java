@@ -41,11 +41,11 @@ public class FileUploadServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5842494091385532249L;
 	private Hashtable<XMLType, String> xmlPathTable;
-	
+
 	private enum XMLType {
-	    CONFIGURATION, SIMULATEDDATA
+		CONFIGURATION, SIMULATEDDATA
 	}
-	
+
 	public FileUploadServlet() {
 		xmlPathTable = new Hashtable<XMLType, String>();
 	}
@@ -53,11 +53,84 @@ public class FileUploadServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		super.doGet(req, resp);
+		String xmlFile = req.getParameter("xmlfile");
+
+		if(xmlFile.equalsIgnoreCase("Configuration")) {
+
+			if(xmlPathTable.contains(XMLType.CONFIGURATION)) {
+				FileService fileService = FileServiceFactory.getFileService();
+
+				// Get File from Blobstore
+				AppEngineFile file = new AppEngineFile(xmlPathTable.get(XMLType.CONFIGURATION));
+
+				// Later, read from the file using the file API
+				boolean lock = false; // Let other people read at the same time
+				FileReadChannel readChannel = fileService.openReadChannel(file, lock);
+
+				// Again, different standard Java ways of reading from the channel.
+				BufferedReader reader =
+						new BufferedReader(Channels.newReader(readChannel, "UTF8"));
+
+				StringBuilder stringBuilder = new StringBuilder();
+
+				String line;
+				while((line = reader.readLine()) != null)
+					stringBuilder.append(line);
+
+				readChannel.close();
+
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.getWriter().print(stringBuilder.toString());
+				resp.flushBuffer();
+			}
+			else {
+				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
+						"XML File not found");
+			}
+
+		}
+		else if(xmlFile.equalsIgnoreCase("SimulatedData")) {
+
+			if(xmlPathTable.contains(XMLType.SIMULATEDDATA)) {
+				FileService fileService = FileServiceFactory.getFileService();
+
+				// Get File from Blobstore
+				AppEngineFile file = new AppEngineFile(xmlPathTable.get(XMLType.SIMULATEDDATA));
+
+				// Later, read from the file using the file API
+				boolean lock = false; // Let other people read at the same time
+				FileReadChannel readChannel = fileService.openReadChannel(file, false);
+
+				// Again, different standard Java ways of reading from the channel.
+				BufferedReader reader =
+						new BufferedReader(Channels.newReader(readChannel, "UTF8"));
+
+				StringBuilder stringBuilder = new StringBuilder();
+
+				String line;
+				while((line = reader.readLine()) != null)
+					stringBuilder.append(line);
+
+				readChannel.close();
+
+				resp.setStatus(HttpServletResponse.SC_OK);
+				resp.getWriter().print(stringBuilder.toString());
+				resp.flushBuffer();
+			}
+			else {
+				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
+						"XML File not found");
+			}
+
+		}
+		else {
+			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
+					"XML File Type not supported");
+		}
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, final HttpServletResponse resp)
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 
 		// process only multipart requests
@@ -96,16 +169,16 @@ public class FileUploadServlet extends HttpServlet {
 						// Open a channel to write to it
 						boolean lock = true;
 						FileWriteChannel writeChannel = fileService.openWriteChannel(file, lock);
-						
+
 						DOMSource domSource = new DOMSource(doc);
 
 						StringWriter writer = new StringWriter();
 						StreamResult streamResult = new StreamResult(writer);
-						
+
 						TransformerFactory transformerFactory = TransformerFactory.newInstance();
 						Transformer transformer = transformerFactory.newTransformer();
 						transformer.transform(domSource, streamResult);
-						
+
 						// Different standard Java ways of writing to the channel
 						// are possible. Here we use a PrintWriter:
 						PrintWriter out = new PrintWriter(Channels.newWriter(writeChannel, "UTF8"));
@@ -113,29 +186,15 @@ public class FileUploadServlet extends HttpServlet {
 
 						// Close without finalizing and save the file path for writing later
 						out.close();
-						
+
 						// Now finalize
 						writeChannel.closeFinally();
-						
+
 						// Add Path to Hashtable
 						xmlPathTable.put(XMLType.CONFIGURATION, file.getFullPath());
 
-						// Get File from Blobstore
-						file = new AppEngineFile(xmlPathTable.get(XMLType.CONFIGURATION));
-
-						// Later, read from the file using the file API
-						lock = false; // Let other people read at the same time
-						FileReadChannel readChannel = fileService.openReadChannel(file, false);
-
-						// Again, different standard Java ways of reading from the channel.
-						BufferedReader reader =
-								new BufferedReader(Channels.newReader(readChannel, "UTF8"));
-						String line = reader.readLine();
-
-						readChannel.close();
-
 						resp.setStatus(HttpServletResponse.SC_OK);
-						resp.getWriter().print("File Uploaded Successfully, detected Configuration Data." + line);
+						resp.getWriter().print("File Uploaded Successfully, detected Configuration Data.");
 						resp.flushBuffer();
 					}
 					else if(rootTag.equalsIgnoreCase("LONISimulatedData")){
@@ -148,16 +207,16 @@ public class FileUploadServlet extends HttpServlet {
 						// Open a channel to write to it
 						boolean lock = true;
 						FileWriteChannel writeChannel = fileService.openWriteChannel(file, lock);
-						
+
 						DOMSource domSource = new DOMSource(doc);
 
 						StringWriter writer = new StringWriter();
 						StreamResult streamResult = new StreamResult(writer);
-						
+
 						TransformerFactory transformerFactory = TransformerFactory.newInstance();
 						Transformer transformer = transformerFactory.newTransformer();
 						transformer.transform(domSource, streamResult);
-						
+
 						// Different standard Java ways of writing to the channel
 						// are possible. Here we use a PrintWriter:
 						PrintWriter out = new PrintWriter(Channels.newWriter(writeChannel, "UTF8"));
@@ -165,27 +224,13 @@ public class FileUploadServlet extends HttpServlet {
 
 						// Close without finalizing and save the file path for writing later
 						out.close();
-						
+
 						// Now finalize
 						writeChannel.closeFinally();
-						
+
 						// Add Path to Hashtable
 						xmlPathTable.put(XMLType.SIMULATEDDATA, file.getFullPath());
 
-						// Get File from Blobstore
-						file = new AppEngineFile(xmlPathTable.get(XMLType.SIMULATEDDATA));
-
-						// Later, read from the file using the file API
-						lock = false; // Let other people read at the same time
-						FileReadChannel readChannel = fileService.openReadChannel(file, false);
-
-						// Again, different standard Java ways of reading from the channel.
-						BufferedReader reader =
-								new BufferedReader(Channels.newReader(readChannel, "UTF8"));
-						String line = reader.readLine();
-
-						readChannel.close();
-						
 						resp.setStatus(HttpServletResponse.SC_OK);
 						resp.getWriter().print("File Uploaded Successfully, detected Simulated Data.");
 						resp.flushBuffer();
