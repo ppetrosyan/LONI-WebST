@@ -12,5 +12,4 @@ public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 		Window.alert(uploadSuccessEvent.getServerData());
 		return true;
 	}
-	
 }

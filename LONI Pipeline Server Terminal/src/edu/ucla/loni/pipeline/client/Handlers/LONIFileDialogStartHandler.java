@@ -27,7 +27,7 @@ public class LONIFileDialogStartHandler implements FileDialogStartHandler {
 		if (uploader.getStats().getUploadsInProgress() <= 0) {
 			// Clear the uploads that have completed, if none
 			// are in process
-			progressBarPanel.clear();
+			//progressBarPanel.clear();
 			cancelButtons.clear();
 		}
 		return true;
