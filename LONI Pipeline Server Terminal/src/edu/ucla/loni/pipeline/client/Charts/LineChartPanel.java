@@ -243,7 +243,7 @@ public class LineChartPanel extends Layout {
 		calculateStatistics();
 	}
 
-	private void initialize(String mt) {
+	private void initialize(String mt) {	
 		monitorType = mt;
 
 		if(monitorType == "Memory") {
