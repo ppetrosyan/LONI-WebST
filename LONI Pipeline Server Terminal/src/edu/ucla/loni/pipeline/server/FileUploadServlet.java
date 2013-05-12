@@ -55,13 +55,15 @@ public class FileUploadServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String xmlFile = req.getParameter("xmlfile");
 
-		if(xmlFile.equalsIgnoreCase("Configuration")) {
+		//if(xmlFile.equalsIgnoreCase("Configuration")) {
 
-			if(xmlPathTable.contains(XMLType.CONFIGURATION)) {
+			if(xmlPathTable.containsKey(XMLType.CONFIGURATION)) {
 				FileService fileService = FileServiceFactory.getFileService();
 
 				// Get File from Blobstore
-				AppEngineFile file = new AppEngineFile(xmlPathTable.get(XMLType.CONFIGURATION));
+				String conf = xmlPathTable.get(XMLType.CONFIGURATION);
+				
+				AppEngineFile file = new AppEngineFile(conf);
 
 				// Later, read from the file using the file API
 				boolean lock = false; // Let other people read at the same time
@@ -88,7 +90,7 @@ public class FileUploadServlet extends HttpServlet {
 						"XML File not found");
 			}
 
-		}
+		/*}
 		else if(xmlFile.equalsIgnoreCase("SimulatedData")) {
 
 			if(xmlPathTable.contains(XMLType.SIMULATEDDATA)) {
@@ -126,7 +128,7 @@ public class FileUploadServlet extends HttpServlet {
 		else {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
 					"XML File Type not supported");
-		}
+		}*/
 	}
 
 	@Override
