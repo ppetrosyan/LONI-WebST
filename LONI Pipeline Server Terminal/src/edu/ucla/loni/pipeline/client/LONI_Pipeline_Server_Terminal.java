@@ -282,8 +282,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//It needs to set to true in order to use invalidateCache()
 		usersOnlineSource.setClientOnly(true);
 				
-		listWorkflows.setDataSource(usersOnlineSource);
-		listWorkflows.setAutoFetchData(true);
+		listUsersOnline.setDataSource(usersOnlineSource);
+		listUsersOnline.setAutoFetchData(true);
 		
 		layoutUsersOnline.addMember(listUsersOnline);
 		
@@ -414,8 +414,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		Tab tabPreferences = new Tab("Preferences");
 		
 		TabSet tabSet = new TabSet();
-
-		tabSet.setSize("439px", "272px");
+		tabSet.setSize("100%", "100%");
 
 		tabSet.setPaneMargin(20);
 
@@ -424,7 +423,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		VLayout layoutGeneral = new VLayout();
 		
-		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label("Basic");
+		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label("<b>Basic</b>");
 		labelGeneralBasic.setSize("69px", "17px");
 		layoutGeneral.addMember(labelGeneralBasic);
 		
@@ -442,7 +441,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		layoutGeneral.addMember(formGeneralBasic);
 		formGeneralBasic.moveTo(100, 17);
 		
-		com.smartgwt.client.widgets.Label labelGeneralPersistence = new com.smartgwt.client.widgets.Label("Persistence");
+		com.smartgwt.client.widgets.Label labelGeneralPersistence = new com.smartgwt.client.widgets.Label("<b>Persistence</b>");
 		labelGeneralPersistence.setSize("69px", "17px");
 		layoutGeneral.addMember(labelGeneralPersistence);
 		
