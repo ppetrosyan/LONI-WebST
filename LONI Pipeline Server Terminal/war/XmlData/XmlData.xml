@@ -48,5 +48,28 @@
     <numCompleted>0</numCompleted>  
 </workflow>  
 
+<usersonline>  
+    <username>33214</username>  
+    <ipAddress>Jack</ipAddress>  
+    <pipelineInterface>Some Pipe interface</pipelineInterface>  
+    <pipelineVersion>Version1.0</pipelineVersion>  
+    <osVersion>Version 1.2</osVersion>  
+    <connectTime>00:30</connectTime>  
+	<lastActivity>13:11</lastActivity>
+    <disconnect>13:41</disconnect>  
+</usersonline> 
+
+<usersonline>  
+    <username>26453</username>  
+    <ipAddress>Peter</ipAddress>  
+    <pipelineInterface>Some Pipe interface2</pipelineInterface>  
+    <pipelineVersion>Version1.1</pipelineVersion>  
+    <osVersion>Version 1.3</osVersion>  
+    <connectTime>01:00</connectTime>  
+	<lastActivity>13:11</lastActivity>
+    <disconnect>14:11</disconnect>  
+</usersonline> 
+
+
 
 </List> 
