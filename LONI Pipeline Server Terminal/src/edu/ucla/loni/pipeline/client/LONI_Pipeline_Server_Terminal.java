@@ -25,9 +25,12 @@ import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.UploadItem;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
+import com.smartgwt.client.widgets.grid.ListGridRecord;
 import com.smartgwt.client.data.DataSource;
 import com.smartgwt.client.types.AutoFitWidthApproach;
 import com.smartgwt.client.widgets.Button;
+import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
@@ -46,6 +49,8 @@ import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
 import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
+import com.smartgwt.client.widgets.events.ClickEvent;
 
 
 
@@ -88,24 +93,24 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
   
                 if (fieldName.equals("stop")) {  
                     IButton button = new IButton();  
-                    button.setHeight(18);  
-                    button.setWidth(75);                        
-                    button.setTitle("Stop/Reset");  
+                    button.setHeight(16);  
+                    button.setWidth(60);                        
+                    button.setTitle("Stop");  
                     //insert a click handler here
                     //we are using gwt click handler here
                     return button;  
                 } else if(fieldName.equals("pause")){  
                 	IButton button = new IButton();  
-                    button.setHeight(18);  
-                    button.setWidth(65);                        
+                    button.setHeight(16);  
+                    button.setWidth(60);                        
                     button.setTitle("Pause");  
                     //insert a click handler here
                     //we are using gwt click handler here
                     return button; 
                 } else if(fieldName.equals("view")){  
                 	IButton button = new IButton();  
-                    button.setHeight(18);  
-                    button.setWidth(65);                        
+                    button.setHeight(16);  
+                    button.setWidth(35);                        
                     button.setTitle("View");  
                     //insert a click handler here
                     //we are using gwt click handler here
@@ -125,8 +130,8 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 		VLayout layoutWorkflows = new VLayout();
 		layoutWorkflows.setSize("100%", "100%");
-		layoutWorkflows.setDefaultLayoutAlign(Alignment.CENTER);
-		layoutWorkflows.setMembersMargin(20);
+		layoutWorkflows.setDefaultLayoutAlign(Alignment.LEFT);
+		layoutWorkflows.setMembersMargin(10);
 
 		
 		//work flows tab
@@ -135,20 +140,19 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		listWorkflows.setShowRecordComponentsByCell(true);
 		listWorkflows.setShowAllRecords(true); 
 		listWorkflows.setSize("100%", "100%");
-		listWorkflows.setCellPadding(2);
 		listWorkflows.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
 		listWorkflows.setCanPickFields(false);
 		listWorkflows.setCanFreezeFields(false);
 		listWorkflows.setAutoFitFieldWidths(true);
 		
 		//Need to declare these fields here so we can edit their behavior
-		ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
+		final ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
 		stopfield.setAlign(Alignment.CENTER); 
 		
-		ListGridField pausefield = new ListGridField("pause","Pause/Rsm");
+		final ListGridField pausefield = new ListGridField("pause","Pause/Rsm");
 		pausefield.setAlign(Alignment.CENTER); 
 		
-		ListGridField viewfield = new ListGridField("view", "View");
+		final ListGridField viewfield = new ListGridField("view", "View");
 		viewfield.setAlign(Alignment.CENTER); 
 		
 		listWorkflows.setFields(new ListGridField("workflowID", "Workflow ID"),
@@ -175,12 +179,73 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//listWorkflows.setData(WorkFlowsData.getRecords());
 		
 		//method 2 - reading directly from Xml file
-		DataSource workFlowsSource = WorkFlowsXmlDS.getInstance();
+		final DataSource workFlowsSource = WorkFlowsXmlDS.getInstance();
+		//It needs to set to true in order to use invalidateCache()
+		workFlowsSource.setClientOnly(true);
+		
 		listWorkflows.setDataSource(workFlowsSource);
 		listWorkflows.setAutoFetchData(true); 
 		
+		//add the list grid into layout
 		layoutWorkflows.addMember(listWorkflows);		
 		listWorkflows.moveTo(30, 0);
+		
+		tabWorkflows.addTabSelectedHandler(new TabSelectedHandler() {
+			public void onTabSelected(TabSelectedEvent event) {
+				//dump the cache data
+				workFlowsSource.invalidateCache();
+				//read in the new data
+				DataSource workFlowsSource = WorkFlowsXmlDS.getInstance();
+				listWorkflows.setDataSource(workFlowsSource);
+				listWorkflows.fetchData();
+				listWorkflows.setFields(new ListGridField("workflowID", "Workflow ID"),
+						new ListGridField("username", "Username"), 
+						new ListGridField("state", "State"), 
+						new ListGridField("startTime", "Start Time"),
+						new ListGridField("endTime", "End Time"),
+						new ListGridField("duration", "Duration"),
+						new ListGridField("numofnode","N"), 
+						new ListGridField("numofinstances", "I"),
+						new ListGridField("numBacklab", "B"),
+						new ListGridField("numSubmitting", "S"), 
+						new ListGridField("numQueued",	"Q"), 
+						new ListGridField("numRunning", "R"),
+						new ListGridField("numCompleted", "C"), 
+						stopfield,
+						pausefield, 
+						viewfield);
+			}
+		});
+		
+		Button btnRefresh = new Button("Refresh");
+		btnRefresh.setAlign(Alignment.CENTER);
+		btnRefresh.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				//dump the cache data
+				workFlowsSource.invalidateCache();
+				//read in the new data
+				DataSource workFlowsSource = WorkFlowsXmlDS.getInstance();
+				listWorkflows.setDataSource(workFlowsSource);
+				listWorkflows.fetchData();
+				listWorkflows.setFields(new ListGridField("workflowID", "Workflow ID"),
+						new ListGridField("username", "Username"), 
+						new ListGridField("state", "State"), 
+						new ListGridField("startTime", "Start Time"),
+						new ListGridField("endTime", "End Time"),
+						new ListGridField("duration", "Duration"),
+						new ListGridField("numofnode","N"), 
+						new ListGridField("numofinstances", "I"),
+						new ListGridField("numBacklab", "B"),
+						new ListGridField("numSubmitting", "S"), 
+						new ListGridField("numQueued",	"Q"), 
+						new ListGridField("numRunning", "R"),
+						new ListGridField("numCompleted", "C"), 
+						stopfield,
+						pausefield, 
+						viewfield);
+			}
+		});
+		layoutWorkflows.addMember(btnRefresh);
 
 		tabWorkflows.setPane(layoutWorkflows);
 		tabset.addTab(tabWorkflows);
@@ -191,7 +256,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 		VLayout layoutUsersOnline = new VLayout();
 		layoutUsersOnline.setSize("100%", "100%");
-		layoutUsersOnline.setMembersMargin(5);
+		layoutUsersOnline.setMembersMargin(10);
 
 		listUsersOnline = new ListGrid();
 		listUsersOnline.setSize("100%", "100%");
@@ -210,9 +275,60 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 				new ListGridField("disconnect", "Disconnect"));
 		
 		//get data from OnlineData.java
-		listUsersOnline.setData(OnlineData.getRecords());  
+		//listUsersOnline.setData(OnlineData.getRecords()); 
+		
+		//method 2 - reading directly from Xml file
+		final DataSource usersOnlineSource = UsersOnlineXmlDS.getInstance();
+		//It needs to set to true in order to use invalidateCache()
+		usersOnlineSource.setClientOnly(true);
+				
+		listWorkflows.setDataSource(usersOnlineSource);
+		listWorkflows.setAutoFetchData(true);
 		
 		layoutUsersOnline.addMember(listUsersOnline);
+		
+		tabUsersOnline.addTabSelectedHandler(new TabSelectedHandler() {
+			public void onTabSelected(TabSelectedEvent event) {
+				//dump the cache data
+				usersOnlineSource.invalidateCache();
+				//read in the new data
+				DataSource usersOnlineSource = UsersOnlineXmlDS.getInstance();
+				listUsersOnline.setDataSource(usersOnlineSource);
+				listUsersOnline.fetchData();
+				listUsersOnline.setFields(
+						new ListGridField("username", "Username"),
+						new ListGridField("ipAddress", "IP Address"),
+						new ListGridField("pipelineInterface", "Pipeline Interface"),
+						new ListGridField("pipelineVersion", "Pipeline Version"),
+						new ListGridField("osVersion", "OS Version"),
+						new ListGridField("connectTime", "Connect Time"),
+						new ListGridField("lastActivity", "Last Activity"),
+						new ListGridField("disconnect", "Disconnect"));
+				
+			}
+		});
+		
+		Button refreshbutton = new Button("Refresh");
+		layoutUsersOnline.addMember(refreshbutton);
+		refreshbutton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				//dump the cache data
+				usersOnlineSource.invalidateCache();
+				//read in the new data
+				DataSource usersOnlineSource = UsersOnlineXmlDS.getInstance();
+				listUsersOnline.setDataSource(usersOnlineSource);
+				listUsersOnline.fetchData();
+				listUsersOnline.setFields(
+						new ListGridField("username", "Username"),
+						new ListGridField("ipAddress", "IP Address"),
+						new ListGridField("pipelineInterface", "Pipeline Interface"),
+						new ListGridField("pipelineVersion", "Pipeline Version"),
+						new ListGridField("osVersion", "OS Version"),
+						new ListGridField("connectTime", "Connect Time"),
+						new ListGridField("lastActivity", "Last Activity"),
+						new ListGridField("disconnect", "Disconnect"));
+			}
+		});
 
 		Button exportUsersOnline = new Button("Export to CSV...");
 		layoutUsersOnline.addMember(exportUsersOnline);
