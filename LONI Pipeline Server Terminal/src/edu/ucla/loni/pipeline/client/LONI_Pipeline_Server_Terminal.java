@@ -51,6 +51,7 @@ import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
 import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.layout.HLayout;
 
 
 
@@ -59,8 +60,8 @@ import com.smartgwt.client.widgets.events.ClickEvent;
  * Entry point classes define <code>onModuleLoad()</code>.
  */
 public class LONI_Pipeline_Server_Terminal implements EntryPoint {
-	private ListGrid listWorkflows, listUsersOnline, listUsersUsage,
-			listUsersUsageCount;
+	private ListGrid listUsersOnline, listUserUsage,
+			listUserUsageCount;
 	
 	private void formatForm(DynamicForm form)
 	{
@@ -78,11 +79,11 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	public void onModuleLoad() {
 		
 		//The following function causes an error on gwt designer.
-		//Please uncomment it when not using gwt designer.
-		//And also comment out the following line(around line 125):
+		//Please comment it out when using gwt designer.
+		//And also uncomment the following line(around line 140):
 		//        listWorkflows = new ListGrid();
 		
-		/*
+		
 		//Start of function
 		//this function displays the buttons in the ListGrids
 		final ListGrid listWorkflows = new ListGrid() {  
@@ -120,7 +121,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
                 }  
             }  
         };  //end of function
-		*/
+		
 		
 		TabSet tabset = new TabSet();
 		tabset.setSize("100%", "100%");
@@ -135,7 +136,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 		
 		//work flows tab
-		listWorkflows = new ListGrid();
+		//ListGrid listWorkflows = new ListGrid();
 		listWorkflows.setShowRecordComponents(true); 
 		listWorkflows.setShowRecordComponentsByCell(true);
 		listWorkflows.setShowAllRecords(true); 
@@ -217,9 +218,9 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 			}
 		});
 		
-		Button btnRefresh = new Button("Refresh");
-		btnRefresh.setAlign(Alignment.CENTER);
-		btnRefresh.addClickHandler(new ClickHandler() {
+		Button workflowsrefreshbutton = new Button("Refresh");
+		workflowsrefreshbutton.setAlign(Alignment.CENTER);
+		workflowsrefreshbutton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				//dump the cache data
 				workFlowsSource.invalidateCache();
@@ -245,7 +246,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 						viewfield);
 			}
 		});
-		layoutWorkflows.addMember(btnRefresh);
+		layoutWorkflows.addMember(workflowsrefreshbutton);
 
 		tabWorkflows.setPane(layoutWorkflows);
 		tabset.addTab(tabWorkflows);
@@ -277,7 +278,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//get data from OnlineData.java
 		//listUsersOnline.setData(OnlineData.getRecords()); 
 		
-		//method 2 - reading directly from Xml file
+		//reading directly from Xml file
 		final DataSource usersOnlineSource = UsersOnlineXmlDS.getInstance();
 		//It needs to set to true in order to use invalidateCache()
 		usersOnlineSource.setClientOnly(true);
@@ -308,9 +309,13 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 			}
 		});
 		
-		Button refreshbutton = new Button("Refresh");
-		layoutUsersOnline.addMember(refreshbutton);
-		refreshbutton.addClickHandler(new ClickHandler() {
+		//horizontal layout
+		HLayout useronlinehLayout = new HLayout();
+		useronlinehLayout.setMembersMargin(10);
+
+		Button usersonlinerefreshbutton = new Button("Refresh");
+		useronlinehLayout.addMember(usersonlinerefreshbutton);
+		usersonlinerefreshbutton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				//dump the cache data
 				usersOnlineSource.invalidateCache();
@@ -331,46 +336,125 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		});
 
 		Button exportUsersOnline = new Button("Export to CSV...");
-		layoutUsersOnline.addMember(exportUsersOnline);
+		useronlinehLayout.addMember(exportUsersOnline);
+		layoutUsersOnline.addMember(useronlinehLayout);
 		tabUsersOnline.setPane(layoutUsersOnline);
 		tabset.addTab(tabUsersOnline);
 		//end Users online tab
 		
-		Tab tabUsersUsage = new Tab("User Usage");
+		//user usage tab
+		Tab tabUserUsage = new Tab("User Usage");
 
-		VLayout layoutUsersUsage = new VLayout();
-		layoutUsersUsage.setSize("100%", "100%");
-		layoutUsersUsage.setDefaultLayoutAlign(Alignment.CENTER); // Horizontal
+		VLayout layoutUserUsage = new VLayout();
+		layoutUserUsage.setSize("100%", "100%");
+		layoutUserUsage.setDefaultLayoutAlign(Alignment.CENTER); // Horizontal
 																	// centering
-		layoutUsersUsage.setMembersMargin(5);
+		layoutUserUsage.setMembersMargin(10);
 
-		listUsersUsage = new ListGrid();
-		listUsersUsage.setSize("100%", "50%");
-		listUsersUsage.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
-		listUsersUsage.setCanPickFields(false);
-		listUsersUsage.setCanFreezeFields(false);
-		listUsersUsage.setAutoFitFieldWidths(true);
-		listUsersUsage.setFields(
+		listUserUsage = new ListGrid();
+		listUserUsage.setSize("100%", "50%");
+		listUserUsage.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUserUsage.setCanPickFields(false);
+		listUserUsage.setCanFreezeFields(false);
+		listUserUsage.setAutoFitFieldWidths(true);
+		listUserUsage.setFields(
 				new ListGridField("username", "Username"),
 				new ListGridField("workflowID", "Workflow ID"),
 				new ListGridField("nodeName", "NodeName"), 
 				new ListGridField("instance", "Instance"));
-		layoutUsersUsage.addMember(listUsersUsage);
+		
+		//reading directly from Xml file
+		final DataSource userUsageSource = UserUsageXmlDS.getInstance();
+		//It needs to set to true in order to use invalidateCache()
+		userUsageSource.setClientOnly(true);
+						
+		listUserUsage.setDataSource(userUsageSource);
+		listUserUsage.setAutoFetchData(true);
+				
+		layoutUserUsage.addMember(listUserUsage);
 
-		listUsersUsageCount = new ListGrid();
-		listUsersUsageCount.setSize("50%", "50%");
-		listUsersUsageCount.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
-		listUsersUsageCount.setCanPickFields(false);
-		listUsersUsageCount.setCanFreezeFields(false);
-		listUsersUsageCount.setAutoFitFieldWidths(true);
-		listUsersUsageCount.setFields(
+		listUserUsageCount = new ListGrid();
+		listUserUsageCount.setSize("50%", "50%");
+		listUserUsageCount.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUserUsageCount.setCanPickFields(false);
+		listUserUsageCount.setCanFreezeFields(false);
+		listUserUsageCount.setAutoFitFieldWidths(true);
+		listUserUsageCount.setFields(
 				new ListGridField("username", "Username"), new ListGridField(
 						"count", "Count"));
-		layoutUsersUsage.addMember(listUsersUsageCount);
+		
+		//reading directly from Xml file
+		final DataSource userUsageCountSource = UserUsageCountXmlDS.getInstance();
+		//It needs to set to true in order to use invalidateCache()
+		userUsageCountSource.setClientOnly(true);
+								
+		listUserUsageCount.setDataSource(userUsageCountSource);
+		listUserUsageCount.setAutoFetchData(true);
+				
+		layoutUserUsage.addMember(listUserUsageCount);
+		
+		HLayout userusagehLayout = new HLayout();
+		
+		Button userusagerefreshbutton = new Button("Refresh");
+		userusagerefreshbutton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				//dump the cache data
+				userUsageSource.invalidateCache();
+				//read in the new data
+				DataSource userUsageSource = UserUsageXmlDS.getInstance();
+				listUserUsage.setDataSource(userUsageSource);
+				listUserUsage.fetchData();
+				listUserUsage.setFields(
+						new ListGridField("username", "Username"),
+						new ListGridField("workflowID", "Workflow ID"),
+						new ListGridField("nodeName", "NodeName"), 
+						new ListGridField("instance", "Instance"));
+				
+				//dump the cache data
+				userUsageCountSource.invalidateCache();
+				//read in the new data
+				DataSource userUsageCountSource = UserUsageCountXmlDS.getInstance();
+				listUserUsageCount.setDataSource(userUsageCountSource);
+				listUserUsageCount.fetchData();
+				listUserUsageCount.setFields(
+						new ListGridField("username", "Username"), new ListGridField(
+								"count", "Count"));	
+			}
+		});
+		userusagehLayout.addMember(userusagerefreshbutton);
+		layoutUserUsage.addMember(userusagehLayout);
+		
+		tabUserUsage.addTabSelectedHandler(new TabSelectedHandler() {
+			public void onTabSelected(TabSelectedEvent event) {
+				//dump the cache data
+				userUsageSource.invalidateCache();
+				//read in the new data
+				DataSource userUsageSource = UserUsageXmlDS.getInstance();
+				listUserUsage.setDataSource(userUsageSource);
+				listUserUsage.fetchData();
+				listUserUsage.setFields(
+						new ListGridField("username", "Username"),
+						new ListGridField("workflowID", "Workflow ID"),
+						new ListGridField("nodeName", "NodeName"), 
+						new ListGridField("instance", "Instance"));
+				
+				//dump the cache data
+				userUsageCountSource.invalidateCache();
+				//read in the new data
+				DataSource userUsageCountSource = UserUsageCountXmlDS.getInstance();
+				listUserUsageCount.setDataSource(userUsageCountSource);
+				listUserUsageCount.fetchData();
+				listUserUsageCount.setFields(
+						new ListGridField("username", "Username"), new ListGridField(
+								"count", "Count"));			
+			}
+		});
 
-		tabUsersUsage.setPane(layoutUsersUsage);
-		tabset.addTab(tabUsersUsage);
-
+		tabUserUsage.setPane(layoutUserUsage);
+		tabset.addTab(tabUserUsage);
+		//end user usage tab
+		
+		
 	    GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
 			@Override
@@ -423,7 +507,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		
 		VLayout layoutGeneral = new VLayout();
 		
-		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label("<b>Basic</b>");
+		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label("<b><font size='3'>Basic</font></b>");
 		labelGeneralBasic.setSize("69px", "17px");
 		layoutGeneral.addMember(labelGeneralBasic);
 		
@@ -441,7 +525,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		layoutGeneral.addMember(formGeneralBasic);
 		formGeneralBasic.moveTo(100, 17);
 		
-		com.smartgwt.client.widgets.Label labelGeneralPersistence = new com.smartgwt.client.widgets.Label("<b>Persistence</b>");
+		com.smartgwt.client.widgets.Label labelGeneralPersistence = new com.smartgwt.client.widgets.Label("<b><font size='3'>Persistence</font></b>");
 		labelGeneralPersistence.setSize("69px", "17px");
 		layoutGeneral.addMember(labelGeneralPersistence);
 		

@@ -70,6 +70,26 @@
     <disconnect>14:11</disconnect>  
 </usersonline> 
 
+<userusage>  
+    <username>Peter</username>  
+    <workflowID>23451</workflowID>  
+    <nodeName>Some Node Name</nodeName>  
+    <instance>Instance1</instance>  
+</userusage> 
+
+<userusage>  
+    <username>Peter</username>  
+    <workflowID>23451</workflowID>  
+    <nodeName>Some Node Name2</nodeName>  
+    <instance>Instance2</instance>  
+</userusage> 
+
+<userusagecount>  
+    <username>Peter</username>  
+    <count>2</count>  
+</userusagecount> 
+
+
 
 
 </List> 
