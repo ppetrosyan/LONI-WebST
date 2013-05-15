@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client.Handlers;
+package edu.ucla.loni.pipeline.client.Upload.Handlers;
 
 import org.moxieapps.gwt.uploader.client.events.UploadSuccessEvent;
 import org.moxieapps.gwt.uploader.client.events.UploadSuccessHandler;
@@ -20,22 +20,6 @@ public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 	@Override
 	public boolean onUploadSuccess(UploadSuccessEvent uploadSuccessEvent) {
 		Window.alert(uploadSuccessEvent.getServerData());
-		
-		Window.alert(GWT.getModuleBaseURL() + "XMLDataServlet");
-		
-		xmlDataService.getXMLData("ConfigurationData", new AsyncCallback<String>() {
-            @Override
-            public void onSuccess(String result) {
-                Window.alert(result);
-            }
-
-            @Override
-            public void onFailure(Throwable caught) {
-                Window.alert("Technical failure: "
-                        + caught.getMessage() + " ["
-                        + caught.getClass().getName() + "]");
-            }
-        });
 		
 		return true;
 	}

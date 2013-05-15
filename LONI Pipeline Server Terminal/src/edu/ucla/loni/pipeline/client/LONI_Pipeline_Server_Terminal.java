@@ -12,6 +12,7 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
+import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.smartgwt.client.widgets.tab.TabSet;
 import com.smartgwt.client.widgets.tab.Tab;
@@ -36,12 +37,11 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
+import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
 import edu.ucla.loni.pipeline.client.Requesters.XMLDataService;
 import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
-import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
-import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
-import edu.ucla.loni.pipeline.client.Uploaders.LONIFileUploader;
-import edu.ucla.loni.pipeline.client.Uploaders.SimulatedDataUploader;
+import edu.ucla.loni.pipeline.client.Upload.Features.LONIDragandDropLabel;
+import edu.ucla.loni.pipeline.client.Upload.Uploaders.LONIFileUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
 import com.smartgwt.client.widgets.form.fields.CanvasItem;
@@ -55,9 +55,6 @@ import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
-
-
-
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
@@ -80,6 +77,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
+		// XML Data Servlet Service
 		String xmlDataServiceString = "XMLDataServlet";
 		final XMLDataServiceAsync xmlDataService = GWT.create(XMLDataService.class);
 		((ServiceDefTarget) xmlDataService).setServiceEntryPoint(xmlDataServiceString);
@@ -752,45 +750,26 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabPreferences.setPane(tabSet);
 		tabset.addTab(tabPreferences);
 		//end preferences tab
-
+		
 		Tab tabUpload = new Tab("Upload");
 		createUploadTab(tabUpload, xmlDataService);
 		tabset.addTab(tabUpload);
 
-		tabset.draw();
+		tabset.draw();		
 	}
 
 	public void createUploadTab(Tab tabUpload, XMLDataServiceAsync xmlDataService) {
-		final VerticalPanel configurationPanel = new VerticalPanel();
-		final VerticalPanel simulatedDataPanel = new VerticalPanel();
 		final VerticalPanel fileuploadPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
-		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, configurationPanel, xmlDataService);
-		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, simulatedDataPanel, xmlDataService);
 		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, fileuploadPanel, xmlDataService);
 		
-		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel configurationLabel = new LONIDragandDropLabel("Drop Configuration File", configurationUploader, cancelButtons, configurationPanel);
-			configurationPanel.add(configurationLabel);
-		}
-		configurationPanel.add(configurationUploader);
-
-		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel simulatedDataLabel = new LONIDragandDropLabel("Drop Simulated Data", simulatedDataUploader, cancelButtons, simulatedDataPanel);
-			simulatedDataPanel.add(simulatedDataLabel);
-		}
-		simulatedDataPanel.add(simulatedDataUploader);
-
-		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel fileuploadLabel = new LONIDragandDropLabel("Drop Files", LONIfileUploader, cancelButtons, configurationPanel);
+			final LONIDragandDropLabel fileuploadLabel = new LONIDragandDropLabel("Drop Files", LONIfileUploader, cancelButtons, fileuploadPanel);
 			fileuploadPanel.add(fileuploadLabel);
 		}
 		fileuploadPanel.add(LONIfileUploader);
 		
 		HorizontalPanel horizontalPanel = new HorizontalPanel();
-		horizontalPanel.add(configurationPanel);
-		horizontalPanel.add(simulatedDataPanel);
 		horizontalPanel.add(fileuploadPanel);
 
 		// horizontalPanel.setCellHorizontalAlignment(configurationPanel,
@@ -806,6 +785,18 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 		VLayout uploadLayout = new VLayout();
 		uploadLayout.addMember(horizontalPanel);
+		
+		final LONIDataRequester dataRequester = new LONIDataRequester(xmlDataService);
+		
+		Button appRefreshButton = new Button("Refresh");
+		appRefreshButton.setAlign(Alignment.CENTER);
+		appRefreshButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dataRequester.refreshTabs();
+			}
+		});
+		
+		uploadLayout.addMember(appRefreshButton);
 		
 		tabUpload.setPane(uploadLayout);
 	}

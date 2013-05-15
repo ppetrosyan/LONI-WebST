@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client.Uploaders;
+package edu.ucla.loni.pipeline.client.Upload.Uploaders;
 
 import java.util.Map;
 
@@ -8,14 +8,14 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.ucla.loni.pipeline.client.Handlers.LONIFileDialogCompleteHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIFileDialogStartHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIFileQueueErrorHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIFileQueuedHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIUploadCompleteHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIUploadErrorHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIUploadSuccessHandler;
 import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogCompleteHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogStartHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileQueueErrorHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileQueuedHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadCompleteHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadErrorHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadSuccessHandler;
 
 public class LONIUploader extends Uploader {
 

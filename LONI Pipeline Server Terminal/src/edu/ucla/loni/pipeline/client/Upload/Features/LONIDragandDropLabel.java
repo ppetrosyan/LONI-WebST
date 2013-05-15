@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client.UploadFeatures;
+package edu.ucla.loni.pipeline.client.Upload.Features;
 
 import java.util.Map;
 
@@ -8,9 +8,9 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.ucla.loni.pipeline.client.Handlers.LONIDragLeaveHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIDragOverHandler;
-import edu.ucla.loni.pipeline.client.Handlers.LONIDropHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDragLeaveHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDragOverHandler;
+import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDropHandler;
 
 public class LONIDragandDropLabel extends Label {
 

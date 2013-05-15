@@ -21,11 +21,11 @@ import edu.ucla.loni.pipeline.client.Requesters.XMLDataService;
 public class XMLDataServlet extends RemoteServiceServlet implements XMLDataService {
 
 	private static final long serialVersionUID = 5448261063802349760L;
-	private Key xmlSimulatedKey, xmlConfigurationKey;
+	private Key xmlResourceKey, xmlConfigurationKey;
 
 	public XMLDataServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
-		xmlSimulatedKey = KeyFactory.createKey("XMLType", "SimulatedData");
+		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
 	}
 
 	public String getXMLData(String xmlDataType) {
@@ -62,8 +62,8 @@ public class XMLDataServlet extends RemoteServiceServlet implements XMLDataServi
 
 				xmlData = stringBuilder.toString();
 			}
-			else if(xmlDataType.equalsIgnoreCase("SimulatedData")) {
-				Entity simulatedData = dataStore.get(xmlSimulatedKey);
+			else if(xmlDataType.equalsIgnoreCase("ResourceData")) {
+				Entity simulatedData = dataStore.get(xmlResourceKey);
 				String simulatedTag = (String) simulatedData.getProperty("tag");
 
 				AppEngineFile file = new AppEngineFile(simulatedTag);
@@ -91,7 +91,7 @@ public class XMLDataServlet extends RemoteServiceServlet implements XMLDataServi
 			}
 		}
 		catch (EntityNotFoundException | IOException e) {
-			e.printStackTrace();
+			System.out.println("Entity Not Found.");
 		}
 		
 		return xmlData;
