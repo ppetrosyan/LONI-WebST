@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client.Handlers;
+package edu.ucla.loni.pipeline.client.Upload.Handlers;
 
 import org.moxieapps.gwt.uploader.client.Uploader;
 import org.moxieapps.gwt.uploader.client.events.FileDialogCompleteEvent;

@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client.Uploaders;
+package edu.ucla.loni.pipeline.client.Upload.Uploaders;
 
 import java.util.Map;
 

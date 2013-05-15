@@ -42,11 +42,11 @@ import com.google.appengine.api.files.FileWriteChannel;
 public class FileUploadServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5842494091385532249L;
-	private Key xmlSimulatedKey, xmlConfigurationKey;
+	private Key xmlResourceKey, xmlConfigurationKey;
 	
 	public FileUploadServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
-		xmlSimulatedKey = KeyFactory.createKey("XMLType", "SimulatedData");
+		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
 	}
 
 	@Override
@@ -127,7 +127,7 @@ public class FileUploadServlet extends HttpServlet {
 						resp.getWriter().print("File Uploaded Successfully, detected Configuration Data.");
 						resp.flushBuffer();
 					}
-					else if(rootTag.equalsIgnoreCase("LONISimulatedData")){
+					else if(rootTag.equalsIgnoreCase("LONIResourceData")){
 						// Get a file service
 						FileService fileService = FileServiceFactory.getFileService();
 
@@ -159,12 +159,12 @@ public class FileUploadServlet extends HttpServlet {
 						writeChannel.closeFinally();
 
 						// Add Path to Hashtable
-						Entity simulatedData = new Entity(xmlSimulatedKey);
-						simulatedData.setProperty("tag", file.getFullPath());
-						dataStore.put(simulatedData);
+						Entity resourceData = new Entity(xmlResourceKey);
+						resourceData.setProperty("tag", file.getFullPath());
+						dataStore.put(resourceData);
 
 						resp.setStatus(HttpServletResponse.SC_OK);
-						resp.getWriter().print("File Uploaded Successfully, detected Simulated Data.");
+						resp.getWriter().print("File Uploaded Successfully, detected Resource Data.");
 						resp.flushBuffer();
 					}
 					else {
