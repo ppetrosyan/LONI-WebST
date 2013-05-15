@@ -1,12 +1,9 @@
 package edu.ucla.loni.pipeline.server;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.nio.ByteBuffer;
 import java.nio.channels.Channels;
-import java.util.Hashtable;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -16,23 +13,28 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemFactory;
+import org.apache.commons.fileupload.FileUploadException;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
-import com.google.appengine.api.blobstore.BlobKey;
-import com.google.appengine.api.blobstore.BlobstoreService;
-import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.files.AppEngineFile;
-import com.google.appengine.api.files.FileReadChannel;
 import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
@@ -40,95 +42,17 @@ import com.google.appengine.api.files.FileWriteChannel;
 public class FileUploadServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5842494091385532249L;
-	private Hashtable<XMLType, String> xmlPathTable;
-
-	private enum XMLType {
-		CONFIGURATION, SIMULATEDDATA
-	}
-
+	private Key xmlSimulatedKey, xmlConfigurationKey;
+	
 	public FileUploadServlet() {
-		xmlPathTable = new Hashtable<XMLType, String>();
+		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
+		xmlSimulatedKey = KeyFactory.createKey("XMLType", "SimulatedData");
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
-		String xmlFile = req.getParameter("xmlfile");
-
-		//if(xmlFile.equalsIgnoreCase("Configuration")) {
-
-			if(xmlPathTable.containsKey(XMLType.CONFIGURATION)) {
-				FileService fileService = FileServiceFactory.getFileService();
-
-				// Get File from Blobstore
-				String conf = xmlPathTable.get(XMLType.CONFIGURATION);
-				
-				AppEngineFile file = new AppEngineFile(conf);
-
-				// Later, read from the file using the file API
-				boolean lock = false; // Let other people read at the same time
-				FileReadChannel readChannel = fileService.openReadChannel(file, lock);
-
-				// Again, different standard Java ways of reading from the channel.
-				BufferedReader reader =
-						new BufferedReader(Channels.newReader(readChannel, "UTF8"));
-
-				StringBuilder stringBuilder = new StringBuilder();
-
-				String line;
-				while((line = reader.readLine()) != null)
-					stringBuilder.append(line);
-
-				readChannel.close();
-
-				resp.setStatus(HttpServletResponse.SC_OK);
-				resp.getWriter().print(stringBuilder.toString());
-				resp.flushBuffer();
-			}
-			else {
-				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
-						"XML File not found");
-			}
-
-		/*}
-		else if(xmlFile.equalsIgnoreCase("SimulatedData")) {
-
-			if(xmlPathTable.contains(XMLType.SIMULATEDDATA)) {
-				FileService fileService = FileServiceFactory.getFileService();
-
-				// Get File from Blobstore
-				AppEngineFile file = new AppEngineFile(xmlPathTable.get(XMLType.SIMULATEDDATA));
-
-				// Later, read from the file using the file API
-				boolean lock = false; // Let other people read at the same time
-				FileReadChannel readChannel = fileService.openReadChannel(file, false);
-
-				// Again, different standard Java ways of reading from the channel.
-				BufferedReader reader =
-						new BufferedReader(Channels.newReader(readChannel, "UTF8"));
-
-				StringBuilder stringBuilder = new StringBuilder();
-
-				String line;
-				while((line = reader.readLine()) != null)
-					stringBuilder.append(line);
-
-				readChannel.close();
-
-				resp.setStatus(HttpServletResponse.SC_OK);
-				resp.getWriter().print(stringBuilder.toString());
-				resp.flushBuffer();
-			}
-			else {
-				resp.sendError(HttpServletResponse.SC_NOT_FOUND,
-						"XML File not found");
-			}
-
-		}
-		else {
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"XML File Type not supported");
-		}*/
+		super.doGet(req, resp);
 	}
 
 	@Override
@@ -138,14 +62,16 @@ public class FileUploadServlet extends HttpServlet {
 		// process only multipart requests
 		if (ServletFileUpload.isMultipartContent(req)) {
 
-			// Create a factory for disk-based file items
-			FileItemFactory factory = new DiskFileItemFactory();
+			DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();
 
-			// Create a new file upload handler
-			ServletFileUpload upload = new ServletFileUpload(factory);
+			try {				
+				// Create a factory for disk-based file items
+				FileItemFactory factory = new DiskFileItemFactory();
 
-			// Parse the request
-			try {
+				// Create a new file upload handler
+				ServletFileUpload upload = new ServletFileUpload(factory);
+
+				// Parse the request
 				List<FileItem> items = upload.parseRequest(req);
 				for (FileItem item : items) {
 					// process only file upload - discard other form item types
@@ -193,7 +119,9 @@ public class FileUploadServlet extends HttpServlet {
 						writeChannel.closeFinally();
 
 						// Add Path to Hashtable
-						xmlPathTable.put(XMLType.CONFIGURATION, file.getFullPath());
+						Entity configurationData = new Entity(xmlConfigurationKey);
+						configurationData.setProperty("tag", file.getFullPath());
+						dataStore.put(configurationData);
 
 						resp.setStatus(HttpServletResponse.SC_OK);
 						resp.getWriter().print("File Uploaded Successfully, detected Configuration Data.");
@@ -231,7 +159,9 @@ public class FileUploadServlet extends HttpServlet {
 						writeChannel.closeFinally();
 
 						// Add Path to Hashtable
-						xmlPathTable.put(XMLType.SIMULATEDDATA, file.getFullPath());
+						Entity simulatedData = new Entity(xmlSimulatedKey);
+						simulatedData.setProperty("tag", file.getFullPath());
+						dataStore.put(simulatedData);
 
 						resp.setStatus(HttpServletResponse.SC_OK);
 						resp.getWriter().print("File Uploaded Successfully, detected Simulated Data.");
@@ -242,11 +172,11 @@ public class FileUploadServlet extends HttpServlet {
 								"The RootTag of this XML is incorrect.");
 					}
 				}
-			} catch (Exception e) {
+			} 
+			catch (TransformerException | FileUploadException | ParserConfigurationException | SAXException e) {
 				resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
 						"An error occurred while creating the file : " + e.getMessage());
 			}
-
 		} else {
 			resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
 					"Request contents type is not supported by the servlet.");

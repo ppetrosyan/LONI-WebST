@@ -4,7 +4,6 @@ import org.moxieapps.gwt.uploader.client.Uploader;
 
 import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 
 public class LONIDragOverHandler implements DragOverHandler {

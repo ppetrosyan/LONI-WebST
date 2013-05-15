@@ -15,15 +15,18 @@ import edu.ucla.loni.pipeline.client.Handlers.LONIFileQueuedHandler;
 import edu.ucla.loni.pipeline.client.Handlers.LONIUploadCompleteHandler;
 import edu.ucla.loni.pipeline.client.Handlers.LONIUploadErrorHandler;
 import edu.ucla.loni.pipeline.client.Handlers.LONIUploadSuccessHandler;
+import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
 
 public class LONIUploader extends Uploader {
 
 	private Map<String, Image> cancelButtons;
 	private VerticalPanel progressBarPanel;
+	private XMLDataServiceAsync xmlDataService;
 	
-	public LONIUploader(Map<String, Image> cancelButtons, VerticalPanel progressBarPanel) {
+	public LONIUploader(Map<String, Image> cancelButtons, VerticalPanel progressBarPanel, XMLDataServiceAsync xmlDataService) {
 		this.cancelButtons = cancelButtons;
 		this.progressBarPanel = progressBarPanel;
+		this.xmlDataService = xmlDataService;
 		
 		configure();
 		addHandlers();
@@ -42,7 +45,7 @@ public class LONIUploader extends Uploader {
 
 	public boolean addHandlers() {
 
-		setUploadSuccessHandler(new LONIUploadSuccessHandler());
+		setUploadSuccessHandler(new LONIUploadSuccessHandler(xmlDataService));
 
 		setFileQueuedHandler(new LONIFileQueuedHandler(this, cancelButtons, progressBarPanel));
 
