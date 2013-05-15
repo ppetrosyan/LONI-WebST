@@ -7,6 +7,16 @@
 
   <!-- Servlets -->
   <servlet>
+    <servlet-name>XMLDataServlet</servlet-name>
+    <servlet-class>edu.ucla.loni.pipeline.server.XMLDataServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>XMLDataServlet</servlet-name>
+    <url-pattern>/XMLDataServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
     <servlet-name>ConfigurationServlet</servlet-name>
     <servlet-class>edu.ucla.loni.pipeline.server.ConfigurationServlet</servlet-class>
   </servlet>

@@ -9,6 +9,7 @@ import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 
+import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -35,6 +36,8 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
+import edu.ucla.loni.pipeline.client.Requesters.XMLDataService;
+import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
 import edu.ucla.loni.pipeline.client.UploadFeatures.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Uploaders.ConfigurationUploader;
 import edu.ucla.loni.pipeline.client.Uploaders.LONIFileUploader;
@@ -63,6 +66,7 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	private ListGrid listUsersOnline, listUserUsage,
 			listUserUsageCount;
 	
+	
 	private void formatForm(DynamicForm form)
 	{
 		form.setTitleWidth(200);
@@ -70,13 +74,15 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 			i.setTitleAlign(Alignment.LEFT);
 	}
 	
-	
-	
 	/**
 	 * This is the entry point method. This is generated and managed by the
 	 * visual designer.
 	 */
 	public void onModuleLoad() {
+		
+		String xmlDataServiceString = "XMLDataServlet";
+		final XMLDataServiceAsync xmlDataService = GWT.create(XMLDataService.class);
+		((ServiceDefTarget) xmlDataService).setServiceEntryPoint(xmlDataServiceString);
 		
 		//The following function causes an error on gwt designer.
 		//Please comment it out when using gwt designer.
@@ -748,20 +754,20 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//end preferences tab
 
 		Tab tabUpload = new Tab("Upload");
-		createUploadTab(tabUpload);
+		createUploadTab(tabUpload, xmlDataService);
 		tabset.addTab(tabUpload);
 
 		tabset.draw();
 	}
 
-	public void createUploadTab(Tab tabUpload) {
+	public void createUploadTab(Tab tabUpload, XMLDataServiceAsync xmlDataService) {
 		final VerticalPanel configurationPanel = new VerticalPanel();
 		final VerticalPanel simulatedDataPanel = new VerticalPanel();
 		final VerticalPanel fileuploadPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
-		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, configurationPanel);
-		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, simulatedDataPanel);
-		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, fileuploadPanel);
+		final ConfigurationUploader configurationUploader = new ConfigurationUploader(cancelButtons, configurationPanel, xmlDataService);
+		final SimulatedDataUploader simulatedDataUploader = new SimulatedDataUploader(cancelButtons, simulatedDataPanel, xmlDataService);
+		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, fileuploadPanel, xmlDataService);
 		
 		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
