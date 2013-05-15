@@ -8,7 +8,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogCompleteHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogStartHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileQueueErrorHandler;
@@ -21,12 +21,12 @@ public class LONIUploader extends Uploader {
 
 	private Map<String, Image> cancelButtons;
 	private VerticalPanel progressBarPanel;
-	private XMLDataServiceAsync xmlDataService;
+	private LONIDataRequester dataRequester;
 	
-	public LONIUploader(Map<String, Image> cancelButtons, VerticalPanel progressBarPanel, XMLDataServiceAsync xmlDataService) {
+	public LONIUploader(Map<String, Image> cancelButtons, VerticalPanel progressBarPanel, LONIDataRequester dataRequester) {
 		this.cancelButtons = cancelButtons;
 		this.progressBarPanel = progressBarPanel;
-		this.xmlDataService = xmlDataService;
+		this.dataRequester = dataRequester;
 		
 		configure();
 		addHandlers();
@@ -45,7 +45,7 @@ public class LONIUploader extends Uploader {
 
 	public boolean addHandlers() {
 
-		setUploadSuccessHandler(new LONIUploadSuccessHandler(xmlDataService));
+		setUploadSuccessHandler(new LONIUploadSuccessHandler(dataRequester));
 
 		setFileQueuedHandler(new LONIFileQueuedHandler(this, cancelButtons, progressBarPanel));
 

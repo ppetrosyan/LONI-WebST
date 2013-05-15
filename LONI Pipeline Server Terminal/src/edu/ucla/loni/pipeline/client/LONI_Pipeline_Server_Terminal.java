@@ -761,7 +761,19 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	public void createUploadTab(Tab tabUpload, XMLDataServiceAsync xmlDataService) {
 		final VerticalPanel fileuploadPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
-		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, fileuploadPanel, xmlDataService);
+		
+		// Refresh Button for all Tabs
+		final LONIDataRequester dataRequester = new LONIDataRequester(xmlDataService);
+		
+		Button appRefreshButton = new Button("Refresh");
+		appRefreshButton.setAlign(Alignment.CENTER);
+		appRefreshButton.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				dataRequester.refreshTabs();
+			}
+		});
+		
+		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, fileuploadPanel, dataRequester);
 		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
 			final LONIDragandDropLabel fileuploadLabel = new LONIDragandDropLabel("Drop Files", LONIfileUploader, cancelButtons, fileuploadPanel);
@@ -785,16 +797,6 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 
 		VLayout uploadLayout = new VLayout();
 		uploadLayout.addMember(horizontalPanel);
-		
-		final LONIDataRequester dataRequester = new LONIDataRequester(xmlDataService);
-		
-		Button appRefreshButton = new Button("Refresh");
-		appRefreshButton.setAlign(Alignment.CENTER);
-		appRefreshButton.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				dataRequester.refreshTabs();
-			}
-		});
 		
 		uploadLayout.addMember(appRefreshButton);
 		

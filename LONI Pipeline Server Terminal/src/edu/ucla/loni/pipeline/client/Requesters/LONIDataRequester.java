@@ -17,7 +17,7 @@ public class LONIDataRequester {
 		xmlDataService.getXMLData("ResourceData", new AsyncCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                /** Workflow Tab */
+            	/** Workflow Tab */
                 
                 /** Users Tab */
                 
@@ -41,7 +41,7 @@ public class LONIDataRequester {
 		xmlDataService.getXMLData("ConfigurationData", new AsyncCallback<String>() {
             @Override
             public void onSuccess(String result) {
-                /** Preferences Tab */
+            	/** Preferences Tab */
                 
                 Window.alert("Configuration Tabs refreshed successfully.");
             }

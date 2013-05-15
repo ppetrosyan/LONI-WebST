@@ -3,23 +3,23 @@ package edu.ucla.loni.pipeline.client.Upload.Handlers;
 import org.moxieapps.gwt.uploader.client.events.UploadSuccessEvent;
 import org.moxieapps.gwt.uploader.client.events.UploadSuccessHandler;
 
-import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
-
-import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
 
 public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 
-	private XMLDataServiceAsync xmlDataService;
+	private LONIDataRequester dataRequester;
 	
-	public LONIUploadSuccessHandler(XMLDataServiceAsync xmlDataService) {
-		this.xmlDataService = xmlDataService;
+	public LONIUploadSuccessHandler(LONIDataRequester dataRequester) {
+		this.dataRequester = dataRequester;
 	}
 	
 	@Override
 	public boolean onUploadSuccess(UploadSuccessEvent uploadSuccessEvent) {
 		Window.alert(uploadSuccessEvent.getServerData());
+		
+		// Refresh all tabs
+		dataRequester.refreshTabs();
 		
 		return true;
 	}
