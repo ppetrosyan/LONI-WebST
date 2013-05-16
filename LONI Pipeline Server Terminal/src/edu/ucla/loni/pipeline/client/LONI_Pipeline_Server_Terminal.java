@@ -37,9 +37,9 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
-import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
-import edu.ucla.loni.pipeline.client.Requesters.XMLDataService;
-import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.Depreciated.LONIDataRequester;
+import edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataService;
+import edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataServiceAsync;
 import edu.ucla.loni.pipeline.client.Upload.Features.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Upload.Uploaders.LONIFileUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
