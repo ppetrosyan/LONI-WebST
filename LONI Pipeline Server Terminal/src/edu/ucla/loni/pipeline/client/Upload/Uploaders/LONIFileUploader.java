@@ -5,7 +5,7 @@ import java.util.Map;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
+import edu.ucla.loni.pipeline.client.Requesters.Depreciated.LONIDataRequester;
 
 public class LONIFileUploader extends LONIUploader {
 	

@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client.Requesters;
+package edu.ucla.loni.pipeline.client.Requesters.Depreciated;
 
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
