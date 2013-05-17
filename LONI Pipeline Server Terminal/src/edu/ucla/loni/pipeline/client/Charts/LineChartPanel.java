@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
-import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.NamedNodeMap;
@@ -54,9 +53,7 @@ public class LineChartPanel extends Layout {
 	private boolean threadUsed = false;
 
 
-	// TODO: change constructor to populate ArrayLists with config data
 	public LineChartPanel(String mt) {
-		//super(Unit.EM);
 		initialize(mt);
 	}
 
@@ -65,12 +62,14 @@ public class LineChartPanel extends Layout {
 	}
 	
 	private void parseXML(String xml) {
+		// remove whitespace
 		String cleanXml = xml.replaceAll("\t", "");
 		cleanXml.replaceAll("\n", "");
+		
 		Document doc = XMLParser.parse(cleanXml);
-		//doc.getDocumentElement().normalize();
 		
 		if(monitorType == "Memory") {
+			// parse MemoryUsage tree
 			Node memRoot = (Node) doc.getElementsByTagName("MemoryUsage").item(0);
 			if(memRoot == null) {
 				System.out.println("couldn't find MemoryUsage tag");
@@ -106,6 +105,7 @@ public class LineChartPanel extends Layout {
 			calculateStatistics();
 		}
 		else if(monitorType == "Thread") {
+			// parse ThreadUsage tree
 			Node threadRoot = (Node) doc.getElementsByTagName("ThreadUsage").item(0);
 			if(threadRoot == null) {
 				System.out.println("couldn't find ThreadUsage tag");
@@ -129,61 +129,43 @@ public class LineChartPanel extends Layout {
 			timeUsed = true;
 			threadUsed = true;
 			
-			//calculateStatistics();
+			calculateStatistics();
 		}
 	}
 	
 	public void refreshChart(String xml) {
-		Window.alert(xml);
-		parseXML(xml);
-	}
+		// clear existing chart variables first
+		if(monitorType == "Memory") {
+			color = "D9F6FA";
+			start = 0;
+			end = maxEntries;
 	
-	// use random data for testing purposes
-	public void testUpdate() {
-		times.remove(times.indexOf(start));
-		times.add(end);
-		if(initUsed) {
-			//initMem.remove(0);
-			//initMem.add(Random.nextInt(7281));
+			times.clear();
+			initMem.clear();
+			usedMem.clear();
+			commMem.clear();
+			maxMem.clear();
+			memStats = new MemoryStatistics();
+	
+			timeUsed = false;
+			initUsed = false;
+			usedUsed = false;
+			commUsed = false;
+			maxUsed = false;
 		}
-		if(maxUsed) {
-			//maxMem.remove(0);
-			//maxMem.add(Random.nextInt(7281));
+		else if(monitorType == "Thread") {
+			color = "D9F6FA";
+			start = 0;
+			end = maxEntries;
+
+			times.clear();
+			threadCnt.clear();
+			threadPk.clear();
+			thrdStats.clear();
+			timeUsed = false;
+			threadUsed = false;
 		}
-		if(usedUsed) {
-			usedMem.remove(0);
-			usedMem.add(Random.nextInt(7281));
-			
-			
-			if(usedMem.get(usedMem.size() - 1) > .3 * maxMem.get(maxMem.size() - 1)
-					&& usedMem.get(usedMem.size() - 1) <= .8 * maxMem.get(maxMem.size() - 1))
-				color = "FFFF66";
-			else if(usedMem.get(usedMem.size() - 1) > .8 * maxMem.get(maxMem.size() - 1))
-				color = "CC6666";
-			else
-				color = "D9F6FA";
-		}
-		if(commUsed) {
-			commMem.remove(0);
-			commMem.add(Random.nextInt(7281));
-		}
-		if(monitorType == "Thread") {
-			threadCnt.remove(0);
-			threadCnt.add(Random.nextInt(440));
-			
-			
-			if(threadCnt.get(threadCnt.size() - 1) > .3 * threadPk.get(threadPk.size() - 1)
-					&& threadCnt.get(threadCnt.size() - 1) <= .8 * threadPk.get(threadPk.size() - 1))
-				color = "FFFF66";
-			else if(threadCnt.get(threadCnt.size() - 1) > .8 * threadPk.get(threadPk.size() - 1))
-				color = "CC6666";
-			else
-				color = "D9F6FA";
-		}
-		start++;
-		end++;
-		calculateStatistics();
-		
+		parseXML(xml);
 		redraw();
 	}
 	
@@ -195,15 +177,44 @@ public class LineChartPanel extends Layout {
 		return this.thrdStats;
 	}
 	
+	private void setColor() {
+		if(usedUsed) {
+			// yellow
+			if(usedMem.get(end - 1) > .3 * maxMem.get(end - 1)
+					&& usedMem.get(end - 1) <= .8 * maxMem.get(end - 1))
+				color = "FFFF66";
+			// red
+			else if(usedMem.get(end - 1) > .8 * maxMem.get(end - 1))
+				color = "CC6666";
+			// blue
+			else
+				color = "D9F6FA";
+		}		
+		else if(threadUsed) {
+			// yellow
+			if(threadCnt.get(end - 1) > .3 * threadPk.get(end - 1)
+					&& threadCnt.get(end - 1) <= .8 * threadPk.get(end - 1))
+				color = "FFFF66";
+			// red
+			else if(threadCnt.get(end - 1) > .8 * threadPk.get(end - 1))
+				color = "CC6666";
+			// blue
+			else
+				color = "D9F6FA";
+		}
+		else
+			color = "D9F6FA";
+	}
+	
 	private void calculateStatistics() {
 		// calculate memory statistics
 		if(monitorType == "Memory" && !initMem.isEmpty() && !usedMem.isEmpty() 
 				&& !commMem.isEmpty() && !maxMem.isEmpty()) {
 			
-			int currInitMem = initMem.get(initMem.size() - 1);
-			int currUsedMem = usedMem.get(usedMem.size() -1);
-			int currCommMem = commMem.get(commMem.size() - 1);
-			int currMaxMem = maxMem.get(maxMem.size() - 1);
+			int currInitMem = initMem.get(end - 1);
+			int currUsedMem = usedMem.get(end -1);
+			int currCommMem = commMem.get(end - 1);
+			int currMaxMem = maxMem.get(end - 1);
 			
 			memStats.setInitMemMB(currInitMem);
 			memStats.setUsedMemMB(currUsedMem);
@@ -221,23 +232,15 @@ public class LineChartPanel extends Layout {
 		// calculate thread statistics
 		else if(monitorType == "Thread" && !threadCnt.isEmpty() && !threadPk.isEmpty()) {
 			thrdStats.clear();
-			thrdStats.add(threadCnt.get(threadCnt.size() - 1));
-			thrdStats.add(threadPk.get(threadPk.size() - 1));
+			thrdStats.add(threadCnt.get(end - 1));
+			thrdStats.add(threadPk.get(end - 1));
 		}
 	}
 
 	public void updateValues() {
-		// TODO: add diff start/end for all plots (?)
-		// TODO: call updateValues from timer in LONI_Chart
-		// TODO: change draw to populate chart from start to end values
-		for(int i = 0; i < times.size(); i++) {
-			times.set(i, times.get(i) + 1);
-		}
-		if(monitorType == "Memory" && end < initMem.size() && end < usedMem.size() && end < commMem.size() && end < maxMem.size()) {
-			start++;
-			end++;
-		}
-		else if(monitorType == "Thread" && end < threadCnt.size() && end < threadPk.size()) {
+		// increment start and end if there are more values in arrays
+		if((monitorType == "Memory" && end < initMem.size() && end < usedMem.size() && end < commMem.size() && end < maxMem.size() && end < times.size()) ||
+		  ((monitorType == "Thread" && end < threadCnt.size() && end < threadPk.size()&& end < times.size()))) {
 			start++;
 			end++;
 		}
@@ -286,7 +289,6 @@ public class LineChartPanel extends Layout {
 		redraw();
 	}
 
-	// TODO: change initializers to use actual data from config
 	private void initializeMemory() {
 		// add chart types
 		type.add("Initial Memory");
@@ -294,33 +296,13 @@ public class LineChartPanel extends Layout {
 		type.add("Committed Memory");
 		type.add("Max Memory");
 
-		// add initial times
-		/*for(int time = 0; time < maxEntries; time++) {
-			times.add(time);
-		}
-
-		// add initial values
-		for(int val = 0; val < maxEntries; val++) {
-			initMem.add(0);
-			usedMem.add(417);
-			commMem.add(495);
-			maxMem.add(7281);
-		}
-
-		// set used flags
-		initUsed = true;
-		usedUsed = true;
-		commUsed = true;
-		maxUsed = true;*/
-
 		// set chart options
 		options.setBackgroundColor(color);
 		options.setFontName("Tahoma");
 		options.setTitle("Memory Usage");
 		options.setHAxis(HAxis.create("Time"));
 		options.setVAxis(VAxis.create("Memory Usage (MB)"));
-		
-		//calculateStatistics();
+	
 	}
 
 	private void initializeThread() {
@@ -328,25 +310,14 @@ public class LineChartPanel extends Layout {
 		type.add("Thread Count");
 		type.add("Thread Peak");
 
-		// add initial times
-		/*for(int time = 0; time < maxEntries; time++) {
-			times.add(time);
-		}
-
-		// add initial values
-		for(int val = 0; val < maxEntries; val++) {
-			threadCnt.add(211);
-			threadPk.add(440);
-		}*/
-
 		// set chart options
 		options.setBackgroundColor(color);
 		options.setFontName("Tahoma");
 		options.setTitle("Thread Usage");
 		options.setHAxis(HAxis.create("Time"));
 		options.setVAxis(VAxis.create("Number of Threads"));
-		//calculateStatistics();
 		
+		// add initial statistics
 		thrdStats.add(0);
 		thrdStats.add(0);
 	}
@@ -361,7 +332,7 @@ public class LineChartPanel extends Layout {
 			initializeThread();
 		}
 		else {
-			// error
+			// fail
 			return;
 		}
 
@@ -402,21 +373,23 @@ public class LineChartPanel extends Layout {
 		for(String t : type) {
 			dataTable.addColumn(ColumnType.NUMBER, t);
 		}
+		
+		// draw next points, if any
 		if(timeUsed) {
 			dataTable.addRows(times.size());
+			int next = start;
 			for(int t = 0; t < maxEntries; t++) {
-				dataTable.setValue(t, 0, times.get(t));
+				if(next >= end)
+					break;
+				dataTable.setValue(t, 0, times.get(next));
+				next++;
 			}
 		}
 		
 		if(monitorType == "Memory") {
 			if(initUsed) {
-				// TODO: for(int row = 0, next = start; row < initMem.size(), next < end; row++, next++) {
-				//			dataTable.setValue(row, 1, initMem.get(begin);
-				// }
-				// same for the rest
 				int next = start;
-				for(int row = 0; row < initMem.size(); row++) {
+				for(int row = 0; row < maxEntries; row++) {
 					if(next >= end)
 						break;
 					dataTable.setValue(row, 1, initMem.get(next));
@@ -425,7 +398,7 @@ public class LineChartPanel extends Layout {
 			}
 			if(usedUsed) {
 				int next = start;
-				for(int row = 0; row < usedMem.size(); row++) {
+				for(int row = 0; row < maxEntries; row++) {
 					if(next >= end)
 						break;
 					dataTable.setValue(row, 2, usedMem.get(next));
@@ -434,7 +407,7 @@ public class LineChartPanel extends Layout {
 			}
 			if(commUsed) {
 				int next = start;
-				for(int row = 0; row < commMem.size(); row++) {
+				for(int row = 0; row < maxEntries; row++) {
 					if(next >= end)
 						break;
 					dataTable.setValue(row, 3, commMem.get(next));
@@ -443,21 +416,29 @@ public class LineChartPanel extends Layout {
 			}
 			if(maxUsed) {
 				int next = start;
-				for(int row = 0; row < maxMem.size(); row++) {
+				for(int row = 0; row < maxEntries; row++) {
 					if(next >= end)
 						break;
-					dataTable.setValue(row, 4, maxMem.get(row));
+					dataTable.setValue(row, 4, maxMem.get(next));
 					next++;
 				}
 			}
 		}
 		else if(monitorType == "Thread") {
 			if(threadUsed) {
-				for(int row = 0; row < threadCnt.size(); row++) {
-					dataTable.setValue(row, 1, threadCnt.get(row));
+				int next = start;
+				for(int row = 0; row < maxEntries; row++) {
+					if(next >= end)
+						break;
+					dataTable.setValue(row, 1, threadCnt.get(next));
+					next++;
 				}
-				for(int row = 0; row < threadPk.size(); row++) {
-					dataTable.setValue(row, 2, threadPk.get(row));
+				next = start;
+				for(int row = 0; row < maxEntries; row++) {
+					if(next >= end)
+						break;
+					dataTable.setValue(row, 2, threadPk.get(next));
+					next++;
 				}
 			}
 		}
@@ -466,6 +447,7 @@ public class LineChartPanel extends Layout {
 			return;
 
 		// Draw the chart
+		setColor();
 		options.setBackgroundColor(color);
 		chart.draw(dataTable, options);
 	}
