@@ -1,22 +1,27 @@
-package edu.ucla.loni.pipeline.client.Requesters;
+package edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+import edu.ucla.loni.pipeline.client.Requesters.Configuration.RequestConfigurationXMLServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.ResourceUsage.RequestResourceXMLServiceAsync;
+
 public class LONIDataRequester {
 	
-	private XMLDataServiceAsync xmlDataService;
+	private RequestResourceXMLServiceAsync reqResourceXMLService;
+	private RequestConfigurationXMLServiceAsync reqConfigurationXMLService;
 	
-	public LONIDataRequester(XMLDataServiceAsync xmlDataService) {
-		this.xmlDataService = xmlDataService;
+	public LONIDataRequester(RequestResourceXMLServiceAsync reqResourceXMLService, RequestConfigurationXMLServiceAsync reqConfigurationXMLService) {
+		this.reqResourceXMLService = reqResourceXMLService;
+		this.reqConfigurationXMLService = reqConfigurationXMLService;
 	}
 	
 	public void refreshResourceTabs() {
 		
 		/** Resource Tabs */
-		xmlDataService.getXMLData("ResourceData", new AsyncCallback<String>() {
+		reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
             @Override
-            public void onSuccess(String result) {
+            public void onSuccess(String xmlData) {
             	/** Workflow Tab */
                 
                 /** Users Tab */
@@ -38,7 +43,7 @@ public class LONIDataRequester {
 	public void refreshConfigurationTabs() {
 		
 		/** Configuration Tabs */
-		xmlDataService.getXMLData("ConfigurationData", new AsyncCallback<String>() {
+		reqConfigurationXMLService.getXMLData(new AsyncCallback<String>() {
             @Override
             public void onSuccess(String result) {
             	/** Preferences Tab */

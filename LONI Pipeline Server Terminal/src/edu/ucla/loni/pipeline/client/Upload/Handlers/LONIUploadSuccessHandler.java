@@ -4,7 +4,8 @@ import org.moxieapps.gwt.uploader.client.events.UploadSuccessEvent;
 import org.moxieapps.gwt.uploader.client.events.UploadSuccessHandler;
 
 import com.google.gwt.user.client.Window;
-import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
+
+import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 
 public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 

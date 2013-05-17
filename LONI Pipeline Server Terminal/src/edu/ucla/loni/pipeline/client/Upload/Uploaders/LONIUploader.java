@@ -8,7 +8,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 
-import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
+import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogCompleteHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogStartHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileQueueErrorHandler;

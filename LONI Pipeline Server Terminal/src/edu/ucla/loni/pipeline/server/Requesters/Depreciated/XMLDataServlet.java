@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.server;
+package edu.ucla.loni.pipeline.server.Requesters.Depreciated;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -16,7 +16,7 @@ import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
-import edu.ucla.loni.pipeline.client.Requesters.XMLDataService;
+import edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataService;
 
 public class XMLDataServlet extends RemoteServiceServlet implements XMLDataService {
 
