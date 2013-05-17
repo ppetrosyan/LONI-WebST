@@ -767,18 +767,18 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//end preferences tab
 		
 		Tab tabUpload = new Tab("Upload");
-		createUploadTab(tabUpload, reqResourceXMLService, reqConfigurationXMLService);
+		createUploadTab(tabUpload, reqResourceXMLService, reqConfigurationXMLService, memChart, thrdChart);
 		tabset.addTab(tabUpload);
 
 		tabset.draw();		
 	}
 
-	public void createUploadTab(Tab tabUpload, RequestResourceXMLServiceAsync reqResourceXMLService, RequestConfigurationXMLServiceAsync reqConfigurationXMLService) {
+	public void createUploadTab(Tab tabUpload, RequestResourceXMLServiceAsync reqResourceXMLService, RequestConfigurationXMLServiceAsync reqConfigurationXMLService, LONI_Chart memChart, LONI_Chart thrdChart) {
 		final VerticalPanel fileuploadPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
 		
 		// Refresh Button for all Tabs
-		final LONIDataRequester dataRequester = new LONIDataRequester(reqResourceXMLService, reqConfigurationXMLService);
+		final LONIDataRequester dataRequester = new LONIDataRequester(reqResourceXMLService, reqConfigurationXMLService, memChart, thrdChart);
 		
 		Button appRefreshButton = new Button("Refresh All Tabs");
 		appRefreshButton.setAlign(Alignment.CENTER);

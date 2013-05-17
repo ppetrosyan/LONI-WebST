@@ -6,6 +6,11 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Random;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.NamedNodeMap;
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
+import com.google.gwt.xml.client.XMLParser;
 import com.googlecode.gwt.charts.client.ChartLoader;
 import com.googlecode.gwt.charts.client.ChartPackage;
 import com.googlecode.gwt.charts.client.ColumnType;
@@ -41,10 +46,12 @@ public class LineChartPanel extends Layout {
 	private MemoryStatistics memStats = new MemoryStatistics();
 	private ArrayList<Integer> thrdStats = new ArrayList<Integer>();
 
+	private boolean timeUsed = false;
 	private boolean initUsed = false;
 	private boolean usedUsed = false;
 	private boolean commUsed = false;
 	private boolean maxUsed = false;
+	private boolean threadUsed = false;
 
 
 	// TODO: change constructor to populate ArrayLists with config data
@@ -55,6 +62,80 @@ public class LineChartPanel extends Layout {
 
 	public void redraw() {
 		draw();
+	}
+	
+	private void parseXML(String xml) {
+		String cleanXml = xml.replaceAll("\t", "");
+		cleanXml.replaceAll("\n", "");
+		Document doc = XMLParser.parse(cleanXml);
+		//doc.getDocumentElement().normalize();
+		
+		if(monitorType == "Memory") {
+			Node memRoot = (Node) doc.getElementsByTagName("MemoryUsage").item(0);
+			if(memRoot == null) {
+				System.out.println("couldn't find MemoryUsage tag");
+				return;
+			}
+			NodeList memPoints = memRoot.getChildNodes();
+
+			for(int i = 0; i < memPoints.getLength(); i++) {
+				Node stepNode = memPoints.item(i);
+				NamedNodeMap memPointAttr = stepNode.getAttributes();
+				Node stepAttrNode = memPointAttr.getNamedItem("ID");
+				times.add(Integer.parseInt(stepAttrNode.getNodeValue()));
+				
+				Node initNode = stepNode.getFirstChild();
+				initMem.add(Integer.parseInt(initNode.getFirstChild().getNodeValue()));
+				
+				Node usedNode = initNode.getNextSibling();
+				usedMem.add(Integer.parseInt(usedNode.getFirstChild().getNodeValue()));
+				
+				Node commNode = usedNode.getNextSibling();
+				commMem.add(Integer.parseInt(commNode.getFirstChild().getNodeValue()));
+				
+				Node maxNode = commNode.getNextSibling();
+				maxMem.add(Integer.parseInt(maxNode.getFirstChild().getNodeValue()));
+			}
+			
+			timeUsed = true;
+			initUsed = true;
+			usedUsed = true;
+			commUsed = true;
+			maxUsed = true;
+			
+			calculateStatistics();
+		}
+		else if(monitorType == "Thread") {
+			Node threadRoot = (Node) doc.getElementsByTagName("ThreadUsage").item(0);
+			if(threadRoot == null) {
+				System.out.println("couldn't find ThreadUsage tag");
+				return;
+			}
+			NodeList threadPoints = threadRoot.getChildNodes();
+
+			for(int i = 0; i < threadPoints.getLength(); i++) {
+				Node stepNode = threadPoints.item(i);
+				NamedNodeMap threadPointAttr = stepNode.getAttributes();
+				Node stepAttrNode = threadPointAttr.getNamedItem("ID");
+				times.add(Integer.parseInt(stepAttrNode.getNodeValue()));
+				
+				Node cntNode = stepNode.getFirstChild();
+				threadCnt.add(Integer.parseInt(cntNode.getFirstChild().getNodeValue()));
+				
+				Node pkNode = cntNode.getNextSibling();
+				threadPk.add(Integer.parseInt(pkNode.getFirstChild().getNodeValue()));
+			}
+			
+			timeUsed = true;
+			threadUsed = true;
+			
+			//calculateStatistics();
+		}
+	}
+	
+	public void refreshChart(String xml) {
+		Window.alert(xml);
+		parseXML(xml);
 	}
 	
 	// use random data for testing purposes
@@ -149,11 +230,19 @@ public class LineChartPanel extends Layout {
 		// TODO: add diff start/end for all plots (?)
 		// TODO: call updateValues from timer in LONI_Chart
 		// TODO: change draw to populate chart from start to end values
-		if(end < initMem.size()) {
+		for(int i = 0; i < times.size(); i++) {
+			times.set(i, times.get(i) + 1);
+		}
+		if(monitorType == "Memory" && end < initMem.size() && end < usedMem.size() && end < commMem.size() && end < maxMem.size()) {
 			start++;
 			end++;
-			redraw();
 		}
+		else if(monitorType == "Thread" && end < threadCnt.size() && end < threadPk.size()) {
+			start++;
+			end++;
+		}
+		calculateStatistics();
+		redraw();
 	}
 
 	public void updateType(String typeChange, boolean checked) {
@@ -206,7 +295,7 @@ public class LineChartPanel extends Layout {
 		type.add("Max Memory");
 
 		// add initial times
-		for(int time = 0; time < maxEntries; time++) {
+		/*for(int time = 0; time < maxEntries; time++) {
 			times.add(time);
 		}
 
@@ -222,7 +311,7 @@ public class LineChartPanel extends Layout {
 		initUsed = true;
 		usedUsed = true;
 		commUsed = true;
-		maxUsed = true;
+		maxUsed = true;*/
 
 		// set chart options
 		options.setBackgroundColor(color);
@@ -231,7 +320,7 @@ public class LineChartPanel extends Layout {
 		options.setHAxis(HAxis.create("Time"));
 		options.setVAxis(VAxis.create("Memory Usage (MB)"));
 		
-		calculateStatistics();
+		//calculateStatistics();
 	}
 
 	private void initializeThread() {
@@ -240,7 +329,7 @@ public class LineChartPanel extends Layout {
 		type.add("Thread Peak");
 
 		// add initial times
-		for(int time = 0; time < maxEntries; time++) {
+		/*for(int time = 0; time < maxEntries; time++) {
 			times.add(time);
 		}
 
@@ -248,7 +337,7 @@ public class LineChartPanel extends Layout {
 		for(int val = 0; val < maxEntries; val++) {
 			threadCnt.add(211);
 			threadPk.add(440);
-		}
+		}*/
 
 		// set chart options
 		options.setBackgroundColor(color);
@@ -256,7 +345,10 @@ public class LineChartPanel extends Layout {
 		options.setTitle("Thread Usage");
 		options.setHAxis(HAxis.create("Time"));
 		options.setVAxis(VAxis.create("Number of Threads"));
-		calculateStatistics();
+		//calculateStatistics();
+		
+		thrdStats.add(0);
+		thrdStats.add(0);
 	}
 
 	private void initialize(String mt) {	
@@ -310,9 +402,11 @@ public class LineChartPanel extends Layout {
 		for(String t : type) {
 			dataTable.addColumn(ColumnType.NUMBER, t);
 		}
-		dataTable.addRows(times.size());
-		for(int t = 0; t < maxEntries; t++) {
-			dataTable.setValue(t, 0, times.get(t));
+		if(timeUsed) {
+			dataTable.addRows(times.size());
+			for(int t = 0; t < maxEntries; t++) {
+				dataTable.setValue(t, 0, times.get(t));
+			}
 		}
 		
 		if(monitorType == "Memory") {
@@ -321,32 +415,50 @@ public class LineChartPanel extends Layout {
 				//			dataTable.setValue(row, 1, initMem.get(begin);
 				// }
 				// same for the rest
+				int next = start;
 				for(int row = 0; row < initMem.size(); row++) {
-					dataTable.setValue(row, 1, initMem.get(row));
+					if(next >= end)
+						break;
+					dataTable.setValue(row, 1, initMem.get(next));
+					next++;
 				}
 			}
 			if(usedUsed) {
+				int next = start;
 				for(int row = 0; row < usedMem.size(); row++) {
-					dataTable.setValue(row, 2, usedMem.get(row));
+					if(next >= end)
+						break;
+					dataTable.setValue(row, 2, usedMem.get(next));
+					next++;
 				}
 			}
 			if(commUsed) {
+				int next = start;
 				for(int row = 0; row < commMem.size(); row++) {
-					dataTable.setValue(row, 3, commMem.get(row));
+					if(next >= end)
+						break;
+					dataTable.setValue(row, 3, commMem.get(next));
+					next++;
 				}
 			}
 			if(maxUsed) {
+				int next = start;
 				for(int row = 0; row < maxMem.size(); row++) {
+					if(next >= end)
+						break;
 					dataTable.setValue(row, 4, maxMem.get(row));
+					next++;
 				}
 			}
 		}
 		else if(monitorType == "Thread") {
-			for(int row = 0; row < threadCnt.size(); row++) {
-				dataTable.setValue(row, 1, threadCnt.get(row));
-			}
-			for(int row = 0; row < threadPk.size(); row++) {
-				dataTable.setValue(row, 2, threadPk.get(row));
+			if(threadUsed) {
+				for(int row = 0; row < threadCnt.size(); row++) {
+					dataTable.setValue(row, 1, threadCnt.get(row));
+				}
+				for(int row = 0; row < threadPk.size(); row++) {
+					dataTable.setValue(row, 2, threadPk.get(row));
+				}
 			}
 		}
 		else
