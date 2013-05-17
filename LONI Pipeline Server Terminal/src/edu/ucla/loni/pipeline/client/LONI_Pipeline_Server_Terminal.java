@@ -458,12 +458,12 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		tabset.addTab(tabUserUsage);
 		//end user usage tab
 		
-		
+		// TODO: make this do something useful?
 	    GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 
 			@Override
 			public void onUncaughtException(Throwable e) {
-				// TODO Auto-generated method stub
+				System.out.println(e.getMessage());
 				
 			}
 	    });
