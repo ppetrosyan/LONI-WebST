@@ -12,7 +12,6 @@ import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 import com.google.gwt.user.client.rpc.ServiceDefTarget;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.smartgwt.client.widgets.tab.TabSet;
 import com.smartgwt.client.widgets.tab.Tab;
@@ -37,9 +36,15 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment; 
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
-import edu.ucla.loni.pipeline.client.Requesters.LONIDataRequester;
-import edu.ucla.loni.pipeline.client.Requesters.XMLDataService;
-import edu.ucla.loni.pipeline.client.Requesters.XMLDataServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.Configuration.RequestConfigurationXMLService;
+import edu.ucla.loni.pipeline.client.Requesters.Configuration.RequestConfigurationXMLServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataService;
+import edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
+import edu.ucla.loni.pipeline.client.Requesters.ResourceUsage.RequestResourceXMLService;
+import edu.ucla.loni.pipeline.client.Requesters.ResourceUsage.RequestResourceXMLServiceAsync;
+import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveConfigurationXMLService;
+import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveConfigurationXMLServiceAsync;
 import edu.ucla.loni.pipeline.client.Upload.Features.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Upload.Uploaders.LONIFileUploader;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
@@ -77,10 +82,20 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
-		// XML Data Servlet Service
-		String xmlDataServiceString = "XMLDataServlet";
-		final XMLDataServiceAsync xmlDataService = GWT.create(XMLDataService.class);
-		((ServiceDefTarget) xmlDataService).setServiceEntryPoint(xmlDataServiceString);
+		// Client-side Services
+		String reqResourceXML = "RequestResourceXMLServlet";
+		String reqConfigurationXML = "RequestConfigurationXMLServlet";
+		String saveConfigurationXML = "SaveConfigurationXMLServlet";
+		
+		final RequestResourceXMLServiceAsync reqResourceXMLService = GWT.create(RequestResourceXMLService.class);
+		((ServiceDefTarget) reqResourceXMLService).setServiceEntryPoint(reqResourceXML);
+				
+		final RequestConfigurationXMLServiceAsync reqConfigurationXMLService = GWT.create(RequestConfigurationXMLService.class);
+		((ServiceDefTarget) reqConfigurationXMLService).setServiceEntryPoint(reqConfigurationXML);
+		
+		
+		final SaveConfigurationXMLServiceAsync saveConfigurationXMLService = GWT.create(SaveConfigurationXMLService.class);
+		((ServiceDefTarget) saveConfigurationXMLService).setServiceEntryPoint(saveConfigurationXML);
 		
 		//The following function causes an error on gwt designer.
 		//Please comment it out when using gwt designer.
@@ -752,20 +767,20 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		//end preferences tab
 		
 		Tab tabUpload = new Tab("Upload");
-		createUploadTab(tabUpload, xmlDataService);
+		createUploadTab(tabUpload, reqResourceXMLService, reqConfigurationXMLService);
 		tabset.addTab(tabUpload);
 
 		tabset.draw();		
 	}
 
-	public void createUploadTab(Tab tabUpload, XMLDataServiceAsync xmlDataService) {
+	public void createUploadTab(Tab tabUpload, RequestResourceXMLServiceAsync reqResourceXMLService, RequestConfigurationXMLServiceAsync reqConfigurationXMLService) {
 		final VerticalPanel fileuploadPanel = new VerticalPanel();
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
 		
 		// Refresh Button for all Tabs
-		final LONIDataRequester dataRequester = new LONIDataRequester(xmlDataService);
+		final LONIDataRequester dataRequester = new LONIDataRequester(reqResourceXMLService, reqConfigurationXMLService);
 		
-		Button appRefreshButton = new Button("Refresh");
+		Button appRefreshButton = new Button("Refresh All Tabs");
 		appRefreshButton.setAlign(Alignment.CENTER);
 		appRefreshButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

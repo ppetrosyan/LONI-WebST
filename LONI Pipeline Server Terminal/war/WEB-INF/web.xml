@@ -8,7 +8,7 @@
   <!-- Servlets -->
   <servlet>
     <servlet-name>XMLDataServlet</servlet-name>
-    <servlet-class>edu.ucla.loni.pipeline.server.XMLDataServlet</servlet-class>
+    <servlet-class>edu.ucla.loni.pipeline.server.Requesters.Depreciated.XMLDataServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
@@ -18,12 +18,42 @@
   
   <servlet>
     <servlet-name>FileUploadServlet</servlet-name>
-    <servlet-class>edu.ucla.loni.pipeline.server.FileUploadServlet</servlet-class>
+    <servlet-class>edu.ucla.loni.pipeline.server.Upload.Uploaders.FileUploadServlet</servlet-class>
   </servlet>
   
   <servlet-mapping>
     <servlet-name>FileUploadServlet</servlet-name>
     <url-pattern>/FileUploadServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RequestConfigurationXMLServlet</servlet-name>
+    <servlet-class>edu.ucla.loni.pipeline.server.Requesters.Configuration.RequestConfigurationXMLServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>RequestConfigurationXMLServlet</servlet-name>
+    <url-pattern>/RequestConfigurationXMLServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>RequestResourceXMLServlet</servlet-name>
+    <servlet-class>edu.ucla.loni.pipeline.server.Requesters.ResourceUsage.RequestResourceXMLServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>RequestResourceXMLServlet</servlet-name>
+    <url-pattern>/RequestResourceXMLServlet</url-pattern>
+  </servlet-mapping>
+  
+  <servlet>
+    <servlet-name>SaveConfigurationXMLServlet</servlet-name>
+    <servlet-class>edu.ucla.loni.pipeline.server.Savers.Configuration.SaveConfigurationXMLServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>SaveConfigurationXMLServlet</servlet-name>
+    <url-pattern>/SaveConfigurationXMLServlet</url-pattern>
   </servlet-mapping>
   
   <!-- Default page to serve -->
