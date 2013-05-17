@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LONIResourceData>
+	<MemoryUsage>
+		<Step ID="0">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="1">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="2">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="3">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="4">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="5">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="6">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="7">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="8">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="9">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="10">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+	</MemoryUsage>
+	<ThreadUsage>
+		<Step ID="0">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="1">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="2">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="3">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="4">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="5">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="6">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="7">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="8">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="9">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="10">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+	</ThreadUsage>
+</LONIResourceData>
