@@ -27,7 +27,6 @@ public class LONI_Chart extends VLayout {
     // timer redraws charts and updates statistics
 	private Timer timer = new Timer() {
 		public void run() {
-			//chart.testUpdate();
 			chart.updateValues();
 			
 			if(monitorType == "Memory") {
