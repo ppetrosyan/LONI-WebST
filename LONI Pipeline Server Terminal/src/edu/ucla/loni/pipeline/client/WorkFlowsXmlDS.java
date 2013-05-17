@@ -58,8 +58,6 @@ public class WorkFlowsXmlDS extends DataSource {
         DataSourceTextField numCompletedField = new DataSourceTextField("numCompleted", "C");  
         numCompletedField.setRequired(true);  
   
-        
-  
         setFields(workflowsField, usernameField, stateField, startTimeField, endTimeField,  
         		durationField, numofnodeField, numofinstancesField, numBacklabField, numSubmittingField,  
         		numQueuedField, numRunningField, numCompletedField);  
