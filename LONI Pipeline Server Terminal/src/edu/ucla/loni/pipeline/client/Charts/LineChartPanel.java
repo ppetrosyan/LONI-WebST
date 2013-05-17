@@ -65,27 +65,44 @@ public class LineChartPanel extends Layout {
 			//initMem.remove(0);
 			//initMem.add(Random.nextInt(7281));
 		}
+		if(maxUsed) {
+			//maxMem.remove(0);
+			//maxMem.add(Random.nextInt(7281));
+		}
 		if(usedUsed) {
 			usedMem.remove(0);
 			usedMem.add(Random.nextInt(7281));
+			
+			
+			if(usedMem.get(usedMem.size() - 1) > .3 * maxMem.get(maxMem.size() - 1)
+					&& usedMem.get(usedMem.size() - 1) <= .8 * maxMem.get(maxMem.size() - 1))
+				color = "FFFF66";
+			else if(usedMem.get(usedMem.size() - 1) > .8 * maxMem.get(maxMem.size() - 1))
+				color = "CC6666";
+			else
+				color = "D9F6FA";
 		}
 		if(commUsed) {
 			commMem.remove(0);
 			commMem.add(Random.nextInt(7281));
 		}
-		if(maxUsed) {
-			//maxMem.remove(0);
-			//maxMem.add(Random.nextInt(7281));
-		}
 		if(monitorType == "Thread") {
 			threadCnt.remove(0);
 			threadCnt.add(Random.nextInt(440));
-			threadPk.remove(0);
-			threadPk.add(Random.nextInt(440));
+			
+			
+			if(threadCnt.get(threadCnt.size() - 1) > .3 * threadPk.get(threadPk.size() - 1)
+					&& threadCnt.get(threadCnt.size() - 1) <= .8 * threadPk.get(threadPk.size() - 1))
+				color = "FFFF66";
+			else if(threadCnt.get(threadCnt.size() - 1) > .8 * threadPk.get(threadPk.size() - 1))
+				color = "CC6666";
+			else
+				color = "D9F6FA";
 		}
 		start++;
 		end++;
 		calculateStatistics();
+		
 		redraw();
 	}
 	
@@ -337,6 +354,7 @@ public class LineChartPanel extends Layout {
 			return;
 
 		// Draw the chart
+		options.setBackgroundColor(color);
 		chart.draw(dataTable, options);
 	}
 }
