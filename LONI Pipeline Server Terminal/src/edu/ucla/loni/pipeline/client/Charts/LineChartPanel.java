@@ -132,9 +132,14 @@ public class LineChartPanel extends Layout {
 
 				calculateStatistics();
 			}
+			else {
+				System.err.println("Incorrect monitorType provided. Check parseXML() in LineChartPanel.java for errors.");
+				return;
+			}
 		}
 		catch (DOMParseException e) {
-
+			System.err.println("Could not parse XML file. Check XML file format.");
+			return;
 		}
 	}
 
@@ -170,6 +175,10 @@ public class LineChartPanel extends Layout {
 			timeUsed = false;
 			threadUsed = false;
 		}
+		else {
+			System.err.println("Incorrect monitorType provided. Check refreshChart() in LineChartPanel.java for errors.");
+			return;
+		}
 		parseXML(xml);
 		redraw();
 	}
@@ -183,6 +192,7 @@ public class LineChartPanel extends Layout {
 	}
 
 	private void setColor() {
+		// memory color
 		if(usedUsed) {
 			// yellow
 			if(usedMem.get(end - 1) > .3 * maxMem.get(end - 1)
@@ -194,7 +204,8 @@ public class LineChartPanel extends Layout {
 			// blue
 			else
 				color = "D9F6FA";
-		}		
+		}
+		// thread color
 		else if(threadUsed) {
 			// yellow
 			if(threadCnt.get(end - 1) > .3 * threadPk.get(end - 1)
@@ -207,6 +218,7 @@ public class LineChartPanel extends Layout {
 			else
 				color = "D9F6FA";
 		}
+		// default to blue
 		else
 			color = "D9F6FA";
 	}
@@ -240,20 +252,29 @@ public class LineChartPanel extends Layout {
 			thrdStats.add(threadCnt.get(end - 1));
 			thrdStats.add(threadPk.get(end - 1));
 		}
+		else if(monitorType != "Thread" && monitorType != "Memory") {
+			System.err.println("monitorType invalid. Check calculateStatistics() in LineChartPanel.java for errors");
+			return;
+		}
+		else {
+			System.err.println("One or more of the chart arrays are empty. Try populating fields with data first via the upload tab.");
+			return;
+		}
 	}
 
 	public void updateValues() {
 		try {
-		// increment start and end if there are more values in arrays
-		if((monitorType == "Memory" && end < initMem.size() && end < usedMem.size() && end < commMem.size() && end < maxMem.size() && end < times.size()) ||
-				((monitorType == "Thread" && end < threadCnt.size() && end < threadPk.size()&& end < times.size()))) {
-			start++;
-			end++;
-		}
-		calculateStatistics();
-		redraw();
+			// increment start and end if there are more values in arrays
+			if((monitorType == "Memory" && end < initMem.size() && end < usedMem.size() && end < commMem.size() && end < maxMem.size() && end < times.size()) ||
+					((monitorType == "Thread" && end < threadCnt.size() && end < threadPk.size()&& end < times.size()))) {
+				start++;
+				end++;
+			}
+			calculateStatistics();
+			redraw();
 		} catch (Exception e) {
-			e.printStackTrace();
+			System.err.println("Could not update values.");
+			return;
 		}
 	}
 
@@ -272,9 +293,10 @@ public class LineChartPanel extends Layout {
 			else if(typeChange == "Max Memory" && !maxUsed) {
 				maxUsed = true;
 			}
-			else
-				// fail
+			else {
+				System.out.println("typeChange invalid or type already used");
 				return;
+			}
 		}
 		// remove unchecked graphs
 		else if(!checked && type.indexOf(typeChange) != -1) {
@@ -290,9 +312,14 @@ public class LineChartPanel extends Layout {
 			else if(typeChange == "Max Memory" && maxUsed) {
 				maxUsed = false;
 			}
-			else
-				// fail
+			else {
+				System.out.println("typeChange invalid or type already unused");
 				return;
+			}
+		}
+		else {
+			System.err.println("Could not find type to update. Check updateType() in LineChartPanel.java for errors.");
+			return;
 		}
 
 		redraw();
@@ -341,7 +368,7 @@ public class LineChartPanel extends Layout {
 			initializeThread();
 		}
 		else {
-			// fail
+			System.err.println("Incorrect monitorType provided. Check initialize() in LineChartPanel.java for errors.");
 			return;
 		}
 
@@ -353,15 +380,15 @@ public class LineChartPanel extends Layout {
 			public void run() {
 				// Create and attach the chart
 				chart = new LineChart();
-				int height = Window.getClientHeight() - 200;
-				int width = Window.getClientWidth() - 65;
+				int height = Window.getClientHeight() - 250;
+				int width = Window.getClientWidth() - 75;
 				chart.setSize(width + "px", height + "px");
 
 				// listen to resize events
 				Window.addResizeHandler(new ResizeHandler() {
 					public void onResize(ResizeEvent event) {
-						int height = event.getHeight() - 200;
-						int width = event.getWidth() - 65;
+						int height = event.getHeight() - 250;
+						int width = event.getWidth() - 75;
 						chart.setHeight(height + "px");
 						chart.setWidth(width + "px");
 						draw();
@@ -453,15 +480,18 @@ public class LineChartPanel extends Layout {
 				}
 			}
 			else
-				// fail
+			{
+				System.err.println("Incorrect monitorType provided. Check draw() in LineChartPanel.java for errors.");
 				return;
-
+			}
+			
 			// Draw the chart
 			setColor();
 			options.setBackgroundColor(color);
 			chart.draw(dataTable, options); 
 		} catch(Exception e) {
-			e.printStackTrace();
+			System.err.println("Could not draw chart. Try populating fields with data first via the upload tab.");
+			return;
 		}
 	}
 }
