@@ -491,50 +491,110 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		
 		VLayout layoutGeneral = new VLayout();
 
-		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label("Basic");
+		//basic
+		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label("<b><font size=2>Basic</font></b>");
 		labelGeneralBasic.setSize("70px", "20px");
 		layoutGeneral.addMember(labelGeneralBasic);
 		
 		DynamicForm formGeneralBasic = new DynamicForm();
 		
+		
+		TextItem hostText = new TextItem("host", "Host");
+		
 		IntegerItem basicPort = new IntegerItem("port", "Port");
 		basicPort.setValue("8001");
-		NativeCheckboxItem nativeCheckboxItem = new NativeCheckboxItem();
-		nativeCheckboxItem.setTitle("Use privilege escalation: Pipeline server will run commands as the user (sudo as user)");
-		NativeCheckboxItem nativeCheckboxItem_1 = new NativeCheckboxItem();
-		nativeCheckboxItem_1.setTitle("Enable guests");
-		NativeCheckboxItem nativeCheckboxItem_2 = new NativeCheckboxItem();
-		nativeCheckboxItem_2.setTitle("Secure");
+		
+		TextItem tempdirText = new TextItem("tempdir", "Temporary Directory");
+		
+		NativeCheckboxItem secureCheckbox = new NativeCheckboxItem();
+		secureCheckbox.setTitle("Secure");
+		
+		TextItem scrdirText = new TextItem("scrdir", "Scratch Directory");
+		
+		TextItem logfileText = new TextItem("logfile", "Log File");
+		
+		NativeCheckboxItem escalationCheckbox = new NativeCheckboxItem();
+		escalationCheckbox.setTitle("Use privilege escalation: Pipeline server will run commands as the user (sudo as user)");
+		
+		NativeCheckboxItem enableGuestCheckbox = new NativeCheckboxItem();
+		enableGuestCheckbox.setTitle("Enable guests");
 
-		formGeneralBasic.setFields(new FormItem[] { new TextItem("host", "Host"),
+		formGeneralBasic.setFields(new FormItem[] { hostText,
 													basicPort, 
-													new TextItem("tempdir", "Temporary Directory"), 
-													nativeCheckboxItem_2, 
-													new TextItem("scrdir", "Scratch Directory"), 
-													new TextItem("logfile", "Log File"), 
-													nativeCheckboxItem, nativeCheckboxItem_1});
+													tempdirText, 
+													secureCheckbox, 
+													scrdirText, 
+													logfileText, 
+													escalationCheckbox,
+													enableGuestCheckbox});
 		formatForm(formGeneralBasic);
 		layoutGeneral.addMember(formGeneralBasic);
 		//formGeneralBasic.moveTo(100, 20);
 		
-		com.smartgwt.client.widgets.Label labelGeneralPersistence = new com.smartgwt.client.widgets.Label("Persistence");
+		//persistence
+		com.smartgwt.client.widgets.Label labelGeneralPersistence = new com.smartgwt.client.widgets.Label("<b><font size=2>Persistence</font></b>");
 		labelGeneralPersistence.setSize("70px", "20px");
 		layoutGeneral.addMember(labelGeneralPersistence);
 		
 		DynamicForm formGeneralPersistence = new DynamicForm();
+		
+		TextItem urlText = new TextItem("url", "URL");
+		
+		TextItem usernameText = new TextItem("username", "Username");
+		
+		PasswordItem passwordText = new PasswordItem("password", "Password");
+		
 		SpinnerItem spinnerItem = new SpinnerItem("si_sessionttl", "Session Time-to-live");
 		spinnerItem.setValue(30);
+		
 		StaticTextItem staticTextItem = new StaticTextItem("sessiondays", "");
 		staticTextItem.setValue("(days from the end of this session)");
-		formGeneralPersistence.setFields(new FormItem[] { new TextItem("url", "URL"), 
-														  new TextItem("username", "Username"), 
-														  new PasswordItem("password", "Password"), 
+			
+		TextItem historydocText =  new TextItem("historydoc", "History Directory");
+		
+		TextItem crawlerpurlText = new TextItem("crawlerpurl", "Crawler Persistence URL");
+		
+		formGeneralPersistence.setFields(new FormItem[] { urlText, 
+														  usernameText, 
+														  passwordText, 
 														  spinnerItem, 
 														  staticTextItem, 
-														  new TextItem("historydoc", "History Directory"), 
-														  new TextItem("crawlerpurl", "Crawler Persistence URL")});
+														  historydocText, 
+														  crawlerpurlText});
 		formatForm(formGeneralPersistence);
 		layoutGeneral.addMember(formGeneralPersistence);
+		
+		
+		//Server Library
+		com.smartgwt.client.widgets.Label labelGeneralServerLibrary = new com.smartgwt.client.widgets.Label("<b><font size=2>Server Library</font></b>");
+		labelGeneralServerLibrary.setSize("200px", "20px");
+		layoutGeneral.addMember(labelGeneralServerLibrary);
+		
+		DynamicForm formGeneralServerLibrary = new DynamicForm();
+		
+		TextItem locationText = new TextItem("location", "Location");
+		
+		NativeCheckboxItem librarycheckbox = new NativeCheckboxItem();
+		librarycheckbox.setTitle("Monitor library update file checkbox");
+		
+		final TextItem libraryPathText = new TextItem("librarypath", "Monitor library update file");
+		libraryPathText.setDisabled(true);
+		
+		librarycheckbox.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				Boolean cstat = (Boolean) event.getValue();
+				libraryPathText.setDisabled(!cstat);
+			}
+		});
+		
+		TextItem pipeutilitiespathText =  new TextItem("pipeutilitiespath", "Pipeline Utilities Path");
+		
+		formGeneralServerLibrary.setFields(new FormItem[] { locationText,
+															librarycheckbox,
+															libraryPathText,
+															pipeutilitiespathText });
+		formatForm(formGeneralServerLibrary);
+		layoutGeneral.addMember(formGeneralServerLibrary);
 		
 		tabGeneral.setPane(layoutGeneral);
 		return tabGeneral;
