@@ -200,7 +200,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 	    GWT.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
 			@Override
 			public void onUncaughtException(Throwable e) {
-				System.out.println(e.getMessage());
+				e.printStackTrace();
 			}
 	    });
 	    
