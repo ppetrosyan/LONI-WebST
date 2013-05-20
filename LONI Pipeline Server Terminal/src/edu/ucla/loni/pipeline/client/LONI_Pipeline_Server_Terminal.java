@@ -13,8 +13,12 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 	 */
 	public void onModuleLoad() {
 		
-		LONI_Pipeline_ST_Tabset_Display wbst = new LONI_Pipeline_ST_Tabset_Display();
-		wbst.buildMainPage(null, false);
+		// LONI_Pipeline_ST_Tabset_Display wbst = new LONI_Pipeline_ST_Tabset_Display();
+		// wbst.buildMainPage(null, false);
+
+		LONI_Pipeline_ST_Login_Display wbsl = new 
+			LONI_Pipeline_ST_Login_Display();
+		wbsl.buildMainPage();
 	
 	}
 }
