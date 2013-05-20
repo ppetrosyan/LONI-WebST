@@ -52,11 +52,11 @@ public class LONI_Chart extends VLayout {
 					statistics.setText(1, 1, thrdStats.get(1) + "");
 				}
 				else {
-					// fail
+					System.err.println("Incorrect monitorType provided. Check timer.run() in LONI_Chart.java for errors.");
 					return;
 				}
 			} catch (IndexOutOfBoundsException e) {
-
+				System.err.println("Index out of bounds. Simulated data is probably not loaded yet.");
 			}
 		}
 	};
@@ -205,7 +205,7 @@ public class LONI_Chart extends VLayout {
 		}
 		else
 		{
-			// fail
+			System.err.println("Incorrect monitorType provided. Check initialize() in LONI_Chart.java for errors.");
 			return;
 		}
 	}
