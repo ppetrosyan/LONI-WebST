@@ -200,7 +200,7 @@ public class LineChartPanel extends Layout {
 				color = "FFFF66";
 			// red
 			else if(usedMem.get(end - 1) > .8 * maxMem.get(end - 1))
-				color = "CC6666";
+				color = "EDDAE2";
 			// blue
 			else
 				color = "D9F6FA";
