@@ -10,8 +10,10 @@ import com.smartgwt.client.widgets.tab.Tab;
 import com.smartgwt.client.widgets.tab.events.TabSelectedEvent;
 import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.fields.ComboBoxItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
+import com.smartgwt.client.widgets.form.fields.RadioGroupItem;
 import com.smartgwt.client.widgets.form.fields.SelectItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.IntegerItem;
@@ -487,7 +489,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 	}
 	
 	private Tab setPreferencesTab_General() {
-		int textboxwidth = 300;
 		Tab tabGeneral = new Tab("General");
 		
 		VLayout layoutGeneral = new VLayout();
@@ -500,22 +501,18 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		DynamicForm formGeneralBasic = new DynamicForm();
 				
 		TextItem hostText = new TextItem("host", "Host");
-		hostText.setWidth(textboxwidth);
 		
 		IntegerItem basicPort = new IntegerItem("port", "Port");
 		basicPort.setValue("8001");
 		
 		TextItem tempdirText = new TextItem("tempdir", "Temporary Directory");
-		tempdirText.setWidth(textboxwidth);
 		
 		NativeCheckboxItem secureCheckbox = new NativeCheckboxItem();
 		secureCheckbox.setTitle("Secure");
 		
 		TextItem scrdirText = new TextItem("scrdir", "Scratch Directory");
-		scrdirText.setWidth(textboxwidth);
 		
 		TextItem logfileText = new TextItem("logfile", "Log File");
-		logfileText.setWidth(textboxwidth);
 		
 		NativeCheckboxItem escalationCheckbox = new NativeCheckboxItem();
 		escalationCheckbox.setTitle("Use privilege escalation: Pipeline server will run commands as the user (sudo as user)");
@@ -533,6 +530,10 @@ public class LONI_Pipeline_ST_Tabset_Display {
 													enableGuestCheckbox});
 		formatForm(formGeneralBasic);
 		layoutGeneral.addMember(formGeneralBasic);
+		
+		//add line
+		com.smartgwt.client.widgets.Label line = new com.smartgwt.client.widgets.Label("<hr>");
+		layoutGeneral.addMember(line);
 		//formGeneralBasic.moveTo(100, 20);
 		
 		//persistence
@@ -543,13 +544,10 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		DynamicForm formGeneralPersistence = new DynamicForm();
 		
 		TextItem urlText = new TextItem("url", "URL");
-		urlText.setWidth(textboxwidth);
 		
 		TextItem usernameText = new TextItem("username", "Username");
-		usernameText.setWidth(textboxwidth);
 		
 		PasswordItem passwordText = new PasswordItem("password", "Password");
-		passwordText.setWidth(textboxwidth);
 		
 		SpinnerItem spinnerItem = new SpinnerItem("si_sessionttl", "Session Time-to-live");
 		spinnerItem.setValue(30);
@@ -558,10 +556,8 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		staticTextItem.setValue("(days from the end of this session)");
 			
 		TextItem historydocText =  new TextItem("historydoc", "History Directory");
-		historydocText.setWidth(textboxwidth);
 		
 		TextItem crawlerpurlText = new TextItem("crawlerpurl", "Crawler Persistence URL");
-		crawlerpurlText.setWidth(textboxwidth);
 		
 		formGeneralPersistence.setFields(new FormItem[] { urlText, 
 														  usernameText, 
@@ -573,6 +569,9 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		formatForm(formGeneralPersistence);
 		layoutGeneral.addMember(formGeneralPersistence);
 		
+		//add line 
+		com.smartgwt.client.widgets.Label line2 = new com.smartgwt.client.widgets.Label("<hr>");
+		layoutGeneral.addMember(line2);
 		
 		//Server Library
 		com.smartgwt.client.widgets.Label labelGeneralServerLibrary = new com.smartgwt.client.widgets.Label("<b><font size=2>Server Library</font></b>");
@@ -582,13 +581,11 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		DynamicForm formGeneralServerLibrary = new DynamicForm();
 		
 		TextItem locationText = new TextItem("location", "Location");
-		locationText.setWidth(textboxwidth);
 		
 		NativeCheckboxItem librarycheckbox = new NativeCheckboxItem();
 		librarycheckbox.setTitle("Monitor library update file checkbox");
 		
 		final TextItem libraryPathText = new TextItem("librarypath", "Monitor library update file");
-		libraryPathText.setWidth(textboxwidth);
 		libraryPathText.setDisabled(true);
 		
 		librarycheckbox.addChangeHandler(new ChangeHandler() {
@@ -599,7 +596,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		});
 		
 		TextItem pipeutilitiespathText =  new TextItem("pipeutilitiespath", "Pipeline Utilities Path");
-		pipeutilitiespathText.setWidth(textboxwidth);
 		
 		formGeneralServerLibrary.setFields(new FormItem[] { locationText,
 															librarycheckbox,
