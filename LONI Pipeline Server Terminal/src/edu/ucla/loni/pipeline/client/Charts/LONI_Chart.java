@@ -2,8 +2,6 @@ package edu.ucla.loni.pipeline.client.Charts;
 
 import java.util.ArrayList;
 
-//import com.google.gwt.event.dom.client.ClickEvent;
-//import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -11,9 +9,9 @@ import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.FormItem;
-import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
-import com.smartgwt.client.widgets.form.fields.events.ClickEvent;
-import com.smartgwt.client.widgets.form.fields.events.ClickHandler;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
+import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
+import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
@@ -30,7 +28,7 @@ public class LONI_Chart extends VLayout {
 			try {
 				chart.updateValues();
 
-				if(monitorType == "Memory") {
+				if(monitorType.equals("Memory")) {
 					MemoryStatistics stats = chart.getMemStatistics();
 					statistics.setText(0, 0,  "Initial memory:  ");
 					statistics.setText(0, 1, stats.getInitMemMB() + " MB");
@@ -44,7 +42,7 @@ public class LONI_Chart extends VLayout {
 					statistics.setText(3, 0, "Maximum memory:  ");
 					statistics.setText(3, 1, stats.getMaxMemMB() + " MB");
 				}
-				else if(monitorType == "Thread") {
+				else if(monitorType.equals("Thread")) {
 					ArrayList<Integer> thrdStats = chart.getThrdStatistics();
 					statistics.setText(0, 0, "Thread Count:  ");
 					statistics.setText(0, 1, thrdStats.get(0) + "");
@@ -75,7 +73,7 @@ public class LONI_Chart extends VLayout {
 	private void initialize()
 	{
 		// set up memory chart panels
-		if(this.monitorType == "Memory")
+		if(this.monitorType.equals("Memory"))
 		{
 			setHeight100();
 			setWidth100();
@@ -106,51 +104,51 @@ public class LONI_Chart extends VLayout {
 
 			// create graph selection check boxes
 			DynamicForm checkBoxes = new DynamicForm();
-			final NativeCheckboxItem initMem = new NativeCheckboxItem();
+			final CheckboxItem initMem = new CheckboxItem();
 			initMem.setTitle("Initial Memory");
 			initMem.setValue(true);
-			initMem.addClickHandler(new ClickHandler() {
+			initMem.addChangeHandler(new ChangeHandler() {
 
 				@Override
-				public void onClick(ClickEvent event) {
-					boolean checked = initMem.getValueAsBoolean();
-					chart.updateType("Initial Memory", !checked);
+				public void onChange(ChangeEvent event) {
+					Boolean checked = (Boolean) event.getValue();
+					chart.updateType("Initial Memory", checked);
 				}
 
 			});
-			final NativeCheckboxItem usedMem = new NativeCheckboxItem();
+			final CheckboxItem usedMem = new CheckboxItem();
 			usedMem.setTitle("Used Memory");
 			usedMem.setValue(true);
-			usedMem.addClickHandler(new ClickHandler() {
+			usedMem.addChangeHandler(new ChangeHandler() {
 
 				@Override
-				public void onClick(ClickEvent event) {
-					boolean checked = usedMem.getValueAsBoolean();
-					chart.updateType("Used Memory", !checked);
+				public void onChange(ChangeEvent event) {
+					Boolean checked = (Boolean) event.getValue();
+					chart.updateType("Used Memory", checked);
 				}
 
 			});
-			final NativeCheckboxItem commMem = new NativeCheckboxItem();
+			final CheckboxItem commMem = new CheckboxItem();
 			commMem.setTitle("Committed Memory");
 			commMem.setValue(true);
-			commMem.addClickHandler(new ClickHandler() {
+			commMem.addChangeHandler(new ChangeHandler() {
 
 				@Override
-				public void onClick(ClickEvent event) {
-					boolean checked = commMem.getValueAsBoolean();
-					chart.updateType("Committed Memory", !checked);
+				public void onChange(ChangeEvent event) {
+					Boolean checked = (Boolean) event.getValue();
+					chart.updateType("Committed Memory", checked);
 				}
 
 			});
-			final NativeCheckboxItem maxMem = new NativeCheckboxItem();
+			final CheckboxItem maxMem = new CheckboxItem();
 			maxMem.setTitle("Max Memory");
 			maxMem.setValue(true);
-			maxMem.addClickHandler(new ClickHandler() {
+			maxMem.addChangeHandler(new ChangeHandler() {
 
 				@Override
-				public void onClick(ClickEvent event) {
-					boolean checked = maxMem.getValueAsBoolean();
-					chart.updateType("Max Memory", !checked);
+				public void onChange(ChangeEvent event) {
+					Boolean checked = (Boolean) event.getValue();
+					chart.updateType("Max Memory", checked);
 				}
 
 			});
@@ -175,7 +173,7 @@ public class LONI_Chart extends VLayout {
 			timer.scheduleRepeating(5000);
 		}
 		// set up thread panels
-		else if(this.monitorType == "Thread")
+		else if(this.monitorType.equals("Thread"))
 		{
 			setHeight100();
 			setWidth100();

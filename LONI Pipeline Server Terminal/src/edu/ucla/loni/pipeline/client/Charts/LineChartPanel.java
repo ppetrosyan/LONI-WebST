@@ -21,7 +21,6 @@ import com.googlecode.gwt.charts.client.options.HAxis;
 import com.googlecode.gwt.charts.client.options.VAxis;
 import com.smartgwt.client.widgets.layout.Layout;
 
-// TODO: add error messages to all 'fail' cases
 public class LineChartPanel extends Layout {
 
 	private LineChart chart;
@@ -69,7 +68,7 @@ public class LineChartPanel extends Layout {
 		try {
 			Document doc = XMLParser.parse(cleanXml);
 
-			if(monitorType == "Memory") {
+			if(monitorType.equals("Memory")) {
 				// parse MemoryUsage tree
 				Node memRoot = (Node) doc.getElementsByTagName("MemoryUsage").item(0);
 				if(memRoot == null) {
@@ -105,7 +104,7 @@ public class LineChartPanel extends Layout {
 
 				calculateStatistics();
 			}
-			else if(monitorType == "Thread") {
+			else if(monitorType.equals("Thread")) {
 				// parse ThreadUsage tree
 				Node threadRoot = (Node) doc.getElementsByTagName("ThreadUsage").item(0);
 				if(threadRoot == null) {
@@ -145,7 +144,7 @@ public class LineChartPanel extends Layout {
 
 	public void refreshChart(String xml) {
 		// clear existing chart variables first
-		if(monitorType == "Memory") {
+		if(monitorType.equals("Memory")) {
 			color = "D9F6FA";
 			start = 0;
 			end = maxEntries;
@@ -163,7 +162,7 @@ public class LineChartPanel extends Layout {
 			commUsed = false;
 			maxUsed = false;
 		}
-		else if(monitorType == "Thread") {
+		else if(monitorType.equals("Thread")) {
 			color = "D9F6FA";
 			start = 0;
 			end = maxEntries;
@@ -213,7 +212,7 @@ public class LineChartPanel extends Layout {
 				color = "FFFF66";
 			// red
 			else if(threadCnt.get(end - 1) > .8 * threadPk.get(end - 1))
-				color = "CC6666";
+				color = "EDDAE2";
 			// blue
 			else
 				color = "D9F6FA";
@@ -225,7 +224,7 @@ public class LineChartPanel extends Layout {
 
 	private void calculateStatistics() {
 		// calculate memory statistics
-		if(monitorType == "Memory" && !initMem.isEmpty() && !usedMem.isEmpty() 
+		if(monitorType.equals("Memory") && !initMem.isEmpty() && !usedMem.isEmpty() 
 				&& !commMem.isEmpty() && !maxMem.isEmpty()) {
 
 			int currInitMem = initMem.get(end - 1);
@@ -247,7 +246,7 @@ public class LineChartPanel extends Layout {
 			memStats.setCommMaxMemPercent(commMaxPercent);
 		}
 		// calculate thread statistics
-		else if(monitorType == "Thread" && !threadCnt.isEmpty() && !threadPk.isEmpty()) {
+		else if(monitorType.equals("Thread") && !threadCnt.isEmpty() && !threadPk.isEmpty()) {
 			thrdStats.clear();
 			thrdStats.add(threadCnt.get(end - 1));
 			thrdStats.add(threadPk.get(end - 1));
@@ -265,8 +264,8 @@ public class LineChartPanel extends Layout {
 	public void updateValues() {
 		try {
 			// increment start and end if there are more values in arrays
-			if((monitorType == "Memory" && end < initMem.size() && end < usedMem.size() && end < commMem.size() && end < maxMem.size() && end < times.size()) ||
-					((monitorType == "Thread" && end < threadCnt.size() && end < threadPk.size()&& end < times.size()))) {
+			if((monitorType.equals("Memory") && end < initMem.size() && end < usedMem.size() && end < commMem.size() && end < maxMem.size() && end < times.size()) ||
+					((monitorType.equals("Thread") && end < threadCnt.size() && end < threadPk.size()&& end < times.size()))) {
 				start++;
 				end++;
 			}
@@ -361,10 +360,10 @@ public class LineChartPanel extends Layout {
 	private void initialize(String mt) {	
 		monitorType = mt;
 
-		if(monitorType == "Memory") {
+		if(monitorType.equals("Memory")) {
 			initializeMemory();
 		}
-		else if(monitorType == "Thread") {
+		else if(monitorType.equals("Thread")) {
 			initializeThread();
 		}
 		else {
@@ -423,7 +422,7 @@ public class LineChartPanel extends Layout {
 				}
 			}
 
-			if(monitorType == "Memory") {
+			if(monitorType.equals("Memory")) {
 				if(initUsed) {
 					int next = start;
 					for(int row = 0; row < maxEntries; row++) {
@@ -461,7 +460,7 @@ public class LineChartPanel extends Layout {
 					}
 				}
 			}
-			else if(monitorType == "Thread") {
+			else if(monitorType.equals("Thread")) {
 				if(threadUsed) {
 					int next = start;
 					for(int row = 0; row < maxEntries; row++) {
