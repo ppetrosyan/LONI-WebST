@@ -627,67 +627,136 @@ public class LONI_Pipeline_ST_Tabset_Display {
 
 		VLayout layoutGrid = new VLayout();
 
-		DynamicForm dynamicForm = new DynamicForm();
-
-		NativeCheckboxItem enableGrid = new NativeCheckboxItem();
+		DynamicForm dynamicFormEnableGrid = new DynamicForm();
+		CheckboxItem enableGrid = new CheckboxItem();
 		enableGrid.setTitle("Enable Grid");
-
+		enableGrid.setLabelAsTitle(true);
+		dynamicFormEnableGrid.setFields(enableGrid);
+		dynamicFormEnableGrid.setAlign(Alignment.LEFT);
+		formatForm(dynamicFormEnableGrid);
+		layoutGrid.addMember(dynamicFormEnableGrid);
+		
+		// add line
+		com.smartgwt.client.widgets.Label line1 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutGrid.addMember(line1);
+		
+		// general
+		com.smartgwt.client.widgets.Label labelGeneralBasic = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>General</font></b>");
+		labelGeneralBasic.setSize("70px", "20px");
+		layoutGrid.addMember(labelGeneralBasic);
+		
 		final TextItem gridEngineNativeSpec = new TextItem(
-				"gridEngineNativeSpec", "Grid engine native specification");
+		"gridEngineNativeSpec", "Grid engine native specification");
 		gridEngineNativeSpec.setDisabled(true);
-
+		
 		final TextItem jobNamePrefix = new TextItem("jobNamePrefix",
 				"Job name prefix");
 		jobNamePrefix.setDisabled(true);
-
+		
 		final TextItem jobSubmissionQueue = new TextItem("jobSubmissionQueue",
 				"Job submission queue");
-		jobSubmissionQueue.setDisabled(true);
-
+		
 		final TextItem complexResourceAttributes = new TextItem(
 				"complexResourceAttributes", "Complex resource attributes");
 		complexResourceAttributes.setDisabled(true);
-
+		
 		final NativeCheckboxItem sgeMem = new NativeCheckboxItem();
-		sgeMem.setDisabled(true);
 		sgeMem.setTitle("Report SGE memory usage");
-
+		
 		final SelectItem gridVariablesPolicy = new SelectItem();
 		gridVariablesPolicy.setDisabled(true);
 		gridVariablesPolicy.setTitle("Grid Variables policy");
-
+		
+		gridVariablesPolicy.setMultipleAppearance(MultipleAppearance.GRID);
+		gridVariablesPolicy.setMultiple(false);
+		String[] policyArray = {
+				"Disallow all variables, except specified",
+				"Allow all variables, except specified" };
+		gridVariablesPolicy.setWidth(220);
+		gridVariablesPolicy.setDefaultToFirstOption(true);
+		gridVariablesPolicy.setValueMap(policyArray);
+		
 		final TextItem gridVariablesPolicyText = new TextItem(
-				"gridVariablesPolicyText", "Policy Text");
+				"gridVariablesPolicyText", "Specified variables");
 		gridVariablesPolicyText.setDisabled(true);
-
+		
 		final TextItem prefixBeforeVar = new TextItem("prefixBeforeVar",
 				"Prefix before each variable");
 		prefixBeforeVar.setDisabled(true);
-
+		
 		final SpinnerItem maxParallelThreads = new SpinnerItem(
 				"maxParallelThreads",
 				"Max number of parallel submission threads");
 		maxParallelThreads.setValue(50);
+		maxParallelThreads.setMin(1);
+		maxParallelThreads.setMax(999);
 		maxParallelThreads.setDisabled(true);
-
+		
 		final SpinnerItem maxNumResubmissions = new SpinnerItem(
 				"maxNumResubmissions",
 				"Max number of resubmissions for \"error stated\" jobs");
 		maxNumResubmissions.setValue(3);
+		maxNumResubmissions.setMin(0);
+		maxNumResubmissions.setMax(99);
 		maxNumResubmissions.setDisabled(true);
+		
+		final RadioGroupItem totalNumSlots = new RadioGroupItem();
+		totalNumSlots.setTitle("Total number of slots");
+		totalNumSlots.setValueMap("Known number", "Get from command");
+		totalNumSlots.setVertical(true);
+		totalNumSlots.setDefaultValue("Known number");
+		totalNumSlots.setDisabled(true);
 
-		final NativeCheckboxItem arrayJobEnable = new NativeCheckboxItem();
-		arrayJobEnable.setTitle("Enable");
-
-		DynamicForm arrayJobForm = new DynamicForm();
-		arrayJobForm.setFields(new FormItem[] { arrayJobEnable });
-
-		final CanvasItem arrayJob = new CanvasItem();
-		arrayJob.setTitle("Array Job");
-		formatForm(arrayJobForm);
-		arrayJob.setCanvas(arrayJobForm);
-		arrayJob.setDisabled(true);
-
+		final SpinnerItem knownNumber = new SpinnerItem("knownNumber", "Num");
+		knownNumber.setValue(0);
+		knownNumber.setMin(0);
+		knownNumber.setMax(99999);
+		knownNumber.setDisabled(true);
+		
+		final TextItem getFromCommand = new TextItem("getFromCommand", "Cmd");
+		getFromCommand.setDisabled(true);
+		getFromCommand.setVisible(false);
+		
+		totalNumSlots.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				if(totalNumSlots.getValueAsString().equals("Known number")) {
+					knownNumber.hide();
+					getFromCommand.show();
+				}
+				else if(totalNumSlots.getValueAsString().equals("Get from command")) {
+					knownNumber.show();
+					getFromCommand.hide();
+				}
+			}
+		});
+		
+		DynamicForm dynamicFormGeneral = new DynamicForm();
+		dynamicFormGeneral.setItems( new FormItem[] { gridEngineNativeSpec, jobNamePrefix, jobSubmissionQueue,
+				complexResourceAttributes, sgeMem, gridVariablesPolicy,
+				gridVariablesPolicyText, prefixBeforeVar, maxParallelThreads,
+				maxNumResubmissions, totalNumSlots, knownNumber, getFromCommand });
+		
+		formatForm(dynamicFormGeneral);
+		layoutGrid.addMember(dynamicFormGeneral);
+		
+		// add line
+		com.smartgwt.client.widgets.Label line2 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutGrid.addMember(line2);
+		
+		// array job
+		com.smartgwt.client.widgets.Label labelArrayJob = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Array Job</font></b>");
+		labelArrayJob.setSize("70px", "20px");
+		layoutGrid.addMember(labelArrayJob);
+		
+		final CheckboxItem enableArrayJob = new CheckboxItem();
+		enableArrayJob.setTitle("Enable Array Job");
+		enableArrayJob.setLabelAsTitle(true);
+		enableArrayJob.setDisabled(true);
+		
 		final IntegerItem chunks = new IntegerItem("chunks",
 				"Break into chunks when number of jobs exceeds");
 		chunks.setValue(200);
@@ -697,8 +766,9 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		final SpinnerItem fileStat = new SpinnerItem("fileStat",
 				"Use File Stat with Timeout");
 		fileStat.setValue(0);
-		// TODO: implement total number of slots... thing
-		fileStat.setHint("0 - [insert total number of slots here]");
+		fileStat.setMin(0);
+		fileStat.setMax(999);
+		fileStat.setHint("0 - disabled");
 		fileStat.setDisabled(true);
 
 		final IntegerItem chunkSize = new IntegerItem("chunkSize", "Chunk size");
@@ -709,10 +779,64 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		final NativeCheckboxItem increaseChunkSize = new NativeCheckboxItem();
 		increaseChunkSize.setTitle("Gradually increase chunk size.");
 		increaseChunkSize.setDisabled(true);
+		
+		final IntegerItem maxChunkSize = new IntegerItem("maxChunkSize", "Maximum chunk size");
+		maxChunkSize.setValue(400);
+		maxChunkSize.setHint("(default: 400)");
+		maxChunkSize.setDisabled(true);
+		maxChunkSize.setVisible(false);
+		
+		increaseChunkSize.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				if((Boolean) event.getValue()) {
+					maxChunkSize.show();
+				}
+				else {
+					maxChunkSize.hide();
+				}
+			}
+		});
+		
+		enableArrayJob.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				Boolean cstat = (Boolean) event.getValue();
 
+				chunks.setDisabled(!cstat);
+				fileStat.setDisabled(!cstat);
+				chunkSize.setDisabled(!cstat);
+				increaseChunkSize.setDisabled(!cstat);
+				maxChunkSize.setDisabled(!cstat);
+			}
+		});
+		
+		DynamicForm dynamicFormArrayJob = new DynamicForm();
+		dynamicFormArrayJob.setItems( new FormItem[] { enableArrayJob, chunks, fileStat, chunkSize, increaseChunkSize, maxChunkSize } );
+		
+		formatForm(dynamicFormArrayJob);
+		layoutGrid.addMember(dynamicFormArrayJob);
+		
+		// add line
+		com.smartgwt.client.widgets.Label line3 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutGrid.addMember(line3);
+		
+		// grid plugin
+		com.smartgwt.client.widgets.Label labelGridPlugin = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Grid Plugin</font></b>");
+		labelGridPlugin.setSize("90px", "20px");
+		layoutGrid.addMember(labelGridPlugin);
+		
 		final SelectItem gridPlugin = new SelectItem();
 		gridPlugin.setTitle("Grid Plugin");
 		gridPlugin.setDisabled(true);
+		gridPlugin.setMultipleAppearance(MultipleAppearance.GRID);
+		gridPlugin.setMultiple(false);
+		String[] pluginArray = {
+				"JGDI",
+				"DRMAA",
+				"Customized" };
+		gridPlugin.setDefaultValue("Customized");
+		gridPlugin.setValueMap(pluginArray);
 
 		final TextItem jarFiles = new TextItem("jarFiles", "Jar file(s)");
 		jarFiles.setDisabled(true);
@@ -720,7 +844,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		final TextItem jarFilesClass = new TextItem("jarFilesClass", "Class");
 		jarFilesClass.setDisabled(true);
 
-		final NativeCheckboxItem restartService = new NativeCheckboxItem();
+		final CheckboxItem restartService = new CheckboxItem();
 		restartService.setTitle("Use Restartable Service");
 		restartService.setDisabled(true);
 
@@ -735,19 +859,43 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		final TextItem jarFile = new TextItem("jarFile", "JAR File");
 		jarFile.setHint("(default: <SERVER_PATH>/dist/gridplugins/PipelineGridService.jar)");
 		jarFile.setDisabled(true);
+		
+		restartService.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				Boolean cstat = (Boolean) event.getValue();
+				
+				gridPort.setDisabled(!cstat);
+				memItem.setDisabled(!cstat);
+				jarFile.setDisabled(!cstat);
+			}
+		});
 
-		final NativeCheckboxItem retrieveList = new NativeCheckboxItem();
-		retrieveList.setTitle("Retrieve lists for finished job checkings");
-		retrieveList.setDisabled(true);
+		final NativeCheckboxItem enableMonitored = new NativeCheckboxItem();
+		enableMonitored.setTitle("Enable monitored job verification");
+		enableMonitored.setDisabled(true);
 
 		final NativeCheckboxItem gridEngineAdmin = new NativeCheckboxItem();
 		gridEngineAdmin.setTitle("Pipeline user is a grid engine admin");
 		gridEngineAdmin.setDisabled(true);
 
-		final StaticTextItem gridAcctLabel = new StaticTextItem(
-				"gridAcctLabel", "Grid Accounting");
-		gridAcctLabel.setDisabled(true);
-
+		DynamicForm dynamicFormGridPlugin = new DynamicForm();
+		dynamicFormGridPlugin.setItems( new FormItem[] { gridPlugin, jarFiles, restartService, gridPort, memItem, jarFile, 
+					enableMonitored, gridEngineAdmin } );
+		
+		formatForm(dynamicFormGridPlugin);
+		layoutGrid.addMember(dynamicFormGridPlugin);
+		
+		// add line
+		com.smartgwt.client.widgets.Label line4 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutGrid.addMember(line4);
+		
+		// grid accounting
+		com.smartgwt.client.widgets.Label labelGridAccounting = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Grid Accounting</font></b>");
+		labelGridAccounting.setSize("120px", "20px");
+		layoutGrid.addMember(labelGridAccounting);
+		
 		final TextItem gridAcctURL = new TextItem("gridAcctURL", "URL");
 		gridAcctURL.setDisabled(true);
 
@@ -757,98 +905,56 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		final PasswordItem gridPassword = new PasswordItem("gridPassword",
 				"Password");
 		gridPassword.setDisabled(true);
-
-		// TODO: add the rest of the fields
-
+		
+		DynamicForm dynamicFormGridAccounting = new DynamicForm();
+		dynamicFormGridAccounting.setItems( new FormItem[] { gridAcctURL, gridUsername, gridPassword } );
+		
+		formatForm(dynamicFormGridAccounting);
+		layoutGrid.addMember(dynamicFormGridAccounting);
+		
 		enableGrid.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
-				if (!cstat) {
-					gridEngineNativeSpec.clearValue();
-					jobNamePrefix.clearValue();
-					jobSubmissionQueue.clearValue();
-					complexResourceAttributes.clearValue();
-					sgeMem.clearValue();
-					gridVariablesPolicy.clearValue();
-					gridVariablesPolicyText.clearValue();
-					prefixBeforeVar.clearValue();
-					maxParallelThreads.setValue(50);
-					maxNumResubmissions.setValue(3);
-					arrayJobEnable.clearValue();
-					chunks.setValue(200);
-					fileStat.setValue(0);
-					chunkSize.setValue(50);
-					increaseChunkSize.clearValue();
-					gridPlugin.clearValue();
-					jarFiles.clearValue();
-					jarFilesClass.clearValue();
-					restartService.clearValue();
-					gridPort.setValue(8111);
-					memItem.clearValue();
-					jarFile.clearValue();
-					retrieveList.clearValue();
-					gridEngineAdmin.clearValue();
-					gridAcctLabel.clearValue();
-					gridAcctURL.clearValue();
-					gridUsername.clearValue();
-					gridPassword.clearValue();
-				}
-
+				
+				// toggle fields
 				gridEngineNativeSpec.setDisabled(!cstat);
 				jobNamePrefix.setDisabled(!cstat);
-				jobSubmissionQueue.setDisabled(!cstat);
 				complexResourceAttributes.setDisabled(!cstat);
-				sgeMem.setDisabled(!cstat);
 				gridVariablesPolicy.setDisabled(!cstat);
 				gridVariablesPolicyText.setDisabled(!cstat);
 				prefixBeforeVar.setDisabled(!cstat);
 				maxParallelThreads.setDisabled(!cstat);
 				maxNumResubmissions.setDisabled(!cstat);
-				arrayJob.setDisabled(!cstat);
+				totalNumSlots.setDisabled(!cstat);
+				knownNumber.setDisabled(!cstat);
+				getFromCommand.setDisabled(!cstat);
+				enableArrayJob.setDisabled(!cstat);
 				gridPlugin.setDisabled(!cstat);
 				jarFiles.setDisabled(!cstat);
 				jarFilesClass.setDisabled(!cstat);
 				restartService.setDisabled(!cstat);
-				gridPort.setDisabled(!cstat);
-				memItem.setDisabled(!cstat);
-				jarFile.setDisabled(!cstat);
-				retrieveList.setDisabled(!cstat);
+				enableMonitored.setDisabled(!cstat);
 				gridEngineAdmin.setDisabled(!cstat);
-				gridAcctLabel.setDisabled(!cstat);
 				gridAcctURL.setDisabled(!cstat);
 				gridUsername.setDisabled(!cstat);
 				gridPassword.setDisabled(!cstat);
-			}
-		});
-
-		arrayJobEnable.addChangeHandler(new ChangeHandler() {
-			public void onChange(ChangeEvent event) {
-				Boolean cstat = (Boolean) event.getValue();
-				if (!cstat) {
-					chunks.setValue(200);
-					fileStat.setValue(0);
-					chunkSize.setValue(50);
-					increaseChunkSize.clearValue();
+				
+				// disable array job
+				if(enableArrayJob.getValueAsBoolean()) {
+					chunks.setDisabled(!cstat);
+					fileStat.setDisabled(!cstat);
+					chunkSize.setDisabled(!cstat);
+					increaseChunkSize.setDisabled(!cstat);
 				}
-
-				chunks.setDisabled(!cstat);
-				fileStat.setDisabled(!cstat);
-				chunkSize.setDisabled(!cstat);
-				increaseChunkSize.setDisabled(!cstat);
+				
+				// disable restart services
+				if(restartService.getValueAsBoolean()) {
+					gridPort.setDisabled(!cstat);
+					memItem.setDisabled(!cstat);
+					jarFile.setDisabled(!cstat);
+				}
 			}
 		});
-
-		dynamicForm.setFields(new FormItem[] { enableGrid,
-				gridEngineNativeSpec, jobNamePrefix, jobSubmissionQueue,
-				complexResourceAttributes, sgeMem, gridVariablesPolicy,
-				gridVariablesPolicyText, prefixBeforeVar, maxParallelThreads,
-				maxNumResubmissions, arrayJob, chunks, fileStat, chunkSize,
-				increaseChunkSize, gridPlugin, jarFiles, jarFilesClass,
-				restartService, gridPort, memItem, jarFile, retrieveList,
-				gridEngineAdmin, gridAcctLabel, gridAcctURL, gridUsername,
-				gridPassword });
-		formatForm(dynamicForm);
-		layoutGrid.addMember(dynamicForm);
 
 		tabGrid.setPane(layoutGrid);
 		return tabGrid;
