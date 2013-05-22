@@ -1,5 +1,8 @@
 package edu.ucla.loni.pipeline.client.MainPage.Preferences;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.XMLParser;
+import com.google.gwt.xml.client.impl.DOMParseException;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.events.ClickEvent;
@@ -19,6 +22,7 @@ import edu.ucla.loni.pipeline.client.MainPage.Preferences.Packages.PackagesTab;
 public class PreferencesTab {
 
 	private VLayout padding;
+	private GridTab gridTab;
 	
 	public PreferencesTab(VLayout padding) {
 		this.padding = padding;
@@ -78,7 +82,7 @@ public class PreferencesTab {
 		GeneralTab generalTab = new GeneralTab();
 		tabSet.addTab(generalTab.setTab());
 		
-		GridTab gridTab = new GridTab();
+		gridTab = new GridTab();
 		tabSet.addTab(gridTab.setTab());
 		
 		AccessTab accessTab = new AccessTab();
@@ -99,5 +103,25 @@ public class PreferencesTab {
 
 		tabPreferences.setPane(prefLayout);
 		return tabPreferences;
+	}
+
+	public void refreshPrefTab(String xml) {
+		parsePrefXML(xml);
+	}
+	
+	private void parsePrefXML(String xml) {
+		// remove whitespace
+		String cleanXml = xml.replaceAll("\t", "");
+		cleanXml.replaceAll("\n", "");
+	
+		try {
+			Document doc = XMLParser.parse(cleanXml);
+	
+			gridTab.parseGridXML(doc);
+		}
+		catch (DOMParseException e) {
+			System.err.println("Could not parse XML file. Check XML file format.");
+			return;
+		}
 	}
 }

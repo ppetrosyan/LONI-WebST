@@ -4,6 +4,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
+import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
 
 public class LONIDataRequester {
@@ -11,11 +12,14 @@ public class LONIDataRequester {
 	private AsyncClientServices asyncClientServices;
 	private LONI_Chart memChart;
 	private LONI_Chart thrdChart;
+	private PreferencesTab preferencesTab;
 	
-	public LONIDataRequester(AsyncClientServices asyncClientServices, LONI_Chart memChart, LONI_Chart thrdChart) {
+	public LONIDataRequester(AsyncClientServices asyncClientServices, LONI_Chart memChart, LONI_Chart thrdChart, 
+			PreferencesTab preferencesTab) {
 		this.asyncClientServices = asyncClientServices;
 		this.memChart = memChart;
 		this.thrdChart = thrdChart;
+		this.preferencesTab = preferencesTab;
 	}
 	
 	public void refreshResourceTabs() {
@@ -51,6 +55,7 @@ public class LONIDataRequester {
             @Override
             public void onSuccess(final String xmlData) {
             	/** Preferences Tab */
+            	preferencesTab.refreshPrefTab(xmlData);
                 
                 Window.alert("Configuration Tabs refreshed successfully.");
             }

@@ -28,6 +28,8 @@ public class LONI_Pipeline_ST_Tabset_Display {
 
 	VLayout mainLayout = new VLayout();
 	AsyncClientServices asyncClientServices;
+	
+	private PreferencesTab preferencesTab;
 
 	public LONI_Pipeline_ST_Tabset_Display() {
 		mainLayout.setMembersMargin(20);
@@ -125,13 +127,13 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		tabset.addTab(threadUsageTab.setTab());
 		
 		// Preferences tab
-		PreferencesTab preferencesTab = new PreferencesTab(padding);
+		preferencesTab = new PreferencesTab(padding);
 		tabset.addTab(preferencesTab.setTab());
 		
 		// Refresh All Tabs
 		LONIDataRequester dataRequester = new LONIDataRequester(
 				asyncClientServices, memoryUsageTab.getChart(),
-				threadUsageTab.getChart());
+				threadUsageTab.getChart(), preferencesTab);
 
 		// Uploads tab
 		UploadTab uploadTab = new UploadTab(dataRequester);

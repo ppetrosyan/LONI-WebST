@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LONIConfigurationData>
+    <Preferences>
+        <Grid>
+            <EnableGrid>True</EnableGrid>
+            <GridEngineNativeSpec>All your base are belong to us.</GridEngineNativeSpec>
+            <JobNamePrefix>Ima firin' mah lazor!</JobNamePrefix>
+            <JobSubmissionQueue>Longcat is long...</JobSubmissionQueue>
+            <ComplexResourceAttributes>I see what you did there.</ComplexResourceAttributes>
+            <ReportSGE>True</ReportSGE>
+            <GridVariablesPolicy>Allow all variables, except specified</GridVariablesPolicy>
+            <SpecifiedVariables>Flying unicorn death beam!</SpecifiedVariables>
+            <PrefixBeforeVar>I can has cheezburgerz...?</PrefixBeforeVar>
+            <MaxNumParallelSub>42</MaxNumParallelSub>
+            <MaxNumResubmissions>42</MaxNumResubmissions>
+            <TotalNumSlots>Known number</TotalNumSlots>
+            <TotalNumSlotsVal>42</TotalNumSlotsVal>
+        </Grid>
+    </Preferences>
+</LONIConfigurationData>
