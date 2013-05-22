@@ -24,7 +24,13 @@ import edu.ucla.loni.pipeline.client.Upload.Uploaders.LONIFileUploader;
 
 public class UploadTab {
 	
-	public static Tab setTab(LONIDataRequester dataRequester) {
+	private LONIDataRequester dataRequester;
+	
+	public UploadTab(LONIDataRequester dataRequester) {
+		this.dataRequester = dataRequester;
+	}
+	
+	public Tab setTab() {
 		Tab tabUpload = new Tab("Upload");
 
 		final VerticalPanel fileuploadPanel = new VerticalPanel();

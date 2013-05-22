@@ -8,7 +8,13 @@ import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 
 public class MemoryUsageTab {
 	
-	public static Tab setTab(final LONI_Chart memChart) {
+	private LONI_Chart memChart;
+	
+	public MemoryUsageTab() {
+		memChart = new LONI_Chart("Memory");
+	}
+	
+	public Tab setTab() {
 		Tab tabMemoryUsage = new Tab("Memory Usage");
 
 		tabMemoryUsage.addTabSelectedHandler(new TabSelectedHandler() {
@@ -20,5 +26,9 @@ public class MemoryUsageTab {
 
 		tabMemoryUsage.setPane(memChart);
 		return tabMemoryUsage;
+	}
+	
+	public LONI_Chart getChart() {
+		return memChart;
 	}
 }

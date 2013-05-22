@@ -8,7 +8,13 @@ import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 
 public class ThreadUsageTab {
 	
-	public static Tab setTab(final LONI_Chart thrdChart) {
+	private LONI_Chart thrdChart; 
+	
+	public ThreadUsageTab() {
+		thrdChart = new LONI_Chart("Thread");
+	}
+	
+	public Tab setTab() {
 		Tab tabThreadUsage = new Tab("Thread Usage");
 
 		tabThreadUsage.addTabSelectedHandler(new TabSelectedHandler() {
@@ -20,5 +26,9 @@ public class ThreadUsageTab {
 
 		tabThreadUsage.setPane(thrdChart);
 		return tabThreadUsage;
+	}
+	
+	public LONI_Chart getChart() {
+		return thrdChart;
 	}
 }

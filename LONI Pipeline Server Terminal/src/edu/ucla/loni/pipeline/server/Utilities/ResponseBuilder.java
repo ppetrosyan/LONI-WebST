@@ -11,6 +11,10 @@ public class ResponseBuilder {
 	}
 	
 	public String getRespMessage() {
+		if (respMessageCounter == 1) {
+			respMessage.append("None.\n");
+		}
+		
 		return respMessage.toString();
 	}
 

@@ -18,39 +18,14 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
 public class WorkFlowsTab {
 
-	public static Tab setTab() {
+	private ListGrid listWorkflows;
+
+	public WorkFlowsTab() {
+		initializeListWorkflows();
+	}
+	
+	public Tab setTab() {
 		Tab tabWorkflows = new Tab("Workflows");
-
-		// this function displays the buttons in the ListGrids
-		final ListGrid listWorkflows = new ListGrid() {
-			@Override
-			protected Canvas createRecordComponent(final ListGridRecord record,
-					Integer colNum) {
-				String fieldName = this.getFieldName(colNum);
-				if (fieldName.equals("stop")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(60);
-					button.setTitle("Stop");
-					return button;
-				} else if (fieldName.equals("pause")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(60);
-					button.setTitle("Pause");
-
-					return button;
-				} else if (fieldName.equals("view")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(35);
-					button.setTitle("View");
-					return button;
-				} else {
-					return null;
-				}
-			}
-		}; // end of function
 
 		VLayout layoutWorkflows = new VLayout();
 		layoutWorkflows.setSize("100%", "100%");
@@ -107,7 +82,7 @@ public class WorkFlowsTab {
 		return tabWorkflows;
 	}
 
-	private static void fillWorkFlowsTab(DataSource workFlowsSource,
+	private void fillWorkFlowsTab(DataSource workFlowsSource,
 			ListGridField stopfield, ListGridField pausefield,
 			ListGridField viewfield, ListGrid listWorkflows) {
 		if (workFlowsSource != null) {
@@ -130,6 +105,37 @@ public class WorkFlowsTab {
 																new ListGridField("numCompleted", "C"), stopfield, pausefield,
 																viewfield);
 	}
+	
+	private void initializeListWorkflows() {
+		// this function displays the buttons in the ListGrids
+		listWorkflows = new ListGrid() {
+			@Override
+			protected Canvas createRecordComponent(final ListGridRecord record,
+					Integer colNum) {
+				String fieldName = this.getFieldName(colNum);
+				if (fieldName.equals("stop")) {
+					IButton button = new IButton();
+					button.setHeight(16);
+					button.setWidth(60);
+					button.setTitle("Stop");
+					return button;
+				} else if (fieldName.equals("pause")) {
+					IButton button = new IButton();
+					button.setHeight(16);
+					button.setWidth(60);
+					button.setTitle("Pause");
 
-
+					return button;
+				} else if (fieldName.equals("view")) {
+					IButton button = new IButton();
+					button.setHeight(16);
+					button.setWidth(35);
+					button.setTitle("View");
+					return button;
+				} else {
+					return null;
+				}
+			}
+		}; // end of function
+	}
 }

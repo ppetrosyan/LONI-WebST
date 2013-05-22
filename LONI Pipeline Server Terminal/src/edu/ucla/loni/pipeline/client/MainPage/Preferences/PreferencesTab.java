@@ -18,7 +18,13 @@ import edu.ucla.loni.pipeline.client.MainPage.Preferences.Packages.PackagesTab;
 
 public class PreferencesTab {
 
-	public static Tab setTab(VLayout padding) {
+	private VLayout padding;
+	
+	public PreferencesTab(VLayout padding) {
+		this.padding = padding;
+	}
+	
+	public Tab setTab() {
 		Tab tabPreferences = new Tab("Preferences");
 
 		VLayout prefLayout = new VLayout();
