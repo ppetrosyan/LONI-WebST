@@ -1,18 +1,22 @@
 package edu.ucla.loni.pipeline.client.MainPage;
 
-import com.smartgwt.client.widgets.tab.TabSet;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.user.client.ui.Anchor;
+import com.google.gwt.user.client.ui.HTML;
+import com.google.gwt.user.client.ui.RootPanel;
+import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.Button;
-
-import com.smartgwt.client.widgets.layout.VLayout;
-import com.smartgwt.client.types.Alignment;
-
-import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.layout.VLayout;
+import com.smartgwt.client.widgets.tab.TabSet;
 
 import edu.ucla.loni.pipeline.client.MainPage.MemoryUsage.MemoryUsageTab;
+import edu.ucla.loni.pipeline.client.MainPage.Notifications.Notification;
+import edu.ucla.loni.pipeline.client.MainPage.Notifications.OldNotification;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
 import edu.ucla.loni.pipeline.client.MainPage.ThreadUsage.ThreadUsageTab;
@@ -21,8 +25,6 @@ import edu.ucla.loni.pipeline.client.MainPage.UserUsage.UserUsageTab;
 import edu.ucla.loni.pipeline.client.MainPage.UsersOnline.UsersOnlineTab;
 import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
 
 public class LONI_Pipeline_ST_Tabset_Display {
 
@@ -70,6 +72,8 @@ public class LONI_Pipeline_ST_Tabset_Display {
 			}
 		});
 		headLayout.addMember(logoutBtn);
+		
+		buildNotifications(headLayout);
 
 		padding = new VLayout();
 		padding.setMembersMargin(0);
@@ -88,8 +92,24 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		tabLayout.addMember(tabset);
 		tabLayout.draw();
 		mainLayout.addMember(tabset);
-
+		
 		mainLayout.draw();
+		
+
+	}
+	
+	private void buildNotifications(HLayout headLayout) {
+		HTML notif = new HTML();
+        if (Notification.isSupported()) {
+                notif.setText("Supported "+ Notification.checkPermission());
+                Notification.requestPermission();
+        } else {
+                notif.setText("Unsupported");
+        }
+        
+        Notification notification = Notification.createIfSupported("http://www.gstatic.com/codesite/ph/images/defaultlogo.png");
+        
+       	headLayout.addMember(notif);
 	}
 
 	private TabSet buildtabset(VLayout padding) {
