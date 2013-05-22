@@ -16,7 +16,13 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
 public class UsersOnlineTab {
 	
-	public static Tab setTab(final ListGrid listUsersOnline) {
+	private ListGrid listUsersOnline;
+	
+	public UsersOnlineTab() {
+		listUsersOnline = new ListGrid();
+	}
+	
+	public Tab setTab() {
 		Tab tabUsersOnline = new Tab("Users Online");
 
 		VLayout layoutUsersOnline = new VLayout();
@@ -72,7 +78,7 @@ public class UsersOnlineTab {
 		return tabUsersOnline;
 	}
 	
-	private static void fillUsersOnlineTab(DataSource usersOnlineSource, ListGrid listUsersOnline) {
+	private void fillUsersOnlineTab(DataSource usersOnlineSource, ListGrid listUsersOnline) {
 		if (usersOnlineSource != null) {
 			usersOnlineSource.invalidateCache();
 			usersOnlineSource = UsersOnlineXmlDS.getInstance();

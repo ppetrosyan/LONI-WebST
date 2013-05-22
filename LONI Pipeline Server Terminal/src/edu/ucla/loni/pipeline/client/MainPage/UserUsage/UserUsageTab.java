@@ -12,8 +12,14 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.Tab;
 
 public class UserUsageTab {
+	private ListGrid listUserUsage, listUserUsageCount;
 	
-	public static Tab setTab(final ListGrid listUserUsage, final ListGrid listUserUsageCount) {
+	public UserUsageTab() {
+		listUserUsage = new ListGrid();
+		listUserUsageCount = new ListGrid();
+	}
+	
+	public Tab setTab() {
 		Tab tabUserUsage = new Tab("User Usage");
 
 		VLayout layoutUserUsage = new VLayout();
@@ -34,7 +40,7 @@ public class UserUsageTab {
 		listUserUsageCount.setCanFreezeFields(false);
 		listUserUsageCount.setAutoFitFieldWidths(true);
 
-		fillUserUsageTab(null, null, listUserUsage, listUserUsageCount);
+		fillUserUsageTab(null, null);
 
 		// reading directly from Xml file
 		final DataSource userUsageSource = UserUsageXmlDS.getInstance();
@@ -56,16 +62,17 @@ public class UserUsageTab {
 		layoutUserUsage.addMember(userusagerefreshbutton);
 		userusagerefreshbutton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				fillUserUsageTab(userUsageSource, userUsageCountSource, listUserUsage, listUserUsageCount);
+				fillUserUsageTab(userUsageSource, userUsageCountSource);
 			}
 		});
 
 		tabUserUsage.setPane(layoutUserUsage);
+		
 		return tabUserUsage;
 	}
 	
-	public static void fillUserUsageTab(DataSource userUsageSource,
-			DataSource userUsageCountSource, ListGrid listUserUsage, ListGrid listUserUsageCount) {
+	public void fillUserUsageTab(DataSource userUsageSource,
+			DataSource userUsageCountSource) {
 		if (userUsageSource != null) {
 			userUsageSource.invalidateCache();
 			userUsageSource = UserUsageXmlDS.getInstance();
