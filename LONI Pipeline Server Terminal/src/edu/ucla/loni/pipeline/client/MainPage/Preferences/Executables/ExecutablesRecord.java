@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client;
+package edu.ucla.loni.pipeline.client.MainPage.Preferences.Executables;
 
 import com.smartgwt.client.widgets.grid.ListGridRecord; 
 

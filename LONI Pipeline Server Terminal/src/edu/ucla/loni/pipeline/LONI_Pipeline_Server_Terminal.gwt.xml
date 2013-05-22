@@ -16,16 +16,16 @@
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
+  <inherits name='com.smartclient.theme.treefrog.TreeFrog'/>
 
   <!-- Other module inherits                                      -->
   <inherits name='com.smartgwt.SmartGwt'/>
   <inherits name='org.moxieapps.gwt.uploader.Uploader'/>
   <inherits name='com.googlecode.gwt.charts.Charts'/>
   <inherits name='com.google.gwt.xml.XML'/>
-
+  
   <!-- Specify the app entry point class.                         -->
-  <entry-point class='edu.ucla.loni.pipeline.client.LONI_Pipeline_Server_Terminal'/>
-
+  <entry-point class='edu.ucla.loni.pipeline.client.EntryPoint.LONI_Pipeline_Server_Terminal'/>
 
   <!-- Specify the paths for translatable code                    -->
   <source path='client'/>

@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client;
+package edu.ucla.loni.pipeline.client.Login;
 
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
@@ -12,6 +12,8 @@ import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
+
+import edu.ucla.loni.pipeline.client.MainPage.LONI_Pipeline_ST_Tabset_Display;
 
 public class LONI_Pipeline_ST_Login_Display {
 	VLayout mainLayout = new VLayout();
