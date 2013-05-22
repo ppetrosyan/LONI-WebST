@@ -1,4 +1,4 @@
-package edu.ucla.loni.pipeline.client;
+package edu.ucla.loni.pipeline.client.MainPage.UserUsage;
 
 import com.smartgwt.client.data.DataSource;  
 import com.smartgwt.client.data.fields.*;  

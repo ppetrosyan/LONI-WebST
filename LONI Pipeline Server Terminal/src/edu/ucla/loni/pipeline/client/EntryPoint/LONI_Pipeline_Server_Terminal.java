@@ -1,6 +1,8 @@
-package edu.ucla.loni.pipeline.client;
+package edu.ucla.loni.pipeline.client.EntryPoint;
 
 import com.google.gwt.core.client.EntryPoint;
+
+import edu.ucla.loni.pipeline.client.Login.LONI_Pipeline_ST_Login_Display;
 
 /**
  * Entry point classes define <code>onModuleLoad()</code>.
