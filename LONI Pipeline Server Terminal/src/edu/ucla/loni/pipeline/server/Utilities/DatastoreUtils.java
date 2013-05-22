@@ -14,6 +14,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 
+import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -24,6 +25,8 @@ import com.google.appengine.api.files.FileReadChannel;
 import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
 import com.google.appengine.api.files.FileWriteChannel;
+
+import edu.ucla.loni.pipeline.server.Exceptions.BlobKeyIsInvalidException;
 
 public class DatastoreUtils {
 
@@ -37,7 +40,7 @@ public class DatastoreUtils {
 
 			// Create a new Blob file with mime-type "text/plain"
 			AppEngineFile file = fileService.createNewBlobFile("text/plain");
-
+			
 			// Open a channel to write to it
 			boolean lock = true;
 			FileWriteChannel writeChannel = fileService.openWriteChannel(file, lock);
@@ -63,19 +66,47 @@ public class DatastoreUtils {
 			writeChannel.closeFinally();
 
 			// Add Path to Hashtable
+			BlobKey xmlBlobKeytoDelete = null;
+			boolean previousExists = true;
+			
+			try {
+				Entity xmlEntity = dataStore.get(xmlKey); 
+				xmlBlobKeytoDelete = (BlobKey) xmlEntity.getProperty("blobkey");
+			}
+			catch (EntityNotFoundException e) {
+				previousExists = false;
+			}
+			
 			Entity data = new Entity(xmlKey);
-			data.setProperty("tag", file.getFullPath());
+			BlobKey xmlBlobKey = fileService.getBlobKey(file);
+			respBuilder.appendRespMessage("Storing new XML file.");
+			data.setProperty("blobkey", xmlBlobKey);
 			dataStore.put(data);
+			
+			// Delete previous file if it exists
+			try {
+				if(previousExists) {
+					if(xmlBlobKeytoDelete == null) 
+						throw new BlobKeyIsInvalidException();
+					
+					respBuilder.appendRespMessage("Deleting previous XML file.");
+					AppEngineFile filetoDelete = fileService.getBlobFile(xmlBlobKeytoDelete);
+					fileService.delete(filetoDelete);
+				}
+			}
+			catch (BlobKeyIsInvalidException e) {
+				
+			}
 		}
 		catch (TransformerException e) {
-			respBuilder.appendRespMessage("An error occurred during transformation of DOM Source to stream.\n");
+			respBuilder.appendRespMessage("An error occurred during transformation of DOM Source to stream.");
 			return false;
 		} 
 		catch (IOException e) {
 			respBuilder.appendRespMessage("Could not create new file in blobstore.");
 			return false;
 		}
-
+	
 		return true;
 	}
 
@@ -86,17 +117,17 @@ public class DatastoreUtils {
 		DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();
 
 		try {
-			Entity configurationData = dataStore.get(xmlKey); 
+			Entity xmlEntity = dataStore.get(xmlKey); 
 
-			String configurationTag = (String) configurationData.getProperty("tag");
+			BlobKey xmlBlobKey = (BlobKey) xmlEntity.getProperty("blobkey");
 
-			AppEngineFile file = new AppEngineFile(configurationTag);
+			if(xmlBlobKey == null)
+				throw new BlobKeyIsInvalidException();
+			AppEngineFile file = fileService.getBlobFile(xmlBlobKey);
 
-			// Later, read from the file using the file API
 			boolean lock = false; // Let other people read at the same time
 			FileReadChannel readChannel = fileService.openReadChannel(file, lock);
 
-			// Again, different standard Java ways of reading from the channel.
 			BufferedReader reader =
 					new BufferedReader(Channels.newReader(readChannel, "UTF8"));
 
@@ -115,6 +146,9 @@ public class DatastoreUtils {
 		}
 		catch (IOException e) {
 			respBuilder.appendRespMessage("Could not read XML file from Blobstore.");
+		}
+		catch (BlobKeyIsInvalidException e) {
+			respBuilder.appendRespMessage("BlobKey does not exist for Entity: " + xmlKey.getName());
 		}
 
 		return xmlData;

@@ -24,6 +24,10 @@ public class ResponseBuilder {
 	
 	public void appendRespMessage(String message) {
 		respMessage.append(respMessageCounter + ")  " + message);
+		
+		if(!message.endsWith("\n")) {
+			respMessage.append("\n");
+		}
 		respMessageCounter++;
 	}
 }

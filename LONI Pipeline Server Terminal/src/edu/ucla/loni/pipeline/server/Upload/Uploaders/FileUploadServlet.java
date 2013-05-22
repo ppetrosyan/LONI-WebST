@@ -82,14 +82,14 @@ public class FileUploadServlet extends HttpServlet {
 				}
 			} 
 			catch (FileUploadException e) {
-				respBuilder.appendRespMessage("The file was not uploaded successfully.\n");
+				respBuilder.appendRespMessage("The file was not uploaded successfully.");
 			} 
 			catch (IOException e) {
-				respBuilder.appendRespMessage("The file was not uploaded successfully.\n");
+				respBuilder.appendRespMessage("The file was not uploaded successfully.");
 			}	
 		} 
 		else {
-			respBuilder.appendRespMessage("Your form of request is not supported by this upload servlet.\n");
+			respBuilder.appendRespMessage("Your form of request is not supported by this upload servlet.");
 		}
 	}
 
@@ -115,7 +115,7 @@ public class FileUploadServlet extends HttpServlet {
 				// Write to Blobstore
 				DatastoreUtils.writeXMLFileToBlobStore(document, xmlConfigurationKey, respBuilder);
 
-				respBuilder.appendRespMessage("File Uploaded Successfully, detected Configuration Data.\n");
+				respBuilder.appendRespMessage("File Uploaded Successfully, detected Configuration Data.");
 			}
 			else if(rootTag.equalsIgnoreCase("LONIResourceData")){
 
@@ -125,17 +125,17 @@ public class FileUploadServlet extends HttpServlet {
 				respBuilder.appendRespMessage("File Uploaded Successfully, detected Resource Data.");
 			}
 			else {
-				respBuilder.appendRespMessage("The RootTag of this XML is incorrect.\n");
+				respBuilder.appendRespMessage("The RootTag of this XML is incorrect.");
 			}
 		}
 		catch (ParserConfigurationException e) {
-			respBuilder.appendRespMessage("File uploaded is not a valid XML file.\n");
+			respBuilder.appendRespMessage("File uploaded is not a valid XML file.");
 		}
 		catch (SAXException e) {
-			respBuilder.appendRespMessage("File uploaded is not a valid XML file.\n");
+			respBuilder.appendRespMessage("File uploaded is not a valid XML file.");
 		} 
 		catch (IOException e) {
-			respBuilder.appendRespMessage("Could not parse inputstream.\n");
+			respBuilder.appendRespMessage("Could not parse inputstream.");
 		}
 	}
 }
