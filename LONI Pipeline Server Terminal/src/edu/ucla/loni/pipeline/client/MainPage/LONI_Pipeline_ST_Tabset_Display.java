@@ -109,6 +109,10 @@ public class LONI_Pipeline_ST_Tabset_Display {
         
         Notification notification = Notification.createIfSupported("http://www.gstatic.com/codesite/ph/images/defaultlogo.png");
         
+        if(notification != null) {
+        	notification.createNotification("http://www.gstatic.com/codesite/ph/images/defaultlogo.png", "Test", "Test Notification");
+        }
+        
        	headLayout.addMember(notif);
 	}
 

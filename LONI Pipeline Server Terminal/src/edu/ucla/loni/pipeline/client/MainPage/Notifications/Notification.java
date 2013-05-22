@@ -113,11 +113,26 @@ public class Notification {
 		}
 		return null;
 	}
+	
+	public static Notification createIfSupported() {
+		if (isSupported()) {
+			if (notification == null) {
+				notification =  new Notification();
+			}
+			return notification;
+		}
+		return null;
+	}
 
 	private String contentUrl;
 	private String iconUrl;
 	private String title;
 	private String body;
+	private LONINotification loniNotification;
+	
+	private Notification() {
+		loniNotification = new LONINotification();
+	}
 
 	private Notification(String contentUrl) {
 		this.contentUrl = contentUrl;
@@ -130,6 +145,7 @@ public class Notification {
 		this.body = body;
 	}
 
-
-
+	public void createNotification(String iconUrl, String title, String body) {
+		loniNotification.createNotification(iconUrl, title, body);
+	}
 }
