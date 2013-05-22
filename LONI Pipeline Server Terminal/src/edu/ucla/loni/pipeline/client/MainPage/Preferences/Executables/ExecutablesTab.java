@@ -11,7 +11,11 @@ import com.smartgwt.client.widgets.tab.Tab;
 
 public class ExecutablesTab {
 	
-	public static Tab setTab() {
+	public ExecutablesTab() {
+		
+	}
+	
+	public Tab setTab() {
 		Tab tabExecutables = new Tab("Executables");
 		
 		VLayout layoutUsersExecutables = new VLayout();

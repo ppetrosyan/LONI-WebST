@@ -11,7 +11,11 @@ import com.smartgwt.client.widgets.tab.Tab;
 
 public class PackagesTab {
 	
-	public static Tab setTab() {
+	public PackagesTab() {
+		
+	}
+	
+	public Tab setTab() {
 		Tab tabPackages = new Tab("Packages");
 
 		VLayout layoutUsersPackages = new VLayout();

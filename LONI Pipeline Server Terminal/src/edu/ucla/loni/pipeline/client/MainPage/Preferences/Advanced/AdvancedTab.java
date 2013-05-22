@@ -4,7 +4,11 @@ import com.smartgwt.client.widgets.tab.Tab;
 
 public class AdvancedTab {
 	
-	public static Tab setTab() {
+	public AdvancedTab() {
+		
+	}
+	
+	public Tab setTab() {
 		Tab tabAdvanced = new Tab("Advanced");
 		return tabAdvanced;
 	}
