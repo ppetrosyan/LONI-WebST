@@ -1,6 +1,5 @@
 package edu.ucla.loni.pipeline.client.MainPage;
 
-
 import com.smartgwt.client.widgets.tab.TabSet;
 
 import com.smartgwt.client.types.VerticalAlignment;

@@ -75,12 +75,23 @@ public class PreferencesTab {
 		tabSet.setSize("100%", "100%");
 		tabSet.setPaneMargin(10);
 
-		tabSet.addTab(GeneralTab.setTab());
-		tabSet.addTab(GridTab.setTab());
-		tabSet.addTab(AccessTab.setTab());
-		tabSet.addTab(PackagesTab.setTab());
-		tabSet.addTab(ExecutablesTab.setTab());
-		tabSet.addTab(AdvancedTab.setTab());
+		GeneralTab generalTab = new GeneralTab();
+		tabSet.addTab(generalTab.setTab());
+		
+		GridTab gridTab = new GridTab();
+		tabSet.addTab(gridTab.setTab());
+		
+		AccessTab accessTab = new AccessTab();
+		tabSet.addTab(accessTab.setTab());
+		
+		PackagesTab packagesTab = new PackagesTab();
+		tabSet.addTab(packagesTab.setTab());
+		
+		ExecutablesTab executablesTab = new ExecutablesTab();
+		tabSet.addTab(executablesTab.setTab());
+		
+		AdvancedTab advancedTab = new AdvancedTab();
+		tabSet.addTab(advancedTab.setTab());
 
 		tabSet.draw();
 		prefLayout.addMember(tabSet);

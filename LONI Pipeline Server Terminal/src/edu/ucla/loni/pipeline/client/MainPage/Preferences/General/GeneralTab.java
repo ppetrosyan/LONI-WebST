@@ -17,7 +17,11 @@ import edu.ucla.loni.pipeline.client.MainPage.Utilities.MainPageUtils;
 
 public class GeneralTab {
 	
-	public static Tab setTab() {
+	public GeneralTab() {
+		
+	}
+	
+	public Tab setTab() {
 		Tab tabGeneral = new Tab("General");
 
 		VLayout layoutGeneral = new VLayout();

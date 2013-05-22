@@ -21,7 +21,11 @@ import edu.ucla.loni.pipeline.client.MainPage.Utilities.MainPageUtils;
 
 public class GridTab {
 	
-	public static Tab setTab() {
+	public GridTab() {
+		
+	}
+	
+	public Tab setTab() {
 		Tab tabGrid = new Tab("Grid");
 
 		VLayout layoutGrid = new VLayout();

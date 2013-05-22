@@ -20,7 +20,11 @@ import edu.ucla.loni.pipeline.client.MainPage.Utilities.MainPageUtils;
 
 public class AccessTab {
 	
-	public static Tab setTab() {
+	public AccessTab() {
+		
+	}
+	
+	public Tab setTab() {
 		Tab tabAccess = new Tab("Access");
 		VLayout layoutAccess = new VLayout();
 
