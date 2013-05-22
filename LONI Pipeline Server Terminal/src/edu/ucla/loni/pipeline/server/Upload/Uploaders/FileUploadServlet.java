@@ -135,7 +135,7 @@ public class FileUploadServlet extends HttpServlet {
 			respBuilder.appendRespMessage("File uploaded is not a valid XML file.");
 		} 
 		catch (IOException e) {
-			respBuilder.appendRespMessage("Could not parse inputstream.");
+			respBuilder.appendRespMessage("Could not parse file.  Please upload a text file.");
 		}
 	}
 }
