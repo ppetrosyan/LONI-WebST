@@ -117,11 +117,11 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		tabset.addTab(userUsageTab.setTab());
 
 		// Memory Usage tab
-		MemoryUsageTab memoryUsageTab = new MemoryUsageTab();
+		MemoryUsageTab memoryUsageTab = new MemoryUsageTab(asyncClientServices);
 		tabset.addTab(memoryUsageTab.setTab());
 
 		// Thread Usage tab
-		ThreadUsageTab threadUsageTab = new ThreadUsageTab();
+		ThreadUsageTab threadUsageTab = new ThreadUsageTab(asyncClientServices);
 		tabset.addTab(threadUsageTab.setTab());
 		
 		// Preferences tab
