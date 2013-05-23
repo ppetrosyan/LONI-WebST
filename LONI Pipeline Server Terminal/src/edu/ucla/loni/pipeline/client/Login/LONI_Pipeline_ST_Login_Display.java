@@ -38,7 +38,6 @@ public class LONI_Pipeline_ST_Login_Display {
 		loginLayout.setHeight("250px");
 		loginLayout.setWidth("300px");
 		loginLayout.setMembersMargin(5);
-		loginLayout.setBorder("2px solid black");
 		
 		Label LONILabel = new Label("<b><font size='6'>LONI Pipeline</font></b>");
 		LONILabel.setAlign(Alignment.CENTER);
@@ -71,8 +70,15 @@ public class LONI_Pipeline_ST_Login_Display {
 				
 		loginLayout.addMember(form);
 		
+		VLayout buttonLayout = new VLayout();
+		buttonLayout.setLayoutAlign(Alignment.CENTER);
+		buttonLayout.setHeight("30px");
+		buttonLayout.setWidth("70px");
+		
 		Button buttonSignIn = new Button("Sign in");
-		loginLayout.addMember(buttonSignIn);
+		buttonLayout.addMember(buttonSignIn);
+		
+		loginLayout.addMember(buttonLayout);
 		
 		mainLayout.addMember(loginLayout);
 
