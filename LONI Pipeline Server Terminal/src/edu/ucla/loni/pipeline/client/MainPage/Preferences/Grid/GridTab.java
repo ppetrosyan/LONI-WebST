@@ -171,7 +171,7 @@ public class GridTab {
 		
 		totalNumSlots.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
-				toggleTotalNumSlotsOnEvent();
+				toggleTotalNumSlots(true);
 			}
 		});
 		
@@ -231,7 +231,8 @@ public class GridTab {
 		
 		increaseChunkSize.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
-				if((Boolean) event.getValue()) {
+				Boolean cstat = (Boolean) event.getValue();
+				if(cstat) {
 					maxChunkSize.show();
 				}
 				else {
@@ -243,12 +244,7 @@ public class GridTab {
 		enableArrayJob.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
-
-				chunks.setDisabled(!cstat);
-				fileStat.setDisabled(!cstat);
-				chunkSize.setDisabled(!cstat);
-				increaseChunkSize.setDisabled(!cstat);
-				maxChunkSize.setDisabled(!cstat);
+				toggleArrayJob(cstat);
 			}
 		});
 		
@@ -306,10 +302,7 @@ public class GridTab {
 		restartService.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
-				
-				gridPort.setDisabled(!cstat);
-				memItem.setDisabled(!cstat);
-				jarFile.setDisabled(!cstat);
+				toggleRestartService(cstat);
 			}
 		});
 
@@ -322,8 +315,8 @@ public class GridTab {
 		gridEngineAdmin.setDisabled(true);
 
 		dynamicFormGridPlugin = new DynamicForm();
-		dynamicFormGridPlugin.setItems( new FormItem[] { gridPlugin, jarFiles, restartService, gridPort, memItem, jarFile, 
-					enableMonitored, gridEngineAdmin } );
+		dynamicFormGridPlugin.setItems( new FormItem[] { gridPlugin, jarFiles, jarFilesClass, restartService, gridPort, memItem, 
+				jarFile, enableMonitored, gridEngineAdmin } );
 		
 		MainPageUtils.formatForm(dynamicFormGridPlugin);
 		layoutGrid.addMember(dynamicFormGridPlugin);
@@ -357,7 +350,8 @@ public class GridTab {
 		
 		enableGrid.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
-				toggleAllFieldsOnEvent(event);
+				Boolean cstat = (Boolean) event.getValue();
+				toggleAllFields(cstat);
 			}
 		});
 
@@ -365,31 +359,47 @@ public class GridTab {
 		return tabGrid;
 	}
 	
-	// xml toggle
-	public void toggleTotalNumSlots() {
-		if(dynamicFormGeneral.getItem("totalNumSlots").getValue().equals("Known number")) {
-			dynamicFormGeneral.getItem("knownNumber").show();
-			dynamicFormGeneral.getItem("getFromCommand").hide();
+	// toggle for totalnumslots
+	public void toggleTotalNumSlots(Boolean isEvent) {
+		if(isEvent) {
+			if(totalNumSlots.getValue().equals("Known number")) {
+				knownNumber.hide();
+				getFromCommand.show();
+			}
+			else if(totalNumSlots.getValue().equals("Get from command")) {
+				knownNumber.show();
+				getFromCommand.hide();
+			}
 		}
-		else if(dynamicFormGeneral.getItem("totalNumSlots").getValue().equals("Get from command")) {
-			dynamicFormGeneral.getItem("knownNumber").hide();
-			dynamicFormGeneral.getItem("getFromCommand").show();
+		else {
+			if(totalNumSlots.getValue().equals("Known number")) {
+				knownNumber.show();
+				getFromCommand.hide();
+			}
+			else if(totalNumSlots.getValue().equals("Get from command")) {
+				knownNumber.hide();
+				getFromCommand.show();
+			}
 		}
 	}
 	
-	// change handler must toggle radio buttons in reverse
-	public void toggleTotalNumSlotsOnEvent() {
-		if(dynamicFormGeneral.getItem("totalNumSlots").getValue().equals("Known number")) {
-			dynamicFormGeneral.getItem("knownNumber").hide();
-			dynamicFormGeneral.getItem("getFromCommand").show();
-		}
-		else if(dynamicFormGeneral.getItem("totalNumSlots").getValue().equals("Get from command")) {
-			dynamicFormGeneral.getItem("knownNumber").show();
-			dynamicFormGeneral.getItem("getFromCommand").hide();
-		}
+	// toggle for array job
+	public void toggleArrayJob(Boolean cstat) {
+		chunks.setDisabled(!cstat);
+		fileStat.setDisabled(!cstat);
+		chunkSize.setDisabled(!cstat);
+		increaseChunkSize.setDisabled(!cstat);
+		maxChunkSize.setDisabled(!cstat);
 	}
 	
-	// xml toggle
+	// toggle for restart services
+	public void toggleRestartService(Boolean cstat) {
+		gridPort.setDisabled(!cstat);
+		memItem.setDisabled(!cstat);
+		jarFile.setDisabled(!cstat);
+	}
+	
+	// toggle for all fields
 	public void toggleAllFields(Boolean cstat) {
 		
 		// toggle fields
@@ -417,29 +427,18 @@ public class GridTab {
 		
 		// disable array job
 		if(enableArrayJob.getValueAsBoolean()) {
-			chunks.setDisabled(!cstat);
-			fileStat.setDisabled(!cstat);
-			chunkSize.setDisabled(!cstat);
-			increaseChunkSize.setDisabled(!cstat);
-			maxChunkSize.setDisabled(!cstat);
+			toggleArrayJob(cstat);
 		}
 		
 		// disable restart services
 		if(restartService.getValueAsBoolean()) {
-			gridPort.setDisabled(!cstat);
-			memItem.setDisabled(!cstat);
-			jarFile.setDisabled(!cstat);
+			toggleRestartService(cstat);
 		}
 	}
 	
-	// change handler toggle
-	public void toggleAllFieldsOnEvent(ChangeEvent event) {
-		Boolean cstat = (Boolean) event.getValue();
-		
-		toggleAllFields(cstat);
-	}
-	
 	public void parseGridXML(Document doc) {
+		
+		resetFields();
 		
 		// enable grid section
 		Node enableGrid = (Node) doc.getElementsByTagName("EnableGrid").item(0);
@@ -514,7 +513,7 @@ public class GridTab {
 		if(totalNumSlots != null) {
 			String totalNumSlotsVal = totalNumSlots.getFirstChild().getNodeValue();
 			dynamicFormGeneral.getItem("totalNumSlots").setValue(totalNumSlotsVal);
-			toggleTotalNumSlots();
+			toggleTotalNumSlots(false);
 			
 			Node totalNumSlotsTextVal = (Node) doc.getElementsByTagName("TotalNumSlotsVal").item(0);
 			if(totalNumSlotsVal != null) {
@@ -528,14 +527,137 @@ public class GridTab {
 				}
 			}
 		}
-		
-		// TODO: fill in the sections below
 
 		// array job section
+		Node enableArrayJob = (Node) doc.getElementsByTagName("EnableArrayJob").item(0);
+		if(enableArrayJob != null) {
+			Boolean arrayJobVal = Boolean.valueOf(enableArrayJob.getFirstChild().getNodeValue());
+			dynamicFormArrayJob.getItem("enableArrayJob").setValue(arrayJobVal);
+			toggleArrayJob(arrayJobVal);
+		}
+		
+		Node chunks = (Node) doc.getElementsByTagName("BreakIntoChunks").item(0);
+		if(chunks != null) {
+			int chunksVal = Integer.parseInt(chunks.getFirstChild().getNodeValue());
+			dynamicFormArrayJob.getItem("chunks").setValue(chunksVal);
+		}
+		
+		Node fileStat = (Node) doc.getElementsByTagName("FileStatTimeout").item(0);
+		if(fileStat != null) {
+			int fileStatVal = Integer.parseInt(fileStat.getFirstChild().getNodeValue());
+			dynamicFormArrayJob.getItem("fileStat").setValue(fileStatVal);
+		}
+		
+		Node chunkSize = (Node) doc.getElementsByTagName("ChunkSize").item(0);
+		if(chunkSize != null) {
+			int chunkSizeVal = Integer.parseInt(chunkSize.getFirstChild().getNodeValue());
+			dynamicFormArrayJob.getItem("chunkSize").setValue(chunkSizeVal);
+		}
+		
+		Node increaseChunkSize = (Node) doc.getElementsByTagName("GraduallyIncreaseChunkSize").item(0);
+		if(increaseChunkSize != null) {
+			Boolean increaseChunkSizeVal = Boolean.valueOf(increaseChunkSize.getFirstChild().getNodeValue());
+			dynamicFormArrayJob.getItem("increaseChunkSize").setValue(increaseChunkSizeVal);
+			if(increaseChunkSizeVal) {
+				dynamicFormArrayJob.getItem("maxChunkSize").show();
+			}
+			else {
+				dynamicFormArrayJob.getItem("maxChunkSize").hide();
+			}
+		}
+		
+		Node maxChunkSize = (Node) doc.getElementsByTagName("MaxChunkSize").item(0);
+		if(maxChunkSize != null) {
+			int maxChunkSizeVal = Integer.parseInt(maxChunkSize.getFirstChild().getNodeValue());
+			dynamicFormArrayJob.getItem("maxChunkSize").setValue(maxChunkSizeVal);
+		}
 		
 		// grid plugin section
+		Node gridPlugin = (Node) doc.getElementsByTagName("GridPlugin").item(0);
+		if(gridPlugin != null) {
+			String gridPluginVal = gridPlugin.getFirstChild().getNodeValue();
+			dynamicFormGridPlugin.getItem("gridPlugin").setValue(gridPluginVal);
+		}
+		
+		Node jarFiles = (Node) doc.getElementsByTagName("JarFiles").item(0);
+		if(jarFiles != null) {
+			String jarFilesVal = jarFiles.getFirstChild().getNodeValue();
+			dynamicFormGridPlugin.getItem("jarFiles").setValue(jarFilesVal);
+		}
+		
+		Node jarFilesClass = (Node) doc.getElementsByTagName("JarFilesClass").item(0);
+		if(jarFilesClass != null) {
+			String jarFilesClassVal = jarFilesClass.getFirstChild().getNodeValue();
+			dynamicFormGridPlugin.getItem("jarFilesClass").setValue(jarFilesClassVal);
+		}
+		
+		Node restartService = (Node) doc.getElementsByTagName("RestartService").item(0);
+		if(restartService != null) {
+			Boolean restartServiceVal = Boolean.valueOf(restartService.getFirstChild().getNodeValue());
+			dynamicFormGridPlugin.getItem("restartService").setValue(restartServiceVal);
+			toggleRestartService(restartServiceVal);
+		}
+		
+		Node gridPort = (Node) doc.getElementsByTagName("GridPort").item(0);
+		if(gridPort != null) {
+			int gridPortVal = Integer.valueOf(gridPort.getFirstChild().getNodeValue());
+			dynamicFormGridPlugin.getItem("gridPort").setValue(gridPortVal);
+		}
+		
+		Node memItem = (Node) doc.getElementsByTagName("GridMemory").item(0);
+		if(memItem != null) {
+			int memItemVal = Integer.valueOf(memItem.getFirstChild().getNodeValue());
+			dynamicFormGridPlugin.getItem("memItem").setValue(memItemVal);
+		}
+		
+		Node jarFile = (Node) doc.getElementsByTagName("RestartJarFile").item(0);
+		if(jarFile != null) {
+			String jarFileVal = jarFile.getFirstChild().getNodeValue();
+			dynamicFormGridPlugin.getItem("jarFile").setValue(jarFileVal);
+		}
+		
+		Node enableMonitored = (Node) doc.getElementsByTagName("EnableMonitored").item(0);
+		if(enableMonitored != null) {
+			Boolean enableMonitoredVal = Boolean.valueOf(enableMonitored.getFirstChild().getNodeValue());
+			dynamicFormGridPlugin.getItem("enableMonitored").setValue(enableMonitoredVal);
+		}
+		
+		Node gridEngineAdmin = (Node) doc.getElementsByTagName("GridEngineAdmin").item(0);
+		if(gridEngineAdmin != null) {
+			Boolean gridEngineAdminVal = Boolean.valueOf(gridEngineAdmin.getFirstChild().getNodeValue());
+			dynamicFormGridPlugin.getItem("gridEngineAdmin").setValue(gridEngineAdminVal);
+		}
 		
 		// grid accounting section
+		Node gridAcctURL = (Node) doc.getElementsByTagName("GridAccountURL").item(0);
+		if(gridAcctURL != null) {
+			String gridAcctURLVal = gridAcctURL.getFirstChild().getNodeValue();
+			dynamicFormGridAccounting.getItem("gridAcctURL").setValue(gridAcctURLVal);
+		}
 		
+		Node gridUsername = (Node) doc.getElementsByTagName("GridUsername").item(0);
+		if(gridUsername != null) {
+			String gridUsernameVal = gridUsername.getFirstChild().getNodeValue();
+			dynamicFormGridAccounting.getItem("gridUsername").setValue(gridUsernameVal);
+		}
+		
+		Node gridPassword = (Node) doc.getElementsByTagName("GridPassword").item(0);
+		if(gridPassword != null) {
+			String gridPasswordVal = gridPassword.getFirstChild().getNodeValue();
+			dynamicFormGridAccounting.getItem("gridPassword").setValue(gridPasswordVal);
+		}
+	}
+	
+	private void resetFields() {
+		dynamicFormEnableGrid.clearValues();
+		dynamicFormGeneral.clearValues();
+		dynamicFormArrayJob.clearValues();
+		dynamicFormGridPlugin.clearValues();
+		dynamicFormGridAccounting.clearValues();
+		toggleAllFields(false);
+		toggleArrayJob(false);
+		toggleRestartService(false);
+		toggleTotalNumSlots(true);
+		maxChunkSize.hide();
 	}
 }

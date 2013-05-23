@@ -3,12 +3,12 @@
 <LONIConfigurationData>
     <Preferences>
         <Grid>
-            <EnableGrid>True</EnableGrid>
+            <EnableGrid>true</EnableGrid>
             <GridEngineNativeSpec>All your base are belong to us.</GridEngineNativeSpec>
             <JobNamePrefix>Ima firin' mah lazor!</JobNamePrefix>
             <JobSubmissionQueue>Longcat is long...</JobSubmissionQueue>
             <ComplexResourceAttributes>I see what you did there.</ComplexResourceAttributes>
-            <ReportSGE>True</ReportSGE>
+            <ReportSGE>true</ReportSGE>
             <GridVariablesPolicy>Allow all variables, except specified</GridVariablesPolicy>
             <SpecifiedVariables>Flying unicorn death beam!</SpecifiedVariables>
             <PrefixBeforeVar>I can has cheezburgerz...?</PrefixBeforeVar>
@@ -16,6 +16,24 @@
             <MaxNumResubmissions>42</MaxNumResubmissions>
             <TotalNumSlots>Known number</TotalNumSlots>
             <TotalNumSlotsVal>42</TotalNumSlotsVal>
+            <EnableArrayJob>true</EnableArrayJob>
+            <BreakIntoChunks>300</BreakIntoChunks>
+            <FileStatTimeout>999</FileStatTimeout>
+            <ChunkSize>72</ChunkSize>
+            <GraduallyIncreaseChunkSize>true</GraduallyIncreaseChunkSize>
+            <MaxChunkSize>732</MaxChunkSize>
+            <GridPlugin>DRMAA</GridPlugin>
+            <JarFiles>NyanCat</JarFiles>
+            <JarFilesClass>Nyan nyan nyan nyan nyan nyan~</JarFilesClass>
+            <RestartService>true</RestartService>
+            <GridPort>1234</GridPort>
+            <GridMemory>9001</GridMemory>
+            <RestartJarFile>That one over there!</RestartJarFile>
+            <EnableMonitored>true</EnableMonitored>
+            <GridEngineAdmin>false</GridEngineAdmin>
+            <GridAccountURL>http://www.4chan.org/</GridAccountURL>
+            <GridUsername>Ramirez</GridUsername>
+            <GridPassword>Ramirez, do everything!</GridPassword>
         </Grid>
     </Preferences>
 </LONIConfigurationData>
