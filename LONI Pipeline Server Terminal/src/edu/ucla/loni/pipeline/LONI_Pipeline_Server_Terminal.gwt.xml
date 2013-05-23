@@ -16,7 +16,6 @@
   <!-- <inherits name='com.google.gwt.user.theme.standard.Standard'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.chrome.Chrome'/> -->
   <!-- <inherits name='com.google.gwt.user.theme.dark.Dark'/>     -->
-  <inherits name='com.smartclient.theme.treefrog.TreeFrog'/>
 
   <!-- Other module inherits                                      -->
   <inherits name='com.smartgwt.SmartGwt'/>
