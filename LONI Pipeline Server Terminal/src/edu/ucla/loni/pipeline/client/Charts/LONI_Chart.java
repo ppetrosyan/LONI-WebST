@@ -3,10 +3,10 @@ package edu.ucla.loni.pipeline.client.Charts;
 import java.util.ArrayList;
 
 import com.google.gwt.user.client.Timer;
-import com.google.gwt.user.client.ui.FlexTable;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Canvas;
+import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
@@ -20,41 +20,24 @@ public class LONI_Chart extends VLayout {
 
 	private LineChartPanel chart;
 	private String monitorType;
-	private FlexTable statistics;
+	private Label initStats;
+	private Label usedStats1;
+	private Label usedStats2;
+	private Label usedStats3;
+	private Label commStats1;
+	private Label commStats2;
+	private Label maxStats;
+	private Label thrdCntStats;
+	private Label thrdPkStats;
+	private VLayout statistics;
 
 	// timer redraws charts and updates statistics
 	private Timer timer = new Timer() {
 		public void run() {
 			try {
 				chart.updateValues();
-
-				if(monitorType.equals("Memory")) {
-					MemoryStatistics stats = chart.getMemStatistics();
-					statistics.setText(0, 0,  "Initial memory:  ");
-					statistics.setText(0, 1, stats.getInitMemMB() + " MB");
-					statistics.setText(1, 0, "Used memory:  ");
-					statistics.setText(1, 1, stats.getUsedMemMB() + " MB");
-					statistics.setText(1, 2, stats.getUsedCommMemPercent() + "% of committed");
-					statistics.setText(1, 3, stats.getUsedMaxMemPercent() + "% of the max");
-					statistics.setText(2, 0, "Committed memory:  ");
-					statistics.setText(2, 1, stats.getCommMemMB() + " MB");
-					statistics.setText(2, 2, stats.getCommMaxMemPercent() + "% of the max");
-					statistics.setText(3, 0, "Maximum memory:  ");
-					statistics.setText(3, 1, stats.getMaxMemMB() + " MB");
-				}
-				else if(monitorType.equals("Thread")) {
-					ArrayList<Integer> thrdStats = chart.getThrdStatistics();
-					statistics.setText(0, 0, "Thread Count:  ");
-					statistics.setText(0, 1, thrdStats.get(0) + "");
-					statistics.setText(1, 0, "Thread Peak");
-					statistics.setText(1, 1, thrdStats.get(1) + "");
-				}
-				else {
-					System.err.println("Incorrect monitorType provided. Check timer.run() in LONI_Chart.java for errors.");
-					return;
-				}
-			} catch (IndexOutOfBoundsException e) {
-				System.err.println("Index out of bounds. Simulated data is probably not loaded yet.");
+			} catch (Exception e) {
+				System.err.println("Exception thrown in timer.run() in LONI_Chart.java: " + e.getMessage());
 			}
 		}
 	};
@@ -69,6 +52,28 @@ public class LONI_Chart extends VLayout {
 	{
 		return this.chart;
 	}
+	
+	public void refreshStats() {
+		if(monitorType.equals("Memory")) {
+			MemoryStatistics memStats = chart.getMemStatistics();
+			initStats.setContents(memStats.getInitMemMB() + " MB");
+			usedStats1.setContents(memStats.getUsedMemMB() + " MB");
+			usedStats2.setContents(memStats.getUsedCommMemPercent() + "% of committed");
+			usedStats3.setContents(memStats.getUsedMaxMemPercent() + "% of the max");
+			commStats1.setContents(memStats.getCommMemMB() + " MB");
+			commStats2.setContents(memStats.getCommMaxMemPercent() + "% of the max");
+			maxStats.setContents(memStats.getMaxMemMB() + " MB");
+		}
+		else if(monitorType.equals("Thread")) {
+			ArrayList<Integer> thrdStats = chart.getThrdStatistics();
+			thrdCntStats.setContents(thrdStats.get(0) + "");
+			thrdPkStats.setContents(thrdStats.get(1) + "");
+		}
+		else {
+			System.err.println("Incorrect monitorType provided. Check timer.run() in LONI_Chart.java for errors.");
+			return;
+		}
+	}
 
 	private void initialize()
 	{
@@ -79,24 +84,61 @@ public class LONI_Chart extends VLayout {
 			setWidth100();
 
 			// create memory chart
-			chart = new LineChartPanel("Memory");
+			chart = new LineChartPanel("Memory", this);
 
 			MemoryStatistics memStats = chart.getMemStatistics();
 
 			// create statistics table
-			statistics = new FlexTable();
-			statistics.setText(0, 0,  "Initial memory:  ");
-			statistics.setText(0, 1, memStats.getInitMemMB() + " MB");
-			statistics.setText(1, 0, "Used memory:  ");
-			statistics.setText(1, 1, memStats.getUsedMemMB() + " MB");
-			statistics.setText(1, 2, memStats.getUsedCommMemPercent() + "% of committed");
-			statistics.setText(1, 3, memStats.getUsedMaxMemPercent() + "% of the max");
-			statistics.setText(2, 0, "Committed memory:  ");
-			statistics.setText(2, 1, memStats.getCommMemMB() + " MB");
-			statistics.setText(2, 2, memStats.getCommMaxMemPercent() + "% of the max");
-			statistics.setText(3, 0, "Maximum memory:  ");
-			statistics.setText(3, 1, memStats.getMaxMemMB() + " MB");
-			statistics.setWidth("350px");
+			Label initTitle = new Label("Initial memory: ");
+			initTitle.setWidth(130);
+			initStats = new Label(memStats.getInitMemMB() + " MB");
+			initStats.setWidth(75);
+			
+			HLayout initStatLayout = new HLayout();
+			initStatLayout.addMember(initTitle);
+			initStatLayout.addMember(initStats);
+			
+			Label usedTitle = new Label("Used memory: ");
+			usedTitle.setWidth(130);
+			usedStats1 = new Label(memStats.getUsedMemMB() + " MB");
+			usedStats1.setWidth(75);
+			usedStats2 = new Label(memStats.getUsedCommMemPercent() + "% of committed");
+			usedStats2.setWidth(140);
+			usedStats3 = new Label(memStats.getUsedMaxMemPercent() + "% of the max");
+			usedStats3.setWidth(140);
+			
+			HLayout usedStatLayout = new HLayout();
+			usedStatLayout.addMember(usedTitle);
+			usedStatLayout.addMember(usedStats1);
+			usedStatLayout.addMember(usedStats2);
+			usedStatLayout.addMember(usedStats3);
+			
+			Label commTitle = new Label("Committed memory: ");
+			commTitle.setWidth(130);
+			commStats1 = new Label(memStats.getCommMemMB() + " MB");
+			commStats1.setWidth(75);
+			commStats2 = new Label(memStats.getCommMaxMemPercent() + "% of the max");
+			commStats2.setWidth(140);
+			
+			HLayout commStatLayout = new HLayout();
+			commStatLayout.addMember(commTitle);
+			commStatLayout.addMember(commStats1);
+			commStatLayout.addMember(commStats2);
+			
+			Label maxTitle = new Label("Maximum memory: ");
+			maxTitle.setWidth(130);
+			maxStats = new Label(memStats.getMaxMemMB() + " MB");
+			maxStats.setWidth(75);
+			
+			HLayout maxStatLayout = new HLayout();
+			maxStatLayout.addMember(maxTitle);
+			maxStatLayout.addMember(maxStats);
+			
+			statistics = new VLayout();
+			statistics.addMember(initStatLayout);
+			statistics.addMember(usedStatLayout);
+			statistics.addMember(commStatLayout);
+			statistics.addMember(maxStatLayout);
 
 			Canvas topLeft = new Canvas();
 			topLeft.setWidth("50%");
@@ -179,16 +221,28 @@ public class LONI_Chart extends VLayout {
 			setWidth100();
 
 			// create thread chart
-			chart = new LineChartPanel("Thread");
+			chart = new LineChartPanel("Thread", this);
 
 			ArrayList<Integer> thrdStats = chart.getThrdStatistics();
 
 			// create statistics table
-			statistics = new FlexTable();
-			statistics.setText(0, 0, "Thread Count:  ");
-			statistics.setText(0, 1, thrdStats.get(0) + "");
-			statistics.setText(1, 0, "Thread Peak");
-			statistics.setText(1, 1, thrdStats.get(1) + "");
+			Label thrdCntTitle = new Label("Thread Count: ");
+			thrdCntStats = new Label(thrdStats.get(0) + "");
+			
+			HLayout thrdCntStatsLayout = new HLayout();
+			thrdCntStatsLayout.addMember(thrdCntTitle);
+			thrdCntStatsLayout.addMember(thrdCntStats);
+			
+			Label thrdPkTitle = new Label("Thread Peak: ");
+			thrdPkStats = new Label(thrdStats.get(1) + "");
+			
+			HLayout thrdPkStatsLayout = new HLayout();
+			thrdPkStatsLayout.addMember(thrdPkTitle);
+			thrdPkStatsLayout.addMember(thrdPkStats);
+			
+			statistics = new VLayout();
+			statistics.addMember(thrdCntStatsLayout);
+			statistics.addMember(thrdPkStatsLayout);
 
 			// add panels to layout
 			VerticalPanel topPanel = new VerticalPanel();

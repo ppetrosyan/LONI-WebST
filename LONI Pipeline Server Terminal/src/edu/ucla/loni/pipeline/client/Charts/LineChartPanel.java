@@ -23,6 +23,7 @@ import com.smartgwt.client.widgets.layout.Layout;
 
 public class LineChartPanel extends Layout {
 
+	private LONI_Chart loniChart;
 	private LineChart chart;
 	private String monitorType;
 	private String color = "D9F6FA";
@@ -52,7 +53,8 @@ public class LineChartPanel extends Layout {
 	private boolean threadUsed = false;
 
 
-	public LineChartPanel(String mt) {
+	public LineChartPanel(String mt, LONI_Chart loniChart) {
+		this.loniChart = loniChart;
 		initialize(mt);
 	}
 
@@ -271,6 +273,7 @@ public class LineChartPanel extends Layout {
 			}
 			calculateStatistics();
 			redraw();
+			loniChart.refreshStats();
 		} catch (Exception e) {
 			System.err.println("Could not update values.");
 			return;
@@ -379,14 +382,14 @@ public class LineChartPanel extends Layout {
 			public void run() {
 				// Create and attach the chart
 				chart = new LineChart();
-				int height = Window.getClientHeight() - 250;
+				int height = Window.getClientHeight() - 275;
 				int width = Window.getClientWidth() - 75;
 				chart.setSize(width + "px", height + "px");
 
 				// listen to resize events
 				Window.addResizeHandler(new ResizeHandler() {
 					public void onResize(ResizeEvent event) {
-						int height = event.getHeight() - 250;
+						int height = event.getHeight() - 275;
 						int width = event.getWidth() - 75;
 						chart.setHeight(height + "px");
 						chart.setWidth(width + "px");
