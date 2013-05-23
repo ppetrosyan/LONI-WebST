@@ -23,7 +23,7 @@
   <inherits name='com.googlecode.gwt.charts.Charts'/>
   <inherits name='com.google.gwt.xml.XML'/>
   
-  <inherits name='com.smartclient.theme.treefrog.TreeFrog'/>
+  <inherits name='com.smartclient.theme.simplicity.Simplicity'/>
   
   <!-- Specify the app entry point class.                         -->
   <entry-point class='edu.ucla.loni.pipeline.client.EntryPoint.LONI_Pipeline_Server_Terminal'/>
