@@ -56,6 +56,17 @@
     <url-pattern>/SaveConfigurationXMLServlet</url-pattern>
   </servlet-mapping>
   
+    <servlet>
+    <servlet-name>RequestWebUrlXMLServlet</servlet-name>
+    <servlet-class>edu.ucla.loni.pipeline.server.Requesters.WebUrl.RequestWebUrlXMLServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>RequestWebUrlXMLServlet</servlet-name>
+    <url-pattern>/RequestWebUrlXMLServlet</url-pattern>
+  </servlet-mapping>
+  
+  
   <!-- Default page to serve -->
   <welcome-file-list>
     <welcome-file>LONI_Pipeline_Server_Terminal.html</welcome-file>

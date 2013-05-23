@@ -7,6 +7,8 @@ import edu.ucla.loni.pipeline.client.Requesters.Configuration.RequestConfigurati
 import edu.ucla.loni.pipeline.client.Requesters.Configuration.RequestConfigurationXMLServiceAsync;
 import edu.ucla.loni.pipeline.client.Requesters.ResourceUsage.RequestResourceXMLService;
 import edu.ucla.loni.pipeline.client.Requesters.ResourceUsage.RequestResourceXMLServiceAsync;
+import edu.ucla.loni.pipeline.client.Requesters.WebUrl.RequestWebUrlXMLService;
+import edu.ucla.loni.pipeline.client.Requesters.WebUrl.RequestWebUrlXMLServiceAsync;
 import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveConfigurationXMLService;
 import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveConfigurationXMLServiceAsync;
 
@@ -14,16 +16,18 @@ import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveConfigurationXMLSe
 public class AsyncClientServices {
 
 	// Client-side Services
-	private String reqResourceXML, reqConfigurationXML, saveConfigurationXML;
+	private String reqResourceXML, reqConfigurationXML, saveConfigurationXML, reqwebUrlXML;
 
 	public RequestResourceXMLServiceAsync reqResourceXMLService;
 	public RequestConfigurationXMLServiceAsync reqConfigurationXMLService;
 	public SaveConfigurationXMLServiceAsync saveConfigurationXMLService;
-	
+	public RequestWebUrlXMLServiceAsync reqwebUrlXMLService;
+
 	public AsyncClientServices() {
 		reqResourceXML = "RequestResourceXMLServlet";
 		reqConfigurationXML = "RequestConfigurationXMLServlet";
 		saveConfigurationXML = "SaveConfigurationXMLServlet";
+		reqwebUrlXML = "RequestWebUrlXMLServlet";
 		
 		reqResourceXMLService = GWT
 				.create(RequestResourceXMLService.class);
@@ -31,6 +35,8 @@ public class AsyncClientServices {
 				.create(RequestConfigurationXMLService.class);
 		saveConfigurationXMLService = GWT
 				.create(SaveConfigurationXMLService.class);
+		reqwebUrlXMLService = GWT
+				.create(RequestWebUrlXMLService.class);
 		
 		defEntryPoint();
 	}
@@ -42,5 +48,7 @@ public class AsyncClientServices {
 		.setServiceEntryPoint(reqConfigurationXML);
 		((ServiceDefTarget) saveConfigurationXMLService)
 		.setServiceEntryPoint(saveConfigurationXML);
+		((ServiceDefTarget) reqwebUrlXMLService)
+		.setServiceEntryPoint(reqwebUrlXML);
 	}
 }
