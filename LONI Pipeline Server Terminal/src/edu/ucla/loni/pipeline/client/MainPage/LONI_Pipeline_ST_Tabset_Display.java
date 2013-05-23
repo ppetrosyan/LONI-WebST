@@ -23,24 +23,45 @@ import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.user.client.ui.NotificationMole;
 
 public class LONI_Pipeline_ST_Tabset_Display {
 
-	VLayout mainLayout = new VLayout();
-	AsyncClientServices asyncClientServices;
-	
+	private String userID;
+	private VLayout appLayout;
+	//private HLayout mainLayout;
+	private AsyncClientServices asyncClientServices;
 	private PreferencesTab preferencesTab;
 
-	public LONI_Pipeline_ST_Tabset_Display() {
-		mainLayout.setMembersMargin(20);
-		mainLayout.setSize("100%", "100%");
+	public LONI_Pipeline_ST_Tabset_Display(String userID) {
+		//mainLayout = new HLayout();
+		appLayout = new VLayout();
 		
 		asyncClientServices = new AsyncClientServices();
 	}
 
-	public void buildMainPage(String userID, boolean status) {
-		// if (!status)
-		// return;
+	public void buildMainPage() {
+		/*mainLayout.setMembersMargin(0);
+		mainLayout.setAlign(Alignment.CENTER);
+		mainLayout.setAlign(VerticalAlignment.CENTER);
+		mainLayout.setHeight100();
+		mainLayout.setWidth100();*/
+		
+		appLayout.setMembersMargin(2);
+		appLayout.setLayoutAlign(Alignment.CENTER);
+		appLayout.setAlign(Alignment.CENTER);
+		appLayout.setAlign(VerticalAlignment.CENTER);
+		appLayout.setHeight100();
+		appLayout.setWidth100();
+		
+		// Notifications
+		final NotificationMole notificationMole = new NotificationMole();
+		notificationMole.setTitle("LONI Notifications");
+		notificationMole.setMessage("This is a test of the notification system.");
+		notificationMole.setAnimationDuration(500);
+		notificationMole.setHeight("15px");
+		notificationMole.setWidth("500px");
+		
 
 		// Header with Heading and logout button
 		HLayout headLayout = new HLayout();
@@ -55,8 +76,8 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		com.smartgwt.client.widgets.Label LONILabel = new com.smartgwt.client.widgets.Label(
 				"<b><font size='6'>LONI Pipeline</font></b>");
 		LONILabel.setSize("48%", "100%");
-		LONILabel.setAlign(Alignment.LEFT);
-		LONILabel.setValign(VerticalAlignment.CENTER);
+		//LONILabel.setAlign(Alignment.LEFT);
+		//LONILabel.setValign(VerticalAlignment.CENTER);
 		headLayout.addMember(LONILabel);
 
 		padding = new VLayout();
@@ -64,8 +85,26 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		padding.setSize("1%", "100%");
 		headLayout.addMember(padding);
 
+		Button showBtn = new Button("Show");
+		//showBtn.setAlign(Alignment.CENTER);
+		showBtn.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				notificationMole.show();
+			}
+		});
+		headLayout.addMember(showBtn);
+
+		Button hideBtn = new Button("Hide");
+		//hideBtn.setAlign(Alignment.CENTER);
+		hideBtn.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				notificationMole.hide();
+			}
+		});
+		headLayout.addMember(hideBtn);
+
 		Button logoutBtn = new Button("LogOut");
-		logoutBtn.setAlign(Alignment.CENTER);
+		//logoutBtn.setAlign(Alignment.CENTER);
 		logoutBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				// TODO: Logout logic
@@ -78,20 +117,30 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		padding.setSize("1%", "100%");
 		headLayout.addMember(padding);
 
-		headLayout.draw();
-		mainLayout.addMember(headLayout);
+		appLayout.addMember(headLayout);
+
+		// Notification Layout
+		VLayout notificationLayout = new VLayout();
+		notificationLayout.setHeight("30px");
+		notificationLayout.setWidth("520px");
+		notificationLayout.setLayoutAlign(Alignment.CENTER);
+		
+		notificationLayout.addMember(notificationMole);
+
+		appLayout.addMember(notificationLayout);
 
 		// Body with tabs
 		HLayout tabLayout = new HLayout();
 		tabLayout.setMembersMargin(5);
-		tabLayout.setSize("100%", "97%");
+		tabLayout.setSize("100%", "94%");
 		TabSet tabset = buildtabset(padding);
-		tabset.draw();
 		tabLayout.addMember(tabset);
-		tabLayout.draw();
-		mainLayout.addMember(tabset);
-
-		mainLayout.draw();
+		
+		appLayout.addMember(tabset);
+		appLayout.draw();
+		
+		//mainLayout.addMember(appLayout);
+		//mainLayout.draw();
 	}
 
 	private TabSet buildtabset(VLayout padding) {
@@ -125,11 +174,11 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		// Thread Usage tab
 		ThreadUsageTab threadUsageTab = new ThreadUsageTab(asyncClientServices);
 		tabset.addTab(threadUsageTab.setTab());
-		
+
 		// Preferences tab
 		preferencesTab = new PreferencesTab(padding);
 		tabset.addTab(preferencesTab.setTab());
-		
+
 		// Refresh All Tabs
 		LONIDataRequester dataRequester = new LONIDataRequester(
 				asyncClientServices, memoryUsageTab.getChart(),
