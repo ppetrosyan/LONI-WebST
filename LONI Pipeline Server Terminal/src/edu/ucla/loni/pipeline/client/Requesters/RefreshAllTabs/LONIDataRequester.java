@@ -38,12 +38,12 @@ public class LONIDataRequester {
                 /** Thread Usage Tab */
             	thrdChart.getChart().refreshChart(xmlData);
             	
-            	Window.alert("Resource Tabs refreshed successfully.");
+            	Window.alert("Resource Tabs refreshed successfully");
             }
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert("Resource Tabs did not refresh successfully.");
+                Window.alert("Rfresh of Resource Tabs failed");
             }
         });
 	}
@@ -57,12 +57,12 @@ public class LONIDataRequester {
             	/** Preferences Tab */
             	preferencesTab.refreshPrefTab(xmlData);
                 
-                Window.alert("Configuration Tabs refreshed successfully.");
+                Window.alert("Configuration Tabs refreshed successfully");
             }
 
             @Override
             public void onFailure(Throwable caught) {
-            	Window.alert("Configuration Tabs did not refresh successfully.");
+            	Window.alert("Refresh of Configuration Tabs failed");
             }
         });
 	}
@@ -70,5 +70,19 @@ public class LONIDataRequester {
 	public void refreshTabs() {		
 		refreshResourceTabs();
 		refreshConfigurationTabs();
+	}
+	
+	public void getWebUrlXml(String url) {
+		asyncClientServices.reqwebUrlXMLService.getXML(url, new AsyncCallback<String>() {
+	    	@Override
+	    	public void onFailure(Throwable caught) {
+	    		Window.alert("Retrive of XML file failed, check the URL and try again");
+	    	}
+
+	    	@Override
+	    	public void onSuccess(String xml) {
+	    		Window.alert(xml);
+	    	}
+	    });
 	}
 }
