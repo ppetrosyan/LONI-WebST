@@ -89,13 +89,13 @@ public class UsersOnlineTab {
 			listUsersOnline.fetchData();
 		}
 
-		listUsersOnline.setFields(new ListGridField("username", "Username"),
-				new ListGridField("ipAddress", "IP Address"),
+		listUsersOnline.setFields(new ListGridField("username", "Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("ipAddress", "IP Address&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
 				new ListGridField("pipelineInterface", "Pipeline Interface"),
-				new ListGridField("pipelineVersion", "Pipeline Version"),
-				new ListGridField("osVersion", "OS Version"),
-				new ListGridField("connectTime", "Connect Time"),
-				new ListGridField("lastActivity", "Last Activity"),
-				new ListGridField("disconnect", "Disconnect"));
+				new ListGridField("pipelineVersion", "Pipeline Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("osVersion", "OS Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("connectTime", "Connect Time&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("lastActivity", "Last Activity&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("disconnect", "Disconnect&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"));
 	}
 }

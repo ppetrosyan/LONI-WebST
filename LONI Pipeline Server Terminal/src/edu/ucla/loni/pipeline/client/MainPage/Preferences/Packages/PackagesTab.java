@@ -43,11 +43,11 @@ public class PackagesTab {
 		//specific which field you want to expend
 		listUsersPackages.setAutoFitExpandField("location");
 		
-		listUsersPackages.setFields(new ListGridField("package_name",
-				"Package Name"), new ListGridField("version", "Version"),
-				new ListGridField("location", "Location"), new ListGridField(
-						"variables", "Variables"), new ListGridField("sources",
-						"Sources")
+		listUsersPackages.setFields(new ListGridField("package_name","Package Name&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("version", "Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("location", "Location"), 
+				new ListGridField("variables", "Variables&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"), 
+				new ListGridField("sources","Sources&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;")
 
 		);
 		// get data from PackagesData.java

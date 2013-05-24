@@ -45,13 +45,13 @@ public class WorkFlowsTab {
 		listWorkflows.setAutoFitExpandField("workflowID");
 
 		// Need to declare these fields here so we can edit their behavior
-		final ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
+		final ListGridField stopfield = new ListGridField("stop", "Stop/Reset&#160;&#160;&#160;&#160;&#160;");
 		stopfield.setAlign(Alignment.CENTER);
 
-		final ListGridField pausefield = new ListGridField("pause", "Pause/Rsm");
+		final ListGridField pausefield = new ListGridField("pause", "Pause/Rsm&#160;&#160;&#160;&#160;&#160;");
 		pausefield.setAlign(Alignment.CENTER);
 
-		final ListGridField viewfield = new ListGridField("view", "View");
+		final ListGridField viewfield = new ListGridField("view", "View&#160;&#160;&#160;&#160;&#160;");
 		viewfield.setAlign(Alignment.CENTER);
 
 		fillWorkFlowsTab(null, stopfield, pausefield, viewfield, listWorkflows);
@@ -95,16 +95,16 @@ public class WorkFlowsTab {
 		}
 
 		listWorkflows.setFields(new ListGridField("workflowID", "Workflow ID"),
-				new ListGridField("username", "Username"), new ListGridField(
-						"state", "State"), new ListGridField("startTime",
-								"Start Time"),
-								new ListGridField("endTime", "End Time"), new ListGridField(
-										"duration", "Duration"), new ListGridField("numofnode",
-												"N"), new ListGridField("numofinstances", "I"),
-												new ListGridField("numBacklab", "B"), new ListGridField(
-														"numSubmitting", "S"), new ListGridField("numQueued",
-																"Q"), new ListGridField("numRunning", "R"),
-																new ListGridField("numCompleted", "C"), stopfield, pausefield,
+				new ListGridField("username", "Username&#160;&#160;&#160;&#160;&#160;"), new ListGridField(
+						"state", "State&#160;&#160;&#160;&#160;&#160;"), new ListGridField("startTime",
+								"Start Time&#160;&#160;&#160;&#160;&#160;"),
+								new ListGridField("endTime", "End Time&#160;&#160;&#160;&#160;&#160;"), new ListGridField(
+										"duration", "Duration&#160;&#160;&#160;&#160;&#160;"), new ListGridField("numofnode",
+												"N&#160;&#160;&#160;"), new ListGridField("numofinstances", "I&#160;&#160;&#160;"),
+												new ListGridField("numBacklab", "B&#160;&#160;&#160;"), new ListGridField(
+														"numSubmitting", "S&#160;&#160;&#160;"), new ListGridField("numQueued",
+																"Q&#160;&#160;&#160;"), new ListGridField("numRunning", "R&#160;&#160;&#160;"),
+																new ListGridField("numCompleted", "C&#160;&#160;&#160;"), stopfield, pausefield,
 																viewfield);
 	}
 	
@@ -118,20 +118,20 @@ public class WorkFlowsTab {
 				if (fieldName.equals("stop")) {
 					IButton button = new IButton();
 					button.setHeight(16);
-					button.setWidth(60);
+					button.setWidth(65);
 					button.setTitle("Stop");
 					return button;
 				} else if (fieldName.equals("pause")) {
 					IButton button = new IButton();
 					button.setHeight(16);
-					button.setWidth(60);
+					button.setWidth(65);
 					button.setTitle("Pause");
 
 					return button;
 				} else if (fieldName.equals("view")) {
 					IButton button = new IButton();
 					button.setHeight(16);
-					button.setWidth(35);
+					button.setWidth(40);
 					button.setTitle("View");
 					return button;
 				} else {

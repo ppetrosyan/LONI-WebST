@@ -42,7 +42,8 @@ public class ExecutablesTab {
 		listUsersExecutables.setAutoFitExpandField("location");
 		
 		listUsersExecutables.setFields(new ListGridField("executables_name",
-				"Executable Name"), new ListGridField("version", "Version"),
+				"Executable Name&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"), 
+				new ListGridField("version", "Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
 				new ListGridField("location", "Location")
 
 		);
