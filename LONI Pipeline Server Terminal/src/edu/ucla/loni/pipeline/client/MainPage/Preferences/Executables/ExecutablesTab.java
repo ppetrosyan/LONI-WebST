@@ -34,6 +34,13 @@ public class ExecutablesTab {
 		listUsersExecutables.setListEndEditAction(RowEndEditAction.NEXT);
 		listUsersExecutables.setSize("100%", "100%");
 		listUsersExecutables.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersExecutables.setCanPickFields(false);
+		listUsersExecutables.setCanFreezeFields(false);
+		listUsersExecutables.setAutoFitFieldWidths(true);
+		
+		//specific which field you want to expend
+		listUsersExecutables.setAutoFitExpandField("location");
+		
 		listUsersExecutables.setFields(new ListGridField("executables_name",
 				"Executable Name"), new ListGridField("version", "Version"),
 				new ListGridField("location", "Location")

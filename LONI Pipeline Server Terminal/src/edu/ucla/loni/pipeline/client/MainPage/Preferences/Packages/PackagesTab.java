@@ -30,11 +30,19 @@ public class PackagesTab {
 
 		
 		final ListGrid listUsersPackages = new ListGrid();
+		
 		listUsersPackages.setCanEdit(true);  
 		listUsersPackages.setEditEvent(ListGridEditEvent.DOUBLECLICK);  
 		listUsersPackages.setListEndEditAction(RowEndEditAction.NEXT);
 		listUsersPackages.setSize("100%", "100%");
 		listUsersPackages.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+		listUsersPackages.setCanPickFields(false);
+		listUsersPackages.setCanFreezeFields(false);
+		listUsersPackages.setAutoFitFieldWidths(true);
+		
+		//specific which field you want to expend
+		listUsersPackages.setAutoFitExpandField("location");
+		
 		listUsersPackages.setFields(new ListGridField("package_name",
 				"Package Name"), new ListGridField("version", "Version"),
 				new ListGridField("location", "Location"), new ListGridField(
