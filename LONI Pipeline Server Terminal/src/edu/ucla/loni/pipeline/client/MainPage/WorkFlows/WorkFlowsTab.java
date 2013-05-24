@@ -108,6 +108,32 @@ public class WorkFlowsTab {
 																viewfield);
 	}
 	
+	private IButton createStopResetButton(){
+		IButton button = new IButton();
+		button.setHeight(16);
+		button.setWidth(65);
+		//change title after created for reset button
+		button.setTitle("Stop");
+		return button;
+	}
+	
+	private IButton createPauseResumeButton(){
+		IButton button = new IButton();
+		button.setHeight(16);
+		button.setWidth(65);
+		//change title after created for resume button
+		button.setTitle("Pause");
+		return button;
+	}
+	
+	private IButton createViewButton(){
+		IButton button = new IButton();
+		button.setHeight(16);
+		button.setWidth(40);
+		button.setTitle("View");
+		return button;
+	}
+	
 	private void initializeListWorkflows() {
 		// this function displays the buttons in the ListGrids
 		listWorkflows = new ListGrid() {
@@ -115,28 +141,97 @@ public class WorkFlowsTab {
 			protected Canvas createRecordComponent(final ListGridRecord record,
 					Integer colNum) {
 				String fieldName = this.getFieldName(colNum);
-				if (fieldName.equals("stop")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(65);
-					button.setTitle("Stop");
-					return button;
-				} else if (fieldName.equals("pause")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(65);
-					button.setTitle("Pause");
-
-					return button;
-				} else if (fieldName.equals("view")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(40);
-					button.setTitle("View");
-					return button;
-				} else {
+				String state = record.getAttribute("state");
+				
+				//State: Running
+				//show Stop,Pause and View buttons
+				if(state.equals("Running")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						return button;
+						
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						return button;
+						
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+						
+					} else {
+						return null;
+						
+					}
+				}
+				//State: Stop
+				//Show Reset,Pause and View button, disable Pause button.
+				else if(state.equals("Stop")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						button.setTitle("Reset");
+						return button;
+							
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						button.setDisabled(true);
+						return button;
+							
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+							
+					} else {
+						return null;
+							
+					}
+				}
+				//State: Backlog
+				//Show Stop, Pause and View buttons, disable pause button.
+				else if(state.equals("Backlog")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						return button;
+							
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						button.setDisabled(true);
+						return button;
+							
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+							
+					} else {
+						return null;
+							
+					}
+				}
+				//State: Pause
+				//Show Reset, Resume and View buttons
+				else if(state.equals("Pause")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						button.setTitle("Reset");
+						return button;
+							
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						button.setTitle("Resume");
+						return button;
+							
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+							
+					} else {
+						return null;
+							
+					}
+				}
+				else{
 					return null;
 				}
+				
 			}
 		}; // end of function
 	}
