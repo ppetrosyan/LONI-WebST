@@ -258,7 +258,7 @@ public class LineChartPanel extends Layout {
 			return;
 		}
 		else {
-			System.err.println("One or more of the chart arrays are empty. Try populating fields with data first via the upload tab.");
+			//System.err.println("One or more of the chart arrays are empty. Try populating fields with data first via the upload tab.");
 			return;
 		}
 	}
@@ -492,7 +492,7 @@ public class LineChartPanel extends Layout {
 			options.setBackgroundColor(color);
 			chart.draw(dataTable, options); 
 		} catch(Exception e) {
-			System.err.println("Could not draw chart. Try populating fields with data first via the upload tab.");
+			//System.err.println("Could not draw chart. Try populating fields with data first via the upload tab.");
 			return;
 		}
 	}

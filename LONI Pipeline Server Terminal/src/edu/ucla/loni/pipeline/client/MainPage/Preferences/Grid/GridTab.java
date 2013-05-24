@@ -141,7 +141,7 @@ public class GridTab {
 		maxParallelThreads = new SpinnerItem(
 				"maxParallelThreads",
 				"Max number of parallel submission threads");
-		maxParallelThreads.setValue(50);
+		maxParallelThreads.setDefaultValue(50);
 		maxParallelThreads.setMin(1);
 		maxParallelThreads.setMax(999);
 		maxParallelThreads.setDisabled(true);
@@ -149,7 +149,7 @@ public class GridTab {
 		maxNumResubmissions = new SpinnerItem(
 				"maxNumResubmissions",
 				"Max number of resubmissions for \"error stated\" jobs");
-		maxNumResubmissions.setValue(3);
+		maxNumResubmissions.setDefaultValue(3);
 		maxNumResubmissions.setMin(0);
 		maxNumResubmissions.setMax(99);
 		maxNumResubmissions.setDisabled(true);
@@ -162,7 +162,7 @@ public class GridTab {
 		totalNumSlots.setDisabled(true);
 
 		knownNumber = new SpinnerItem("knownNumber", "Num");
-		knownNumber.setValue(0);
+		knownNumber.setDefaultValue(0);
 		knownNumber.setMin(0);
 		knownNumber.setMax(99999);
 		knownNumber.setDisabled(true);
@@ -204,20 +204,20 @@ public class GridTab {
 		
 		chunks = new IntegerItem("chunks",
 				"Break into chunks when number of jobs exceeds");
-		chunks.setValue(200);
+		chunks.setDefaultValue(200);
 		chunks.setHint("(default: 200)");
 		chunks.setDisabled(true);
 
 		fileStat = new SpinnerItem("fileStat",
 				"Use File Stat with Timeout");
-		fileStat.setValue(0);
+		fileStat.setDefaultValue(0);
 		fileStat.setMin(0);
 		fileStat.setMax(999);
 		fileStat.setHint("0 - disabled");
 		fileStat.setDisabled(true);
 
 		chunkSize = new IntegerItem("chunkSize", "Chunk size");
-		chunkSize.setValue(50);
+		chunkSize.setDefaultValue(50);
 		chunkSize.setHint("(default: 50)");
 		chunkSize.setDisabled(true);
 
@@ -226,7 +226,7 @@ public class GridTab {
 		increaseChunkSize.setDisabled(true);
 		
 		maxChunkSize = new IntegerItem("maxChunkSize", "Maximum chunk size");
-		maxChunkSize.setValue(400);
+		maxChunkSize.setDefaultValue(400);
 		maxChunkSize.setHint("(default: 400)");
 		maxChunkSize.setDisabled(true);
 		maxChunkSize.setVisible(false);
@@ -290,7 +290,7 @@ public class GridTab {
 		restartService.setDisabled(true);
 
 		gridPort = new IntegerItem("gridPort", "Port");
-		gridPort.setValue(8111);
+		gridPort.setDefaultValue(8111);
 		gridPort.setHint("(default: 8111)");
 		gridPort.setDisabled(true);
 
@@ -443,7 +443,7 @@ public class GridTab {
 	
 	public void parseGridXML(Document doc) {
 		
-		resetFields();
+		toggleAllFields(false);
 		
 		// enable grid section
 		Node enableGrid = (Node) doc.getElementsByTagName("EnableGrid").item(0);
@@ -654,15 +654,13 @@ public class GridTab {
 	}
 	
 	private void resetFields() {
-		dynamicFormEnableGrid.clearValues();
 		dynamicFormGeneral.clearValues();
 		dynamicFormArrayJob.clearValues();
 		dynamicFormGridPlugin.clearValues();
 		dynamicFormGridAccounting.clearValues();
-		toggleAllFields(false);
 		toggleArrayJob(false);
 		toggleRestartService(false);
-		toggleTotalNumSlots(true);
+		toggleTotalNumSlots(false);
 		maxChunkSize.hide();
 	}
 }
