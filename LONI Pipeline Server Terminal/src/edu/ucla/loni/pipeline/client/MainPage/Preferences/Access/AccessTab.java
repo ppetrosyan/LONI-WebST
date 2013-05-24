@@ -27,9 +27,15 @@ public class AccessTab {
 	public Tab setTab() {
 		Tab tabAccess = new Tab("Access");
 		VLayout layoutAccess = new VLayout();
+		
+		com.smartgwt.client.widgets.Label label_0 = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Server Admins</font></b>");
+		label_0.setSize("210px", "49px");
+		layoutAccess.addMember(label_0);
 
 		DynamicForm dynamicForm = new DynamicForm();
-		TextItem serverAdmin = new TextItem("serverAdmin", "Server Admins");
+		TextItem serverAdmin = new TextItem("serverAdmin", "Input (separate multiple entries by comma)");
+		serverAdmin.setWidth(500);
 		dynamicForm.setFields(serverAdmin);
 		//getClass();
 		MainPageUtils.formatForm(dynamicForm);
@@ -62,7 +68,7 @@ public class AccessTab {
 
 		final SelectItem selectItem = new SelectItem("newSelectItem_1",
 				"Access control mode");
-		selectItem.setWidth(450);
+		selectItem.setWidth(500);
 		selectItem.setDefaultToFirstOption(true);
 		selectItem.setAlign(Alignment.LEFT);
 		selectItem.addChangedHandler(new ChangedHandler() {
@@ -70,11 +76,12 @@ public class AccessTab {
 
 				// case0
 				if ((selectItem.getValueAsString())
-						.equals("0 -Executables: no restrictions. Remote File Browser: no restrictions.")) {
+						.equals("0 - Executables: no restrictions. Remote File Browser: no restrictions")) {
 					textItem_1.setTitle("Controlled users");
 					textItem_2.setTitle("Controlled directories");
 					textItem_1.setDisabled(true);
 					textItem_2.setDisabled(true);
+					
 				}
 
 				// case1
@@ -159,7 +166,7 @@ public class AccessTab {
 		dynamicForm2.setFields(new FormItem[] { selectItem, textItem_1,
 				textItem_2 });
 		String[] sitesArray = {
-				"0 -Executables: no restrictions. Remote File Browser: no restrictions",
+				"0 - Executables: no restrictions. Remote File Browser: no restrictions",
 				"1 - Executables: restricted below. Remote File Browser: no restrictions",
 				"2 - Executables: enabled. Remote File Browser: no restrictions",
 				"3 - Executables: restricted below. Remote File Browser: restricted below",
@@ -176,6 +183,11 @@ public class AccessTab {
 		com.smartgwt.client.widgets.Label line2 = new com.smartgwt.client.widgets.Label(
 				"<hr>");
 		layoutAccess.addMember(line2);
+		
+		com.smartgwt.client.widgets.Label label_3 = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>User-Based Job Management</font></b>");
+		label_3.setSize("210px", "49px");
+		layoutAccess.addMember(label_3);
 
 		final SpinnerItem spinnerItem_1 = new SpinnerItem("si_usrpcfreeslots",
 				"One user cannot take more than");
@@ -202,7 +214,7 @@ public class AccessTab {
 		dynamicForm_1.setFields(new FormItem[] { checkboxItem_1 });
 
 		CanvasItem canvasItem_1 = new CanvasItem("ci_usrbjbmngmt",
-				"User-Based Job Management");
+				"");
 		canvasItem_1.setCanvas(dynamicForm_1);
 
 		DynamicForm dynamicForm3 = new DynamicForm();
@@ -226,14 +238,30 @@ public class AccessTab {
 		dynamicForm_2.setFields(new FormItem[] { checkboxItem_2 });
 
 		CanvasItem canvasItem_2 = new CanvasItem("ci_wrkflmngmt",
-				"Workflow Management");
+				"");
 		canvasItem_2.setCanvas(dynamicForm_2);
 
-		dynamicForm3.setFields(canvasItem_1, spinnerItem_1, canvasItem_2,
-				spinnerItem_2);
+		dynamicForm3.setFields(canvasItem_1, spinnerItem_1);
 
 		MainPageUtils.formatForm(dynamicForm3);
 		layoutAccess.addMember(dynamicForm3);
+		
+		// add line
+		com.smartgwt.client.widgets.Label line3 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutAccess.addMember(line3);
+		
+		com.smartgwt.client.widgets.Label label_4 = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Workflow Management</font></b>");
+		label_3.setSize("210px", "49px");
+		layoutAccess.addMember(label_4);
+		
+		DynamicForm dynamicForm4 = new DynamicForm();
+		dynamicForm4.setFields(canvasItem_2,spinnerItem_2);
+		MainPageUtils.formatForm(dynamicForm4);		
+		
+	
+		layoutAccess.addMember(dynamicForm4);
 		tabAccess.setPane(layoutAccess);
 		return tabAccess;
 	}

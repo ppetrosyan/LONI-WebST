@@ -6,6 +6,7 @@ import com.smartgwt.client.types.RowEndEditAction;
 import com.smartgwt.client.widgets.IButton;
 import com.smartgwt.client.widgets.grid.ListGrid;
 import com.smartgwt.client.widgets.grid.ListGridField;
+import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.Tab;
 
@@ -44,9 +45,26 @@ public class PackagesTab {
 		// get data from PackagesData.java
 		listUsersPackages.setData(PackagesData.getRecords());
 		layoutUsersPackages.addMember(listUsersPackages);
+		
+		//Hlayout
+		// horizontal layout
+		HLayout hLayout1 = new HLayout();
+		hLayout1.setMembersMargin(10);
 
+		// add data
+		IButton AddButton = new IButton("Add");
+		hLayout1.addMember(AddButton);
+		AddButton
+				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
+					public void onClick(
+							com.smartgwt.client.widgets.events.ClickEvent event) {
+						listUsersPackages.startEditingNew();
+					}
+				});
+		
 		// Remove data
 		IButton RemoveButton = new IButton("Remove");
+		hLayout1.addMember(RemoveButton);
 		RemoveButton
 				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
 					public void onClick(
@@ -55,20 +73,8 @@ public class PackagesTab {
 					}
 				});
 
-		layoutUsersPackages.addMember(RemoveButton);
 
-		// add data
-		IButton AddButton = new IButton("Add");
-		AddButton
-				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
-					public void onClick(
-							com.smartgwt.client.widgets.events.ClickEvent event) {
-						listUsersPackages.startEditingNew();
-					}
-				});
-
-		layoutUsersPackages.addMember(AddButton);
-
+		layoutUsersPackages.addMember(hLayout1);
 		tabPackages.setPane(layoutUsersPackages);
 
 		return tabPackages;

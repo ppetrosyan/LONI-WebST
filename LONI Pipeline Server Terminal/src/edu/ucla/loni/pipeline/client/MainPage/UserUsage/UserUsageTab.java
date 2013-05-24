@@ -56,15 +56,19 @@ public class UserUsageTab {
 		listUserUsageCount.setDataSource(userUsageCountSource);
 		listUserUsageCount.setAutoFetchData(true);
 		layoutUserUsage.addMember(listUserUsageCount);
+		
+		VLayout layoutbotton = new VLayout();
 
 		Button userusagerefreshbutton = new Button("Refresh");
 		userusagerefreshbutton.setAlign(Alignment.CENTER);
-		layoutUserUsage.addMember(userusagerefreshbutton);
+		layoutbotton.addMember(userusagerefreshbutton);
 		userusagerefreshbutton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				fillUserUsageTab(userUsageSource, userUsageCountSource);
 			}
 		});
+		
+		layoutUserUsage.addMember(layoutbotton);
 
 		tabUserUsage.setPane(layoutUserUsage);
 		
