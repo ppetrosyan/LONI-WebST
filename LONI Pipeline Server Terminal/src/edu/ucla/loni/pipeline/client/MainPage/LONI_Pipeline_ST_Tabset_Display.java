@@ -20,6 +20,7 @@ import edu.ucla.loni.pipeline.client.MainPage.Upload.UploadTab;
 import edu.ucla.loni.pipeline.client.MainPage.UserUsage.UserUsageTab;
 import edu.ucla.loni.pipeline.client.MainPage.UsersOnline.UsersOnlineTab;
 import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
@@ -31,11 +32,14 @@ public class LONI_Pipeline_ST_Tabset_Display {
 	private VLayout appLayout;
 	private AsyncClientServices asyncClientServices;
 	private PreferencesTab preferencesTab;
+	private LONINotifications notifications;
+	
 
 	public LONI_Pipeline_ST_Tabset_Display(String userID) {
 		appLayout = new VLayout();
 		
 		asyncClientServices = new AsyncClientServices();
+		notifications = new LONINotifications();
 	}
 
 	public void buildMainPage() {		
@@ -46,15 +50,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		appLayout.setHeight100();
 		appLayout.setWidth100();
 		
-		// Notifications
-		final NotificationMole notificationMole = new NotificationMole();
-		notificationMole.setTitle("LONI Notifications");
-		notificationMole.setMessage("This is a test of the notification system.");
-		notificationMole.setAnimationDuration(500);
-		notificationMole.setHeight("15px");
-		notificationMole.setWidth("500px");
-		
-
 		// Header with Heading and logout button
 		HLayout headLayout = new HLayout();
 		headLayout.setMembersMargin(10);
@@ -74,22 +69,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		padding.setMembersMargin(0);
 		padding.setSize("1%", "100%");
 		headLayout.addMember(padding);
-
-		Button showBtn = new Button("Show");
-		showBtn.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				notificationMole.show();
-			}
-		});
-		headLayout.addMember(showBtn);
-
-		Button hideBtn = new Button("Hide");
-		hideBtn.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				notificationMole.hide();
-			}
-		});
-		headLayout.addMember(hideBtn);
 
 		Button logoutBtn = new Button("LogOut");
 		logoutBtn.addClickHandler(new ClickHandler() {
@@ -112,7 +91,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		notificationLayout.setWidth("520px");
 		notificationLayout.setLayoutAlign(Alignment.CENTER);
 		
-		notificationLayout.addMember(notificationMole);
+		notificationLayout.addMember(notifications.getNotificationMole());
 
 		appLayout.addMember(notificationLayout);
 
@@ -125,6 +104,8 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		
 		appLayout.addMember(tabset);
 		appLayout.draw();
+		
+		notifications.showMessage("Welcome, " + userID, false);
 	}
 
 	private TabSet buildtabset(VLayout padding) {
