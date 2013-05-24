@@ -160,7 +160,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		tabset.addTab(threadUsageTab.setTab());
 
 		// Preferences tab
-		preferencesTab = new PreferencesTab(padding);
+		preferencesTab = new PreferencesTab(padding, asyncClientServices);
 		tabset.addTab(preferencesTab.setTab());
 
 		// Refresh All Tabs

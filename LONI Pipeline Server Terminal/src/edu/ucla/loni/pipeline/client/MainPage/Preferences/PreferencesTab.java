@@ -1,5 +1,7 @@
 package edu.ucla.loni.pipeline.client.MainPage.Preferences;
 
+import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
 import com.google.gwt.xml.client.impl.DOMParseException;
@@ -18,14 +20,17 @@ import edu.ucla.loni.pipeline.client.MainPage.Preferences.Executables.Executable
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.General.GeneralTab;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.Grid.GridTab;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.Packages.PackagesTab;
+import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
 
 public class PreferencesTab {
 
 	private VLayout padding;
 	private GridTab gridTab;
+	private AsyncClientServices asyncClientServices;
 	
-	public PreferencesTab(VLayout padding) {
+	public PreferencesTab(VLayout padding, AsyncClientServices asyncClientServices) {
 		this.padding = padding;
+		this.asyncClientServices = asyncClientServices;
 	}
 	
 	public Tab setTab() {
@@ -47,7 +52,19 @@ public class PreferencesTab {
 		refreshConfig.setAlign(Alignment.CENTER);
 		refreshConfig.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// TODO: Refresh config logic
+				asyncClientServices.reqConfigurationXMLService.getXMLData(new AsyncCallback<String>() {
+		            @Override
+		            public void onSuccess(final String xmlData) {
+		            	refreshPrefTab(xmlData);
+		            	
+		            	Window.alert("Thread Usage Tab refreshed successfully.");
+		            }
+
+		            @Override
+		            public void onFailure(Throwable caught) {
+		                Window.alert("Thread Usage Tab did not refresh successfully.");
+		            }
+		        });
 			}
 		});
 		headLayout.addMember(refreshConfig);
