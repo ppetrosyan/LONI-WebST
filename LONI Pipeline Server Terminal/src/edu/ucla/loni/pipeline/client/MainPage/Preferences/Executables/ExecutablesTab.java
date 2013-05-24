@@ -37,6 +37,7 @@ public class ExecutablesTab {
 		listUsersExecutables.setCanPickFields(false);
 		listUsersExecutables.setCanFreezeFields(false);
 		listUsersExecutables.setAutoFitFieldWidths(true);
+		listUsersExecutables.setCanRemoveRecords(true); 
 		
 		//specific which field you want to expend
 		listUsersExecutables.setAutoFitExpandField("location");
@@ -58,6 +59,7 @@ public class ExecutablesTab {
 
 		// add data
 		IButton AddButton = new IButton("Add");
+		AddButton.setIcon("addicon.png");
 		hLayout1.addMember(AddButton);
 		AddButton
 				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
@@ -69,6 +71,7 @@ public class ExecutablesTab {
 
 		// Remove data
 		IButton RemoveButton = new IButton("Remove");
+		RemoveButton.setIcon(listUsersExecutables.getRemoveIcon()); 
 		hLayout1.addMember(RemoveButton);
 		RemoveButton
 				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {

@@ -39,6 +39,8 @@ public class PackagesTab {
 		listUsersPackages.setCanPickFields(false);
 		listUsersPackages.setCanFreezeFields(false);
 		listUsersPackages.setAutoFitFieldWidths(true);
+		listUsersPackages.setCanRemoveRecords(true); 
+		
 		
 		//specific which field you want to expend
 		listUsersPackages.setAutoFitExpandField("location");
@@ -61,6 +63,7 @@ public class PackagesTab {
 
 		// add data
 		IButton AddButton = new IButton("Add");
+		AddButton.setIcon("addicon.png"); 
 		hLayout1.addMember(AddButton);
 		AddButton
 				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
@@ -72,6 +75,7 @@ public class PackagesTab {
 		
 		// Remove data
 		IButton RemoveButton = new IButton("Remove");
+		RemoveButton.setIcon(listUsersPackages.getRemoveIcon()); 
 		hLayout1.addMember(RemoveButton);
 		RemoveButton
 				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
