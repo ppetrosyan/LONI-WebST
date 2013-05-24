@@ -29,24 +29,16 @@ public class LONI_Pipeline_ST_Tabset_Display {
 
 	private String userID;
 	private VLayout appLayout;
-	//private HLayout mainLayout;
 	private AsyncClientServices asyncClientServices;
 	private PreferencesTab preferencesTab;
 
 	public LONI_Pipeline_ST_Tabset_Display(String userID) {
-		//mainLayout = new HLayout();
 		appLayout = new VLayout();
 		
 		asyncClientServices = new AsyncClientServices();
 	}
 
-	public void buildMainPage() {
-		/*mainLayout.setMembersMargin(0);
-		mainLayout.setAlign(Alignment.CENTER);
-		mainLayout.setAlign(VerticalAlignment.CENTER);
-		mainLayout.setHeight100();
-		mainLayout.setWidth100();*/
-		
+	public void buildMainPage() {		
 		appLayout.setMembersMargin(2);
 		appLayout.setLayoutAlign(Alignment.CENTER);
 		appLayout.setAlign(Alignment.CENTER);
@@ -76,8 +68,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		com.smartgwt.client.widgets.Label LONILabel = new com.smartgwt.client.widgets.Label(
 				"<b><font size='6'>LONI Pipeline</font></b>");
 		LONILabel.setSize("48%", "100%");
-		//LONILabel.setAlign(Alignment.LEFT);
-		//LONILabel.setValign(VerticalAlignment.CENTER);
 		headLayout.addMember(LONILabel);
 
 		padding = new VLayout();
@@ -86,7 +76,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		headLayout.addMember(padding);
 
 		Button showBtn = new Button("Show");
-		//showBtn.setAlign(Alignment.CENTER);
 		showBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				notificationMole.show();
@@ -95,7 +84,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		headLayout.addMember(showBtn);
 
 		Button hideBtn = new Button("Hide");
-		//hideBtn.setAlign(Alignment.CENTER);
 		hideBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				notificationMole.hide();
@@ -104,7 +92,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		headLayout.addMember(hideBtn);
 
 		Button logoutBtn = new Button("LogOut");
-		//logoutBtn.setAlign(Alignment.CENTER);
 		logoutBtn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				// TODO: Logout logic
@@ -138,9 +125,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		
 		appLayout.addMember(tabset);
 		appLayout.draw();
-		
-		//mainLayout.addMember(appLayout);
-		//mainLayout.draw();
 	}
 
 	private TabSet buildtabset(VLayout padding) {
