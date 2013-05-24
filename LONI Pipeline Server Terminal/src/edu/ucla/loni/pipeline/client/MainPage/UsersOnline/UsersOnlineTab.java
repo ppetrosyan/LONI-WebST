@@ -34,6 +34,9 @@ public class UsersOnlineTab {
 		listUsersOnline.setCanPickFields(false);
 		listUsersOnline.setCanFreezeFields(false);
 		listUsersOnline.setAutoFitFieldWidths(true);
+		
+		//specific which field you want to expend
+		listUsersOnline.setAutoFitExpandField("pipelineInterface");
 
 		fillUsersOnlineTab(null, listUsersOnline);
 

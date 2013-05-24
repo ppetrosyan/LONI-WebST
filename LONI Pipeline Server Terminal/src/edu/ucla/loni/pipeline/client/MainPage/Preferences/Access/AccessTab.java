@@ -35,7 +35,7 @@ public class AccessTab {
 
 		DynamicForm dynamicForm = new DynamicForm();
 		TextItem serverAdmin = new TextItem("serverAdmin", "Input (separate multiple entries by comma)");
-		serverAdmin.setWidth(500);
+		serverAdmin.setWidth(600);
 		dynamicForm.setFields(serverAdmin);
 		//getClass();
 		MainPageUtils.formatForm(dynamicForm);
@@ -68,7 +68,7 @@ public class AccessTab {
 
 		final SelectItem selectItem = new SelectItem("newSelectItem_1",
 				"Access control mode");
-		selectItem.setWidth(500);
+		selectItem.setWidth(600);
 		selectItem.setDefaultToFirstOption(true);
 		selectItem.setAlign(Alignment.LEFT);
 		selectItem.addChangedHandler(new ChangedHandler() {

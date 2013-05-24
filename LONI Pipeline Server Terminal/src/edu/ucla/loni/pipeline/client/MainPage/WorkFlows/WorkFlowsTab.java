@@ -40,6 +40,9 @@ public class WorkFlowsTab {
 		listWorkflows.setCanPickFields(false);
 		listWorkflows.setCanFreezeFields(false);
 		listWorkflows.setAutoFitFieldWidths(true);
+		
+		//specific which field you want to expend
+		listWorkflows.setAutoFitExpandField("workflowID");
 
 		// Need to declare these fields here so we can edit their behavior
 		final ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
@@ -77,7 +80,6 @@ public class WorkFlowsTab {
 						viewfield, listWorkflows);
 			}
 		});
-
 		tabWorkflows.setPane(layoutWorkflows);
 		return tabWorkflows;
 	}

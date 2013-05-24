@@ -32,6 +32,9 @@ public class UserUsageTab {
 		listUserUsage.setCanPickFields(false);
 		listUserUsage.setCanFreezeFields(false);
 		listUserUsage.setAutoFitFieldWidths(true);
+		
+		//specific which field you want to expend
+		listUserUsage.setAutoFitExpandField("workflowID");
 
 
 		listUserUsageCount.setSize("50%", "50%");
@@ -39,6 +42,9 @@ public class UserUsageTab {
 		listUserUsageCount.setCanPickFields(false);
 		listUserUsageCount.setCanFreezeFields(false);
 		listUserUsageCount.setAutoFitFieldWidths(true);
+		
+		//specific which field you want to expend
+		listUserUsageCount.setAutoFitExpandField("username");
 
 		fillUserUsageTab(null, null);
 
