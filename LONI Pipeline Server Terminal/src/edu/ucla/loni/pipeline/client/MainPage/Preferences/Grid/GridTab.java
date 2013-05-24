@@ -107,6 +107,7 @@ public class GridTab {
 		
 		jobSubmissionQueue = new TextItem("jobSubmissionQueue",
 				"Job submission queue");
+		jobSubmissionQueue.setDisabled(true);
 		
 		complexResourceAttributes = new TextItem(
 				"complexResourceAttributes", "Complex resource attributes");
@@ -114,6 +115,7 @@ public class GridTab {
 		
 		sgeMem = new NativeCheckboxItem("sgeMem");
 		sgeMem.setTitle("Report SGE memory usage");
+		sgeMem.setDisabled(true);
 		
 		gridVariablesPolicy = new SelectItem("gridVariablesPolicy");
 		gridVariablesPolicy.setDisabled(true);
@@ -405,7 +407,9 @@ public class GridTab {
 		// toggle fields
 		gridEngineNativeSpec.setDisabled(!cstat);
 		jobNamePrefix.setDisabled(!cstat);
+		jobSubmissionQueue.setDisabled(!cstat);
 		complexResourceAttributes.setDisabled(!cstat);
+		sgeMem.setDisabled(!cstat);
 		gridVariablesPolicy.setDisabled(!cstat);
 		gridVariablesPolicyText.setDisabled(!cstat);
 		prefixBeforeVar.setDisabled(!cstat);
@@ -434,6 +438,7 @@ public class GridTab {
 		if(restartService.getValueAsBoolean()) {
 			toggleRestartService(cstat);
 		}
+		resetFields();
 	}
 	
 	public void parseGridXML(Document doc) {

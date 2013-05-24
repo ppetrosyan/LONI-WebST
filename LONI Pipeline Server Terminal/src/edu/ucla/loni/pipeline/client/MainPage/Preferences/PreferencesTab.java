@@ -25,6 +25,7 @@ import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
 public class PreferencesTab {
 
 	private VLayout padding;
+	private GeneralTab generalTab;
 	private GridTab gridTab;
 	private AsyncClientServices asyncClientServices;
 	
@@ -57,12 +58,12 @@ public class PreferencesTab {
 		            public void onSuccess(final String xmlData) {
 		            	refreshPrefTab(xmlData);
 		            	
-		            	Window.alert("Thread Usage Tab refreshed successfully.");
+		            	Window.alert("Preferences Tab refreshed successfully.");
 		            }
 
 		            @Override
 		            public void onFailure(Throwable caught) {
-		                Window.alert("Thread Usage Tab did not refresh successfully.");
+		                Window.alert("Preferences Tab did not refresh successfully.");
 		            }
 		        });
 			}
@@ -96,7 +97,7 @@ public class PreferencesTab {
 		tabSet.setSize("100%", "100%");
 		tabSet.setPaneMargin(10);
 
-		GeneralTab generalTab = new GeneralTab();
+		generalTab = new GeneralTab();
 		tabSet.addTab(generalTab.setTab());
 		
 		gridTab = new GridTab();
@@ -134,6 +135,7 @@ public class PreferencesTab {
 		try {
 			Document doc = XMLParser.parse(cleanXml);
 	
+			generalTab.parseGeneralXML(doc);
 			gridTab.parseGridXML(doc);
 		}
 		catch (DOMParseException e) {
