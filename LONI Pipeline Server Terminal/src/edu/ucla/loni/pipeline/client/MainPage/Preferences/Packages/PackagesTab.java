@@ -45,17 +45,36 @@ public class PackagesTab {
 		layoutUsersPackages.addMember(intro);
 
 		
-		
+
+		final ListGrid listUsersPackages = new ListGrid();
+
 		listUsersPackages.setCanEdit(true);  
 		listUsersPackages.setEditEvent(ListGridEditEvent.DOUBLECLICK);  
 		listUsersPackages.setListEndEditAction(RowEndEditAction.NEXT);
 		listUsersPackages.setSize("100%", "100%");
 		listUsersPackages.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
+
 		listUsersPackages.setFields(new ListGridField("package_name",
 				"Package Name"), new ListGridField("version", "Version"),
 				new ListGridField("location", "Location"), new ListGridField(
 						"variables", "Variables"), new ListGridField("sources",
-						"Sources")
+						"Sources"));
+
+		listUsersPackages.setCanPickFields(false);
+		listUsersPackages.setCanFreezeFields(false);
+		listUsersPackages.setAutoFitFieldWidths(true);
+		listUsersPackages.setCanRemoveRecords(true); 
+		
+		
+		//specific which field you want to expend
+		listUsersPackages.setAutoFitExpandField("location");
+		
+		listUsersPackages.setFields(new ListGridField("package_name","Package Name&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("version", "Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("location", "Location"), 
+				new ListGridField("variables", "Variables&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"), 
+				new ListGridField("sources","Sources&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;")
+
 		);
 	
 		
@@ -77,6 +96,7 @@ public class PackagesTab {
 
 		// add data
 		IButton AddButton = new IButton("Add");
+		AddButton.setIcon("addicon.png"); 
 		hLayout1.addMember(AddButton);
 		AddButton
 				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {
@@ -88,6 +108,7 @@ public class PackagesTab {
 		
 		// Remove data
 		IButton RemoveButton = new IButton("Remove");
+		RemoveButton.setIcon(listUsersPackages.getRemoveIcon()); 
 		hLayout1.addMember(RemoveButton);
 		RemoveButton
 				.addClickHandler(new com.smartgwt.client.widgets.events.ClickHandler() {

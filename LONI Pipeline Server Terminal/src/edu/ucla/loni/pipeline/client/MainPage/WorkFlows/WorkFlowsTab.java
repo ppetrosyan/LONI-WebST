@@ -45,13 +45,13 @@ public class WorkFlowsTab {
 		listWorkflows.setAutoFitExpandField("workflowID");
 
 		// Need to declare these fields here so we can edit their behavior
-		final ListGridField stopfield = new ListGridField("stop", "Stop/Reset");
+		final ListGridField stopfield = new ListGridField("stop", "Stop/Reset&#160;&#160;&#160;&#160;&#160;");
 		stopfield.setAlign(Alignment.CENTER);
 
-		final ListGridField pausefield = new ListGridField("pause", "Pause/Rsm");
+		final ListGridField pausefield = new ListGridField("pause", "Pause/Rsm&#160;&#160;&#160;&#160;&#160;");
 		pausefield.setAlign(Alignment.CENTER);
 
-		final ListGridField viewfield = new ListGridField("view", "View");
+		final ListGridField viewfield = new ListGridField("view", "View&#160;&#160;&#160;&#160;&#160;");
 		viewfield.setAlign(Alignment.CENTER);
 
 		fillWorkFlowsTab(null, stopfield, pausefield, viewfield, listWorkflows);
@@ -95,17 +95,43 @@ public class WorkFlowsTab {
 		}
 
 		listWorkflows.setFields(new ListGridField("workflowID", "Workflow ID"),
-				new ListGridField("username", "Username"), new ListGridField(
-						"state", "State"), new ListGridField("startTime",
-								"Start Time"),
-								new ListGridField("endTime", "End Time"), new ListGridField(
-										"duration", "Duration"), new ListGridField("numofnode",
-												"N"), new ListGridField("numofinstances", "I"),
-												new ListGridField("numBacklab", "B"), new ListGridField(
-														"numSubmitting", "S"), new ListGridField("numQueued",
-																"Q"), new ListGridField("numRunning", "R"),
-																new ListGridField("numCompleted", "C"), stopfield, pausefield,
+				new ListGridField("username", "Username&#160;&#160;&#160;&#160;&#160;"), new ListGridField(
+						"state", "State&#160;&#160;&#160;&#160;&#160;"), new ListGridField("startTime",
+								"Start Time&#160;&#160;&#160;&#160;&#160;"),
+								new ListGridField("endTime", "End Time&#160;&#160;&#160;&#160;&#160;"), new ListGridField(
+										"duration", "Duration&#160;&#160;&#160;&#160;&#160;"), new ListGridField("numofnode",
+												"N&#160;&#160;&#160;"), new ListGridField("numofinstances", "I&#160;&#160;&#160;"),
+												new ListGridField("numBacklab", "B&#160;&#160;&#160;"), new ListGridField(
+														"numSubmitting", "S&#160;&#160;&#160;"), new ListGridField("numQueued",
+																"Q&#160;&#160;&#160;"), new ListGridField("numRunning", "R&#160;&#160;&#160;"),
+																new ListGridField("numCompleted", "C&#160;&#160;&#160;"), stopfield, pausefield,
 																viewfield);
+	}
+	
+	private IButton createStopResetButton(){
+		IButton button = new IButton();
+		button.setHeight(16);
+		button.setWidth(65);
+		//change title after created for reset button
+		button.setTitle("Stop");
+		return button;
+	}
+	
+	private IButton createPauseResumeButton(){
+		IButton button = new IButton();
+		button.setHeight(16);
+		button.setWidth(65);
+		//change title after created for resume button
+		button.setTitle("Pause");
+		return button;
+	}
+	
+	private IButton createViewButton(){
+		IButton button = new IButton();
+		button.setHeight(16);
+		button.setWidth(40);
+		button.setTitle("View");
+		return button;
 	}
 	
 	private void initializeListWorkflows() {
@@ -115,28 +141,97 @@ public class WorkFlowsTab {
 			protected Canvas createRecordComponent(final ListGridRecord record,
 					Integer colNum) {
 				String fieldName = this.getFieldName(colNum);
-				if (fieldName.equals("stop")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(60);
-					button.setTitle("Stop");
-					return button;
-				} else if (fieldName.equals("pause")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(60);
-					button.setTitle("Pause");
-
-					return button;
-				} else if (fieldName.equals("view")) {
-					IButton button = new IButton();
-					button.setHeight(16);
-					button.setWidth(35);
-					button.setTitle("View");
-					return button;
-				} else {
+				String state = record.getAttribute("state");
+				
+				//State: Running
+				//show Stop,Pause and View buttons
+				if(state.equals("Running")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						return button;
+						
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						return button;
+						
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+						
+					} else {
+						return null;
+						
+					}
+				}
+				//State: Stop
+				//Show Reset,Pause and View button, disable Pause button.
+				else if(state.equals("Stop")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						button.setTitle("Reset");
+						return button;
+							
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						button.setDisabled(true);
+						return button;
+							
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+							
+					} else {
+						return null;
+							
+					}
+				}
+				//State: Backlog
+				//Show Stop, Pause and View buttons, disable pause button.
+				else if(state.equals("Backlog")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						return button;
+							
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						button.setDisabled(true);
+						return button;
+							
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+							
+					} else {
+						return null;
+							
+					}
+				}
+				//State: Pause
+				//Show Reset, Resume and View buttons
+				else if(state.equals("Pause")){
+					if (fieldName.equals("stop")) {
+						IButton button = createStopResetButton();
+						button.setTitle("Reset");
+						return button;
+							
+					} else if (fieldName.equals("pause")) {
+						IButton button = createPauseResumeButton();
+						button.setTitle("Resume");
+						return button;
+							
+					} else if (fieldName.equals("view")) {
+						IButton button = createViewButton();
+						return button;
+							
+					} else {
+						return null;
+							
+					}
+				}
+				else{
 					return null;
 				}
+				
 			}
 		}; // end of function
 	}

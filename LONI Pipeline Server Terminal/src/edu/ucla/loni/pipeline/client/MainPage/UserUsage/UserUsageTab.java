@@ -97,12 +97,12 @@ public class UserUsageTab {
 			listUserUsageCount.fetchData();
 		}
 
-		listUserUsage.setFields(new ListGridField("username", "Username"),
+		listUserUsage.setFields(new ListGridField("username", "Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
 				new ListGridField("workflowID", "Workflow ID"),
-				new ListGridField("nodeName", "NodeName"), new ListGridField(
-						"instance", "Instance"));
+				new ListGridField("nodeName", "NodeName&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"), new ListGridField(
+						"instance", "Instance&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"));
 
 		listUserUsageCount.setFields(new ListGridField("username", "Username"),
-				new ListGridField("count", "Count"));
+				new ListGridField("count", "Count&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"));
 	}
 }
