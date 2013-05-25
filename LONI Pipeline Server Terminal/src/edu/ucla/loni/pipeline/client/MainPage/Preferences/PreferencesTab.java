@@ -27,6 +27,7 @@ public class PreferencesTab {
 	private VLayout padding;
 	private GeneralTab generalTab;
 	private GridTab gridTab;
+	private AccessTab accessTab;
 	private PackagesTab packagesTab;
 	private ExecutablesTab executablesTab; 
 	private AsyncClientServices asyncClientServices;
@@ -105,7 +106,7 @@ public class PreferencesTab {
 		gridTab = new GridTab();
 		tabSet.addTab(gridTab.setTab());
 		
-		AccessTab accessTab = new AccessTab();
+		accessTab = new AccessTab();
 		tabSet.addTab(accessTab.setTab());
 		
 	    packagesTab = new PackagesTab();
@@ -139,6 +140,7 @@ public class PreferencesTab {
 	
 			generalTab.parseGeneralXML(doc);
 			gridTab.parseGridXML(doc);
+			accessTab.parseAccessXML(doc);
 			packagesTab.parsePackageXML(doc);
 			executablesTab.parseExecutablesXML(doc);
 		}

@@ -2,26 +2,27 @@
 
 <LONIConfigurationData>
     <Preferences>
-     <General>
-     <ServerHostname>blahblahblahtidalwave.edu</ServerHostname>
-     <ServerPort>9045</ServerPort>
-     <TempDirectory>/tmp/moretmp/nestedtmp</TempDirectory>
-     <Secure>true</Secure>
-     <ScratchDirectory>scratchscratch/scratchscratch/scratch</ScratchDirectory>
-     <LogFile>/log/tree/branch/leaf.log</LogFile>
-     <PrivilegeEscalation>true</PrivilegeEscalation>
-     <EnableGuests>true</EnableGuests>
-     <PersistenceURL>abcdefghijklmnopqrxtuvwxyz.com</PersistenceURL>
-     <PersistenceUsername>PersistentMan</PersistenceUsername>
-     <PersistencePassword>123456</PersistencePassword>
-     <SessionTTL>32</SessionTTL>
-     <HistoryDirectory>Go watch the history channel</HistoryDirectory>
-     <CrawlerURL>Nyarlathotep.net</CrawlerURL>
-     <ServerLibraryLocation>Once again, at the library...</ServerLibraryLocation>
-     <MonitorLibraryCheckbox>true</MonitorLibraryCheckbox>
-     <MonitorLibraryPath>Monitoring libraries... must be boring</MonitorLibraryPath>
-     <PipelineUtilitiesPath>I LIEK TURTLEZ!!</PipelineUtilitiesPath>
-     </General>
+	    <General>
+		     <ServerHostname>blahblahblahtidalwave.edu</ServerHostname>
+		     <ServerPort>9045</ServerPort>
+		     <TempDirectory>/tmp/moretmp/nestedtmp</TempDirectory>
+		     <Secure>true</Secure>
+		     <ScratchDirectory>scratchscratch/scratchscratch/scratch</ScratchDirectory>
+		     <LogFile>/log/tree/branch/leaf.log</LogFile>
+		     <PrivilegeEscalation>true</PrivilegeEscalation>
+		     <EnableGuests>true</EnableGuests>
+		     <MappedGuestUser>OreMan</MappedGuestUser>
+		     <PersistenceURL>abcdefghijklmnopqrxtuvwxyz.com</PersistenceURL>
+		     <PersistenceUsername>PersistentMan</PersistenceUsername>
+		     <PersistencePassword>123456</PersistencePassword>
+		     <SessionTTL>32</SessionTTL>
+		     <HistoryDirectory>Go watch the history channel</HistoryDirectory>
+		     <CrawlerURL>Nyarlathotep.net</CrawlerURL>
+		     <ServerLibraryLocation>Once again, at the library...</ServerLibraryLocation>
+		     <MonitorLibraryCheckbox>true</MonitorLibraryCheckbox>
+		     <MonitorLibraryPath>Monitoring libraries... must be boring</MonitorLibraryPath>
+		     <PipelineUtilitiesPath>I LIEK TURTLEZ!!</PipelineUtilitiesPath>
+	    </General>
         <Grid>
             <EnableGrid>true</EnableGrid>
             <GridEngineNativeSpec>All your base are belong to us.</GridEngineNativeSpec>
@@ -55,6 +56,15 @@
             <GridUsername>Ramirez</GridUsername>
             <GridPassword>Ramirez, do everything!</GridPassword>
         </Grid>
+        <Access>
+            <ServerAdmins>Rock, Paper, Scissors, Lizard, Spock</ServerAdmins>
+            <AccessControlMode>1 - Executables: restricted below. Remote File Browser: no restrictions</AccessControlMode>
+            <AccessUsers>Random Stunt Double #7</AccessUsers>
+            <AccessDirectories>Everything in existence... and then some</AccessDirectories>
+            <JobManageEnable>true</JobManageEnable>
+            <FreeSlots>98</FreeSlots>
+            <WorkflowManageEnable>false</WorkflowManageEnable>
+        </Access>
 		<Packages>
 			<PackageName>AAL</PackageName>
 			<Version>*</Version>
