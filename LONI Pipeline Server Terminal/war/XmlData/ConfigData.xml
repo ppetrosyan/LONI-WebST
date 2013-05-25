@@ -2,26 +2,26 @@
 
 <LONIConfigurationData>
     <Preferences>
-    	<General>
-    		<ServerHostname>blahblahblahtidalwave.edu</ServerHostname>
-    		<ServerPort>9045</ServerPort>
-    		<TempDirectory>/tmp/moretmp/nestedtmp</TempDirectory>
-    		<Secure>true</Secure>
-    		<ScratchDirectory>scratchscratch/scratchscratch/scratch</ScratchDirectory>
-    		<LogFile>/log/tree/branch/leaf.log</LogFile>
-    		<PrivilegeEscalation>true</PrivilegeEscalation>
-    		<EnableGuests>true</EnableGuests>
-    		<PersistenceURL>abcdefghijklmnopqrxtuvwxyz.com</PersistenceURL>
-    		<PersistenceUsername>PersistentMan</PersistenceUsername>
-    		<PersistencePassword>123456</PersistencePassword>
-    		<SessionTTL>32</SessionTTL>
-    		<HistoryDirectory>Go watch the history channel</HistoryDirectory>
-    		<CrawlerURL>Nyarlathotep.net</CrawlerURL>
-    		<ServerLibraryLocation>Once again, at the library...</ServerLibraryLocation>
-    		<MonitorLibraryCheckbox>true</MonitorLibraryCheckbox>
-    		<MonitorLibraryPath>Monitoring libraries... must be boring</MonitorLibraryPath>
-    		<PipelineUtilitiesPath>I LIEK TURTLEZ!!</PipelineUtilitiesPath>
-    	</General>
+     <General>
+     <ServerHostname>blahblahblahtidalwave.edu</ServerHostname>
+     <ServerPort>9045</ServerPort>
+     <TempDirectory>/tmp/moretmp/nestedtmp</TempDirectory>
+     <Secure>true</Secure>
+     <ScratchDirectory>scratchscratch/scratchscratch/scratch</ScratchDirectory>
+     <LogFile>/log/tree/branch/leaf.log</LogFile>
+     <PrivilegeEscalation>true</PrivilegeEscalation>
+     <EnableGuests>true</EnableGuests>
+     <PersistenceURL>abcdefghijklmnopqrxtuvwxyz.com</PersistenceURL>
+     <PersistenceUsername>PersistentMan</PersistenceUsername>
+     <PersistencePassword>123456</PersistencePassword>
+     <SessionTTL>32</SessionTTL>
+     <HistoryDirectory>Go watch the history channel</HistoryDirectory>
+     <CrawlerURL>Nyarlathotep.net</CrawlerURL>
+     <ServerLibraryLocation>Once again, at the library...</ServerLibraryLocation>
+     <MonitorLibraryCheckbox>true</MonitorLibraryCheckbox>
+     <MonitorLibraryPath>Monitoring libraries... must be boring</MonitorLibraryPath>
+     <PipelineUtilitiesPath>I LIEK TURTLEZ!!</PipelineUtilitiesPath>
+     </General>
         <Grid>
             <EnableGrid>true</EnableGrid>
             <GridEngineNativeSpec>All your base are belong to us.</GridEngineNativeSpec>
@@ -55,5 +55,41 @@
             <GridUsername>Ramirez</GridUsername>
             <GridPassword>Ramirez, do everything!</GridPassword>
         </Grid>
+		<Packages>
+			<PackageName>AAL</PackageName>
+			<Version>*</Version>
+			<Location>/usr/local</Location>
+			<Variables>1.1</Variables>
+			<Sources>1.2</Sources>
+		</Packages>
+		<Packages>
+			<PackageName>JL</PackageName>
+			<Version>*</Version>
+			<Location>/Desktop/local</Location>
+			<Variables>1.1</Variables>
+			<Sources>1.2</Sources>
+		</Packages>
+		<Packages>
+			<PackageName>DDL</PackageName>
+			<Version>*</Version>
+			<Location>/Desktop/local</Location>
+			<Variables>1.1</Variables>
+			<Sources>1.2</Sources>
+		</Packages>
+		<Executables>
+			<ExecutablesName>CCL</ExecutablesName>
+			<Version>1.1</Version>
+			<Location>/usr/local</Location>
+		</Executables>
+		<Executables>
+			<ExecutablesName>DDL</ExecutablesName>
+			<Version>*</Version>
+			<Location>/Desktop/local</Location>
+		</Executables>
+		<Executables>
+			<ExecutablesName>CCL</ExecutablesName>
+			<Version>1.1</Version>
+			<Location>/usr/local</Location>
+		</Executables>
     </Preferences>
 </LONIConfigurationData>

@@ -27,6 +27,8 @@ public class PreferencesTab {
 	private VLayout padding;
 	private GeneralTab generalTab;
 	private GridTab gridTab;
+	private PackagesTab packagesTab;
+	private ExecutablesTab executablesTab; 
 	private AsyncClientServices asyncClientServices;
 	
 	public PreferencesTab(VLayout padding, AsyncClientServices asyncClientServices) {
@@ -106,10 +108,10 @@ public class PreferencesTab {
 		AccessTab accessTab = new AccessTab();
 		tabSet.addTab(accessTab.setTab());
 		
-		PackagesTab packagesTab = new PackagesTab();
+	    packagesTab = new PackagesTab();
 		tabSet.addTab(packagesTab.setTab());
 		
-		ExecutablesTab executablesTab = new ExecutablesTab();
+		executablesTab = new ExecutablesTab();
 		tabSet.addTab(executablesTab.setTab());
 		
 		AdvancedTab advancedTab = new AdvancedTab();
@@ -137,6 +139,8 @@ public class PreferencesTab {
 	
 			generalTab.parseGeneralXML(doc);
 			gridTab.parseGridXML(doc);
+			packagesTab.parsePackageXML(doc);
+			executablesTab.parseExecutablesXML(doc);
 		}
 		catch (DOMParseException e) {
 			System.err.println("Could not parse XML file. Check XML file format.");

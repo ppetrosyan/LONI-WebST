@@ -50,7 +50,7 @@ public class PackagesRecord extends ListGridRecord {
   }  
 
   public void setSources(String sources) {  
-      setAttribute("souces", sources);  
+      setAttribute("sources", sources);  
   }  
 
   public String getSources() {  

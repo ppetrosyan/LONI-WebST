@@ -1,5 +1,9 @@
 package edu.ucla.loni.pipeline.client.MainPage.Preferences.Executables;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Element;
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
 import com.smartgwt.client.types.AutoFitWidthApproach;
 import com.smartgwt.client.types.ListGridEditEvent;
 import com.smartgwt.client.types.RowEndEditAction;
@@ -10,16 +14,21 @@ import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.Tab;
 
+import edu.ucla.loni.pipeline.client.MainPage.Preferences.Packages.PackagesRecord;
+
 public class ExecutablesTab {
+	
+	private ListGrid listUsersExecutables = new ListGrid();
+	VLayout layoutUsersExecutables = new VLayout();
 
 	public ExecutablesTab() {
 
 	}
 
 	public Tab setTab() {
-		Tab tabExecutables = new Tab("Executables");
+		
 
-		VLayout layoutUsersExecutables = new VLayout();
+		Tab tabExecutables = new Tab("Executables");
 		layoutUsersExecutables.setSize("100%", "100%");
 		layoutUsersExecutables.setMembersMargin(5);
 
@@ -28,7 +37,7 @@ public class ExecutablesTab {
 		intro.setSize("500px", "49px");
 		layoutUsersExecutables.addMember(intro);
 
-		final ListGrid listUsersExecutables = new ListGrid();
+		
 		listUsersExecutables.setCanEdit(true);
 		listUsersExecutables.setEditEvent(ListGridEditEvent.DOUBLECLICK);
 		listUsersExecutables.setListEndEditAction(RowEndEditAction.NEXT);
@@ -74,5 +83,39 @@ public class ExecutablesTab {
 		tabExecutables.setPane(layoutUsersExecutables);
 
 		return tabExecutables;
+	}
+	
+	public void parseExecutablesXML(Document doc){
+			NodeList ExecutablesList = doc.getElementsByTagName("Executables");
+	        int totalExecutables = ExecutablesList.getLength();
+	        ExecutablesRecord array[] = new ExecutablesRecord[totalExecutables];
+	        for(int k = 0; k < totalExecutables ; k++){
+	        	Node ExecutablesNode = ExecutablesList.item(k);
+	            if(ExecutablesNode.getNodeType() == Node.ELEMENT_NODE){
+	            	Element ExecutablesElement = (Element)ExecutablesNode;
+	            	
+	            	//PackageName
+	            	NodeList PkgList = ExecutablesElement.getElementsByTagName("ExecutablesName");
+	            	Element PkgElement = (Element)PkgList.item(0);	                   
+	            	NodeList textPkgList = PkgElement.getChildNodes();
+	                
+	            	//Version
+	            	NodeList VerList =ExecutablesElement.getElementsByTagName("Version");
+	            	Element VerElement = (Element)VerList.item(0);
+	            	NodeList textVerList = VerElement.getChildNodes();
+	                 
+	            	//Location
+	            	NodeList LocList =ExecutablesElement.getElementsByTagName("Location");
+	            	Element ageElement = (Element)LocList.item(0);	          
+	            	NodeList textLocList = ageElement.getChildNodes();   
+	            	
+	            	array[k]= new ExecutablesRecord( ((Node)textPkgList.item(0)).getNodeValue().trim(),
+	                    		 ((Node)textVerList.item(0)).getNodeValue().trim(), 
+	                    		 ((Node)textLocList.item(0)).getNodeValue().trim() 
+	                    		);
+	            }//end if
+	        }//end loop
+	        listUsersExecutables.setData(array);	
+	        layoutUsersExecutables.addMember(listUsersExecutables);
 	}
 }
