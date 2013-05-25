@@ -1,7 +1,7 @@
 <List>  
   
 <workflow>  
-    <workflowID>11374</workflowID>  
+    <workflowID>11373</workflowID>  
     <username>William</username>  
     <state>Running</state>  
     <startTime>12:30</startTime>  
@@ -19,7 +19,7 @@
 <workflow>  
     <workflowID>26453</workflowID>  
     <username>Peter</username>  
-    <state>Running</state>  
+    <state>Stop</state>  
     <startTime>11:30</startTime>  
     <endTime>14:00</endTime>  
     <duration>02:30</duration>  
@@ -35,12 +35,44 @@
 <workflow>  
     <workflowID>32135</workflowID>  
     <username>John</username>  
-    <state>Waiting</state>  
+    <state>Backlog</state>  
     <startTime>13:30</startTime>  
     <endTime>14:00</endTime>  
     <duration>00:30</duration>  
     <numofnode>3</numofnode>  
     <numofinstances>4</numofinstances>  
+    <numBacklab>0</numBacklab>  
+    <numSubmitting>0</numSubmitting>  
+    <numQueued>0</numQueued>  
+    <numRunning>0</numRunning>  
+    <numCompleted>0</numCompleted>  
+</workflow>  
+
+<workflow>  
+    <workflowID>26450</workflowID>  
+    <username>Peter</username>  
+    <state>Running</state>  
+    <startTime>11:30</startTime>  
+    <endTime>14:00</endTime>  
+    <duration>02:30</duration>  
+    <numofnode>1</numofnode>  
+    <numofinstances>3</numofinstances>  
+    <numBacklab>2</numBacklab>  
+    <numSubmitting>0</numSubmitting>  
+    <numQueued>0</numQueued>  
+    <numRunning>1</numRunning>  
+    <numCompleted>1</numCompleted>  
+</workflow>  
+
+<workflow>  
+    <workflowID>98456</workflowID>  
+    <username>John</username>  
+    <state>Pause</state>  
+    <startTime>13:30</startTime>  
+    <endTime>14:00</endTime>  
+    <duration>00:30</duration>  
+    <numofnode>3</numofnode>  
+    <numofinstances>7</numofinstances>  
     <numBacklab>0</numBacklab>  
     <numSubmitting>0</numSubmitting>  
     <numQueued>0</numQueued>  
@@ -72,14 +104,14 @@
 
 <userusage>  
     <username>Peter</username>  
-    <workflowID>23451</workflowID>  
+    <workflowID>23451321124-3213214421</workflowID>  
     <nodeName>Some Node Name</nodeName>  
     <instance>Instance1</instance>  
 </userusage> 
 
 <userusage>  
     <username>Peter</username>  
-    <workflowID>23451</workflowID>  
+    <workflowID>23451321124-3213214468</workflowID>  
     <nodeName>Some Node Name2</nodeName>  
     <instance>Instance2</instance>  
 </userusage> 
