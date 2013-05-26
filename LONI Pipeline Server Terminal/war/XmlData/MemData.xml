@@ -351,7 +351,6 @@
 			<NumRunning>2</NumRunning>  
 			<NumCompleted>1</NumCompleted>  
 		</WorkflowEntry>  
-
 		<WorkflowEntry>  
 			<WorkflowID>26453</WorkflowID>  
 			<Username>Peter</Username>  
@@ -367,7 +366,6 @@
 			<NumRunning>1</NumRunning>  
 			<NumCompleted>1</NumCompleted>  
 		</WorkflowEntry>  
-
 		<WorkflowEntry>  
 			<WorkflowID>32135</WorkflowID>  
 			<Username>John</Username>  
@@ -383,7 +381,6 @@
 			<NumRunning>0</NumRunning>  
 			<NumCompleted>0</NumCompleted>  
 		</WorkflowEntry>  
-
 		<WorkflowEntry>  
 			<WorkflowID>26450</WorkflowID>  
 			<Username>Peter</Username>  
@@ -399,7 +396,6 @@
 			<NumRunning>1</NumRunning>  
 			<NumCompleted>1</NumCompleted>  
 		</WorkflowEntry>  
-
 		<WorkflowEntry>  
 			<WorkflowID>98456</WorkflowID>  
 			<Username>John</Username>  
@@ -415,7 +411,35 @@
 			<NumRunning>0</NumRunning>  
 			<NumCompleted>0</NumCompleted>  
 		</WorkflowEntry>  
-
-
 	</Workflows>
+	<UserUsage>
+		<UserUsageEntry>  
+			<Username>Peter</Username>  
+			<WorkflowID>23451321124-3213214421</WorkflowID>  
+			<NodeName>Some Node Name</NodeName>  
+			<Instance>2</Instance>  
+		</UserUsageEntry> 
+		<UserUsageEntry>  
+			<Username>Peter</Username>  
+			<WorkflowID>23451321124-3213214468</WorkflowID>  
+			<NodeName>Some Node Name2</NodeName>  
+			<Instance>4</Instance>  
+		</UserUsageEntry> 
+		<UserUsageEntry>  
+			<Username>Tommy</Username>  
+			<WorkflowID>54354543224-3213214468</WorkflowID>  
+			<NodeName>Some Node Name3</NodeName>  
+			<Instance>21</Instance>  
+		</UserUsageEntry> 
+	</UserUsage>
+	<UserUsageCount>
+		<UserUsageCountEntry>  
+			<Username>Peter</Username>  
+			<Count>2</Count>  
+		</UserUsageCountEntry> 
+		<UserUsageCountEntry>  
+			<Username>Tommy</Username>  
+			<Count>1</Count>  
+		</UserUsageCountEntry> 
+	</UserUsageCount>
 </LONIResourceData>

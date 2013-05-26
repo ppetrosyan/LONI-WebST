@@ -1,5 +1,8 @@
 package edu.ucla.loni.pipeline.client.MainPage.WorkFlows;
 
+import java.util.Date;
+
+import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -39,23 +42,21 @@ public class WorkFlowsTab {
 		this.asyncClientServices = asyncClientServices;
 		initializeListWorkflows();
 	}
-
-	public WorkFlowsTab() {
-		initializeListWorkflows();
-	}
-
+	
 	public Tab setTab() {
 		Tab tabWorkflows = new Tab("Workflows");
 
 		layoutWorkflows.setSize("100%", "100%");
 		layoutWorkflows.setDefaultLayoutAlign(Alignment.LEFT);
 		layoutWorkflows.setMembersMargin(10);
-
+		
+		//Label that show statistic
 		final com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
-				"All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:" + TotalNode + ")");
-		intro.setSize("500px", "49px");
+				"Loading...");
+		intro.setSize("800px", "49px");
 		layoutWorkflows.addMember(intro);
-
+		
+		//List
 		listWorkflows.setShowRecordComponents(true);
 		listWorkflows.setShowRecordComponentsByCell(true);
 		listWorkflows.setShowAllRecords(true);
@@ -106,19 +107,7 @@ public class WorkFlowsTab {
 
 		tabWorkflows.addTabSelectedHandler(new TabSelectedHandler() {
 			public void onTabSelected(TabSelectedEvent event) {				
-				asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
-					@Override
-					public void onSuccess(final String xmlData) {
-						refreshWorkflows(xmlData);
-						System.out.println("Workflows refreshed successfully");
-						intro.setContents("All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:" + TotalNode + ")");
-					}
-
-					@Override
-					public void onFailure(Throwable caught) {
-						System.out.println("Workflows refreshed failed");
-					}
-				});
+				Update(intro);
 			}
 		});
 
@@ -127,23 +116,34 @@ public class WorkFlowsTab {
 		layoutWorkflows.addMember(workflowsrefreshbutton);
 		workflowsrefreshbutton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
-							@Override
-							public void onSuccess(final String xmlData) {
-								refreshWorkflows(xmlData);
-								System.out.println("Workflows refreshed successfully");
-								intro.setContents("All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:" + TotalNode + ")");
-							}
-
-							@Override
-							public void onFailure(Throwable caught) {
-								System.out.println("Workflows refreshed failed");
-							}
-						});
+				Update(intro);
 			}
 		});
 		tabWorkflows.setPane(layoutWorkflows);
 		return tabWorkflows;
+	}
+	
+	public void Update(final com.smartgwt.client.widgets.Label intro){
+		asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(final String xmlData) {
+				refreshWorkflows(xmlData);
+				System.out.println("Workflows refreshed successfully");
+				
+				//get current time with specific format
+				Date time = new Date();
+				DateTimeFormat ft = DateTimeFormat.getFormat("EEE MMM d HH:mm:ss ZZZZ yyyy");
+				
+				//Update the content of the top label
+				intro.setContents("All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:"
+						+ TotalNode + "&#160;) "+ "&#160;&#160;&#160;Updated: " + ft.format(time));
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				System.out.println("Workflows refreshed failed");
+			}
+		});
 	}
 
 	public void refreshWorkflows(String xml) {
@@ -258,7 +258,6 @@ public class WorkFlowsTab {
 			}// end if
 		}// end loop
 		listWorkflows.setData(array);
-		// layoutWorkflows.addMember(listWorkflows);
 	}
 
 	private IButton createStopResetButton() {
