@@ -29,8 +29,13 @@ public class WorkFlowsTab {
 	private ListGrid listWorkflows;
 	private AsyncClientServices asyncClientServices;
 	VLayout layoutWorkflows = new VLayout();
+	private int TotalWorkflows;
+	private int TotalNode;
+	
 
 	public WorkFlowsTab(AsyncClientServices asyncClientServices) {
+		TotalWorkflows = 0;
+		TotalNode = 0;
 		this.asyncClientServices = asyncClientServices;
 		initializeListWorkflows();
 	}
@@ -46,8 +51,8 @@ public class WorkFlowsTab {
 		layoutWorkflows.setDefaultLayoutAlign(Alignment.LEFT);
 		layoutWorkflows.setMembersMargin(10);
 
-		com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
-				"All Workflows");
+		final com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
+				"All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:" + TotalNode + ")");
 		intro.setSize("500px", "49px");
 		layoutWorkflows.addMember(intro);
 
@@ -100,12 +105,13 @@ public class WorkFlowsTab {
 		layoutWorkflows.addMember(listWorkflows);
 
 		tabWorkflows.addTabSelectedHandler(new TabSelectedHandler() {
-			public void onTabSelected(TabSelectedEvent event) {
+			public void onTabSelected(TabSelectedEvent event) {				
 				asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
 					@Override
 					public void onSuccess(final String xmlData) {
 						refreshWorkflows(xmlData);
 						System.out.println("Workflows refreshed successfully");
+						intro.setContents("All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:" + TotalNode + ")");
 					}
 
 					@Override
@@ -126,6 +132,7 @@ public class WorkFlowsTab {
 							public void onSuccess(final String xmlData) {
 								refreshWorkflows(xmlData);
 								System.out.println("Workflows refreshed successfully");
+								intro.setContents("All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:" + TotalNode + ")");
 							}
 
 							@Override
@@ -156,118 +163,98 @@ public class WorkFlowsTab {
 
 	public void parseWorkflowsXML(Document doc) {
 		NodeList WorkflowsList = doc.getElementsByTagName("WorkflowEntry");
-		int totalWorkflows = WorkflowsList.getLength();
-		WorkFlowsRecord array[] = new WorkFlowsRecord[totalWorkflows];
-		for (int k = 0; k < totalWorkflows; k++) {
+		
+		//we get the total number of workflows here
+		TotalWorkflows = WorkflowsList.getLength();
+		//reset statistic
+		TotalNode = 0;
+		
+		WorkFlowsRecord array[] = new WorkFlowsRecord[TotalWorkflows];
+		for (int k = 0; k < TotalWorkflows; k++) {
 			Node WorkflowsNode = WorkflowsList.item(k);
 			if (WorkflowsNode.getNodeType() == Node.ELEMENT_NODE) {
 				Element WorkflowsElement = (Element) WorkflowsNode;
 
 				// Workflows ID
-				NodeList WorkflowsIDList = WorkflowsElement
-						.getElementsByTagName("WorkflowID");
+				NodeList WorkflowsIDList = WorkflowsElement.getElementsByTagName("WorkflowID");
 				Element WorkflowsIDElement = (Element) WorkflowsIDList.item(0);
-				NodeList textWorkflowsIDList = WorkflowsIDElement
-						.getChildNodes();
+				NodeList textWorkflowsIDList = WorkflowsIDElement.getChildNodes();
 
 				// Username
-				NodeList UsernameList = WorkflowsElement
-						.getElementsByTagName("Username");
+				NodeList UsernameList = WorkflowsElement.getElementsByTagName("Username");
 				Element UsernameElement = (Element) UsernameList.item(0);
 				NodeList textUsernameList = UsernameElement.getChildNodes();
 
 				// State
-				NodeList StateList = WorkflowsElement
-						.getElementsByTagName("State");
+				NodeList StateList = WorkflowsElement.getElementsByTagName("State");
 				Element StateElement = (Element) StateList.item(0);
 				NodeList textStateList = StateElement.getChildNodes();
 
 				// Start Time
-				NodeList StartTimeList = WorkflowsElement
-						.getElementsByTagName("StartTime");
+				NodeList StartTimeList = WorkflowsElement.getElementsByTagName("StartTime");
 				Element StartTimeElement = (Element) StartTimeList.item(0);
 				NodeList textStartTimeList = StartTimeElement.getChildNodes();
 
 				// End Time
-				NodeList EndTimeList = WorkflowsElement
-						.getElementsByTagName("EndTime");
+				NodeList EndTimeList = WorkflowsElement.getElementsByTagName("EndTime");
 				Element EndTimeElement = (Element) EndTimeList.item(0);
 				NodeList textEndTimeList = EndTimeElement.getChildNodes();
 
 				// Duration
-				NodeList DurationList = WorkflowsElement
-						.getElementsByTagName("Duration");
+				NodeList DurationList = WorkflowsElement.getElementsByTagName("Duration");
 				Element DurationElement = (Element) DurationList.item(0);
 				NodeList textDurationList = DurationElement.getChildNodes();
 
 				// NumOfNode
-				NodeList NumOfNodeList = WorkflowsElement
-						.getElementsByTagName("NumOfNode");
+				NodeList NumOfNodeList = WorkflowsElement.getElementsByTagName("NumOfNode");
 				Element NumOfNodeElement = (Element) NumOfNodeList.item(0);
 				NodeList textNumOfNodeList = NumOfNodeElement.getChildNodes();
+				TotalNode += Integer.parseInt(((Node) textNumOfNodeList.item(0)).getNodeValue().trim());
 
 				// NumOfInstances
-				NodeList NumOfInstancesList = WorkflowsElement
-						.getElementsByTagName("NumOfInstances");
-				Element NumOfInstancesElement = (Element) NumOfInstancesList
-						.item(0);
-				NodeList textNumOfInstancesList = NumOfInstancesElement
-						.getChildNodes();
+				NodeList NumOfInstancesList = WorkflowsElement.getElementsByTagName("NumOfInstances");
+				Element NumOfInstancesElement = (Element) NumOfInstancesList.item(0);
+				NodeList textNumOfInstancesList = NumOfInstancesElement.getChildNodes();
 
 				// NumBacklab
-				NodeList NumBacklabList = WorkflowsElement
-						.getElementsByTagName("NumBacklab");
+				NodeList NumBacklabList = WorkflowsElement.getElementsByTagName("NumBacklab");
 				Element NumBacklabElement = (Element) NumBacklabList.item(0);
 				NodeList textNumBacklabList = NumBacklabElement.getChildNodes();
 
 				// NumSubmitting
-				NodeList NumSubmittingList = WorkflowsElement
-						.getElementsByTagName("NumSubmitting");
-				Element NumSubmittingElement = (Element) NumSubmittingList
-						.item(0);
-				NodeList textNumSubmittingList = NumSubmittingElement
-						.getChildNodes();
+				NodeList NumSubmittingList = WorkflowsElement.getElementsByTagName("NumSubmitting");
+				Element NumSubmittingElement = (Element) NumSubmittingList.item(0);
+				NodeList textNumSubmittingList = NumSubmittingElement.getChildNodes();
 
 				// NumQueued
-				NodeList NumQueuedList = WorkflowsElement
-						.getElementsByTagName("NumQueued");
+				NodeList NumQueuedList = WorkflowsElement.getElementsByTagName("NumQueued");
 				Element NumQueuedElement = (Element) NumQueuedList.item(0);
 				NodeList textNumQueuedList = NumQueuedElement.getChildNodes();
 
 				// NumRunning
-				NodeList NumRunningList = WorkflowsElement
-						.getElementsByTagName("NumRunning");
+				NodeList NumRunningList = WorkflowsElement.getElementsByTagName("NumRunning");
 				Element NumRunningElement = (Element) NumRunningList.item(0);
 				NodeList textNumRunningList = NumRunningElement.getChildNodes();
 
 				// NumCompleted
-				NodeList NumCompletedList = WorkflowsElement
-						.getElementsByTagName("NumCompleted");
-				Element NumCompletedElement = (Element) NumCompletedList
-						.item(0);
-				NodeList textNumCompletedList = NumCompletedElement
-						.getChildNodes();
+				NodeList NumCompletedList = WorkflowsElement.getElementsByTagName("NumCompleted");
+				Element NumCompletedElement = (Element) NumCompletedList.item(0);
+				NodeList textNumCompletedList = NumCompletedElement.getChildNodes();
 
 				array[k] = new WorkFlowsRecord(
-						((Node) textWorkflowsIDList.item(0)).getNodeValue()
-								.trim(),
+						((Node) textWorkflowsIDList.item(0)).getNodeValue().trim(),
 						((Node) textUsernameList.item(0)).getNodeValue().trim(),
 						((Node) textStateList.item(0)).getNodeValue().trim(),
-						((Node) textStartTimeList.item(0)).getNodeValue()
-								.trim(),
+						((Node) textStartTimeList.item(0)).getNodeValue().trim(),
 						((Node) textEndTimeList.item(0)).getNodeValue().trim(),
 						((Node) textDurationList.item(0)).getNodeValue().trim(),
-						((Node) textNumOfNodeList.item(0)).getNodeValue()
-								.trim(),
-						((Node) textNumOfInstancesList.item(0)).getNodeValue()
-								.trim(), ((Node) textNumBacklabList.item(0))
-								.getNodeValue().trim(),
-						((Node) textNumSubmittingList.item(0)).getNodeValue()
-								.trim(), ((Node) textNumQueuedList.item(0))
-								.getNodeValue().trim(),
-						((Node) textNumRunningList.item(0)).getNodeValue()
-								.trim(), ((Node) textNumCompletedList.item(0))
-								.getNodeValue().trim());
+						((Node) textNumOfNodeList.item(0)).getNodeValue().trim(),
+						((Node) textNumOfInstancesList.item(0)).getNodeValue().trim(),
+						((Node) textNumBacklabList.item(0)).getNodeValue().trim(),
+						((Node) textNumSubmittingList.item(0)).getNodeValue().trim(),
+						((Node) textNumQueuedList.item(0)).getNodeValue().trim(),
+						((Node) textNumRunningList.item(0)).getNodeValue().trim(),
+						((Node) textNumCompletedList.item(0)).getNodeValue().trim());
 			}// end if
 		}// end loop
 		listWorkflows.setData(array);

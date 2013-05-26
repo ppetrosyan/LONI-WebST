@@ -123,6 +123,8 @@ public class GeneralTab {
 		SpinnerItem spinnerItem = new SpinnerItem("si_sessionttl",
 				"Session Time-to-live");
 		spinnerItem.setDefaultValue(30);
+		spinnerItem.setMin(0);
+		spinnerItem.setMax(1000);
 
 		StaticTextItem staticTextItem = new StaticTextItem("sessiondays", "");
 		staticTextItem.setValue("(days from the end of this session)");
