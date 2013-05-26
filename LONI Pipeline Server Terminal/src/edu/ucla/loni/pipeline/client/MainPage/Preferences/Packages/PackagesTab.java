@@ -53,18 +53,10 @@ public class PackagesTab {
 		listUsersPackages.setListEndEditAction(RowEndEditAction.NEXT);
 		listUsersPackages.setSize("100%", "100%");
 		listUsersPackages.setAutoFitWidthApproach(AutoFitWidthApproach.BOTH);
-
-		listUsersPackages.setFields(new ListGridField("package_name",
-				"Package Name"), new ListGridField("version", "Version"),
-				new ListGridField("location", "Location"), new ListGridField(
-						"variables", "Variables"), new ListGridField("sources",
-						"Sources"));
-
 		listUsersPackages.setCanPickFields(false);
 		listUsersPackages.setCanFreezeFields(false);
 		listUsersPackages.setAutoFitFieldWidths(true);
 		listUsersPackages.setCanRemoveRecords(true); 
-		
 		
 		//specific which field you want to expend
 		listUsersPackages.setAutoFitExpandField("location");
@@ -78,14 +70,7 @@ public class PackagesTab {
 		);
 	
 		
-		
-		final DataSource PackagesSource = UsersOnlineXmlDS.getInstance();
-		listUsersPackages.setDataSource(PackagesSource);
-	   
-		
-		
-		
-		//get data from PackagesData.java
+		//get default data from PackagesData.java
 		listUsersPackages.setData(PackagesData.getRecords());
 	    layoutUsersPackages.addMember(listUsersPackages);
 		

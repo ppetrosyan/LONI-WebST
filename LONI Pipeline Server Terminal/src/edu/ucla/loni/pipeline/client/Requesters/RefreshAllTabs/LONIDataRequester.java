@@ -6,6 +6,7 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
+import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
 
 public class LONIDataRequester {
 	
@@ -13,13 +14,15 @@ public class LONIDataRequester {
 	private LONI_Chart memChart;
 	private LONI_Chart thrdChart;
 	private PreferencesTab preferencesTab;
+	private WorkFlowsTab workflowtab;
 	
 	public LONIDataRequester(AsyncClientServices asyncClientServices, LONI_Chart memChart, LONI_Chart thrdChart, 
-			PreferencesTab preferencesTab) {
+			PreferencesTab preferencesTab, WorkFlowsTab workflowtab) {
 		this.asyncClientServices = asyncClientServices;
 		this.memChart = memChart;
 		this.thrdChart = thrdChart;
 		this.preferencesTab = preferencesTab;
+		this.workflowtab = workflowtab;
 	}
 	
 	public void refreshResourceTabs() {
@@ -28,8 +31,8 @@ public class LONIDataRequester {
 		asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
             @Override
             public void onSuccess(final String xmlData) {
-            	/** Workflow Tab */
-                
+            	/** Workflow Tab */            	
+            	workflowtab.refreshWorkflows(xmlData);
                 /** Users Tab */
                 
                 /** Memory Usage Tab */

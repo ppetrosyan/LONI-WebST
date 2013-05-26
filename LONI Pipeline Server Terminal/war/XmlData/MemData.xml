@@ -335,4 +335,87 @@
 			<ThreadPeak>440</ThreadPeak>
 		</Step>
 	</ThreadUsage>
+	<Workflows>
+		<WorkflowEntry>  
+			<WorkflowID>11373</WorkflowID>  
+			<Username>William</Username>  
+			<State>Running</State>  
+			<StartTime>12:30</StartTime>  
+			<EndTime>13:00</EndTime>  
+			<Duration>00:30</Duration>  
+			<NumOfNode>4</NumOfNode>  
+			<NumOfInstances>3</NumOfInstances>  
+			<NumBacklab>1</NumBacklab>  
+			<NumSubmitting>0</NumSubmitting>  
+			<NumQueued>0</NumQueued>  
+			<NumRunning>2</NumRunning>  
+			<NumCompleted>1</NumCompleted>  
+		</WorkflowEntry>  
+
+		<WorkflowEntry>  
+			<WorkflowID>26453</WorkflowID>  
+			<Username>Peter</Username>  
+			<State>Stop</State>  
+			<StartTime>11:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>02:30</Duration>  
+			<NumOfNode>1</NumOfNode>  
+			<NumOfInstances>0</NumOfInstances>  
+			<NumBacklab>2</NumBacklab>  
+			<NumSubmitting>0</NumSubmitting>  
+			<NumQueued>0</NumQueued>  
+			<NumRunning>1</NumRunning>  
+			<NumCompleted>1</NumCompleted>  
+		</WorkflowEntry>  
+
+		<WorkflowEntry>  
+			<WorkflowID>32135</WorkflowID>  
+			<Username>John</Username>  
+			<State>Backlog</State>  
+			<StartTime>13:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>00:30</Duration>  
+			<NumOfNode>3</NumOfNode>  
+			<NumOfInstances>4</NumOfInstances>  
+			<NumBacklab>0</NumBacklab>  
+			<NumSubmitting>0</NumSubmitting>  
+			<NumQueued>0</NumQueued>  
+			<NumRunning>0</NumRunning>  
+			<NumCompleted>0</NumCompleted>  
+		</WorkflowEntry>  
+
+		<WorkflowEntry>  
+			<WorkflowID>26450</WorkflowID>  
+			<Username>Peter</Username>  
+			<State>Running</State>  
+			<StartTime>11:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>02:30</Duration>  
+			<NumOfNode>1</NumOfNode>  
+			<NumOfInstances>3</NumOfInstances>  
+			<NumBacklab>2</NumBacklab>  
+			<NumSubmitting>0</NumSubmitting>  
+			<NumQueued>0</NumQueued>  
+			<NumRunning>1</NumRunning>  
+			<NumCompleted>1</NumCompleted>  
+		</WorkflowEntry>  
+
+		<WorkflowEntry>  
+			<WorkflowID>98456</WorkflowID>  
+			<Username>John</Username>  
+			<State>Pause</State>  
+			<StartTime>13:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>00:30</Duration>  
+			<NumOfNode>3</NumOfNode>  
+			<NumOfInstances>7</NumOfInstances>  
+			<NumBacklab>0</NumBacklab>  
+			<NumSubmitting>0</NumSubmitting>  
+			<NumQueued>0</NumQueued>  
+			<NumRunning>0</NumRunning>  
+			<NumCompleted>0</NumCompleted>  
+		</WorkflowEntry>  
+
+
+	</Workflows>
 </LONIResourceData>
