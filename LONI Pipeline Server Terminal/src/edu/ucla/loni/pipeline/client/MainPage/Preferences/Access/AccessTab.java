@@ -1,5 +1,7 @@
 package edu.ucla.loni.pipeline.client.MainPage.Preferences.Access;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Node;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.MultipleAppearance;
 import com.smartgwt.client.widgets.form.DynamicForm;
@@ -20,6 +22,19 @@ import edu.ucla.loni.pipeline.client.MainPage.Utilities.MainPageUtils;
 
 public class AccessTab {
 	
+	private DynamicForm dynamicForm;
+	private DynamicForm dynamicForm2;
+	private DynamicForm dynamicForm3;
+	private DynamicForm dynamicForm4;
+	private DynamicForm dynamicForm_1;
+	private DynamicForm dynamicForm_2;
+	
+	private SelectItem selectItem;
+	private TextItem textItem_1;
+	private TextItem textItem_2;
+	private SpinnerItem spinnerItem_1;
+	private SpinnerItem spinnerItem_2;
+	
 	public AccessTab() {
 		
 	}
@@ -33,7 +48,7 @@ public class AccessTab {
 		label_0.setSize("210px", "49px");
 		layoutAccess.addMember(label_0);
 
-		DynamicForm dynamicForm = new DynamicForm();
+		dynamicForm = new DynamicForm();
 		TextItem serverAdmin = new TextItem("serverAdmin", "Input (separate multiple entries by comma)");
 		serverAdmin.setWidth(600);
 		dynamicForm.setFields(serverAdmin);
@@ -51,113 +66,29 @@ public class AccessTab {
 		label_1.setSize("210px", "49px");
 		layoutAccess.addMember(label_1);
 
-		DynamicForm dynamicForm2 = new DynamicForm();
+		dynamicForm2 = new DynamicForm();
 		dynamicForm2.setHeight("157px");
 		dynamicForm2.setTitleWidth(200);
 
-		final TextItem textItem_1 = new TextItem();
+		textItem_1 = new TextItem();
 		textItem_1.setDisabled(true);
 		textItem_1.setAlign(Alignment.LEFT);
 		textItem_1.setTitle("Controlled users");
 		textItem_1.setName("textbox_1");
-		final TextItem textItem_2 = new TextItem();
+		textItem_2 = new TextItem();
 		textItem_2.setDisabled(true);
 		textItem_2.setAlign(Alignment.LEFT);
 		textItem_2.setTitle("Controlled directories");
 		textItem_2.setName("textbox_2");
 
-		final SelectItem selectItem = new SelectItem("newSelectItem_1",
+		selectItem = new SelectItem("newSelectItem_1",
 				"Access control mode");
 		selectItem.setWidth(600);
 		selectItem.setDefaultToFirstOption(true);
 		selectItem.setAlign(Alignment.LEFT);
 		selectItem.addChangedHandler(new ChangedHandler() {
 			public void onChanged(ChangedEvent event) {
-
-				// case0
-				if ((selectItem.getValueAsString())
-						.equals("0 - Executables: no restrictions. Remote File Browser: no restrictions")) {
-					textItem_1.setTitle("Controlled users");
-					textItem_2.setTitle("Controlled directories");
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-					
-				}
-
-				// case1
-				else if ((selectItem.getValueAsString())
-						.equals("1 - Executables: restricted below. Remote File Browser: no restrictions")) {
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-					textItem_1.setTitle("Restricted users");
-					textItem_2
-							.setTitle("Restricted users only have access in these directories");
-					textItem_1.setDisabled(false);
-					textItem_2.setDisabled(false);
-				}
-				// case2
-				else if ((selectItem.getValueAsString())
-						.equals("2 - Executables: enabled. Remote File Browser: no restrictions")) {
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-					textItem_1.setTitle("Special users with no restrictions");
-					textItem_2
-							.setTitle("Regular users only have access in these directories");
-					textItem_1.setDisabled(false);
-					textItem_2.setDisabled(false);
-				}
-				// case3
-				else if ((selectItem.getValueAsString())
-						.equals("3 - Executables: restricted below. Remote File Browser: restricted below")) {
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-					textItem_1.setTitle("Restricted users");
-					textItem_2
-							.setTitle("Restricted users only have access in these directories");
-					textItem_1.setDisabled(false);
-					textItem_2.setDisabled(false);
-				}
-				// case4
-				else if ((selectItem.getValueAsString())
-						.equals("4 - Executables: enabled below. Remote File Browser: enabled below")) {
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-					textItem_1.setTitle("Special users with no restrictions");
-					textItem_2
-							.setTitle("Regular users only have access in these directories");
-					textItem_1.setDisabled(false);
-					textItem_2.setDisabled(false);
-				}
-				// case5
-				else if ((selectItem.getValueAsString())
-						.equals("5 - Executables: restricted below. Remote File Browser: same as Shell permissions")) {
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-					textItem_1.setTitle("Restricted users");
-					textItem_2
-							.setTitle("Restricted users only have access in these directories");
-					textItem_1.setDisabled(false);
-					textItem_2.setDisabled(false);
-				}
-				// case6
-				else if ((selectItem.getValueAsString())
-						.equals("6 - Executables: enabled below. Remote File Browser: same as Shell permissions")) {
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-					textItem_1.setTitle("Special users with no restrictions");
-					textItem_2
-							.setTitle("Regular users only have access in these directories");
-					textItem_1.setDisabled(false);
-					textItem_2.setDisabled(false);
-				}
-				// case7
-				else if ((selectItem.getValueAsString())
-						.equals("7 - Executables: same as Shell permissions. Remote File Browser: same as Shell")) {
-					textItem_1.setTitle("Controlled users");
-					textItem_2.setTitle("Controlled directories");
-					textItem_1.setDisabled(true);
-					textItem_2.setDisabled(true);
-				}
+				setControlMode();
 			}
 		});
 
@@ -189,7 +120,7 @@ public class AccessTab {
 		label_3.setSize("210px", "49px");
 		layoutAccess.addMember(label_3);
 
-		final SpinnerItem spinnerItem_1 = new SpinnerItem("si_usrpcfreeslots",
+		spinnerItem_1 = new SpinnerItem("si_usrpcfreeslots",
 				"One user cannot take more than");
 		spinnerItem_1.setValue(50);
 		spinnerItem_1.setHint("% of free slots at submission time");
@@ -198,16 +129,14 @@ public class AccessTab {
 		spinnerItem_1.setMax(100);
 		spinnerItem_1.setDisabled(true);
 
-		DynamicForm dynamicForm_1 = new DynamicForm();
+		dynamicForm_1 = new DynamicForm();
 		CheckboxItem checkboxItem_1 = new CheckboxItem(
 				"cb_enableubjm",
 				"Enable (NOTE: Enabling user management may require some time to adjust user usage accuracy)");
 		checkboxItem_1.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
-				if (!cstat)
-					spinnerItem_1.setValue(50);
-				spinnerItem_1.setDisabled(!cstat);
+				toggleUserManage(cstat);
 			}
 		});
 		checkboxItem_1.setValue(false);
@@ -217,22 +146,20 @@ public class AccessTab {
 				"");
 		canvasItem_1.setCanvas(dynamicForm_1);
 
-		DynamicForm dynamicForm3 = new DynamicForm();
-		final SpinnerItem spinnerItem_2 = new SpinnerItem("si_maxwrkflpu",
+		dynamicForm3 = new DynamicForm();
+		spinnerItem_2 = new SpinnerItem("si_maxwrkflpu",
 				"Maximum active (running & paused) workflows per user");
 		spinnerItem_2.setValue(20);
 		spinnerItem_2.setMin(0);
 		spinnerItem_2.setMax(9999);
 		spinnerItem_2.setDisabled(true);
 
-		DynamicForm dynamicForm_2 = new DynamicForm();
+		dynamicForm_2 = new DynamicForm();
 		CheckboxItem checkboxItem_2 = new CheckboxItem("cb_enablewfm", "Enable");
 		checkboxItem_2.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
-				if (!cstat)
-					spinnerItem_2.setValue(20);
-				spinnerItem_2.setDisabled(!cstat);
+				toggleWorkflowManage(cstat);
 			}
 		});
 		dynamicForm_2.setFields(new FormItem[] { checkboxItem_2 });
@@ -256,7 +183,7 @@ public class AccessTab {
 		label_3.setSize("210px", "49px");
 		layoutAccess.addMember(label_4);
 		
-		DynamicForm dynamicForm4 = new DynamicForm();
+		dynamicForm4 = new DynamicForm();
 		dynamicForm4.setFields(canvasItem_2,spinnerItem_2);
 		MainPageUtils.formatForm(dynamicForm4);		
 		
@@ -264,5 +191,163 @@ public class AccessTab {
 		layoutAccess.addMember(dynamicForm4);
 		tabAccess.setPane(layoutAccess);
 		return tabAccess;
+	}
+	
+	public void toggleUserManage(Boolean cstat) {
+		if (!cstat)
+			spinnerItem_1.setValue(50);
+		spinnerItem_1.setDisabled(!cstat);
+	}
+	
+	public void toggleWorkflowManage(Boolean cstat) {
+		if (!cstat)
+			spinnerItem_2.setValue(20);
+		spinnerItem_2.setDisabled(!cstat);
+	}
+	
+	public void parseAccessXML(Document doc) {
+		
+		// server admins section
+		Node serverAdmin = (Node) doc.getElementsByTagName("ServerAdmins").item(0);
+		if(serverAdmin != null) {
+			String serverAdminVal = serverAdmin.getFirstChild().getNodeValue();
+			dynamicForm.getItem("serverAdmin").setValue(serverAdminVal);
+		}
+		
+		// directory access control section
+		Node accessControlMode = (Node) doc.getElementsByTagName("AccessControlMode").item(0);
+		if(accessControlMode != null) {
+			String accessControlModeVal = accessControlMode.getFirstChild().getNodeValue();
+			dynamicForm2.getItem("newSelectItem_1").setValue(accessControlModeVal);
+			setControlMode();
+		}
+		
+		Node accessUsers = (Node) doc.getElementsByTagName("AccessUsers").item(0);
+		if(accessUsers != null) {
+			String accessUserVal = accessUsers.getFirstChild().getNodeValue();
+			dynamicForm2.getItem("textbox_1").setValue(accessUserVal);
+		}
+		
+		Node accessDirectories = (Node) doc.getElementsByTagName("AccessDirectories").item(0);
+		if(accessDirectories != null) {
+			String accessDirectoriesVal = accessDirectories.getFirstChild().getNodeValue();
+			dynamicForm2.getItem("textbox_2").setValue(accessDirectoriesVal);
+		}
+		
+		// user-based job management section
+		Node jobManageEnable = (Node) doc.getElementsByTagName("JobManageEnable").item(0);
+		if(jobManageEnable != null) {
+			Boolean jobManageEnableVal = Boolean.valueOf(jobManageEnable.getFirstChild().getNodeValue());
+			dynamicForm_1.getItem("cb_enableubjm").setValue(jobManageEnableVal);
+			toggleUserManage(jobManageEnableVal);
+		}
+		
+		Node freeSlots = (Node) doc.getElementsByTagName("FreeSlots").item(0);
+		if(freeSlots != null) {
+			int freeSlotsVal = Integer.parseInt(freeSlots.getFirstChild().getNodeValue());
+			dynamicForm3.getItem("si_usrpcfreeslots").setValue(freeSlotsVal);
+		}
+		
+		// workflow management section
+		Node workflowManageEnable = (Node) doc.getElementsByTagName("WorkflowManageEnable").item(0);
+		if(workflowManageEnable != null) {
+			Boolean workflowVal = Boolean.valueOf(workflowManageEnable.getFirstChild().getNodeValue());
+			dynamicForm_2.getItem("cb_enablewfm").setValue(workflowVal);
+			toggleWorkflowManage(workflowVal);
+		}
+		
+		Node maxActiveWorkflows = (Node) doc.getElementsByTagName("MaxActiveWorkflows").item(0);
+		if(maxActiveWorkflows != null) {
+			int maxWorkflowsVal = Integer.parseInt(maxActiveWorkflows.getFirstChild().getNodeValue());
+			dynamicForm4.getItem("si_maxwrkflpu").setValue(maxWorkflowsVal);
+		}
+	}
+	
+	private void setControlMode() {
+		
+		// case0
+		if ((selectItem.getValueAsString())
+				.equals("0 - Executables: no restrictions. Remote File Browser: no restrictions")) {
+			textItem_1.setTitle("Controlled users");
+			textItem_2.setTitle("Controlled directories");
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+			
+		}
+		// case1
+		else if ((selectItem.getValueAsString())
+				.equals("1 - Executables: restricted below. Remote File Browser: no restrictions")) {
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+			textItem_1.setTitle("Restricted users");
+			textItem_2
+					.setTitle("Restricted users only have access in these directories");
+			textItem_1.setDisabled(false);
+			textItem_2.setDisabled(false);
+		}
+		// case2
+		else if ((selectItem.getValueAsString())
+				.equals("2 - Executables: enabled. Remote File Browser: no restrictions")) {
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+			textItem_1.setTitle("Special users with no restrictions");
+			textItem_2
+					.setTitle("Regular users only have access in these directories");
+			textItem_1.setDisabled(false);
+			textItem_2.setDisabled(false);
+		}
+		// case3
+		else if ((selectItem.getValueAsString())
+				.equals("3 - Executables: restricted below. Remote File Browser: restricted below")) {
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+			textItem_1.setTitle("Restricted users");
+			textItem_2
+					.setTitle("Restricted users only have access in these directories");
+			textItem_1.setDisabled(false);
+			textItem_2.setDisabled(false);
+		}
+		// case4
+		else if ((selectItem.getValueAsString())
+				.equals("4 - Executables: enabled below. Remote File Browser: enabled below")) {
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+			textItem_1.setTitle("Special users with no restrictions");
+			textItem_2
+					.setTitle("Regular users only have access in these directories");
+			textItem_1.setDisabled(false);
+			textItem_2.setDisabled(false);
+		}
+		// case5
+		else if ((selectItem.getValueAsString())
+				.equals("5 - Executables: restricted below. Remote File Browser: same as Shell permissions")) {
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+			textItem_1.setTitle("Restricted users");
+			textItem_2
+					.setTitle("Restricted users only have access in these directories");
+			textItem_1.setDisabled(false);
+			textItem_2.setDisabled(false);
+		}
+		// case6
+		else if ((selectItem.getValueAsString())
+				.equals("6 - Executables: enabled below. Remote File Browser: same as Shell permissions")) {
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+			textItem_1.setTitle("Special users with no restrictions");
+			textItem_2
+					.setTitle("Regular users only have access in these directories");
+			textItem_1.setDisabled(false);
+			textItem_2.setDisabled(false);
+		}
+		// case7
+		else if ((selectItem.getValueAsString())
+				.equals("7 - Executables: same as Shell permissions. Remote File Browser: same as Shell")) {
+			textItem_1.setTitle("Controlled users");
+			textItem_2.setTitle("Controlled directories");
+			textItem_1.setDisabled(true);
+			textItem_2.setDisabled(true);
+		}
+		
 	}
 }

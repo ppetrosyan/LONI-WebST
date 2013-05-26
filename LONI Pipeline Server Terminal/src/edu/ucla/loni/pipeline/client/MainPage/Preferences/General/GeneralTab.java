@@ -3,6 +3,7 @@ package edu.ucla.loni.pipeline.client.MainPage.Preferences.General;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Node;
 import com.smartgwt.client.widgets.form.DynamicForm;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
@@ -24,6 +25,9 @@ public class GeneralTab {
 	private DynamicForm formGeneralServerLibrary;
 	
 	private TextItem libraryPathText;
+	private TextItem mappedGuestUser;
+	private CheckboxItem escalationCheckbox;
+	private CheckboxItem enableGuestCheckbox;
 	
 	public GeneralTab() {
 		
@@ -45,7 +49,7 @@ public class GeneralTab {
 		TextItem hostText = new TextItem("host", "Host");
 
 		IntegerItem basicPort = new IntegerItem("port", "Port");
-		basicPort.setValue("8001");
+		basicPort.setDefaultValue("8001");
 
 		TextItem tempdirText = new TextItem("tempdir", "Temporary Directory");
 
@@ -56,16 +60,43 @@ public class GeneralTab {
 
 		TextItem logfileText = new TextItem("logfile", "Log File");
 
-		NativeCheckboxItem escalationCheckbox = new NativeCheckboxItem("escalationCheckbox");
+		escalationCheckbox = new CheckboxItem("escalationCheckbox");
 		escalationCheckbox
 				.setTitle("Use privilege escalation: Pipeline server will run commands as the user (sudo as user)");
-
-		NativeCheckboxItem enableGuestCheckbox = new NativeCheckboxItem("enableGuestCheckbox");
+		
+		enableGuestCheckbox = new CheckboxItem("enableGuestCheckbox");
 		enableGuestCheckbox.setTitle("Enable guests");
+		
+		mappedGuestUser = new TextItem("mappedGuestUser", "Mapped guest user");
+		mappedGuestUser.setVisible(false);
 
+		escalationCheckbox.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				if((Boolean) event.getValue() && enableGuestCheckbox.getValueAsBoolean()) {
+					mappedGuestUser.show();
+				}
+				else {
+					mappedGuestUser.clearValue();
+					mappedGuestUser.hide();
+				}
+			}
+		});
+		
+		enableGuestCheckbox.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				if((Boolean) event.getValue() && escalationCheckbox.getValueAsBoolean()) {
+					mappedGuestUser.show();
+				}
+				else {
+					mappedGuestUser.clearValue();
+					mappedGuestUser.hide();
+				}
+			}
+		});
+		
 		formGeneralBasic.setFields(new FormItem[] { hostText, basicPort,
 				tempdirText, secureCheckbox, scrdirText, logfileText,
-				escalationCheckbox, enableGuestCheckbox });
+				escalationCheckbox, enableGuestCheckbox, mappedGuestUser });
 		MainPageUtils.formatForm(formGeneralBasic);
 		layoutGeneral.addMember(formGeneralBasic);
 
@@ -91,7 +122,7 @@ public class GeneralTab {
 
 		SpinnerItem spinnerItem = new SpinnerItem("si_sessionttl",
 				"Session Time-to-live");
-		spinnerItem.setValue(30);
+		spinnerItem.setDefaultValue(30);
 
 		StaticTextItem staticTextItem = new StaticTextItem("sessiondays", "");
 		staticTextItem.setValue("(days from the end of this session)");
@@ -128,12 +159,12 @@ public class GeneralTab {
 
 		libraryPathText = new TextItem("librarypath",
 				"Monitor library update file");
-		libraryPathText.setDisabled(true);
+		libraryPathText.setVisible(false);
 
 		librarycheckbox.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
-				libraryPathText.setDisabled(!cstat);
+				toggleLibraryPathText(cstat);
 			}
 		});
 
@@ -147,6 +178,16 @@ public class GeneralTab {
 
 		tabGeneral.setPane(layoutGeneral);
 		return tabGeneral;
+	}
+	
+	public void toggleLibraryPathText(Boolean cstat) {
+		if (cstat) {
+			libraryPathText.show();
+		}
+		else {
+			libraryPathText.hide();
+			libraryPathText.clearValue();
+		}
 	}
 	
 	public void parseGeneralXML(Document doc) {
@@ -189,16 +230,25 @@ public class GeneralTab {
 			formGeneralBasic.getItem("logfile").setValue(logfileVal);
 		}
 		
-		Node escalationCheckbox = (Node) doc.getElementsByTagName("PrivilegeEscalation").item(0);
-		if(escalationCheckbox != null) {
-			Boolean escalationVal = Boolean.valueOf(escalationCheckbox.getFirstChild().getNodeValue());
+		Node escalationCheckboxNode = (Node) doc.getElementsByTagName("PrivilegeEscalation").item(0);
+		if(escalationCheckboxNode != null) {
+			Boolean escalationVal = Boolean.valueOf(escalationCheckboxNode.getFirstChild().getNodeValue());
 			formGeneralBasic.getItem("escalationCheckbox").setValue(escalationVal);
 		}
 		
-		Node enableGuestCheckbox = (Node) doc.getElementsByTagName("EnableGuests").item(0);
-		if(enableGuestCheckbox != null) {
-			Boolean enableGuestVal = Boolean.valueOf(enableGuestCheckbox.getFirstChild().getNodeValue());
+		Node enableGuestCheckboxNode = (Node) doc.getElementsByTagName("EnableGuests").item(0);
+		if(enableGuestCheckboxNode != null) {
+			Boolean enableGuestVal = Boolean.valueOf(enableGuestCheckboxNode.getFirstChild().getNodeValue());
 			formGeneralBasic.getItem("enableGuestCheckbox").setValue(enableGuestVal);
+		}
+		
+		Node mappedGuestUserNode = (Node) doc.getElementsByTagName("MappedGuestUser").item(0);
+		if(mappedGuestUserNode != null) {
+			String mappedGuestUserVal = mappedGuestUserNode.getFirstChild().getNodeValue();
+			formGeneralBasic.getItem("mappedGuestUser").setValue(mappedGuestUserVal);
+			if(escalationCheckbox.getValueAsBoolean() && enableGuestCheckbox.getValueAsBoolean()) {
+				mappedGuestUser.show();
+			}
 		}
 		
 		// persistence section
@@ -249,7 +299,7 @@ public class GeneralTab {
 		if(librarycheckbox != null) {
 			Boolean librarycheckboxVal = Boolean.valueOf(librarycheckbox.getFirstChild().getNodeValue());
 			formGeneralServerLibrary.getItem("librarycheckbox").setValue(librarycheckboxVal);
-			libraryPathText.setDisabled(!librarycheckboxVal);
+			toggleLibraryPathText(librarycheckboxVal);
 		}
 		
 		Node librarypath = (Node) doc.getElementsByTagName("MonitorLibraryPath").item(0);
@@ -268,5 +318,7 @@ public class GeneralTab {
 	
 	private void resetFields() {
 		formGeneralBasic.clearValues();
+		formGeneralPersistence.clearValues();
+		formGeneralServerLibrary.clearValues();
 	}
 }

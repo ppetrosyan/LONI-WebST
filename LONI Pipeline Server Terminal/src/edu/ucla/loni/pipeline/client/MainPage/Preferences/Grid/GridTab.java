@@ -126,7 +126,7 @@ public class GridTab {
 		String[] policyArray = {
 				"Disallow all variables, except specified",
 				"Allow all variables, except specified" };
-		gridVariablesPolicy.setWidth(220);
+		gridVariablesPolicy.setWidth(250);
 		gridVariablesPolicy.setDefaultToFirstOption(true);
 		gridVariablesPolicy.setValueMap(policyArray);
 		
@@ -199,6 +199,7 @@ public class GridTab {
 		
 		enableArrayJob = new CheckboxItem("enableArrayJob");
 		enableArrayJob.setTitle("Enable Array Job");
+		enableArrayJob.setDefaultValue(false);
 		enableArrayJob.setLabelAsTitle(true);
 		enableArrayJob.setDisabled(true);
 		
@@ -213,7 +214,7 @@ public class GridTab {
 		fileStat.setDefaultValue(0);
 		fileStat.setMin(0);
 		fileStat.setMax(999);
-		fileStat.setHint("0 - disabled");
+		fileStat.setHint("(0 - disabled)");
 		fileStat.setDisabled(true);
 
 		chunkSize = new IntegerItem("chunkSize", "Chunk size");
@@ -239,6 +240,7 @@ public class GridTab {
 				}
 				else {
 					maxChunkSize.hide();
+					maxChunkSize.clearValue();
 				}
 			}
 		});
@@ -287,6 +289,7 @@ public class GridTab {
 
 		restartService = new CheckboxItem("restartService");
 		restartService.setTitle("Use Restartable Service");
+		restartService.setDefaultValue(false);
 		restartService.setDisabled(true);
 
 		gridPort = new IntegerItem("gridPort", "Port");
@@ -310,10 +313,12 @@ public class GridTab {
 
 		enableMonitored = new NativeCheckboxItem("enableMonitored");
 		enableMonitored.setTitle("Enable monitored job verification");
+		enableMonitored.setDefaultValue(false);
 		enableMonitored.setDisabled(true);
 
 		gridEngineAdmin = new NativeCheckboxItem("gridEngineAdmin");
 		gridEngineAdmin.setTitle("Pipeline user is a grid engine admin");
+		enableMonitored.setDefaultValue(false);
 		gridEngineAdmin.setDisabled(true);
 
 		dynamicFormGridPlugin = new DynamicForm();
@@ -366,20 +371,24 @@ public class GridTab {
 		if(isEvent) {
 			if(totalNumSlots.getValue().equals("Known number")) {
 				knownNumber.hide();
+				knownNumber.clearValue();
 				getFromCommand.show();
 			}
 			else if(totalNumSlots.getValue().equals("Get from command")) {
 				knownNumber.show();
 				getFromCommand.hide();
+				getFromCommand.clearValue();
 			}
 		}
 		else {
 			if(totalNumSlots.getValue().equals("Known number")) {
 				knownNumber.show();
 				getFromCommand.hide();
+				getFromCommand.clearValue();
 			}
 			else if(totalNumSlots.getValue().equals("Get from command")) {
 				knownNumber.hide();
+				knownNumber.clearValue();
 				getFromCommand.show();
 			}
 		}
@@ -392,6 +401,15 @@ public class GridTab {
 		chunkSize.setDisabled(!cstat);
 		increaseChunkSize.setDisabled(!cstat);
 		maxChunkSize.setDisabled(!cstat);
+		
+		if(!cstat) {
+			chunks.clearValue();
+			fileStat.clearValue();
+			chunkSize.clearValue();
+			increaseChunkSize.clearValue();
+			maxChunkSize.hide();
+			maxChunkSize.clearValue();
+		}
 	}
 	
 	// toggle for restart services
@@ -399,6 +417,12 @@ public class GridTab {
 		gridPort.setDisabled(!cstat);
 		memItem.setDisabled(!cstat);
 		jarFile.setDisabled(!cstat);
+		
+		if(!cstat) {
+			gridPort.clearValue();
+			memItem.clearValue();
+			jarFile.clearValue();
+		}
 	}
 	
 	// toggle for all fields
@@ -568,6 +592,7 @@ public class GridTab {
 			}
 			else {
 				dynamicFormArrayJob.getItem("maxChunkSize").hide();
+				dynamicFormArrayJob.getItem("maxChunkSize").clearValue();
 			}
 		}
 		
@@ -658,9 +683,7 @@ public class GridTab {
 		dynamicFormArrayJob.clearValues();
 		dynamicFormGridPlugin.clearValues();
 		dynamicFormGridAccounting.clearValues();
-		toggleArrayJob(false);
-		toggleRestartService(false);
-		toggleTotalNumSlots(false);
 		maxChunkSize.hide();
+		maxChunkSize.clearValue();
 	}
 }
