@@ -5,9 +5,6 @@ import java.util.Map;
 
 import org.moxieapps.gwt.uploader.client.Uploader;
 
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.user.client.Window;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
@@ -21,7 +18,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.Tab;
 
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
-import edu.ucla.loni.pipeline.client.Requesters.WebUrl.RequestWebUrlXMLServiceAsync;
 import edu.ucla.loni.pipeline.client.Upload.Features.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Upload.Uploaders.LONIFileUploader;
 
@@ -65,11 +61,7 @@ public class UploadTab {
 		Button webUrlBtn = new Button("Retrieve");
 		webUrlBtn.addClickHandler(new ClickHandler() {
 	    	public void onClick(ClickEvent event) {
-	    		//UrlValidator urlValidator = new UrlValidator();
-	    		//if (urlValidator.isValid(fileUploadForm.getValueAsString("ti_weburl")))
-	    			dataRequester.getWebUrlXml(fileUploadForm.getValueAsString("ti_weburl"));
-	    		//else
-	    			//Window.alert("Invalid URL, try again");
+	    		dataRequester.getWebUrlXml(fileUploadForm.getValueAsString("ti_weburl"));
 	        }
 	    });
 		webUrlPanel.add(webUrlBtn);

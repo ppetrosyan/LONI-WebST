@@ -20,25 +20,24 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.ucla.loni.pipeline.client.Requesters.WebUrl.RequestWebUrlXMLService;
+import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 import edu.ucla.loni.pipeline.server.Utilities.DatastoreUtils;
-import edu.ucla.loni.pipeline.server.Utilities.WebUrlResponseBuilder;
+import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
 public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements RequestWebUrlXMLService {
 
 	private static final long serialVersionUID = 5448261063802349760L;
 	private Key xmlResourceKey, xmlConfigurationKey;
-	WebUrlResponseBuilder response;
+	WebUrlResponseBuilder webUrlresponse;
 
 	public RequestWebUrlXMLServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
 		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
-		response = new WebUrlResponseBuilder();
+		webUrlresponse = new WebUrlResponseBuilder();
 	}
 
 	@Override
-	public String getXML(String url) {
-		String xml = null;
-		
+	public WebUrlResponseBuilder getXML(String url) {	
 		try {
 			  	URL u = new URL(url);
 			  	HttpURLConnection huc = (HttpURLConnection) u.openConnection();
@@ -50,38 +49,47 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 			  	InputStream in = huc.getInputStream();
 			  	
 			  	BufferedReader d = new BufferedReader(new InputStreamReader(in));
-			  	xml = d.readLine();
-			  	if(xml.length() == 0)
-			  		return null;
 			  	
-			  	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-			  	DocumentBuilder builder = factory.newDocumentBuilder();
-			  	Document document = builder.parse(in);
-				document.getDocumentElement().normalize();
-
-				String rootTag = document.getDocumentElement().getNodeName();
-				if(rootTag.equalsIgnoreCase("LONIConfigurationData")) {
-					//DatastoreUtils.writeXMLFileToBlobStore(document, xmlConfigurationKey, null);//response);
-				}
-				else if(rootTag.equalsIgnoreCase("LONIResourceData")){
-					//DatastoreUtils.writeXMLFileToBlobStore(document, xmlResourceKey, null);//response);
-				}
-				else {
-					//response.appendRespMessage("Invalid file format, incorrect root tags founds");
-					//xml = null;
-				}
+			  	webUrlresponse.setXml(d.readLine());
+			  	
+			  	if(webUrlresponse.getXml().length() == 0) {
+			  		webUrlresponse.setMessage("Empty XML file at target, check URL and try again");
+			  		webUrlresponse.setStatus(false);
+			  	}
+			  	else {
+			  		webUrlresponse.setStatus(true);
+			  		
+				  	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				  	DocumentBuilder builder = factory.newDocumentBuilder();
+				  	Document document = builder.parse(in);
+					document.getDocumentElement().normalize();
+					String rootTag = document.getDocumentElement().getNodeName();
+				
+					ResponseBuilder response = new ResponseBuilder();
+				
+					if(rootTag.equalsIgnoreCase("LONIConfigurationData")) {
+						DatastoreUtils.writeXMLFileToBlobStore(document, xmlConfigurationKey, response);
+						webUrlresponse.setMessage(response.getRespMessage());
+					}
+					else if(rootTag.equalsIgnoreCase("LONIResourceData")){
+						DatastoreUtils.writeXMLFileToBlobStore(document, xmlResourceKey, response);
+						webUrlresponse.setMessage(response.getRespMessage());
+					}
+					else {
+						webUrlresponse.setMessage("Invalid file format, check the URL and try again");
+						webUrlresponse.setStatus(false);
+					}
+			  	}
 		} 
 		catch (IOException e) {
-			response.appendRespMessage("Error on file retrieval, try again");
-			xml = null;
+			webUrlresponse.setMessage("Error on file retrieval, try again");
+			webUrlresponse.setStatus(false);
 		} 
 		catch (ParserConfigurationException | SAXException e) {
-			response.appendRespMessage("Error in parsing retrieved file");
-			//xml = null;
+			webUrlresponse.setMessage("Error in parsing retrieved file");
+			webUrlresponse.setStatus(false);
 		}
 
-		//if (xml != null)
-			//response.setXml(xml);
-		return xml; //response;
+		return webUrlresponse;
 	}
 }
