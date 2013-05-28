@@ -66,6 +66,22 @@
     <url-pattern>/RequestWebUrlXMLServlet</url-pattern>
   </servlet-mapping>
   
+	<servlet>
+	  <servlet-name>loginServiceImpl</servlet-name>
+	  <servlet-class>edu.ucla.loni.pipeline.server.Login.LoginServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>loginServiceImpl</servlet-name>
+	  <url-pattern>/loni_pipeline_server_terminal/login</url-pattern>
+	</servlet-mapping>
+	<servlet>
+	  <servlet-name>sessionServiceImpl</servlet-name>
+	  <servlet-class>edu.ucla.loni.pipeline.server.Login.SessionServiceImpl</servlet-class>
+	</servlet>
+	<servlet-mapping>
+	  <servlet-name>sessionServiceImpl</servlet-name>
+	  <url-pattern>/loni_pipeline_server_terminal/session</url-pattern>
+	</servlet-mapping>
   
   <!-- Default page to serve -->
   <welcome-file-list>

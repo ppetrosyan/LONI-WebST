@@ -1,8 +1,12 @@
 package edu.ucla.loni.pipeline.client.Login;
 
+import java.sql.Date;
+
+import com.google.gwt.core.shared.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
-import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.smartgwt.client.data.DataSource;
 import com.smartgwt.client.data.fields.DataSourcePasswordField;
@@ -15,16 +19,19 @@ import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
 import edu.ucla.loni.pipeline.client.MainPage.LONI_Pipeline_ST_Tabset_Display;
+import edu.ucla.loni.pipeline.client.Login.LoginService;
+import edu.ucla.loni.pipeline.client.Login.LoginServiceAsync;
 
 public class LONI_Pipeline_ST_Login_Display {
 	private HLayout mainLayout;
 	private LONI_Pipeline_ST_Tabset_Display wbst;
+	private final static long TWO_MIN = 1000 * 60 * 2;
 
 	public LONI_Pipeline_ST_Login_Display() {
 		mainLayout = new HLayout();
 	}
 
-	public void buildMainPage() {
+	public void buildMainPage(final UserDTO user, final SessionId sessionId) {
 		mainLayout.setHeight100();
 		mainLayout.setWidth100();
 		mainLayout.setLayoutAlign(Alignment.CENTER);
@@ -54,10 +61,10 @@ public class LONI_Pipeline_ST_Login_Display {
 		DataSource dataSource = new DataSource();
 		dataSource.setID("login");
 		
-		DataSourceTextField textFieldUsername = new DataSourceTextField("username", "Username");
+		final DataSourceTextField textFieldUsername = new DataSourceTextField("username", "Username");
 		textFieldUsername.setRequired(true);
 		
-		DataSourcePasswordField passwordField = new DataSourcePasswordField("password", "Password");
+		final DataSourcePasswordField passwordField = new DataSourcePasswordField("password", "Password");
 		textFieldUsername.setRequired(true);
 		dataSource.setFields(textFieldUsername, passwordField);
 		
@@ -86,8 +93,34 @@ public class LONI_Pipeline_ST_Login_Display {
 
 		buttonSignIn.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
+				System.out.println("onClick()");
+				
+				user.setUsername("abc");
+				user.setPassword("123");
+				
+//				LoginServiceAsync loginServiceAsync = GWT.create(LoginService.class);
+			
+//				AsyncCallback<String> asyncCallback = new AsyncCallback<String>() {
+//					public void onSuccess(String result) {
+//						System.out.println("onClick(): onSuccess");
+//						if(result != null){
+//							Cookies.setCookie("session", result, new Date(System.currentTimeMillis() + TWO_MIN));
+//							sessionId.setSessionId(result);
+//
+//							System.out.println("Login Successful");
+//							System.out.println("login session => "+result);
+//						}else{
+//							System.out.println("Login Invalid !");
+//						}
+//					}
+//					public void onFailure(Throwable caught) {
+//						System.out.println("onClick(): onFailure");
+//						System.out.println(caught);
+//					}
+//				};
+//				loginServiceAsync.login(user, asyncCallback);
+
 				mainLayout.clear();
-				Window.alert("Successful");
 				wbst = new LONI_Pipeline_ST_Tabset_Display("Guest");
 				wbst.buildMainPage();
 			}
