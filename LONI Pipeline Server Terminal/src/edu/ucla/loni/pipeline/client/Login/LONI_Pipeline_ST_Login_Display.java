@@ -88,7 +88,7 @@ public class LONI_Pipeline_ST_Login_Display {
 			public void onClick(ClickEvent event) {
 				mainLayout.clear();
 				Window.alert("Successful");
-				wbst = new LONI_Pipeline_ST_Tabset_Display("username here");
+				wbst = new LONI_Pipeline_ST_Tabset_Display("Guest");
 				wbst.buildMainPage();
 			}
 		});

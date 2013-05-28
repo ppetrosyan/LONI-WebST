@@ -40,6 +40,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		
 		asyncClientServices = new AsyncClientServices();
 		notifications = new LONINotifications();
+		this.userID = userID;
 	}
 
 	public void buildMainPage() {		

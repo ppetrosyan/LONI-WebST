@@ -1,12 +1,9 @@
 package edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import org.w3c.dom.Document;
-
+import com.google.gwt.xml.client.Document;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
+import com.google.gwt.xml.client.XMLParser;
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
@@ -45,7 +42,7 @@ public class LONIDataRequester {
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert("Refresh of Resource Tabs failed");
+                Window.alert("Resource Tabs did not refresh successfully.");
             }
         });
 	}
@@ -61,7 +58,7 @@ public class LONIDataRequester {
 
             @Override
             public void onFailure(Throwable caught) {
-            	Window.alert("Refresh of Configuration Tabs failed");
+            	Window.alert("Configuration Tabs did not refresh successfully.");
             }
         });
 	}
@@ -74,7 +71,7 @@ public class LONIDataRequester {
 	private void refreshConfigurationTabsWithXml (String xmlData) {
 		/** Preferences Tab */
     	preferencesTab.refreshPrefTab(xmlData);
-        Window.alert("Configuration Tabs refreshed successfully");
+        Window.alert("Configuration Tabs refreshed successfully.");
 	}
 	
 	private void refreshResourceTabsWithXml (String xmlData) {
@@ -93,7 +90,7 @@ public class LONIDataRequester {
         /** Thread Usage Tab */
     	thrdChart.getChart().refreshChart(xmlData);
     	
-    	Window.alert("Resource Tabs refreshed successfully");
+    	Window.alert("Resource Tabs refreshed successfully.");
 	}
 	
 	public void getWebUrlXml(String url) {
@@ -109,9 +106,9 @@ public class LONIDataRequester {
 	    			Window.alert("Retrive of XML file failed, message from server - " + response.getMessage());
 	    		else {
 	    			try {
-	    				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    				DocumentBuilder builder = factory.newDocumentBuilder();
-					  	Document document = builder.parse(response.getXml());
+	    				//DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+	    				//DocumentBuilder builder = factory.newDocumentBuilder();
+					  	Document document = XMLParser.parse(response.getXml());
 						document.getDocumentElement().normalize();
 						String rootTag = document.getDocumentElement().getNodeName();
 						if(rootTag.equalsIgnoreCase("LONIConfigurationData"))
