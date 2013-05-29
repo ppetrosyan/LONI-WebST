@@ -6,7 +6,6 @@ import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.IntegerItem;
-import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
 import com.smartgwt.client.widgets.form.fields.StaticTextItem;
@@ -53,19 +52,21 @@ public class GeneralTab {
 
 		TextItem tempdirText = new TextItem("tempdir", "Temporary Directory");
 
-		NativeCheckboxItem secureCheckbox = new NativeCheckboxItem("secureCheckbox");
+		CheckboxItem secureCheckbox = new CheckboxItem("secureCheckbox");
 		secureCheckbox.setTitle("Secure");
+		secureCheckbox.setLabelAsTitle(true);
 
 		TextItem scrdirText = new TextItem("scrdir", "Scratch Directory");
 
 		TextItem logfileText = new TextItem("logfile", "Log File");
 
 		escalationCheckbox = new CheckboxItem("escalationCheckbox");
-		escalationCheckbox
-				.setTitle("Use privilege escalation: Pipeline server will run commands as the user (sudo as user)");
+		escalationCheckbox.setTitle("Use privilege escalation - Pipeline server will run commands as the user (sudo as user)");
+		escalationCheckbox.setLabelAsTitle(true);
 		
 		enableGuestCheckbox = new CheckboxItem("enableGuestCheckbox");
 		enableGuestCheckbox.setTitle("Enable guests");
+		enableGuestCheckbox.setLabelAsTitle(true);
 		
 		mappedGuestUser = new TextItem("mappedGuestUser", "Mapped guest user");
 		mappedGuestUser.setVisible(false);
@@ -127,7 +128,7 @@ public class GeneralTab {
 		spinnerItem.setMax(1000);
 
 		StaticTextItem staticTextItem = new StaticTextItem("sessiondays", "");
-		staticTextItem.setValue("(days from the end of this session)");
+		staticTextItem.setDefaultValue("(days from the end of this session)");
 
 		TextItem historydocText = new TextItem("historydoc",
 				"History Directory");
@@ -156,8 +157,9 @@ public class GeneralTab {
 
 		TextItem locationText = new TextItem("location", "Location");
 
-		NativeCheckboxItem librarycheckbox = new NativeCheckboxItem("librarycheckbox");
+		CheckboxItem librarycheckbox = new CheckboxItem("librarycheckbox");
 		librarycheckbox.setTitle("Monitor library update file checkbox");
+		librarycheckbox.setLabelAsTitle(true);
 
 		libraryPathText = new TextItem("librarypath",
 				"Monitor library update file");

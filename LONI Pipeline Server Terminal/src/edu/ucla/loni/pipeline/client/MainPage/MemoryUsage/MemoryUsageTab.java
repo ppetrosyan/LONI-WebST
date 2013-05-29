@@ -43,29 +43,40 @@ public class MemoryUsageTab {
 		layoutMemUsage.addMember(memChartRefreshButton);
 		memChartRefreshButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
-		            @Override
-		            public void onSuccess(final String xmlData) {
-		                /** Memory Usage Tab */
-		            	memChart.getChart().refreshChart(xmlData);
-		            	
-		            	Window.alert("Memory Usage Tab refreshed successfully.");
-		            }
-
-		            @Override
-		            public void onFailure(Throwable caught) {
-		                Window.alert("Memory Usage Tab did not refresh successfully.");
-		            }
-		        });
+				fetchMemoryData(true);
 			}
 		});
 		
 		tabMemoryUsage.setPane(layoutMemUsage);
 		
+		// TODO: figure out why the xml isn't fetched sometimes
+		fetchMemoryData(false);
+	
 		return tabMemoryUsage;
 	}
 	
 	public LONI_Chart getChart() {
 		return memChart;
+	}
+	
+	private void fetchMemoryData(final Boolean clicked) {
+		asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(final String xmlData) {
+				/** Memory Usage Tab */
+				memChart.getChart().refreshChart(xmlData);
+				
+				if(clicked) {
+					Window.alert("Memory Usage Tab refreshed successfully.");
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if(clicked) {
+					Window.alert("Memory Usage Tab did not refresh successfully.");
+				}
+			}
+		});
 	}
 }

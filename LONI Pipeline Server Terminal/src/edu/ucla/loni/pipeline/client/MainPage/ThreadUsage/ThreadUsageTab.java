@@ -43,29 +43,40 @@ public class ThreadUsageTab {
 		layoutThrdUsage.addMember(memChartRefreshButton);
 		memChartRefreshButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
-		            @Override
-		            public void onSuccess(final String xmlData) {
-		                /** Memory Usage Tab */
-		            	thrdChart.getChart().refreshChart(xmlData);
-		            	
-		            	Window.alert("Thread Usage Tab refreshed successfully.");
-		            }
-
-		            @Override
-		            public void onFailure(Throwable caught) {
-		                Window.alert("Thread Usage Tab did not refresh successfully.");
-		            }
-		        });
+				fetchThreadData(true);
 			}
 		});
 		
 		tabThreadUsage.setPane(layoutThrdUsage);
+		
+		// TODO: figure out why the xml isn't fetched sometimes
+		fetchThreadData(false);
 		
 		return tabThreadUsage;
 	}
 	
 	public LONI_Chart getChart() {
 		return thrdChart;
+	}
+	
+	private void fetchThreadData(final Boolean clicked) {
+		asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
+			@Override
+			public void onSuccess(final String xmlData) {
+				/** Thread Usage Tab */
+				thrdChart.getChart().refreshChart(xmlData);
+				
+				if(clicked) {
+					Window.alert("Thread Usage Tab refreshed successfully.");
+				}
+			}
+
+			@Override
+			public void onFailure(Throwable caught) {
+				if(clicked) {
+					Window.alert("Thread Usage Tab did not refresh successfully.");
+				}
+			}
+		});
 	}
 }

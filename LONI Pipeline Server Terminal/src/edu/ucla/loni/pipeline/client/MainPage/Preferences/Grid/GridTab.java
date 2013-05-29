@@ -8,7 +8,6 @@ import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.IntegerItem;
-import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.RadioGroupItem;
 import com.smartgwt.client.widgets.form.fields.SelectItem;
@@ -32,7 +31,7 @@ public class GridTab {
 	private TextItem jobNamePrefix;
 	private TextItem jobSubmissionQueue;
 	private TextItem complexResourceAttributes;
-	private NativeCheckboxItem sgeMem;
+	private CheckboxItem sgeMem;
 	private SelectItem gridVariablesPolicy;
 	private TextItem gridVariablesPolicyText;
 	private TextItem prefixBeforeVar;
@@ -45,7 +44,7 @@ public class GridTab {
 	private IntegerItem chunks;
 	private SpinnerItem fileStat;
 	private IntegerItem chunkSize;
-	private NativeCheckboxItem increaseChunkSize;
+	private CheckboxItem increaseChunkSize;
 	private IntegerItem maxChunkSize;
 	private SelectItem gridPlugin;
 	private TextItem jarFiles;
@@ -54,8 +53,8 @@ public class GridTab {
 	private IntegerItem gridPort;
 	private IntegerItem memItem;
 	private TextItem jarFile;
-	private NativeCheckboxItem enableMonitored;
-	private NativeCheckboxItem gridEngineAdmin;
+	private CheckboxItem enableMonitored;
+	private CheckboxItem gridEngineAdmin;
 	private TextItem gridAcctURL;
 	private TextItem gridUsername;
 	private PasswordItem gridPassword;
@@ -113,8 +112,9 @@ public class GridTab {
 				"complexResourceAttributes", "Complex resource attributes");
 		complexResourceAttributes.setDisabled(true);
 		
-		sgeMem = new NativeCheckboxItem("sgeMem");
+		sgeMem = new CheckboxItem("sgeMem");
 		sgeMem.setTitle("Report SGE memory usage");
+		sgeMem.setLabelAsTitle(true);
 		sgeMem.setDisabled(true);
 		
 		gridVariablesPolicy = new SelectItem("gridVariablesPolicy");
@@ -222,8 +222,9 @@ public class GridTab {
 		chunkSize.setHint("(default: 50)");
 		chunkSize.setDisabled(true);
 
-		increaseChunkSize = new NativeCheckboxItem("increaseChunkSize");
+		increaseChunkSize = new CheckboxItem("increaseChunkSize");
 		increaseChunkSize.setTitle("Gradually increase chunk size.");
+		increaseChunkSize.setLabelAsTitle(true);
 		increaseChunkSize.setDisabled(true);
 		
 		maxChunkSize = new IntegerItem("maxChunkSize", "Maximum chunk size");
@@ -289,6 +290,7 @@ public class GridTab {
 
 		restartService = new CheckboxItem("restartService");
 		restartService.setTitle("Use Restartable Service");
+		restartService.setLabelAsTitle(true);
 		restartService.setDefaultValue(false);
 		restartService.setDisabled(true);
 
@@ -311,13 +313,15 @@ public class GridTab {
 			}
 		});
 
-		enableMonitored = new NativeCheckboxItem("enableMonitored");
+		enableMonitored = new CheckboxItem("enableMonitored");
 		enableMonitored.setTitle("Enable monitored job verification");
+		enableMonitored.setLabelAsTitle(true);
 		enableMonitored.setDefaultValue(false);
 		enableMonitored.setDisabled(true);
 
-		gridEngineAdmin = new NativeCheckboxItem("gridEngineAdmin");
+		gridEngineAdmin = new CheckboxItem("gridEngineAdmin");
 		gridEngineAdmin.setTitle("Pipeline user is a grid engine admin");
+		gridEngineAdmin.setLabelAsTitle(true);
 		enableMonitored.setDefaultValue(false);
 		gridEngineAdmin.setDisabled(true);
 

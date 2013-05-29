@@ -5,11 +5,11 @@ import com.google.gwt.xml.client.Node;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.MultipleAppearance;
 import com.smartgwt.client.widgets.form.DynamicForm;
-import com.smartgwt.client.widgets.form.fields.CanvasItem;
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.SelectItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
+import com.smartgwt.client.widgets.form.fields.StaticTextItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
@@ -26,12 +26,12 @@ public class AccessTab {
 	private DynamicForm dynamicForm2;
 	private DynamicForm dynamicForm3;
 	private DynamicForm dynamicForm4;
-	private DynamicForm dynamicForm_1;
-	private DynamicForm dynamicForm_2;
 	
 	private SelectItem selectItem;
 	private TextItem textItem_1;
 	private TextItem textItem_2;
+	private CheckboxItem checkboxItem_1;
+	private CheckboxItem checkboxItem_2;
 	private SpinnerItem spinnerItem_1;
 	private SpinnerItem spinnerItem_2;
 	
@@ -45,14 +45,14 @@ public class AccessTab {
 		
 		com.smartgwt.client.widgets.Label label_0 = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Server Admins</font></b>");
-		label_0.setSize("210px", "49px");
+		label_0.setSize("210px", "20px");
 		layoutAccess.addMember(label_0);
 
-		dynamicForm = new DynamicForm();
 		TextItem serverAdmin = new TextItem("serverAdmin", "Input (separate multiple entries by comma)");
 		serverAdmin.setWidth(600);
+		
+		dynamicForm = new DynamicForm();
 		dynamicForm.setFields(serverAdmin);
-		//getClass();
 		MainPageUtils.formatForm(dynamicForm);
 		layoutAccess.addMember(dynamicForm);
 
@@ -63,13 +63,10 @@ public class AccessTab {
 
 		com.smartgwt.client.widgets.Label label_1 = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Directory Access Control</font></b>");
-		label_1.setSize("210px", "49px");
+		label_1.setSize("210px", "20px");
 		layoutAccess.addMember(label_1);
 
-		dynamicForm2 = new DynamicForm();
-		dynamicForm2.setHeight("157px");
-		dynamicForm2.setTitleWidth(200);
-
+		
 		textItem_1 = new TextItem();
 		textItem_1.setDisabled(true);
 		textItem_1.setAlign(Alignment.LEFT);
@@ -94,6 +91,9 @@ public class AccessTab {
 
 		selectItem.setMultipleAppearance(MultipleAppearance.GRID);
 		selectItem.setMultiple(false);
+		
+		dynamicForm2 = new DynamicForm();
+		dynamicForm2.setHeight("120px");
 		dynamicForm2.setFields(new FormItem[] { selectItem, textItem_1,
 				textItem_2 });
 		String[] sitesArray = {
@@ -115,22 +115,12 @@ public class AccessTab {
 				"<hr>");
 		layoutAccess.addMember(line2);
 		
-		com.smartgwt.client.widgets.Label label_3 = new com.smartgwt.client.widgets.Label(
+		com.smartgwt.client.widgets.Label label_2 = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>User-Based Job Management</font></b>");
-		label_3.setSize("210px", "49px");
-		layoutAccess.addMember(label_3);
-
-		spinnerItem_1 = new SpinnerItem("si_usrpcfreeslots",
-				"One user cannot take more than");
-		spinnerItem_1.setValue(50);
-		spinnerItem_1.setHint("% of free slots at submission time");
-		spinnerItem_1.setShowHint(true);
-		spinnerItem_1.setMin(0);
-		spinnerItem_1.setMax(100);
-		spinnerItem_1.setDisabled(true);
-
-		dynamicForm_1 = new DynamicForm();
-		CheckboxItem checkboxItem_1 = new CheckboxItem(
+		label_2.setSize("250px", "20px");
+		layoutAccess.addMember(label_2);
+		
+		checkboxItem_1 = new CheckboxItem(
 				"cb_enableubjm",
 				"Enable (NOTE: Enabling user management may require some time to adjust user usage accuracy)");
 		checkboxItem_1.addChangeHandler(new ChangeHandler() {
@@ -139,55 +129,56 @@ public class AccessTab {
 				toggleUserManage(cstat);
 			}
 		});
+		checkboxItem_1.setLabelAsTitle(true);
 		checkboxItem_1.setValue(false);
-		dynamicForm_1.setFields(new FormItem[] { checkboxItem_1 });
-
-		CanvasItem canvasItem_1 = new CanvasItem("ci_usrbjbmngmt",
-				"");
-		canvasItem_1.setCanvas(dynamicForm_1);
+		
+		spinnerItem_1 = new SpinnerItem("si_usrpcfreeslots",
+				"One user cannot take more than");
+		spinnerItem_1.setValue(50);
+		//spinnerItem_1.setHint("% of free slots at submission time");
+		//spinnerItem_1.setShowHint(true);
+		spinnerItem_1.setMin(0);
+		spinnerItem_1.setMax(100);
+		spinnerItem_1.setDisabled(true);
+		
+		StaticTextItem staticTextItem = new StaticTextItem("percentfreeslots", "");
+		staticTextItem.setDefaultValue("% of free slots at submission time");
 
 		dynamicForm3 = new DynamicForm();
-		spinnerItem_2 = new SpinnerItem("si_maxwrkflpu",
-				"Maximum active (running & paused) workflows per user");
-		spinnerItem_2.setValue(20);
-		spinnerItem_2.setMin(0);
-		spinnerItem_2.setMax(9999);
-		spinnerItem_2.setDisabled(true);
-
-		dynamicForm_2 = new DynamicForm();
-		CheckboxItem checkboxItem_2 = new CheckboxItem("cb_enablewfm", "Enable");
+		dynamicForm3.setFields(new FormItem[] { checkboxItem_1, spinnerItem_1, staticTextItem });
+		MainPageUtils.formatForm(dynamicForm3);
+		layoutAccess.addMember(dynamicForm3);
+		
+		checkboxItem_2 = new CheckboxItem("cb_enablewfm", "Enable");
+		checkboxItem_2.setLabelAsTitle(true);
 		checkboxItem_2.addChangeHandler(new ChangeHandler() {
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
 				toggleWorkflowManage(cstat);
 			}
 		});
-		dynamicForm_2.setFields(new FormItem[] { checkboxItem_2 });
-
-		CanvasItem canvasItem_2 = new CanvasItem("ci_wrkflmngmt",
-				"");
-		canvasItem_2.setCanvas(dynamicForm_2);
-
-		dynamicForm3.setFields(canvasItem_1, spinnerItem_1);
-
-		MainPageUtils.formatForm(dynamicForm3);
-		layoutAccess.addMember(dynamicForm3);
+		
+		spinnerItem_2 = new SpinnerItem("si_maxwrkflpu",
+				"Maximum active (running & paused) workflows per user");
+		spinnerItem_2.setValue(20);
+		spinnerItem_2.setMin(0);
+		spinnerItem_2.setMax(9999);
+		spinnerItem_2.setDisabled(true);
 		
 		// add line
 		com.smartgwt.client.widgets.Label line3 = new com.smartgwt.client.widgets.Label(
 				"<hr>");
 		layoutAccess.addMember(line3);
 		
-		com.smartgwt.client.widgets.Label label_4 = new com.smartgwt.client.widgets.Label(
+		com.smartgwt.client.widgets.Label label_3 = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Workflow Management</font></b>");
-		label_3.setSize("210px", "49px");
-		layoutAccess.addMember(label_4);
+		label_3.setSize("210px", "20px");
+		layoutAccess.addMember(label_3);
 		
 		dynamicForm4 = new DynamicForm();
-		dynamicForm4.setFields(canvasItem_2,spinnerItem_2);
+		dynamicForm4.setFields(new FormItem[] { checkboxItem_2, spinnerItem_2 });
 		MainPageUtils.formatForm(dynamicForm4);		
 		
-	
 		layoutAccess.addMember(dynamicForm4);
 		tabAccess.setPane(layoutAccess);
 		return tabAccess;
@@ -238,7 +229,7 @@ public class AccessTab {
 		Node jobManageEnable = (Node) doc.getElementsByTagName("JobManageEnable").item(0);
 		if(jobManageEnable != null) {
 			Boolean jobManageEnableVal = Boolean.valueOf(jobManageEnable.getFirstChild().getNodeValue());
-			dynamicForm_1.getItem("cb_enableubjm").setValue(jobManageEnableVal);
+			dynamicForm3.getItem("cb_enableubjm").setValue(jobManageEnableVal);
 			toggleUserManage(jobManageEnableVal);
 		}
 		
@@ -252,7 +243,7 @@ public class AccessTab {
 		Node workflowManageEnable = (Node) doc.getElementsByTagName("WorkflowManageEnable").item(0);
 		if(workflowManageEnable != null) {
 			Boolean workflowVal = Boolean.valueOf(workflowManageEnable.getFirstChild().getNodeValue());
-			dynamicForm_2.getItem("cb_enablewfm").setValue(workflowVal);
+			dynamicForm4.getItem("cb_enablewfm").setValue(workflowVal);
 			toggleWorkflowManage(workflowVal);
 		}
 		
