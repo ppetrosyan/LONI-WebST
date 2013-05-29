@@ -40,8 +40,8 @@ public class PackagesTab {
 		layoutUsersPackages.setMembersMargin(5);
 		
 		com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
-				"Please specify package name and version, the location, and optionally sources and variables. Double-click any cell to edit");
-		intro.setSize("500px", "49px");
+				"Please specify package name and version, the location, and optionally sources and variables.<br>Double-click any cell to edit.");
+		intro.setSize("800px", "49px");
 		layoutUsersPackages.addMember(intro);
 
 		

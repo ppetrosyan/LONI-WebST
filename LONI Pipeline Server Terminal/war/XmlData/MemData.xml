@@ -345,8 +345,8 @@
 			<Duration>00:30</Duration>  
 			<NumOfNode>4</NumOfNode>  
 			<NumOfInstances>3</NumOfInstances>  
-			<NumBacklab>1</NumBacklab>  
-			<NumSubmitting>0</NumSubmitting>  
+			<NumBacklog>1</NumBacklog>  
+			<NumSubmitting>1</NumSubmitting>  
 			<NumQueued>0</NumQueued>  
 			<NumRunning>2</NumRunning>  
 			<NumCompleted>1</NumCompleted>  
@@ -360,9 +360,9 @@
 			<Duration>02:30</Duration>  
 			<NumOfNode>1</NumOfNode>  
 			<NumOfInstances>0</NumOfInstances>  
-			<NumBacklab>2</NumBacklab>  
+			<NumBacklog>2</NumBacklog>  
 			<NumSubmitting>0</NumSubmitting>  
-			<NumQueued>0</NumQueued>  
+			<NumQueued>5</NumQueued>  
 			<NumRunning>1</NumRunning>  
 			<NumCompleted>1</NumCompleted>  
 		</WorkflowEntry>  
@@ -375,10 +375,10 @@
 			<Duration>00:30</Duration>  
 			<NumOfNode>3</NumOfNode>  
 			<NumOfInstances>4</NumOfInstances>  
-			<NumBacklab>0</NumBacklab>  
+			<NumBacklog>0</NumBacklog>  
 			<NumSubmitting>0</NumSubmitting>  
-			<NumQueued>0</NumQueued>  
-			<NumRunning>0</NumRunning>  
+			<NumQueued>5</NumQueued>  
+			<NumRunning>3</NumRunning>  
 			<NumCompleted>0</NumCompleted>  
 		</WorkflowEntry>  
 		<WorkflowEntry>  
@@ -390,9 +390,9 @@
 			<Duration>02:30</Duration>  
 			<NumOfNode>1</NumOfNode>  
 			<NumOfInstances>3</NumOfInstances>  
-			<NumBacklab>2</NumBacklab>  
-			<NumSubmitting>0</NumSubmitting>  
-			<NumQueued>0</NumQueued>  
+			<NumBacklog>2</NumBacklog>  
+			<NumSubmitting>11</NumSubmitting>  
+			<NumQueued>20</NumQueued>  
 			<NumRunning>1</NumRunning>  
 			<NumCompleted>1</NumCompleted>  
 		</WorkflowEntry>  
@@ -405,10 +405,10 @@
 			<Duration>00:30</Duration>  
 			<NumOfNode>3</NumOfNode>  
 			<NumOfInstances>7</NumOfInstances>  
-			<NumBacklab>0</NumBacklab>  
-			<NumSubmitting>0</NumSubmitting>  
-			<NumQueued>0</NumQueued>  
-			<NumRunning>0</NumRunning>  
+			<NumBacklog>2</NumBacklog>  
+			<NumSubmitting>1</NumSubmitting>  
+			<NumQueued>5</NumQueued>  
+			<NumRunning>5</NumRunning>  
 			<NumCompleted>0</NumCompleted>  
 		</WorkflowEntry>  
 	</Workflows>

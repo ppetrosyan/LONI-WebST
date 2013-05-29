@@ -121,7 +121,7 @@ public class UserUsageTab {
 				DateTimeFormat ft = DateTimeFormat.getFormat("EEE MMM d HH:mm:ss ZZZZ yyyy");
 			    
 			  //Update the content of the top label
-				intro.setContents("UserUsage ( " + TotalWorkflows + "&#160;) "
+				intro.setContents("User Usage ( " + TotalWorkflows + "&#160;) "
 			    + "&#160;&#160;&#160;Updated: " + ft.format(time));
 			}
 

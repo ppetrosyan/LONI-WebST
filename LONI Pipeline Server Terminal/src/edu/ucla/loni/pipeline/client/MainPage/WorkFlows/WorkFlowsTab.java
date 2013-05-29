@@ -33,12 +33,20 @@ public class WorkFlowsTab {
 	private AsyncClientServices asyncClientServices;
 	VLayout layoutWorkflows = new VLayout();
 	private int TotalWorkflows;
-	private int TotalNode;
+	private int TotalBacklogged;
+	private int TotalSubmitting;
+	private int TotalQueued;
+	private int TotalRunning;
+	private int TotalCompleted;
 	
 
 	public WorkFlowsTab(AsyncClientServices asyncClientServices) {
 		TotalWorkflows = 0;
-		TotalNode = 0;
+		TotalBacklogged = 0;
+		TotalSubmitting = 0;
+		TotalQueued = 0;
+		TotalRunning = 0;
+		TotalCompleted = 0;
 		this.asyncClientServices = asyncClientServices;
 		initializeListWorkflows();
 	}
@@ -53,7 +61,7 @@ public class WorkFlowsTab {
 		//Label that show statistic
 		final com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
 				"Loading...");
-		intro.setSize("800px", "49px");
+		intro.setSize("1000px", "49px");
 		layoutWorkflows.addMember(intro);
 		
 		//List
@@ -95,7 +103,7 @@ public class WorkFlowsTab {
 						"Duration&#160;&#160;&#160;&#160;&#160;"),
 				new ListGridField("numofnode", "N&#160;&#160;&#160;"),
 				new ListGridField("numofinstances", "I&#160;&#160;&#160;"),
-				new ListGridField("numBacklab", "B&#160;&#160;&#160;"),
+				new ListGridField("numBacklog", "B&#160;&#160;&#160;"),
 				new ListGridField("numSubmitting", "S&#160;&#160;&#160;"),
 				new ListGridField("numQueued", "Q&#160;&#160;&#160;"),
 				new ListGridField("numRunning", "R&#160;&#160;&#160;"),
@@ -135,8 +143,13 @@ public class WorkFlowsTab {
 				DateTimeFormat ft = DateTimeFormat.getFormat("EEE MMM d HH:mm:ss ZZZZ yyyy");
 				
 				//Update the content of the top label
-				intro.setContents("All Workflows ( " + "Workflows:" + TotalWorkflows + "&#160;&#160;Nodes:"
-						+ TotalNode + "&#160;) "+ "&#160;&#160;&#160;Updated: " + ft.format(time));
+				intro.setContents("All Workflows ( " +  TotalWorkflows + "&#160;) "
+						+"&#160;&#160;&#160;Total Instances (" + "Backlogged: " + TotalBacklogged 
+						+ "&#160;Submitting: " + TotalSubmitting 
+						+ "&#160;Queued: " + TotalQueued
+						+ "&#160;Running: " + TotalRunning 
+						+ "&#160;Completed: " + TotalCompleted
+						+ "&#160;) "+ "&#160;&#160;&#160;Updated: " + ft.format(time));
 			}
 
 			@Override
@@ -167,7 +180,11 @@ public class WorkFlowsTab {
 		//we get the total number of workflows here
 		TotalWorkflows = WorkflowsList.getLength();
 		//reset statistic
-		TotalNode = 0;
+		TotalBacklogged = 0;
+		TotalSubmitting = 0;
+		TotalQueued = 0;
+		TotalRunning = 0;
+		TotalCompleted = 0;
 		
 		WorkFlowsRecord array[] = new WorkFlowsRecord[TotalWorkflows];
 		for (int k = 0; k < TotalWorkflows; k++) {
@@ -209,37 +226,41 @@ public class WorkFlowsTab {
 				NodeList NumOfNodeList = WorkflowsElement.getElementsByTagName("NumOfNode");
 				Element NumOfNodeElement = (Element) NumOfNodeList.item(0);
 				NodeList textNumOfNodeList = NumOfNodeElement.getChildNodes();
-				TotalNode += Integer.parseInt(((Node) textNumOfNodeList.item(0)).getNodeValue().trim());
 
 				// NumOfInstances
 				NodeList NumOfInstancesList = WorkflowsElement.getElementsByTagName("NumOfInstances");
 				Element NumOfInstancesElement = (Element) NumOfInstancesList.item(0);
 				NodeList textNumOfInstancesList = NumOfInstancesElement.getChildNodes();
 
-				// NumBacklab
-				NodeList NumBacklabList = WorkflowsElement.getElementsByTagName("NumBacklab");
-				Element NumBacklabElement = (Element) NumBacklabList.item(0);
-				NodeList textNumBacklabList = NumBacklabElement.getChildNodes();
+				// NumBacklog
+				NodeList NumBacklogList = WorkflowsElement.getElementsByTagName("NumBacklog");
+				Element NumBacklogElement = (Element) NumBacklogList.item(0);
+				NodeList textNumBacklogList = NumBacklogElement.getChildNodes();
+				TotalBacklogged += Integer.parseInt(((Node) textNumBacklogList.item(0)).getNodeValue().trim());
 
 				// NumSubmitting
 				NodeList NumSubmittingList = WorkflowsElement.getElementsByTagName("NumSubmitting");
 				Element NumSubmittingElement = (Element) NumSubmittingList.item(0);
 				NodeList textNumSubmittingList = NumSubmittingElement.getChildNodes();
+				TotalSubmitting += Integer.parseInt(((Node) textNumSubmittingList.item(0)).getNodeValue().trim());
 
 				// NumQueued
 				NodeList NumQueuedList = WorkflowsElement.getElementsByTagName("NumQueued");
 				Element NumQueuedElement = (Element) NumQueuedList.item(0);
 				NodeList textNumQueuedList = NumQueuedElement.getChildNodes();
+				TotalQueued += Integer.parseInt(((Node) textNumQueuedList.item(0)).getNodeValue().trim());
 
 				// NumRunning
 				NodeList NumRunningList = WorkflowsElement.getElementsByTagName("NumRunning");
 				Element NumRunningElement = (Element) NumRunningList.item(0);
 				NodeList textNumRunningList = NumRunningElement.getChildNodes();
+				TotalRunning+= Integer.parseInt(((Node) textNumRunningList.item(0)).getNodeValue().trim());
 
 				// NumCompleted
 				NodeList NumCompletedList = WorkflowsElement.getElementsByTagName("NumCompleted");
 				Element NumCompletedElement = (Element) NumCompletedList.item(0);
 				NodeList textNumCompletedList = NumCompletedElement.getChildNodes();
+				TotalCompleted += Integer.parseInt(((Node) textNumCompletedList.item(0)).getNodeValue().trim());
 
 				array[k] = new WorkFlowsRecord(
 						((Node) textWorkflowsIDList.item(0)).getNodeValue().trim(),
@@ -250,7 +271,7 @@ public class WorkFlowsTab {
 						((Node) textDurationList.item(0)).getNodeValue().trim(),
 						((Node) textNumOfNodeList.item(0)).getNodeValue().trim(),
 						((Node) textNumOfInstancesList.item(0)).getNodeValue().trim(),
-						((Node) textNumBacklabList.item(0)).getNodeValue().trim(),
+						((Node) textNumBacklogList.item(0)).getNodeValue().trim(),
 						((Node) textNumSubmittingList.item(0)).getNodeValue().trim(),
 						((Node) textNumQueuedList.item(0)).getNodeValue().trim(),
 						((Node) textNumRunningList.item(0)).getNodeValue().trim(),

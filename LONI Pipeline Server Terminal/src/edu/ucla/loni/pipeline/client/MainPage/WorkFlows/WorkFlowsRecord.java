@@ -9,7 +9,7 @@ public class WorkFlowsRecord extends ListGridRecord {
   
     public WorkFlowsRecord(String workflowID, String username, String state, String startTime,
     		String endTime, String duration, String numofnode, String numofinstances,
-    		String numBacklab, String numSubmitting, String numQueued, String numRunning, String numCompleted) {  
+    		String numBacklog, String numSubmitting, String numQueued, String numRunning, String numCompleted) {  
     	setWorkflowID(workflowID);  
         setUsername(username);  
         setState(state);  
@@ -18,7 +18,7 @@ public class WorkFlowsRecord extends ListGridRecord {
         setDuration(duration);
         setNumofnode(numofnode);
         setNumofinstances(numofinstances);
-        setNumBacklab(numBacklab);
+        setNumBacklog(numBacklog);
         setNumSubmitting(numSubmitting);
         setNumQueued(numQueued);
         setNumRunning(numRunning);
@@ -89,12 +89,12 @@ public class WorkFlowsRecord extends ListGridRecord {
         return getAttributeAsString("numofinstances");  
     }  
   
-    public void setNumBacklab(String numBacklab) {  
-        setAttribute("numBacklab", numBacklab);  
+    public void setNumBacklog(String numBacklog) {  
+        setAttribute("numBacklog", numBacklog);  
     }  
   
-    public String getNumBacklab() {  
-        return getAttributeAsString("numBacklab");  
+    public String getNumBacklog() {  
+        return getAttributeAsString("numBacklog");  
     }  
   
     public void setNumSubmitting(String numSubmitting) {  
