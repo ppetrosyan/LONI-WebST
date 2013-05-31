@@ -158,11 +158,11 @@ public class GeneralTab {
 		TextItem locationText = new TextItem("location", "Location");
 
 		CheckboxItem librarycheckbox = new CheckboxItem("librarycheckbox");
-		librarycheckbox.setTitle("Monitor library update file checkbox");
+		librarycheckbox.setTitle("Monitor library update file");
 		librarycheckbox.setLabelAsTitle(true);
 
 		libraryPathText = new TextItem("librarypath",
-				"Monitor library update file");
+				"Library path");
 		libraryPathText.setVisible(false);
 
 		librarycheckbox.addChangeHandler(new ChangeHandler() {
