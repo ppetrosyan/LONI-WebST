@@ -126,7 +126,7 @@ public class GridTab {
 		String[] policyArray = {
 				"Disallow all variables, except specified",
 				"Allow all variables, except specified" };
-		gridVariablesPolicy.setWidth(250);
+		gridVariablesPolicy.setWidth(275);
 		gridVariablesPolicy.setDefaultToFirstOption(true);
 		gridVariablesPolicy.setValueMap(policyArray);
 		
@@ -223,7 +223,7 @@ public class GridTab {
 		chunkSize.setDisabled(true);
 
 		increaseChunkSize = new CheckboxItem("increaseChunkSize");
-		increaseChunkSize.setTitle("Gradually increase chunk size.");
+		increaseChunkSize.setTitle("Gradually increase chunk size");
 		increaseChunkSize.setLabelAsTitle(true);
 		increaseChunkSize.setDisabled(true);
 		
