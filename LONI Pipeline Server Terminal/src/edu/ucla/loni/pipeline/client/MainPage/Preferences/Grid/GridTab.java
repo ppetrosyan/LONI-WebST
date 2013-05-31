@@ -194,7 +194,7 @@ public class GridTab {
 		// array job
 		com.smartgwt.client.widgets.Label labelArrayJob = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Array Job</font></b>");
-		labelArrayJob.setSize("70px", "20px");
+		labelArrayJob.setSize("90px", "20px");
 		layoutGrid.addMember(labelArrayJob);
 		
 		enableArrayJob = new CheckboxItem("enableArrayJob");
