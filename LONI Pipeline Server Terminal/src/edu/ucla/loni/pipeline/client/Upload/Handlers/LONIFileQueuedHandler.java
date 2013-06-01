@@ -12,17 +12,18 @@ import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.smartgwt.client.widgets.layout.VLayout;
 
 public class LONIFileQueuedHandler implements FileQueuedHandler {
 
 	private Uploader uploader;
 	private Map<String, Image> cancelButtons;
-	private VerticalPanel progressBarPanel;
+	private VLayout layoutUploads;
 	
-	public LONIFileQueuedHandler(Uploader uploader, Map<String, Image> cancelButtons, VerticalPanel progressBarPanel) {
+	public LONIFileQueuedHandler(Uploader uploader, Map<String, Image> cancelButtons, VLayout layoutUploads) {
 		this.uploader = uploader;
 		this.cancelButtons = cancelButtons;
-		this.progressBarPanel = progressBarPanel;
+		this.layoutUploads = layoutUploads;
 	}
 	
 	@Override
@@ -48,7 +49,7 @@ public class LONIFileQueuedHandler implements FileQueuedHandler {
 		// Add the Bar and Button to the interface
 		HorizontalPanel progressBarAndButtonPanel = new HorizontalPanel();
 		progressBarAndButtonPanel.add(cancelButton);
-		progressBarPanel.add(progressBarAndButtonPanel);
+		layoutUploads.addMember(progressBarAndButtonPanel);
 
 		return true;
 

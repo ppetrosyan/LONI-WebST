@@ -8,7 +8,8 @@ import org.moxieapps.gwt.uploader.client.Uploader;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartgwt.client.types.Alignment;
+import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.events.ClickHandler;
@@ -32,28 +33,55 @@ public class UploadTab {
 	}
 	
 	public Tab setTab() {
-		Tab tabUpload = new Tab("Upload");	
+		Tab tabUpload = new Tab("Upload");
+		
+		VLayout layoutMain = new VLayout();
+		layoutMain.setSize("100%","100%");
+		layoutMain.setMembersMargin(0);
 		
 		VLayout layoutUploads = new VLayout();
-		layoutUploads.setSize("100%", "100%");
-		layoutUploads.setMembersMargin(10);
+		layoutUploads.setSize("255px", "275px");
+		layoutUploads.setAlign(VerticalAlignment.BOTTOM);
+		layoutUploads.setMembersMargin(0);
 		
-		final VerticalPanel fileuploadPanel = new VerticalPanel();
+		com.smartgwt.client.widgets.Label labelLocal = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Option 1: From Local Machine</font></b>");
+		labelLocal.setSize("250px", "20px");
+		layoutMain.addMember(labelLocal);
+		
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
 		
-		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, fileuploadPanel, dataRequester);
+		final LONIFileUploader LONIfileUploader = new LONIFileUploader(cancelButtons, layoutUploads, dataRequester);
 		
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
-			final LONIDragandDropLabel fileuploadLabel = new LONIDragandDropLabel("Drop Files", LONIfileUploader, cancelButtons, fileuploadPanel);
-			fileuploadPanel.add(fileuploadLabel);
-			layoutUploads.addMember(fileuploadPanel);
+			final LONIDragandDropLabel fileuploadLabel = new LONIDragandDropLabel("Drop Files Here", LONIfileUploader, cancelButtons, layoutUploads);
+			layoutUploads.addMember(fileuploadLabel);
+			
+			
+			com.smartgwt.client.widgets.Label orLabel = new com.smartgwt.client.widgets.Label(
+					"------ OR ------");
+			layoutUploads.addMember(orLabel);
 		}
 		
-		LONIfileUploader.setButtonText("Browse");
 		layoutUploads.addMember(LONIfileUploader);
-				
-		com.smartgwt.client.widgets.Label labelWebUrl = new com.smartgwt.client.widgets.Label("Web Retrieval");
-		layoutUploads.addMember(labelWebUrl);
+		
+		layoutMain.addMember(layoutUploads);
+		
+		// add line
+		com.smartgwt.client.widgets.Label line = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutMain.addMember(line);
+
+		
+		com.smartgwt.client.widgets.Label labelRemote = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Option 2: From Remote Web Service</font></b>");
+		labelRemote.setSize("300px", "20px");
+		layoutMain.addMember(labelRemote);
+		
+		VLayout layoutWebUploads = new VLayout();
+		layoutWebUploads.setSize("200px", "135px");
+		layoutWebUploads.setAlign(VerticalAlignment.BOTTOM);
+		layoutWebUploads.setMembersMargin(10);
 
 		final DynamicForm fileUploadForm = new DynamicForm();
 		
@@ -67,7 +95,7 @@ public class UploadTab {
 		textFieldWebUrl.setRequired(true);
 		
 		fileUploadForm.setFields(new FormItem[] {textFieldUsername, passwordField, textFieldWebUrl});
-		layoutUploads.addMember(fileUploadForm);
+		layoutWebUploads.addMember(fileUploadForm);
 		
 		Button webUrlBtn = new Button("Retrieve");
 		webUrlBtn.addClickHandler(new ClickHandler() {
@@ -90,9 +118,11 @@ public class UploadTab {
 	    								   fileUploadForm.getValueAsString("pi_password"));
 	        }
 	    });
-		layoutUploads.addMember(webUrlBtn);
+		layoutWebUploads.addMember(webUrlBtn);
 		
-		tabUpload.setPane(layoutUploads);
+		layoutMain.addMember(layoutWebUploads);
+		
+		tabUpload.setPane(layoutMain);
 		return tabUpload;
 	}
 }
