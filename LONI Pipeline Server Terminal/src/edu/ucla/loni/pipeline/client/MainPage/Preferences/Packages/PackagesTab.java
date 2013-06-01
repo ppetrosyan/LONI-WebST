@@ -15,8 +15,6 @@ import com.smartgwt.client.widgets.grid.ListGridField;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.Tab;
-
-import edu.ucla.loni.pipeline.client.MainPage.UsersOnline.UsersOnlineXmlDS;
  
 public class PackagesTab {
 	private ListGrid listUsersPackages = new ListGrid();
