@@ -126,7 +126,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		tabset.addTab(workFlowsTab.setTab());
 
 		// Users Online tab
-		UsersOnlineTab usersOnlineTab = new UsersOnlineTab();
+		UsersOnlineTab usersOnlineTab = new UsersOnlineTab(asyncClientServices);
 		tabset.addTab(usersOnlineTab.setTab());
 
 		// Users Usage tab
@@ -148,7 +148,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		// Refresh All Tabs
 		LONIDataRequester dataRequester = new LONIDataRequester(
 				asyncClientServices, memoryUsageTab.getChart(),
-				threadUsageTab.getChart(), preferencesTab, workFlowsTab, userUsageTab);
+				threadUsageTab.getChart(), preferencesTab, workFlowsTab, usersOnlineTab, userUsageTab);
 
 		// Uploads tab
 		UploadTab uploadTab = new UploadTab(dataRequester);

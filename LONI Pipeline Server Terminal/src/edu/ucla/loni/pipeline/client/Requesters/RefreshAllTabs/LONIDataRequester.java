@@ -17,6 +17,7 @@ import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
 import edu.ucla.loni.pipeline.client.MainPage.UserUsage.UserUsageTab;
+import edu.ucla.loni.pipeline.client.MainPage.UsersOnline.UsersOnlineTab;
 import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
 import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 
@@ -27,15 +28,17 @@ public class LONIDataRequester {
 	private LONI_Chart thrdChart;
 	private PreferencesTab preferencesTab;
 	private WorkFlowsTab workflowtab;
+	private UsersOnlineTab usersonlinetab;
 	private UserUsageTab userusagetab;
 	
 	public LONIDataRequester(AsyncClientServices asyncClientServices, LONI_Chart memChart, LONI_Chart thrdChart, 
-			PreferencesTab preferencesTab, WorkFlowsTab workflowtab, UserUsageTab userusagetab ) {
+			PreferencesTab preferencesTab, WorkFlowsTab workflowtab, UsersOnlineTab usersonlinetab, UserUsageTab userusagetab ) {
 		this.asyncClientServices = asyncClientServices;
 		this.memChart = memChart;
 		this.thrdChart = thrdChart;
 		this.preferencesTab = preferencesTab;
 		this.workflowtab = workflowtab;
+		this.usersonlinetab = usersonlinetab;
 		this.userusagetab = userusagetab;
 	}
 	
@@ -87,7 +90,8 @@ public class LONIDataRequester {
     	workflowtab.refreshWorkflows(xmlData);
     	
         /** Users Tab */
-        
+    	usersonlinetab.refreshUsersOnline(xmlData);
+    	
     	/**User UserUsage Tab */
     	userusagetab.refreshUserUsage(xmlData);
     	userusagetab.refreshUserUsageCount(xmlData);

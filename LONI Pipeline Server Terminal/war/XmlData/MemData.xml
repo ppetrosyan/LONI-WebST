@@ -412,6 +412,38 @@
 			<NumCompleted>0</NumCompleted>  
 		</WorkflowEntry>  
 	</Workflows>
+	<UsersOnline>
+		<UsersOnlineEntry>  
+			<Username>Jack</Username>  
+			<IPAddress>192.168.0.1</IPAddress>  
+			<PipelineInterface>Client</PipelineInterface>  
+			<PipelineVersion>5.7.0 build 111</PipelineVersion>  
+			<OSVersion>Window</OSVersion>  
+			<ConnectTime>00:30</ConnectTime>  
+			<LastActivity>13:11</LastActivity>
+			<Disconnect>13:41</Disconnect>  
+		</UsersOnlineEntry> 
+		<UsersOnlineEntry>  
+			<Username>Peter</Username>  
+			<IPAddress>192.168.0.2</IPAddress>  
+			<PipelineInterface>Client</PipelineInterface>  
+			<PipelineVersion>5.7.0 build 111</PipelineVersion>  
+			<OSVersion>Mac OS</OSVersion>  
+			<ConnectTime>01:00</ConnectTime>  
+			<LastActivity>13:11</LastActivity>
+			<Disconnect>14:11</Disconnect>  
+		</UsersOnlineEntry> 
+			<UsersOnlineEntry>  
+			<Username>May</Username>  
+			<IPAddress>192.168.0.4</IPAddress>  
+			<PipelineInterface>Client</PipelineInterface>  
+			<PipelineVersion>5.7.0 build 122</PipelineVersion>  
+			<OSVersion>Mac OS</OSVersion>  
+			<ConnectTime>01:00</ConnectTime>  
+			<LastActivity>13:11</LastActivity>
+			<Disconnect>14:11</Disconnect>  
+		</UsersOnlineEntry> 
+	</UsersOnline>
 	<UserUsage>
 		<UserUsageEntry>  
 			<Username>Peter</Username>  
