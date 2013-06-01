@@ -3,7 +3,6 @@ package edu.ucla.loni.pipeline.client.MainPage.UsersOnline;
 import java.util.Date;
 
 import com.google.gwt.i18n.client.DateTimeFormat;
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.Element;
@@ -43,7 +42,7 @@ public class UsersOnlineTab {
 		this.notifications = notifications;
 		initializeListUsersOnline();
 	}
-	
+
 	public Tab setTab() {
 		Tab tabUsersOnline = new Tab("Users Online");
 
@@ -71,24 +70,27 @@ public class UsersOnlineTab {
 		listUsersOnline.setAutoFitExpandField("pipelineInterface");
 		
 		// Need to declare these fields here so we can edit their behavior
-		final ListGridField disconnectfield = new ListGridField("disconnect",
+		final ListGridField disconnectfield = new ListGridField("Disconnect",
 						"Disconnect&#160;&#160;&#160;&#160;&#160;");
 		disconnectfield.setAlign(Alignment.CENTER);
 
-		listUsersOnline.setFields(new ListGridField("username", "Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-				new ListGridField("ipAddress", "IP Address&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-				new ListGridField("pipelineInterface", "Pipeline Interface"),
-				new ListGridField("pipelineVersion", "Pipeline Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-				new ListGridField("osVersion", "OS Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-				new ListGridField("connectTime", "Connect Time&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-				new ListGridField("lastActivity", "Last Activity&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+		listUsersOnline.setFields(new ListGridField("Username", "Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("IPAddress", "IP Address&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("PipelineInterface", "Pipeline Interface"),
+				new ListGridField("PipelineVersion", "Pipeline Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("OSVersion", "OS Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("ConnectTime", "Connect Time&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
+				new ListGridField("LastActivity", "Last Activity&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
 				disconnectfield);
 
 		layoutUsersOnline.addMember(listUsersOnline);
+		
+		//export to csv label
+		final com.smartgwt.client.widgets.Label exportUsersOnline = new com.smartgwt.client.widgets.Label("");
 
 		tabUsersOnline.addTabSelectedHandler(new TabSelectedHandler() {
 			public void onTabSelected(TabSelectedEvent event) {
-				Update(intro);
+				Update(intro, exportUsersOnline);
 			}
 		});
 
@@ -101,41 +103,75 @@ public class UsersOnlineTab {
 		useronlinehLayout.addMember(usersonlinerefreshbutton);
 		usersonlinerefreshbutton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				Update(intro);
+				Update(intro, exportUsersOnline);
 			}
 		});
-		
-		//Button exportUsersOnline = new Button("<a download='somedata.csv' href='data:application/csv;charset=utf-8,Col1%2C%2C%2CCol2%2CCol3%0AVal1%2CVal2%2CVal3%0AVal11%2CVal22%2CVal33%0AVal111%2CVal222%2CVal333'>Example</a>");
-		Button exportUsersOnline = new Button("Export to CSV");
-		exportUsersOnline.setAlign(Alignment.CENTER);
+		//Button exportUsersOnline = new Button("Export to CSV");
+		//exportUsersOnline.setAlign(Alignment.CENTER);
 		useronlinehLayout.addMember(exportUsersOnline);
-		exportUsersOnline.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
+		//exportUsersOnline.addClickHandler(new ClickHandler() {
+		//	public void onClick(ClickEvent event) {
 				// TODO: Export to CSV logic
-			}
-		});
+		//	}
+		//});
 		layoutUsersOnline.addMember(useronlinehLayout);
 
 		tabUsersOnline.setPane(layoutUsersOnline);
 		return tabUsersOnline;
 	}
 	
-	public void Update(final com.smartgwt.client.widgets.Label intro){
+	 private StringBuilder GetCSVString(ListGrid listGrid) {
+	        StringBuilder stringBuilder = new StringBuilder();
+
+	        //%0A = \n
+	        //headers
+	        ListGridField[] fields = listGrid.getFields();
+	        for (int i = 0; i < fields.length - 1; i++) {
+	            ListGridField listGridField = fields[i];
+	            stringBuilder.append(listGridField.getName());
+	            stringBuilder.append(",");
+	        }
+	        //remove last ","
+	        stringBuilder.deleteCharAt(stringBuilder.length() - 1); 
+	        stringBuilder.append("%0A");
+
+	        //data
+	        ListGridRecord[] records = listGrid.getRecords();
+	        for (int i = 0; i < records.length; i++) {
+	            ListGridRecord listGridRecord = records[i];
+	            ListGridField[] listGridFields = listGrid.getFields();
+	            for (int j = 0; j < listGridFields.length - 1; j++) {
+	                ListGridField listGridField = listGridFields[j];
+	                stringBuilder.append(listGridRecord.getAttribute(listGridField
+	                        .getName()));
+	                stringBuilder.append(",");
+	            }
+	            //remove last ","
+	            stringBuilder.deleteCharAt(stringBuilder.length() - 1); 
+	            stringBuilder.append("%0A");
+	        }
+	        return stringBuilder;
+	    }
+	
+	public void Update(final com.smartgwt.client.widgets.Label intro, final com.smartgwt.client.widgets.Label exportUsersOnline){
 		asyncClientServices.reqResourceXMLService.getXMLData(new AsyncCallback<String>() {
 			@Override
 			public void onSuccess(final String xmlData) {
 				refreshUsersOnline(xmlData);
-				System.out.println("Users Online refreshed successfully");
+				notifications.showMessage("Users Online Tab refreshed successfully.", true);
 				
 				//get current time with specific format
 				Date time = new Date();
 				DateTimeFormat ft = DateTimeFormat.getFormat("EEE MMM d HH:mm:ss ZZZZ yyyy");
 			    
-			  //Update the content of the top label
+			    //Update the content of the top label
 				intro.setContents("Users Online ( " + TotalUsersOnline + "&#160;) "
 			    + "&#160;&#160;&#160;Updated: " + ft.format(time));
 				
-				notifications.showMessage("Users Online Tab refreshed successfully.", true);
+			    //Update the csv string
+				String content = new String(GetCSVString(listUsersOnline));
+				String Link = new String("<a download='usersonline.csv' href='data:application/csv;charset=utf-8," + content + "'>Download&#160;CSV&#160;file.</a>");
+				exportUsersOnline.setContents(Link);
 			}
 
 			@Override
@@ -230,8 +266,7 @@ public class UsersOnlineTab {
 					Integer colNum) {
 				String fieldName = this.getFieldName(colNum);
 				// show Disconnect button
-				if (fieldName.equals("disconnect")) {
-					System.out.println("yes");
+				if (fieldName.equals("Disconnect")) {
 					IButton button = new IButton();
 					button.setHeight(16);
 					button.setWidth(70);
@@ -239,7 +274,6 @@ public class UsersOnlineTab {
 					return button;
 				}
 				else{
-					System.out.println("no");
 					return null;
 				}
 
