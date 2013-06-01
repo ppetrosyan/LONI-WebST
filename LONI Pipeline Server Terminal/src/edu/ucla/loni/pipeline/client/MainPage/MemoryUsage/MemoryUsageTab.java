@@ -69,9 +69,7 @@ public class MemoryUsageTab {
 				/** Memory Usage Tab */
 				memChart.getChart().refreshChart(xmlData);
 				
-				if(clicked) {
-					notifications.showMessage("Memory Usage Tab refreshed successfully.", true);
-				}
+				notifications.showMessage("Memory Usage Tab refreshed successfully.", true);
 			}
 
 			@Override

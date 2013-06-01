@@ -19,6 +19,7 @@ import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
 import edu.ucla.loni.pipeline.client.MainPage.UserUsage.UserUsageTab;
 import edu.ucla.loni.pipeline.client.MainPage.UsersOnline.UsersOnlineTab;
 import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 
 public class LONIDataRequester {
@@ -30,9 +31,10 @@ public class LONIDataRequester {
 	private WorkFlowsTab workflowtab;
 	private UsersOnlineTab usersonlinetab;
 	private UserUsageTab userusagetab;
+	private LONINotifications notifications;
 	
 	public LONIDataRequester(AsyncClientServices asyncClientServices, LONI_Chart memChart, LONI_Chart thrdChart, 
-			PreferencesTab preferencesTab, WorkFlowsTab workflowtab, UsersOnlineTab usersonlinetab, UserUsageTab userusagetab ) {
+			PreferencesTab preferencesTab, WorkFlowsTab workflowtab, UsersOnlineTab usersonlinetab, UserUsageTab userusagetab, LONINotifications notifications ) {
 		this.asyncClientServices = asyncClientServices;
 		this.memChart = memChart;
 		this.thrdChart = thrdChart;
@@ -40,6 +42,7 @@ public class LONIDataRequester {
 		this.workflowtab = workflowtab;
 		this.usersonlinetab = usersonlinetab;
 		this.userusagetab = userusagetab;
+		this.notifications = notifications;
 	}
 	
 	public void refreshResourceTabs() {
@@ -53,7 +56,7 @@ public class LONIDataRequester {
 
             @Override
             public void onFailure(Throwable caught) {
-                Window.alert("Resource Tabs did not refresh successfully.");
+            	notifications.showMessage("Resource Tabs did not refresh successfully.", true);
             }
         });
 	}
@@ -69,7 +72,7 @@ public class LONIDataRequester {
 
             @Override
             public void onFailure(Throwable caught) {
-            	Window.alert("Configuration Tabs did not refresh successfully.");
+            	notifications.showMessage("Configuration Tabs did not refresh successfully.", true);
             }
         });
 	}
@@ -82,7 +85,7 @@ public class LONIDataRequester {
 	private void refreshConfigurationTabsWithXml (String xmlData) {
 		/** Preferences Tab */
     	preferencesTab.refreshPrefTab(xmlData);
-        Window.alert("Configuration Tabs refreshed successfully.");
+    	notifications.showMessage("Configuration Tabs refreshed successfully.", true);
 	}
 	
 	private void refreshResourceTabsWithXml (String xmlData) {
@@ -102,7 +105,7 @@ public class LONIDataRequester {
         /** Thread Usage Tab */
     	thrdChart.getChart().refreshChart(xmlData);
     	
-    	Window.alert("Resource Tabs refreshed successfully.");
+    	notifications.showMessage("Resource Tabs refreshed successfully.", true);
 	}
 	
 	public void getWebUrlXml(String url, String username, String password) {

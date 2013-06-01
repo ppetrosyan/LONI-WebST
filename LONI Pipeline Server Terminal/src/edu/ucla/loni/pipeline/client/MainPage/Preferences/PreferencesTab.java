@@ -21,6 +21,7 @@ import edu.ucla.loni.pipeline.client.MainPage.Preferences.General.GeneralTab;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.Grid.GridTab;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.Packages.PackagesTab;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 
 public class PreferencesTab {
 
@@ -31,10 +32,12 @@ public class PreferencesTab {
 	private PackagesTab packagesTab;
 	private ExecutablesTab executablesTab; 
 	private AsyncClientServices asyncClientServices;
+	private LONINotifications notifications;
 	
-	public PreferencesTab(VLayout padding, AsyncClientServices asyncClientServices) {
+	public PreferencesTab(VLayout padding, AsyncClientServices asyncClientServices, LONINotifications notifications) {
 		this.padding = padding;
 		this.asyncClientServices = asyncClientServices;
+		this.notifications = notifications;
 	}
 	
 	public Tab setTab() {
@@ -61,12 +64,12 @@ public class PreferencesTab {
 		            public void onSuccess(final String xmlData) {
 		            	refreshPrefTab(xmlData);
 		            	
-		            	Window.alert("Preferences Tab refreshed successfully.");
+		            	notifications.showMessage("Preferences Tab refreshed successfully.", true);
 		            }
 
 		            @Override
 		            public void onFailure(Throwable caught) {
-		                Window.alert("Preferences Tab did not refresh successfully.");
+		            	notifications.showMessage("Preferences Tab did not refresh successfully.", true);
 		            }
 		        });
 			}

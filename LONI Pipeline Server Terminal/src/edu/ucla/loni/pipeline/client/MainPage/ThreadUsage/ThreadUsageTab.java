@@ -68,9 +68,7 @@ public class ThreadUsageTab {
 				/** Thread Usage Tab */
 				thrdChart.getChart().refreshChart(xmlData);
 				
-				if(clicked) {
-					notifications.showMessage("Thread Usage Tab refreshed successfully.", true);
-				}
+				notifications.showMessage("Thread Usage Tab refreshed successfully.", true);
 			}
 
 			@Override

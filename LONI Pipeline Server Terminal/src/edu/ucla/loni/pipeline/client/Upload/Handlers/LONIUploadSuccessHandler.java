@@ -20,7 +20,7 @@ public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 		Window.alert(uploadSuccessEvent.getServerData());
 		
 		// Refresh all tabs
-		dataRequester.refreshTabs();
+		//dataRequester.refreshTabs();
 		
 		return true;
 	}

@@ -140,13 +140,13 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		tabset.addTab(threadUsageTab.setTab());
 
 		// Preferences tab
-		preferencesTab = new PreferencesTab(padding, asyncClientServices);
+		preferencesTab = new PreferencesTab(padding, asyncClientServices, notifications);
 		tabset.addTab(preferencesTab.setTab());
 
 		// Refresh All Tabs
 		LONIDataRequester dataRequester = new LONIDataRequester(
 				asyncClientServices, memoryUsageTab.getChart(),
-				threadUsageTab.getChart(), preferencesTab, workFlowsTab, usersOnlineTab, userUsageTab);
+				threadUsageTab.getChart(), preferencesTab, workFlowsTab, usersOnlineTab, userUsageTab, notifications);
 
 		// Uploads tab
 		UploadTab uploadTab = new UploadTab(dataRequester);
