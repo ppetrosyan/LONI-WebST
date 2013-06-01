@@ -4,6 +4,7 @@ import com.smartgwt.client.widgets.tab.TabSet;
 
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.Button;
+import com.smartgwt.client.widgets.Img;
 
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment;
@@ -55,20 +56,15 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		HLayout headLayout = new HLayout();
 		headLayout.setMembersMargin(10);
 		headLayout.setSize("100%", "3%");
+		
+		Img logo = new Img(GWT.getModuleBaseURL() + "../images/pipeline.jpg");
+		logo.setHeight("80px");
+		logo.setWidth("384px");
+		headLayout.addMember(logo);		
 
 		VLayout padding = new VLayout();
 		padding.setMembersMargin(0);
-		padding.setSize("1%", "100%");
-		headLayout.addMember(padding);		
-
-		com.smartgwt.client.widgets.Label LONILabel = new com.smartgwt.client.widgets.Label(
-				"<b><font size='6'>LONI Pipeline</font></b>");
-		LONILabel.setSize("48%", "100%");
-		headLayout.addMember(LONILabel);
-
-		padding = new VLayout();
-		padding.setMembersMargin(0);
-		padding.setSize("1%", "100%");
+		padding.setSize("100%", "100%");
 		headLayout.addMember(padding);
 
 		Button logoutBtn = new Button("LogOut");
