@@ -2,7 +2,7 @@ package edu.ucla.loni.pipeline.client.Login;
 
 import java.sql.Date;
 
-import com.google.gwt.core.shared.GWT;
+import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
@@ -13,6 +13,7 @@ import com.smartgwt.client.data.fields.DataSourcePasswordField;
 import com.smartgwt.client.data.fields.DataSourceTextField;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
+import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.layout.HLayout;
@@ -43,18 +44,33 @@ public class LONI_Pipeline_ST_Login_Display {
 		loginLayout.setAlign(Alignment.CENTER);
 		loginLayout.setAlign(VerticalAlignment.CENTER);
 		loginLayout.setHeight("250px");
-		loginLayout.setWidth("300px");
-		loginLayout.setMembersMargin(5);
+		loginLayout.setWidth("280px");
+		loginLayout.setBorder("3px dashed #B0B0B0");
+		loginLayout.setMembersMargin(10);
 		
-		Label LONILabel = new Label("<b><font size='6'>LONI Pipeline</font></b>");
-		LONILabel.setAlign(Alignment.CENTER);
-		LONILabel.setHeight("8%");
-		LONILabel.setWidth100();
-		loginLayout.addMember(LONILabel);
+		VLayout padding;
+		
+		padding = new VLayout();
+		padding.setMembersMargin(0);
+		padding.setSize("100%", "40px");
+		loginLayout.addMember(padding);
+		
+		Img logo = new Img(GWT.getModuleBaseURL() + "../images/pipelineLogo.gif");
+		logo.setLayoutAlign(Alignment.CENTER);
+		logo.setAlign(Alignment.CENTER);
+		logo.setValign(VerticalAlignment.CENTER);
+		logo.setHeight("148px");
+		logo.setWidth("160px");
+		loginLayout.addMember(logo);
+		
+		padding = new VLayout();
+		padding.setMembersMargin(0);
+		padding.setSize("100%", "20px");
+		loginLayout.addMember(padding);
 		
 		Label labelSignIn = new Label("Sign in to your account");
 		labelSignIn.setAlign(Alignment.CENTER);
-		labelSignIn.setHeight("2%");
+		labelSignIn.setHeight("20px");
 		labelSignIn.setWidth100();
 		loginLayout.addMember(labelSignIn);
 		
@@ -70,7 +86,7 @@ public class LONI_Pipeline_ST_Login_Display {
 		
 		DynamicForm form = new DynamicForm();
 		form.setAlign(Alignment.CENTER);
-		form.setAutoHeight();
+		form.setHeight("50px");
 		form.setWidth100();
 		
 		form.setDataSource(dataSource);
