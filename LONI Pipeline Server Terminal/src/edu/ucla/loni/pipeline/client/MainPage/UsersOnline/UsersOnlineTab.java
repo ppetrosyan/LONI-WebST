@@ -28,16 +28,19 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedEvent;
 import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 
 public class UsersOnlineTab {
 	
 	private ListGrid listUsersOnline;
 	private AsyncClientServices asyncClientServices;
 	private int TotalUsersOnline;
+	private LONINotifications notifications;
 	
-	public UsersOnlineTab(AsyncClientServices asyncClientServices) {
+	public UsersOnlineTab(AsyncClientServices asyncClientServices, LONINotifications notifications) {
 		TotalUsersOnline = 0;
 		this.asyncClientServices = asyncClientServices;
+		this.notifications = notifications;
 		initializeListUsersOnline();
 	}
 	
@@ -131,11 +134,13 @@ public class UsersOnlineTab {
 			  //Update the content of the top label
 				intro.setContents("Users Online ( " + TotalUsersOnline + "&#160;) "
 			    + "&#160;&#160;&#160;Updated: " + ft.format(time));
+				
+				notifications.showMessage("Users Online Tab refreshed successfully.", true);
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				System.out.println("Users Online refreshed failed");
+				notifications.showMessage("Users Online Tab did not refresh successfully.", true);
 			}
 		});
 	}

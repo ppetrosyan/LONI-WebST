@@ -105,8 +105,6 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		
 		appLayout.addMember(tabset);
 		appLayout.draw();
-		
-		notifications.showMessage("Welcome, " + userID, false);
 	}
 
 	private TabSet buildtabset(VLayout padding) {
@@ -122,15 +120,15 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		});
 
 		// Workflows tab
-		WorkFlowsTab workFlowsTab = new WorkFlowsTab(asyncClientServices);
+		WorkFlowsTab workFlowsTab = new WorkFlowsTab(asyncClientServices, notifications);
 		tabset.addTab(workFlowsTab.setTab());
 
 		// Users Online tab
-		UsersOnlineTab usersOnlineTab = new UsersOnlineTab(asyncClientServices);
+		UsersOnlineTab usersOnlineTab = new UsersOnlineTab(asyncClientServices, notifications);
 		tabset.addTab(usersOnlineTab.setTab());
 
 		// Users Usage tab
-		UserUsageTab userUsageTab = new UserUsageTab(asyncClientServices);
+		UserUsageTab userUsageTab = new UserUsageTab(asyncClientServices, notifications);
 		tabset.addTab(userUsageTab.setTab());
 
 		// Memory Usage tab

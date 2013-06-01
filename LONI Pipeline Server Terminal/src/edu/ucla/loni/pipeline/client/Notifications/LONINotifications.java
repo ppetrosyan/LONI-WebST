@@ -33,7 +33,7 @@ public class LONINotifications {
 		/*if(timer) {
 			Timer t = new Timer() {
 				public void run() {
-					notificationMole.hideNow();
+					notificationMole.show("Welcome, " + userID, false);
 				}
 			};
 			

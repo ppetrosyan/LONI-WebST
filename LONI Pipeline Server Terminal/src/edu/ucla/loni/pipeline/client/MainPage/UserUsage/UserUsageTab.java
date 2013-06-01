@@ -23,17 +23,20 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedEvent;
 import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 
 public class UserUsageTab {
 	private ListGrid listUserUsage, listUserUsageCount;
 	private AsyncClientServices asyncClientServices;
 	private int TotalWorkflows;
+	private LONINotifications notifications;
 	
-	public UserUsageTab(AsyncClientServices asyncClientServices) {
+	public UserUsageTab(AsyncClientServices asyncClientServices, LONINotifications notifications) {
 		listUserUsage = new ListGrid();
 		listUserUsageCount = new ListGrid();
 		TotalWorkflows = 0;
 		this.asyncClientServices = asyncClientServices;
+		this.notifications = notifications;
 	}
 	
 	public Tab setTab() {
@@ -123,11 +126,13 @@ public class UserUsageTab {
 			  //Update the content of the top label
 				intro.setContents("User Usage ( " + TotalWorkflows + "&#160;) "
 			    + "&#160;&#160;&#160;Updated: " + ft.format(time));
+				
+				notifications.showMessage("User Usage Tab refreshed successfully.", true);
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				System.out.println("UserUsage refreshed failed");
+				notifications.showMessage("User Usage Tab did not refresh successfully.", true);
 			}
 		});
 	}

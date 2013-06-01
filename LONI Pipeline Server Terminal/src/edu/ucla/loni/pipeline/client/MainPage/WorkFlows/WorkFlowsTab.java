@@ -26,6 +26,7 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedEvent;
 import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 
 public class WorkFlowsTab {
 
@@ -38,9 +39,10 @@ public class WorkFlowsTab {
 	private int TotalQueued;
 	private int TotalRunning;
 	private int TotalCompleted;
+	private LONINotifications notifications;
 	
 
-	public WorkFlowsTab(AsyncClientServices asyncClientServices) {
+	public WorkFlowsTab(AsyncClientServices asyncClientServices, LONINotifications notifications) {
 		TotalWorkflows = 0;
 		TotalBacklogged = 0;
 		TotalSubmitting = 0;
@@ -48,6 +50,7 @@ public class WorkFlowsTab {
 		TotalRunning = 0;
 		TotalCompleted = 0;
 		this.asyncClientServices = asyncClientServices;
+		this.notifications = notifications;
 		initializeListWorkflows();
 	}
 	
@@ -150,11 +153,13 @@ public class WorkFlowsTab {
 						+ "&#160;Running: " + TotalRunning 
 						+ "&#160;Completed: " + TotalCompleted
 						+ "&#160;) "+ "&#160;&#160;&#160;Updated: " + ft.format(time));
+				
+				notifications.showMessage("Workflows Tab refreshed successfully.", true);
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
-				System.out.println("Workflows refreshed failed");
+				notifications.showMessage("Workflows Tab did not refresh successfully.", true);
 			}
 		});
 	}
