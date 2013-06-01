@@ -4,9 +4,11 @@ import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.NativeCheckboxItem;
+import com.smartgwt.client.widgets.form.fields.CheckboxItem;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
 import com.smartgwt.client.widgets.form.fields.StaticTextItem;
+import com.smartgwt.client.widgets.form.fields.BlurbItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
@@ -77,7 +79,7 @@ public class AdvancedTab {
 		MainPageUtils.formatForm(formAdvancedLog);
 		layoutAdvanced.addMember(formAdvancedLog);
     
-    // add line
+        // add line
 		com.smartgwt.client.widgets.Label line2 = new com.smartgwt.client.widgets.Label(
 				"<hr>");
 		layoutAdvanced.addMember(line2);
@@ -91,14 +93,65 @@ public class AdvancedTab {
 		DynamicForm formAdvancedNetwork = new DynamicForm();
 
 		SpinnerItem packetSize = new SpinnerItem("packetSize", "Packet Size");
-    packetSize.setValue("32768");
+		packetSize.setValue("32768");
     
 		SpinnerItem connTimeout = new SpinnerItem("connTimeout", "Connection Timeout (seconds)");
-    connTimeout.setValue("3");
+		connTimeout.setValue("3");
 
 		formAdvancedNetwork.setFields(new FormItem[] { packetSize, connTimeout });
 		MainPageUtils.formatForm(formAdvancedNetwork);
 		layoutAdvanced.addMember(formAdvancedNetwork);
+		
+		// add line
+		com.smartgwt.client.widgets.Label line3 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutAdvanced.addMember(line3);
+		
+		//*
+		// other
+		com.smartgwt.client.widgets.Label labelAdvancedOther = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Other</font></b>");
+		labelAdvancedOther.setSize("70px", "20px");
+		layoutAdvanced.addMember(labelAdvancedOther);
+		
+		DynamicForm formAdvancedOther = new DynamicForm();
+		
+		SpinnerItem maxThreads = new SpinnerItem("maxThreads", "Max Threads for Active Jobs");
+		maxThreads.setValue("4");
+		
+		CheckboxItem autoClean = new CheckboxItem("autoClean");
+		autoClean.setTitle("Automatically Clean Up Old Files in Temporary Directory");
+		autoClean.setLabelAsTitle(true);
+		
+		SpinnerItem maxGenerator = new SpinnerItem("maxThreads", "Max Metadata Generator Threads");
+		maxGenerator.setValue("5");
+		
+		SpinnerItem serverRefresh = new SpinnerItem("serverRefresh", "Server Status Update Interval (seconds)");
+		serverRefresh.setValue("10");
+		
+		SpinnerItem maxMissed = new SpinnerItem("maxMissed", "Max Consecutive Missed Updates");
+		maxMissed.setValue("3");
+		
+		SpinnerItem directoryTimeout = new SpinnerItem("directoryTimeout", "Recursive Directory Listing Timeout (seconds)");
+		directoryTimeout.setValue("120");
+
+		TextItem extQName = new TextItem("extQName", "External Network Access Queue Name");
+		
+		BlurbItem missing = new BlurbItem("missing");
+		missing.setDefaultValue("Generate warning instead error upon encountering missing...");
+		
+		NativeCheckboxItem missingMod = new NativeCheckboxItem("missingMod");
+		missingMod.setTitle("Module Executable");
+		
+		NativeCheckboxItem missingFile = new NativeCheckboxItem("missingFile");
+		missingFile.setTitle("File Parameters");
+		
+		formAdvancedOther.setFields(new FormItem[] { maxThreads, autoClean, maxGenerator, serverRefresh, 
+				                                     maxMissed, directoryTimeout, extQName, 
+				                                     missing, missingMod, missingFile });
+		MainPageUtils.formatForm(formAdvancedOther);
+		layoutAdvanced.addMember(formAdvancedOther);
+		// */
 
 		tabAdvanced.setPane(layoutAdvanced);
 		return tabAdvanced;
