@@ -24,22 +24,22 @@ public class LONINotifications {
 	}
 
 	public void showMessage(String message, boolean timer) {
-		if (notificationMole.isVisible()) {
-			notificationMole.hide();
-		}
+		/*if (notificationMole.isVisible()) {
+			notificationMole.hideNow();
+		}*/
 
 		notificationMole.show(message);
 
-		if(timer) {
+		/*if(timer) {
 			Timer t = new Timer() {
 				public void run() {
-					notificationMole.hide();
+					notificationMole.hideNow();
 				}
 			};
 			
 			// Schedule the timer to run once in 3 seconds.
 			t.schedule(3000);
-		}
+		}*/
 	}
 
 	public NotificationMole getNotificationMole() {

@@ -1,6 +1,5 @@
 package edu.ucla.loni.pipeline.client.MainPage.ThreadUsage;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Button;
@@ -13,15 +12,18 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 
 public class ThreadUsageTab {
 	
 	private LONI_Chart thrdChart; 
 	private AsyncClientServices asyncClientServices;
+	private LONINotifications notifications;
 	
-	public ThreadUsageTab(AsyncClientServices asyncClientServices) {
+	public ThreadUsageTab(AsyncClientServices asyncClientServices, LONINotifications notifications) {
 		thrdChart = new LONI_Chart("Thread");
 		this.asyncClientServices = asyncClientServices;
+		this.notifications = notifications;
 	}
 	
 	public Tab setTab() {
@@ -67,14 +69,14 @@ public class ThreadUsageTab {
 				thrdChart.getChart().refreshChart(xmlData);
 				
 				if(clicked) {
-					Window.alert("Thread Usage Tab refreshed successfully.");
+					notifications.showMessage("Thread Usage Tab refreshed successfully.", true);
 				}
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
 				if(clicked) {
-					Window.alert("Thread Usage Tab did not refresh successfully.");
+					notifications.showMessage("Thread Usage Tab did not refresh successfully.", true);
 				}
 			}
 		});

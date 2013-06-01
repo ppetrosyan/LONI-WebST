@@ -13,15 +13,18 @@ import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 
 public class MemoryUsageTab {
 	
 	private LONI_Chart memChart;
 	private AsyncClientServices asyncClientServices;
+	private LONINotifications notifications;
 	
-	public MemoryUsageTab(AsyncClientServices asyncClientServices) {
+	public MemoryUsageTab(AsyncClientServices asyncClientServices, LONINotifications notifications) {
 		memChart = new LONI_Chart("Memory");
 		this.asyncClientServices = asyncClientServices;
+		this.notifications = notifications;
 	}
 	
 	public Tab setTab() {
@@ -67,14 +70,14 @@ public class MemoryUsageTab {
 				memChart.getChart().refreshChart(xmlData);
 				
 				if(clicked) {
-					Window.alert("Memory Usage Tab refreshed successfully.");
+					notifications.showMessage("Memory Usage Tab refreshed successfully.", true);
 				}
 			}
 
 			@Override
 			public void onFailure(Throwable caught) {
 				if(clicked) {
-					Window.alert("Memory Usage Tab did not refresh successfully.");
+					notifications.showMessage("Memory Usage Tab did not refresh successfully.", true);
 				}
 			}
 		});
