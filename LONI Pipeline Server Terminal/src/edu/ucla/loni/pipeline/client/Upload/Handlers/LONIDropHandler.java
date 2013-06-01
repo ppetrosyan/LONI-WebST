@@ -9,18 +9,19 @@ import com.google.gwt.event.dom.client.DropHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartgwt.client.widgets.layout.VLayout;
 
 public class LONIDropHandler implements DropHandler {
 
 	private Uploader uploader;
 	private Map<String, Image> cancelButtons;
-	private VerticalPanel progressBarPanel;
+	private VLayout layoutUploads;
 	private Label dropFilesLabel;
 	
-	public LONIDropHandler(Uploader uploader, Map<String, Image> cancelButtons, VerticalPanel progressBarPanel, Label dropFilesLabel) {
+	public LONIDropHandler(Uploader uploader, Map<String, Image> cancelButtons, VLayout layoutUploads, Label dropFilesLabel) {
 		this.uploader = uploader;
 		this.cancelButtons = cancelButtons;
-		this.progressBarPanel = progressBarPanel;
+		this.layoutUploads = layoutUploads;
 		this.dropFilesLabel = dropFilesLabel;
 	}
 	

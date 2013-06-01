@@ -8,19 +8,20 @@ import org.moxieapps.gwt.uploader.client.events.FileDialogStartHandler;
 
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartgwt.client.widgets.layout.VLayout;
 
 public class LONIFileDialogStartHandler implements FileDialogStartHandler {
 
 	private Uploader uploader;
 	private Map<String, Image> cancelButtons;
-	private VerticalPanel progressBarPanel;
+	private VLayout layoutUploads;
 	
-	public LONIFileDialogStartHandler(Uploader uploader, Map<String, Image> cancelButtons, VerticalPanel progressBarPanel) {
+	public LONIFileDialogStartHandler(Uploader uploader, Map<String, Image> cancelButtons, VLayout layoutUploads) {
 		this.uploader = uploader;
 		this.cancelButtons = cancelButtons;
-		this.progressBarPanel = progressBarPanel;
+		this.layoutUploads = layoutUploads;
 	} 
-	
+
 	@Override
 	public boolean onFileDialogStartEvent(
 			FileDialogStartEvent fileDialogStartEvent) {

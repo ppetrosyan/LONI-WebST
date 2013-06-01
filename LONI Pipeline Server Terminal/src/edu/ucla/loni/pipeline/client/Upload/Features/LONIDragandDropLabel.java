@@ -7,6 +7,7 @@ import org.moxieapps.gwt.uploader.client.Uploader;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.VerticalPanel;
+import com.smartgwt.client.widgets.layout.VLayout;
 
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDragLeaveHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDragOverHandler;
@@ -17,15 +18,15 @@ public class LONIDragandDropLabel extends Label {
 	private String labelString;
 	private Uploader uploader;
 	private Map<String, Image> cancelButtons;
-	private VerticalPanel progressBarPanel;
+	private VLayout layoutUploads;
 	
-	public LONIDragandDropLabel(String labelString, Uploader uploader, Map<String, Image> cancelButtons, VerticalPanel progressBarPanel) {
+	public LONIDragandDropLabel(String labelString, Uploader uploader, Map<String, Image> cancelButtons, VLayout layoutUploads) {
 		super(labelString);
 		
 		this.labelString = labelString;
 		this.uploader = uploader;
 		this.cancelButtons = cancelButtons;
-		this.progressBarPanel = progressBarPanel;
+		this.layoutUploads = layoutUploads;
 		
 		configure();
 		addHandlers();
@@ -42,7 +43,7 @@ public class LONIDragandDropLabel extends Label {
 		
 		addDragLeaveHandler(new LONIDragLeaveHandler(this));
 		
-		addDropHandler(new LONIDropHandler(uploader, cancelButtons, progressBarPanel, this));
+		addDropHandler(new LONIDropHandler(uploader, cancelButtons, layoutUploads, this));
 		
 		return true;
 	}
