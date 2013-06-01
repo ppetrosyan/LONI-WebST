@@ -23,6 +23,7 @@
   <inherits name='com.googlecode.gwt.charts.Charts'/>
   <inherits name='com.google.gwt.xml.XML'/>
   <inherits name="com.google.gwt.i18n.I18N"/>
+  <inherits name="com.googlecode.gwt.crypto.Crypto"/>
   
   <inherits name='com.smartclient.theme.simplicity.Simplicity'/>
   

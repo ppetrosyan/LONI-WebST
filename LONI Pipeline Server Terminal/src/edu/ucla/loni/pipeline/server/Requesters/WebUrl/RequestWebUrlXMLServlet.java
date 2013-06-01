@@ -12,12 +12,15 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
+import org.apache.commons.validator.UrlValidator;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.gwt.crypto.client.TripleDesCipher;
 
 import edu.ucla.loni.pipeline.client.Requesters.WebUrl.RequestWebUrlXMLService;
 import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
@@ -37,9 +40,34 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 	}
 
 	@Override
-	public WebUrlResponseBuilder getXML(String url) {	
+	public WebUrlResponseBuilder getXML(String wE, String uE, String pE, byte[] key) {	
+		
+		TripleDesCipher cipher = new TripleDesCipher();
+		cipher.setKey(key);
+		String webUrl = "", username = "", password = "";
+		webUrlresponse.setMessage("");
+		
 		try {
-			  	URL u = new URL(url);
+			webUrl = cipher.decrypt(wE);
+			username = cipher.decrypt(uE);
+			password = cipher.decrypt(pE);
+		} 
+		catch (Exception e) {
+			webUrlresponse.setMessage("Error on decryption");
+		}
+		
+		if ((webUrl.length() == 0) || (username.length() == 0) || (password.length() == 0)) {
+			webUrlresponse.setMessage("Missing web URL, username or password sent to server");
+
+		}
+		
+		if (webUrlresponse.getMessage().length() != 0) {
+			webUrlresponse.setStatus(false);
+			return webUrlresponse;
+		}
+	
+		try {
+			  	URL u = new URL(webUrl);
 			  	HttpURLConnection huc = (HttpURLConnection) u.openConnection();
 			  	huc.setRequestMethod("GET");
 			  	huc.setDoOutput(false);

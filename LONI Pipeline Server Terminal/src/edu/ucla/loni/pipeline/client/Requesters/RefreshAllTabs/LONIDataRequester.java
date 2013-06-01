@@ -1,9 +1,17 @@
 package edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs;
 
+import java.security.NoSuchAlgorithmException;
+
+import javax.crypto.Cipher;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.DESKeySpec;
+
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.XMLParser;
+import com.googlecode.gwt.crypto.client.TripleDesCipher;
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
@@ -93,8 +101,29 @@ public class LONIDataRequester {
     	Window.alert("Resource Tabs refreshed successfully.");
 	}
 	
-	public void getWebUrlXml(String url) {
-		asyncClientServices.reqwebUrlXMLService.getXML(url, new AsyncCallback<WebUrlResponseBuilder>() {
+	public void getWebUrlXml(String url, String username, String password) {
+		
+        // Encrypt the string
+		TripleDesCipher cipher = new TripleDesCipher();
+		final byte[] GWT_DES_KEY = new byte[] {0x10, 0x20, 0x30, 0x40, 0x50, 0x60, 0x70, 
+				  (byte) 0x80, (byte) 0x90, (byte) 0xA0, (byte) 0xB0, 
+				  (byte) 0xC0, (byte) 0xD0, (byte) 0xE0, (byte) 0xF0, 
+				  (byte) 0xA1, (byte) 0xB1, (byte) 0xC1, (byte) 0xD1, 
+				  (byte) 0xE1, (byte) 0xF1};
+		cipher.setKey(GWT_DES_KEY);
+		String we, ue, pe;
+		
+		try {
+			we = cipher.encrypt(String.valueOf(url));
+			ue = cipher.encrypt(String.valueOf(username));
+			pe = cipher.encrypt(String.valueOf(password));
+		} 
+		catch (Exception e) {
+    		Window.alert("Encryption failed");
+    		return;
+		}
+		
+		asyncClientServices.reqwebUrlXMLService.getXML(we, ue, pe, GWT_DES_KEY, new AsyncCallback<WebUrlResponseBuilder>() {
 	    	@Override
 	    	public void onFailure(Throwable caught) {
 	    		Window.alert("Retrive of XML file failed, check the URL and try again");
@@ -103,11 +132,9 @@ public class LONIDataRequester {
 	    	@Override
 	    	public void onSuccess(WebUrlResponseBuilder response) {
 	    		if ((response.getStatus() == false) || (response.getXml() == null))
-	    			Window.alert("Retrive of XML file failed, message from server - " + response.getMessage());
+	    			Window.alert(response.getXml() + "Retrive of XML file failed, message from server - " + response.getMessage());
 	    		else {
 	    			try {
-	    				//DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-	    				//DocumentBuilder builder = factory.newDocumentBuilder();
 					  	Document document = XMLParser.parse(response.getXml());
 						document.getDocumentElement().normalize();
 						String rootTag = document.getDocumentElement().getNodeName();

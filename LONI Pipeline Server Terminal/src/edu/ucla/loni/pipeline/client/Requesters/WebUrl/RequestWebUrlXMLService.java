@@ -8,5 +8,5 @@ import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 @RemoteServiceRelativePath("RequestConfigurationXMLServlet")
 public interface RequestWebUrlXMLService extends RemoteService {
 
-	public WebUrlResponseBuilder getXML(String url);
+	public WebUrlResponseBuilder getXML(String wE, String uE, String pE, byte[] key);
 }
