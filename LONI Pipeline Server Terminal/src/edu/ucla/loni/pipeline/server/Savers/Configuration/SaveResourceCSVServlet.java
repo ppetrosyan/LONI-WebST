@@ -1,3 +1,22 @@
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package edu.ucla.loni.pipeline.server.Savers.Configuration;
 
 import java.io.IOException;
@@ -17,10 +36,11 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveResourceCSVService;
 
-public class SaveResourceCSVServlet extends RemoteServiceServlet implements SaveResourceCSVService {
+public class SaveResourceCSVServlet extends RemoteServiceServlet implements
+		SaveResourceCSVService {
 
 	private static final long serialVersionUID = -1248291926712674832L;
-	private Key csvResourceKey;
+	private final Key csvResourceKey;
 
 	public SaveResourceCSVServlet() {
 		csvResourceKey = KeyFactory.createKey("CSVType", "ResourceData");
@@ -28,9 +48,10 @@ public class SaveResourceCSVServlet extends RemoteServiceServlet implements Save
 
 	@Override
 	public boolean setCSVData(String csvData) {
-		DatastoreService dataStore = DatastoreServiceFactory.getDatastoreService();
+		DatastoreService dataStore = DatastoreServiceFactory
+				.getDatastoreService();
 
-		try {				
+		try {
 			// Get a file service
 			FileService fileService = FileServiceFactory.getFileService();
 
@@ -39,11 +60,13 @@ public class SaveResourceCSVServlet extends RemoteServiceServlet implements Save
 
 			// Open a channel to write to it
 			boolean lock = true;
-			FileWriteChannel writeChannel = fileService.openWriteChannel(file, lock);
+			FileWriteChannel writeChannel = fileService.openWriteChannel(file,
+					lock);
 
 			// Different standard Java ways of writing to the channel
 			// are possible. Here we use a PrintWriter:
-			PrintWriter out = new PrintWriter(Channels.newWriter(writeChannel, "UTF8"));
+			PrintWriter out = new PrintWriter(Channels.newWriter(writeChannel,
+					"UTF8"));
 			out.println(csvData);
 
 			// Close without finalizing and save the file path for writing later
@@ -56,8 +79,7 @@ public class SaveResourceCSVServlet extends RemoteServiceServlet implements Save
 			Entity configurationData = new Entity(csvResourceKey);
 			configurationData.setProperty("tag", file.getFullPath());
 			dataStore.put(configurationData);
-		}
-		catch (IllegalStateException | IOException e) {
+		} catch (IllegalStateException | IOException e) {
 			return false;
 		}
 

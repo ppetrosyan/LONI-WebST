@@ -1,30 +1,49 @@
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package edu.ucla.loni.pipeline.client.MainPage.UserUsage;
 
-import com.smartgwt.client.widgets.grid.ListGridRecord;  
-  
-public class UserUsageCountRecord extends ListGridRecord {  
-  
-    public UserUsageCountRecord() {  
-    }  
-  
-    public UserUsageCountRecord(String username, String count) {  
-    	setUsername(username); 
-        setCount(count); 
-    }  
-    
-    public void setUsername(String username) {  
-        setAttribute("username", username);  
-    }  
-  
-    public String getUsername() {  
-        return getAttributeAsString("username");  
-    }  
+import com.smartgwt.client.widgets.grid.ListGridRecord;
 
-	public void setCount(String count) {  
-        setAttribute("count", count);  
-    }  
-  
-    public String getCount() {  
-        return getAttributeAsString("count");  
-    }  
-}  
+public class UserUsageCountRecord extends ListGridRecord {
+
+	public UserUsageCountRecord() {
+	}
+
+	public UserUsageCountRecord(String username, String count) {
+		setUsername(username);
+		setCount(count);
+	}
+
+	public void setUsername(String username) {
+		setAttribute("username", username);
+	}
+
+	public String getUsername() {
+		return getAttributeAsString("username");
+	}
+
+	public void setCount(String count) {
+		setAttribute("count", count);
+	}
+
+	public String getCount() {
+		return getAttributeAsString("count");
+	}
+}

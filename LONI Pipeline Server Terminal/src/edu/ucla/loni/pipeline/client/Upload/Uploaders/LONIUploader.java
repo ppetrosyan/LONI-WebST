@@ -1,3 +1,22 @@
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package edu.ucla.loni.pipeline.client.Upload.Uploaders;
 
 import java.util.Map;
@@ -19,15 +38,16 @@ import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadSuccessHandler;
 
 public class LONIUploader extends Uploader {
 
-	private Map<String, Image> cancelButtons;
-	private VLayout layoutUploads;
-	private LONIDataRequester dataRequester;
-	
-	public LONIUploader(Map<String, Image> cancelButtons, VLayout layoutUploads, LONIDataRequester dataRequester) {
+	private final Map<String, Image> cancelButtons;
+	private final VLayout layoutUploads;
+	private final LONIDataRequester dataRequester;
+
+	public LONIUploader(Map<String, Image> cancelButtons,
+			VLayout layoutUploads, LONIDataRequester dataRequester) {
 		this.cancelButtons = cancelButtons;
 		this.layoutUploads = layoutUploads;
 		this.dataRequester = dataRequester;
-		
+
 		configure();
 		addHandlers();
 	}
@@ -39,7 +59,7 @@ public class LONIUploader extends Uploader {
 		setFileSizeLimit("50 MB");
 		setButtonCursor(Uploader.Cursor.HAND);
 		setButtonAction(Uploader.ButtonAction.SELECT_FILES);
-		
+
 		return true;
 	}
 
@@ -47,18 +67,21 @@ public class LONIUploader extends Uploader {
 
 		setUploadSuccessHandler(new LONIUploadSuccessHandler(dataRequester));
 
-		setFileQueuedHandler(new LONIFileQueuedHandler(this, cancelButtons, layoutUploads));
+		setFileQueuedHandler(new LONIFileQueuedHandler(this, cancelButtons,
+				layoutUploads));
 
-		setUploadCompleteHandler(new LONIUploadCompleteHandler(this, cancelButtons));
+		setUploadCompleteHandler(new LONIUploadCompleteHandler(this,
+				cancelButtons));
 
-		setFileDialogStartHandler(new LONIFileDialogStartHandler(this, cancelButtons, layoutUploads));
+		setFileDialogStartHandler(new LONIFileDialogStartHandler(this,
+				cancelButtons, layoutUploads));
 
 		setFileDialogCompleteHandler(new LONIFileDialogCompleteHandler(this));
 
 		setFileQueueErrorHandler(new LONIFileQueueErrorHandler());
 
 		setUploadErrorHandler(new LONIUploadErrorHandler(cancelButtons));
-		
+
 		return true;
 	}
 }

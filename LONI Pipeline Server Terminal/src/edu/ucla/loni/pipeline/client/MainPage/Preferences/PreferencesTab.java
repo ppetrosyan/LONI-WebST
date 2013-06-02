@@ -1,6 +1,24 @@
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package edu.ucla.loni.pipeline.client.MainPage.Preferences;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.xml.client.Document;
 import com.google.gwt.xml.client.XMLParser;
@@ -30,16 +48,18 @@ public class PreferencesTab {
 	private GridTab gridTab;
 	private AccessTab accessTab;
 	private PackagesTab packagesTab;
-	private ExecutablesTab executablesTab; 
-	private AsyncClientServices asyncClientServices;
-	private LONINotifications notifications;
-	
-	public PreferencesTab(VLayout padding, AsyncClientServices asyncClientServices, LONINotifications notifications) {
+	private ExecutablesTab executablesTab;
+	private final AsyncClientServices asyncClientServices;
+	private final LONINotifications notifications;
+
+	public PreferencesTab(VLayout padding,
+			AsyncClientServices asyncClientServices,
+			LONINotifications notifications) {
 		this.padding = padding;
 		this.asyncClientServices = asyncClientServices;
 		this.notifications = notifications;
 	}
-	
+
 	public Tab setTab() {
 		Tab tabPreferences = new Tab("Preferences");
 
@@ -58,20 +78,28 @@ public class PreferencesTab {
 		Button refreshConfig = new Button("Refresh Config");
 		refreshConfig.setAlign(Alignment.CENTER);
 		refreshConfig.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
-				asyncClientServices.reqConfigurationXMLService.getXMLData(new AsyncCallback<String>() {
-		            @Override
-		            public void onSuccess(final String xmlData) {
-		            	refreshPrefTab(xmlData);
-		            	
-		            	notifications.showMessage("Preferences Tab refreshed successfully.", true);
-		            }
+				asyncClientServices.reqConfigurationXMLService
+						.getXMLData(new AsyncCallback<String>() {
+							@Override
+							public void onSuccess(final String xmlData) {
+								refreshPrefTab(xmlData);
 
-		            @Override
-		            public void onFailure(Throwable caught) {
-		            	notifications.showMessage("Preferences Tab did not refresh successfully.", true);
-		            }
-		        });
+								notifications
+										.showMessage(
+												"Preferences Tab refreshed successfully.",
+												true);
+							}
+
+							@Override
+							public void onFailure(Throwable caught) {
+								notifications
+										.showMessage(
+												"Preferences Tab did not refresh successfully.",
+												true);
+							}
+						});
 			}
 		});
 		headLayout.addMember(refreshConfig);
@@ -84,6 +112,7 @@ public class PreferencesTab {
 		Button saveConfig = new Button("Save Config");
 		saveConfig.setAlign(Alignment.CENTER);
 		saveConfig.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				// TODO: Save Config logic
 			}
@@ -105,19 +134,19 @@ public class PreferencesTab {
 
 		generalTab = new GeneralTab();
 		tabSet.addTab(generalTab.setTab());
-		
+
 		gridTab = new GridTab();
 		tabSet.addTab(gridTab.setTab());
-		
+
 		accessTab = new AccessTab();
 		tabSet.addTab(accessTab.setTab());
-		
-	    packagesTab = new PackagesTab();
+
+		packagesTab = new PackagesTab();
 		tabSet.addTab(packagesTab.setTab());
-		
+
 		executablesTab = new ExecutablesTab();
 		tabSet.addTab(executablesTab.setTab());
-		
+
 		AdvancedTab advancedTab = new AdvancedTab();
 		tabSet.addTab(advancedTab.setTab());
 
@@ -132,23 +161,23 @@ public class PreferencesTab {
 	public void refreshPrefTab(String xml) {
 		parsePrefXML(xml);
 	}
-	
+
 	private void parsePrefXML(String xml) {
 		// remove whitespace
 		String cleanXml = xml.replaceAll("\t", "");
 		cleanXml.replaceAll("\n", "");
-	
+
 		try {
 			Document doc = XMLParser.parse(cleanXml);
-	
+
 			generalTab.parseGeneralXML(doc);
 			gridTab.parseGridXML(doc);
 			accessTab.parseAccessXML(doc);
 			packagesTab.parsePackageXML(doc);
 			executablesTab.parseExecutablesXML(doc);
-		}
-		catch (DOMParseException e) {
-			System.err.println("Could not parse XML file. Check XML file format.");
+		} catch (DOMParseException e) {
+			System.err
+					.println("Could not parse XML file. Check XML file format.");
 			return;
 		}
 	}
