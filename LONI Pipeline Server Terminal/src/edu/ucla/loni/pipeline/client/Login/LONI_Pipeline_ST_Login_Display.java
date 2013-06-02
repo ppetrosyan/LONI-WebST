@@ -19,9 +19,13 @@
 
 package edu.ucla.loni.pipeline.client.Login;
 
+import java.sql.Date;
+
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
+import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
 import com.smartgwt.client.data.DataSource;
 import com.smartgwt.client.data.fields.DataSourcePasswordField;
@@ -39,6 +43,7 @@ import edu.ucla.loni.pipeline.client.MainPage.LONI_Pipeline_ST_Tabset_Display;
 public class LONI_Pipeline_ST_Login_Display {
 	private final HLayout mainLayout;
 	private LONI_Pipeline_ST_Tabset_Display wbst;
+	private final static long TWO_MIN = 1000 * 60 * 2;
 
 	public LONI_Pipeline_ST_Login_Display() {
 		mainLayout = new HLayout();
@@ -130,34 +135,34 @@ public class LONI_Pipeline_ST_Login_Display {
 				user.setUsername("abc");
 				user.setPassword("123");
 
-				// LoginServiceAsync loginServiceAsync =
-				// GWT.create(LoginService.class);
+				LoginServiceAsync loginServiceAsync = GWT.create(LoginService.class);
 
-				// AsyncCallback<String> asyncCallback = new
-				// AsyncCallback<String>() {
-				// public void onSuccess(String result) {
-				// System.out.println("onClick(): onSuccess");
-				// if(result != null){
-				// Cookies.setCookie("session", result, new
-				// Date(System.currentTimeMillis() + TWO_MIN));
-				// sessionId.setSessionId(result);
-				//
-				// System.out.println("Login Successful");
-				// System.out.println("login session => "+result);
-				// }else{
-				// System.out.println("Login Invalid !");
-				// }
-				// }
-				// public void onFailure(Throwable caught) {
-				// System.out.println("onClick(): onFailure");
-				// System.out.println(caught);
-				// }
-				// };
-				// loginServiceAsync.login(user, asyncCallback);
+				System.out.println("After creation");
+
+				AsyncCallback<String> asyncCallback = new AsyncCallback<String>() {
+					public void onSuccess(String result) {
+						System.out.println("onClick(): onSuccess");
+						if(result != null){
+							System.out.println("Set Cookie: result = " + result);
+							Cookies.setCookie("session", result, new Date(System.currentTimeMillis() + TWO_MIN));
+							sessionId.setSessionId(result);
+
+							System.out.println("Login Successful");
+							System.out.println("Login session => "+result);
+						}else{
+							System.out.println("Login Invalid !");
+						}
+					}
+					public void onFailure(Throwable caught) {
+						System.out.println("onClick(): onFailure");
+						System.out.println(caught);
+					}
+				};
+				loginServiceAsync.login(user, asyncCallback);
 
 				mainLayout.clear();
 				wbst = new LONI_Pipeline_ST_Tabset_Display("Guest");
-				wbst.buildMainPage();
+				wbst.buildMainPage(user, sessionId);
 			}
 		});
 	}

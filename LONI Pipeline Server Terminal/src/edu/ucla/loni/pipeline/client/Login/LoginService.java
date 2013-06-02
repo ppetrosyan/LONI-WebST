@@ -23,6 +23,8 @@ import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 @RemoteServiceRelativePath("login")
-public interface LoginService extends RemoteService {
-	String login(UserDTO user);
+public interface LoginService extends RemoteService{
+    String login(UserDTO user);
+
+	void logout();
 }

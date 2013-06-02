@@ -27,29 +27,47 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import edu.ucla.loni.pipeline.client.Login.LoginService;
 import edu.ucla.loni.pipeline.client.Login.UserDTO;
 
-public class LoginServiceImpl extends RemoteServiceServlet implements
-		LoginService {
+public class LoginServiceImpl extends RemoteServiceServlet implements LoginService{
 
-	private static final long serialVersionUID = 270628040929463623L;
+    private static final long serialVersionUID = 270628040929463623L;
 
-	@Override
-	public String login(UserDTO user) {
-		System.out.println("LoginServiceImpl.login()");
-		if ((user != null) && (user.getUsername().equals("abc"))
-				&& (user.getPassword().equals("123"))) {
-			System.out.println("abc & 123");
-			Window.alert("abc & 123");
-			// return getThreadLocalRequest().getSession().getId();
+    public String login(UserDTO user) {
+    	System.out.println("LoginServiceImpl.login()");
+    	return storeUserInSession(user);
+    }
+    
+    public void logout() {
+    	System.out.println("LoginServiceImpl.logout()");
+        deleteUserFromSession();
+    }
+    
+    private String storeUserInSession(UserDTO user) {
+    		System.out.println("storeUserInSession()");
+    		
+            if((user != null) && 
+               (user.getUsername().equals("abc")) &&
+               (user.getPassword().equals("123"))) {
+            		System.out.println("abc & 123");
+//                    return getThreadLocalRequest().getSession().getId();
+                    
+            		HttpSession httpSession = this.getThreadLocalRequest().getSession(true);
 
-			HttpSession httpSession = getThreadLocalRequest().getSession();
-			httpSession.setMaxInactiveInterval(1000 * 60 * 2);
-			System.out.println("httpSessionId = " + httpSession.getId());
-
-			return httpSession.getId();
-		}
-
-		System.out.println("not abc & 123");
-		Window.alert("not abc & 123");
-		return null;
-	}
+            		httpSession.setMaxInactiveInterval(1000 * 60 * 2);
+            		System.out.println("httpSessionId = " + httpSession.getId());
+            		
+            		return httpSession.getId();
+            }
+            
+            System.out.println("not abc & 123");
+            return null;
+    }
+    
+    private void deleteUserFromSession() {
+    	System.out.println("deleteUserFormSession()");
+    	HttpSession httpSession = this.getThreadLocalRequest().getSession();
+    	httpSession.invalidate();
+    	
+    	return;
+    }
+    
 }

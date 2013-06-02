@@ -45,13 +45,13 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		wbsl = new LONI_Pipeline_ST_Login_Display();
 		wbst = new LONI_Pipeline_ST_Tabset_Display("Guest");
 		sessionId.setSessionId(Cookies.getCookie("session"));
+		System.out.println("Get Cookie: session = " + Cookies.getCookie("session"));
 
 		if (sessionId == null) {
 			System.out.println("sessionId == null");
 		} else {
 			System.out.println("sessionId != null");
 		}
-
 	}
 
 	/**
@@ -65,31 +65,33 @@ public class LONI_Pipeline_Server_Terminal implements EntryPoint {
 		// wbsl.buildMainPage(user, sessionId);
 	}
 
-	private void validateSession() {
+	private void validateSession(){
 		System.out.println("validateSession()");
 
 		SessionServiceAsync myServiceAsync = GWT.create(SessionService.class);
 
-		AsyncCallback<SessionId> asyncCallback = new AsyncCallback<SessionId>() {
-			@Override
+		AsyncCallback<SessionId> asyncCallback = new AsyncCallback<SessionId>(){
 			public void onFailure(Throwable caught) {
 				System.out.println(caught);
 				System.out.println("validateSession(): onFailure");
 			}
-
-			@Override
 			public void onSuccess(SessionId result) {
 				System.out.println("validateSession(): onSuccess");
-				if ((result == null)
-						|| (!sessionId.getSessionId().equals(
-								result.getSessionId()))) {
+
+				if (result == null) {
+					System.out.println("result == null");
+				} else {
+					System.out.println("result.getSessionId = " + result.getSessionId());
+				}
+				System.out.println("sessionId.getSessionId = " + sessionId.getSessionId());
+
+				if((result == null) || (!sessionId.getSessionId().equals(result.getSessionId()))){
 					// Build Login Page
 					System.out.println("First log in");
 					wbsl.buildMainPage(user, sessionId);
-				} else if (sessionId.getSessionId().equals(
-						result.getSessionId())) {
+				}else if(sessionId.getSessionId().equals(result.getSessionId())){
 					System.out.println("Already log in");
-					wbst.buildMainPage();
+					wbst.buildMainPage(user, sessionId);
 				}
 			}
 		};

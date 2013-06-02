@@ -21,6 +21,7 @@ package edu.ucla.loni.pipeline.client.MainPage;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.Button;
@@ -31,6 +32,11 @@ import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.TabSet;
 
+import edu.ucla.loni.pipeline.client.Login.LONI_Pipeline_ST_Login_Display;
+import edu.ucla.loni.pipeline.client.Login.LoginService;
+import edu.ucla.loni.pipeline.client.Login.LoginServiceAsync;
+import edu.ucla.loni.pipeline.client.Login.SessionId;
+import edu.ucla.loni.pipeline.client.Login.UserDTO;
 import edu.ucla.loni.pipeline.client.MainPage.MemoryUsage.MemoryUsageTab;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
@@ -47,6 +53,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 	private final VLayout appLayout;
 	private final AsyncClientServices asyncClientServices;
 	private final LONINotifications notifications;
+	private LONI_Pipeline_ST_Login_Display wbsl;
 
 	public LONI_Pipeline_ST_Tabset_Display(String userID) {
 		appLayout = new VLayout();
@@ -55,7 +62,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		notifications = new LONINotifications();
 	}
 
-	public void buildMainPage() {
+	public void buildMainPage(final UserDTO user, final SessionId sessionId) {
 		appLayout.setMembersMargin(2);
 		appLayout.setLayoutAlign(Alignment.CENTER);
 		appLayout.setAlign(Alignment.CENTER);
@@ -83,6 +90,23 @@ public class LONI_Pipeline_ST_Tabset_Display {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO: Logout logic
+				LoginServiceAsync loginServiceAsync = GWT.create(LoginService.class);
+				
+				AsyncCallback<String> asyncCallback = new AsyncCallback<String>() {
+					public void onSuccess(String result) {
+						System.out.println("logout: onClick(): onSuccess");
+						
+					}
+					public void onFailure(Throwable caught) {
+						System.out.println("logout: onClick(): onFailure");
+						System.out.println(caught);
+					}
+				};
+				loginServiceAsync.logout(asyncCallback);
+				
+				appLayout.clear();
+				wbsl = new LONI_Pipeline_ST_Login_Display();
+				wbsl.buildMainPage(user, sessionId);
 			}
 		});
 		headLayout.addMember(logoutBtn);
