@@ -20,9 +20,9 @@ public class PackagesTab {
 	private ListGrid listUsersPackages = new ListGrid();
 	VLayout layoutUsersPackages = new VLayout();
 	
-	public ListGrid getGridEnable() {
-		return listUsersPackages;
-	}
+	//public ListGrid getGridEnable() {
+	//	return listUsersPackages;
+	//}
 	
 	
 	public PackagesTab() {
@@ -41,10 +41,6 @@ public class PackagesTab {
 				"Please specify package name and version, the location, and optionally sources and variables.<br>Double-click any cell to edit.");
 		intro.setSize("800px", "49px");
 		layoutUsersPackages.addMember(intro);
-
-		
-
-		final ListGrid listUsersPackages = new ListGrid();
 
 		listUsersPackages.setCanEdit(true);  
 		listUsersPackages.setEditEvent(ListGridEditEvent.DOUBLECLICK);  
