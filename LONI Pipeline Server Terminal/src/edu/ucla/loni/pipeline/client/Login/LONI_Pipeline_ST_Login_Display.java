@@ -55,6 +55,7 @@ public class LONI_Pipeline_ST_Login_Display {
 		mainLayout.setLayoutAlign(Alignment.CENTER);
 		mainLayout.setAlign(Alignment.CENTER);
 		mainLayout.setAlign(VerticalAlignment.CENTER);
+		mainLayout.setBackgroundColor("#EFF4FA");
 
 		VLayout loginLayout = new VLayout();
 		loginLayout.setLayoutAlign(Alignment.CENTER);
@@ -135,24 +136,30 @@ public class LONI_Pipeline_ST_Login_Display {
 				user.setUsername("abc");
 				user.setPassword("123");
 
-				LoginServiceAsync loginServiceAsync = GWT.create(LoginService.class);
+				LoginServiceAsync loginServiceAsync = GWT
+						.create(LoginService.class);
 
 				System.out.println("After creation");
 
 				AsyncCallback<String> asyncCallback = new AsyncCallback<String>() {
+					@Override
 					public void onSuccess(String result) {
 						System.out.println("onClick(): onSuccess");
-						if(result != null){
-							System.out.println("Set Cookie: result = " + result);
-							Cookies.setCookie("session", result, new Date(System.currentTimeMillis() + TWO_MIN));
+						if (result != null) {
+							System.out
+									.println("Set Cookie: result = " + result);
+							Cookies.setCookie("session", result, new Date(
+									System.currentTimeMillis() + TWO_MIN));
 							sessionId.setSessionId(result);
 
 							System.out.println("Login Successful");
-							System.out.println("Login session => "+result);
-						}else{
+							System.out.println("Login session => " + result);
+						} else {
 							System.out.println("Login Invalid !");
 						}
 					}
+
+					@Override
 					public void onFailure(Throwable caught) {
 						System.out.println("onClick(): onFailure");
 						System.out.println(caught);

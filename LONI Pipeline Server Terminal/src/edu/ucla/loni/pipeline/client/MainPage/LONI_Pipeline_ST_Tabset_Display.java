@@ -69,6 +69,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		appLayout.setAlign(VerticalAlignment.CENTER);
 		appLayout.setHeight100();
 		appLayout.setWidth100();
+		appLayout.setBackgroundColor("#EFF4FA");
 
 		// Header with Heading and logout button
 		HLayout headLayout = new HLayout();
@@ -90,20 +91,24 @@ public class LONI_Pipeline_ST_Tabset_Display {
 			@Override
 			public void onClick(ClickEvent event) {
 				// TODO: Logout logic
-				LoginServiceAsync loginServiceAsync = GWT.create(LoginService.class);
-				
+				LoginServiceAsync loginServiceAsync = GWT
+						.create(LoginService.class);
+
 				AsyncCallback<String> asyncCallback = new AsyncCallback<String>() {
+					@Override
 					public void onSuccess(String result) {
 						System.out.println("logout: onClick(): onSuccess");
-						
+
 					}
+
+					@Override
 					public void onFailure(Throwable caught) {
 						System.out.println("logout: onClick(): onFailure");
 						System.out.println(caught);
 					}
 				};
 				loginServiceAsync.logout(asyncCallback);
-				
+
 				appLayout.clear();
 				wbsl = new LONI_Pipeline_ST_Login_Display();
 				wbsl.buildMainPage(user, sessionId);
