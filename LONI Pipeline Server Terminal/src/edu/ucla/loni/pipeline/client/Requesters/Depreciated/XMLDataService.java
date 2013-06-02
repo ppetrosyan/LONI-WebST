@@ -22,8 +22,21 @@ package edu.ucla.loni.pipeline.client.Requesters.Depreciated;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Service used to retrieve either Configuration or Resource Data from server
+ * 
+ * @author Jared
+ * @deprecated
+ */
+@Deprecated
 @RemoteServiceRelativePath("XMLDataServlet")
 public interface XMLDataService extends RemoteService {
 
+	/**
+	 * Retrieves either Configuration or Resource data from server
+	 * 
+	 * @param xmlDataType
+	 * @return
+	 */
 	public String getXMLData(String xmlDataType);
 }

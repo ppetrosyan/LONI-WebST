@@ -23,14 +23,29 @@ import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Drag Over Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIDragOverHandler implements DragOverHandler {
 
 	private final Label dropFilesLabel;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param dropFilesLabel
+	 */
 	public LONIDragOverHandler(Label dropFilesLabel) {
 		this.dropFilesLabel = dropFilesLabel;
 	}
 
+	/**
+	 * Handles a Drag Over Event
+	 * 
+	 * @see com.google.gwt.event.dom.client.DragOverHandler#onDragOver(com.google.gwt.event.dom.client.DragOverEvent)
+	 */
 	@Override
 	public void onDragOver(DragOverEvent event) {
 		// if (!uploader.getButtonDisabled()) {

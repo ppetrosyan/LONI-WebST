@@ -21,16 +21,27 @@ package edu.ucla.loni.pipeline.client.Notifications;
 
 import com.google.gwt.user.client.ui.NotificationMole;
 
+/**
+ * Constructs Passive Notifications for User Interface
+ * 
+ * @author Jared
+ */
 public class LONINotifications {
 
 	private final NotificationMole notificationMole;
 
+	/**
+	 * Constructor
+	 */
 	public LONINotifications() {
 		notificationMole = new NotificationMole();
 
 		configureNotifications();
 	}
 
+	/**
+	 * Configures Notifications
+	 */
 	private void configureNotifications() {
 		notificationMole.setTitle("LONI Notifications");
 		notificationMole.setAnimationDuration(500);
@@ -38,6 +49,12 @@ public class LONINotifications {
 		notificationMole.setWidth("500px");
 	}
 
+	/**
+	 * Displays notification message
+	 * 
+	 * @param message
+	 * @param timer
+	 */
 	public void showMessage(String message, boolean timer) {
 		/*
 		 * if (notificationMole.isVisible()) { notificationMole.hideNow(); }
@@ -53,6 +70,11 @@ public class LONINotifications {
 		 */
 	}
 
+	/**
+	 * Returns the notification object
+	 * 
+	 * @return notification
+	 */
 	public NotificationMole getNotificationMole() {
 		return notificationMole;
 	}

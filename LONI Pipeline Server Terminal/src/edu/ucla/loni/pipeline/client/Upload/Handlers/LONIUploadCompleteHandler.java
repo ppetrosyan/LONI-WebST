@@ -27,17 +27,33 @@ import org.moxieapps.gwt.uploader.client.events.UploadCompleteHandler;
 
 import com.google.gwt.user.client.ui.Image;
 
+/**
+ * Upload Complete Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIUploadCompleteHandler implements UploadCompleteHandler {
 
 	private final Uploader uploader;
 	private final Map<String, Image> cancelButtons;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param uploader
+	 * @param cancelButtons
+	 */
 	public LONIUploadCompleteHandler(Uploader uploader,
 			Map<String, Image> cancelButtons) {
 		this.uploader = uploader;
 		this.cancelButtons = cancelButtons;
 	}
 
+	/**
+	 * Handles an Upload Complete Event
+	 * 
+	 * @see org.moxieapps.gwt.uploader.client.events.UploadCompleteHandler#onUploadComplete(org.moxieapps.gwt.uploader.client.events.UploadCompleteEvent)
+	 */
 	@Override
 	public boolean onUploadComplete(UploadCompleteEvent uploadCompleteEvent) {
 		cancelButtons.get(uploadCompleteEvent.getFile().getId())

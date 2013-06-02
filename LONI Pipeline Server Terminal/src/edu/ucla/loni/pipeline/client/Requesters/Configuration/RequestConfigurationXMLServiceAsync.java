@@ -21,7 +21,17 @@ package edu.ucla.loni.pipeline.client.Requesters.Configuration;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * Service used to Retrieve Configuration Data from server
+ * 
+ * @author Jared
+ */
 public interface RequestConfigurationXMLServiceAsync {
 
+	/**
+	 * Retrieves Configuration Data from server
+	 * 
+	 * @param callback
+	 */
 	public void getXMLData(AsyncCallback<String> callback);
 }

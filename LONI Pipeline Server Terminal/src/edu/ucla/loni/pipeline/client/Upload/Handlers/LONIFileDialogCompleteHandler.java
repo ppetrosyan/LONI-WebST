@@ -23,14 +23,29 @@ import org.moxieapps.gwt.uploader.client.Uploader;
 import org.moxieapps.gwt.uploader.client.events.FileDialogCompleteEvent;
 import org.moxieapps.gwt.uploader.client.events.FileDialogCompleteHandler;
 
+/**
+ * File Dialog Complete Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIFileDialogCompleteHandler implements FileDialogCompleteHandler {
 
 	private final Uploader uploader;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param uploader
+	 */
 	public LONIFileDialogCompleteHandler(Uploader uploader) {
 		this.uploader = uploader;
 	}
 
+	/**
+	 * Handles a File Dialog Complete Event
+	 * 
+	 * @see org.moxieapps.gwt.uploader.client.events.FileDialogCompleteHandler#onFileDialogComplete(org.moxieapps.gwt.uploader.client.events.FileDialogCompleteEvent)
+	 */
 	@Override
 	public boolean onFileDialogComplete(
 			FileDialogCompleteEvent fileDialogCompleteEvent) {

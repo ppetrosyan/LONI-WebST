@@ -36,12 +36,24 @@ import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadCompleteHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadErrorHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadSuccessHandler;
 
+/**
+ * Constructs an Uploader Service for web interface
+ * 
+ * @author Jared
+ */
 public class LONIUploader extends Uploader {
 
 	private final Map<String, Image> cancelButtons;
 	private final VLayout layoutUploads;
 	private final LONIDataRequester dataRequester;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param cancelButtons
+	 * @param layoutUploads
+	 * @param dataRequester
+	 */
 	public LONIUploader(Map<String, Image> cancelButtons,
 			VLayout layoutUploads, LONIDataRequester dataRequester) {
 		this.cancelButtons = cancelButtons;
@@ -52,7 +64,12 @@ public class LONIUploader extends Uploader {
 		addHandlers();
 	}
 
-	public boolean configure() {
+	/**
+	 * Configures the Uploader Service
+	 * 
+	 * @return success
+	 */
+	private boolean configure() {
 		setButtonImageURL(GWT.getModuleBaseURL() + "../images/Browse.png");
 		setButtonWidth(154);
 		setButtonHeight(46);
@@ -63,7 +80,12 @@ public class LONIUploader extends Uploader {
 		return true;
 	}
 
-	public boolean addHandlers() {
+	/**
+	 * Adds Event Handlers to Uploader Service
+	 * 
+	 * @return success
+	 */
+	private boolean addHandlers() {
 
 		setUploadSuccessHandler(new LONIUploadSuccessHandler(dataRequester));
 

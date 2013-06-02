@@ -22,14 +22,29 @@ import com.google.gwt.event.dom.client.DragLeaveEvent;
 import com.google.gwt.event.dom.client.DragLeaveHandler;
 import com.google.gwt.user.client.ui.Label;
 
+/**
+ * Drag Leave Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIDragLeaveHandler implements DragLeaveHandler {
 
 	private final Label dropFilesLabel;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param dropFilesLabel
+	 */
 	public LONIDragLeaveHandler(Label dropFilesLabel) {
 		this.dropFilesLabel = dropFilesLabel;
 	}
 
+	/**
+	 * Handles a Drag Leave Event
+	 * 
+	 * @see com.google.gwt.event.dom.client.DragLeaveHandler#onDragLeave(com.google.gwt.event.dom.client.DragLeaveEvent)
+	 */
 	@Override
 	public void onDragLeave(DragLeaveEvent event) {
 		dropFilesLabel.removeStyleName("dropFilesLabelHover");

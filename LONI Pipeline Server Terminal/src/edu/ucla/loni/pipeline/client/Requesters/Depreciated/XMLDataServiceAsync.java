@@ -21,7 +21,21 @@ package edu.ucla.loni.pipeline.client.Requesters.Depreciated;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * Asynchronous Service used to retrieve either Configuration or Resource Data
+ * from server
+ * 
+ * @author Jared
+ * @deprecated
+ */
+@Deprecated
 public interface XMLDataServiceAsync {
 
+	/**
+	 * Retrieves either Configuration or Resource Data from server
+	 * 
+	 * @param xmlDataType
+	 * @param callback
+	 */
 	public void getXMLData(String xmlDataType, AsyncCallback<String> callback);
 }

@@ -22,8 +22,18 @@ package edu.ucla.loni.pipeline.client.Requesters.ResourceUsage;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Service used to store Resource Data in server Blobstore
+ * 
+ * @author Jared
+ */
 @RemoteServiceRelativePath("RequestResourceXMLServlet")
 public interface RequestResourceXMLService extends RemoteService {
 
+	/**
+	 * Stores Resource Data in server Blobstore
+	 * 
+	 * @return success
+	 */
 	public String getXMLData();
 }

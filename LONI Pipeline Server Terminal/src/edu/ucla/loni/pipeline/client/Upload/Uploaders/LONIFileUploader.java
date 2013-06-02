@@ -26,8 +26,21 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 
+/**
+ * Constructs an Uploader for the web interface that is tied to the
+ * FileUploadServlet
+ * 
+ * @author Jared
+ */
 public class LONIFileUploader extends LONIUploader {
 
+	/**
+	 * Constructor
+	 * 
+	 * @param cancelButtons
+	 * @param layoutUploads
+	 * @param dataRequester
+	 */
 	public LONIFileUploader(Map<String, Image> cancelButtons,
 			VLayout layoutUploads, LONIDataRequester dataRequester) {
 		super(cancelButtons, layoutUploads, dataRequester);

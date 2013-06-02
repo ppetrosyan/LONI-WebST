@@ -31,12 +31,25 @@ import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDragLeaveHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDragOverHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDropHandler;
 
+/**
+ * Constructs a Drag and Drop Label for the Web interface
+ * 
+ * @author Jared
+ */
 public class LONIDragandDropLabel extends Label {
 
 	private final Uploader uploader;
 	private final Map<String, Image> cancelButtons;
 	private final VLayout layoutUploads;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param labelString
+	 * @param uploader
+	 * @param cancelButtons
+	 * @param layoutUploads
+	 */
 	public LONIDragandDropLabel(String labelString, Uploader uploader,
 			Map<String, Image> cancelButtons, VLayout layoutUploads) {
 		super(labelString);
@@ -49,13 +62,23 @@ public class LONIDragandDropLabel extends Label {
 		addHandlers();
 	}
 
-	public boolean configure() {
+	/**
+	 * Configures the Drag and Drop Label
+	 * 
+	 * @return success
+	 */
+	private boolean configure() {
 		setStyleName("dropFilesLabel");
 
 		return true;
 	}
 
-	public boolean addHandlers() {
+	/**
+	 * Adds Event Handlers to the Drag and Drop Label
+	 * 
+	 * @return success
+	 */
+	private boolean addHandlers() {
 		addDragOverHandler(new LONIDragOverHandler(this));
 
 		addDragLeaveHandler(new LONIDragLeaveHandler(this));

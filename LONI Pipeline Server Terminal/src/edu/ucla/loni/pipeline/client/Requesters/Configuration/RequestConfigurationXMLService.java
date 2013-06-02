@@ -22,8 +22,18 @@ package edu.ucla.loni.pipeline.client.Requesters.Configuration;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Service used to Retrieve Configuration Data from server
+ * 
+ * @author Jared
+ */
 @RemoteServiceRelativePath("RequestConfigurationXMLServlet")
 public interface RequestConfigurationXMLService extends RemoteService {
 
+	/**
+	 * Retrieves Configuration Data from server
+	 * 
+	 * @return xmlData
+	 */
 	public String getXMLData();
 }

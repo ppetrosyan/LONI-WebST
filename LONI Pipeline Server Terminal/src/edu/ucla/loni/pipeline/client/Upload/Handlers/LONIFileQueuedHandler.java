@@ -28,12 +28,29 @@ import org.moxieapps.gwt.uploader.client.events.FileQueuedHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.smartgwt.client.widgets.layout.VLayout;
 
+/**
+ * File Queued Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIFileQueuedHandler implements FileQueuedHandler {
 
+	/**
+	 * Constructor
+	 * 
+	 * @param uploader
+	 * @param cancelButtons
+	 * @param layoutUploads
+	 */
 	public LONIFileQueuedHandler(Uploader uploader,
 			Map<String, Image> cancelButtons, VLayout layoutUploads) {
 	}
 
+	/**
+	 * Handles a File Queued Event
+	 * 
+	 * @see org.moxieapps.gwt.uploader.client.events.FileQueuedHandler#onFileQueued(org.moxieapps.gwt.uploader.client.events.FileQueuedEvent)
+	 */
 	@Override
 	public boolean onFileQueued(final FileQueuedEvent fileQueuedEvent) {
 		// Add Cancel Button Image

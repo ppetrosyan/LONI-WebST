@@ -34,6 +34,12 @@ import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
 import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 
+/**
+ * Client-side Service used to request data from the server and refresh tabs
+ * 
+ * @author Jared
+ * @author Deepak
+ */
 public class LONIDataRequester {
 
 	private final AsyncClientServices asyncClientServices;
@@ -45,6 +51,18 @@ public class LONIDataRequester {
 	private final UserUsageTab userusagetab;
 	private final LONINotifications notifications;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param asyncClientServices
+	 * @param memChart
+	 * @param thrdChart
+	 * @param preferencesTab
+	 * @param workflowtab
+	 * @param usersonlinetab
+	 * @param userusagetab
+	 * @param notifications
+	 */
 	public LONIDataRequester(AsyncClientServices asyncClientServices,
 			LONI_Chart memChart, LONI_Chart thrdChart,
 			PreferencesTab preferencesTab, WorkFlowsTab workflowtab,
@@ -60,6 +78,9 @@ public class LONIDataRequester {
 		this.notifications = notifications;
 	}
 
+	/**
+	 * Refreshes the Tabs that depend on Resource Data
+	 */
 	public void refreshResourceTabs() {
 
 		/** Resource Tabs */
@@ -79,6 +100,9 @@ public class LONIDataRequester {
 				});
 	}
 
+	/**
+	 * Refreshes the Tabs that depend on Configuration Data
+	 */
 	public void refreshConfigurationTabs() {
 
 		/** Configuration Tabs */
@@ -99,11 +123,19 @@ public class LONIDataRequester {
 				});
 	}
 
+	/**
+	 * Refreshes all Tabs
+	 */
 	public void refreshTabs() {
 		refreshResourceTabs();
 		refreshConfigurationTabs();
 	}
 
+	/**
+	 * Helper function to Refresh the Tabs that depend on Configuration Data
+	 * 
+	 * @param xmlData
+	 */
 	private void refreshConfigurationTabsWithXml(String xmlData) {
 		/** Preferences Tab */
 		preferencesTab.refreshPrefTab(xmlData);
@@ -111,6 +143,11 @@ public class LONIDataRequester {
 				true);
 	}
 
+	/**
+	 * Helper function to Refresh the Tabs that depend on Resource Data
+	 * 
+	 * @param xmlData
+	 */
 	private void refreshResourceTabsWithXml(String xmlData) {
 		/** Workflow Tab */
 		workflowtab.refreshWorkflows(xmlData);
@@ -132,6 +169,13 @@ public class LONIDataRequester {
 				.showMessage("Resource Tabs refreshed successfully.", true);
 	}
 
+	/**
+	 * Retrieves XML file given a URL, username and password
+	 * 
+	 * @param url
+	 * @param username
+	 * @param password
+	 */
 	public void getWebUrlXml(String url, String username, String password) {
 
 		// Encrypt the string

@@ -21,6 +21,19 @@ package edu.ucla.loni.pipeline.client.Savers.Configuration;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * Asynchronous Service used to store Configuration Data in server Blobstore
+ * 
+ * @author Jared
+ * 
+ */
 public interface SaveConfigurationXMLServiceAsync {
+
+	/**
+	 * Stores Configuration Data in server Blobstore
+	 * 
+	 * @param xmlData
+	 * @param callback
+	 */
 	public void setXMLData(String xmlData, AsyncCallback<Boolean> callback);
 }

@@ -27,14 +27,29 @@ import org.moxieapps.gwt.uploader.client.events.UploadErrorHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Image;
 
+/**
+ * Upload Error Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIUploadErrorHandler implements UploadErrorHandler {
 
 	private final Map<String, Image> cancelButtons;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param cancelButtons
+	 */
 	public LONIUploadErrorHandler(Map<String, Image> cancelButtons) {
 		this.cancelButtons = cancelButtons;
 	}
 
+	/**
+	 * Handles an Upload Error Event
+	 * 
+	 * @see org.moxieapps.gwt.uploader.client.events.UploadErrorHandler#onUploadError(org.moxieapps.gwt.uploader.client.events.UploadErrorEvent)
+	 */
 	@Override
 	public boolean onUploadError(UploadErrorEvent uploadErrorEvent) {
 

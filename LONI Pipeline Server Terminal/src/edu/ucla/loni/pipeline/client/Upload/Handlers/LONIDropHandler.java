@@ -29,12 +29,25 @@ import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.Label;
 import com.smartgwt.client.widgets.layout.VLayout;
 
+/**
+ * Drop Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIDropHandler implements DropHandler {
 
 	private final Uploader uploader;
 	private final Map<String, Image> cancelButtons;
 	private final Label dropFilesLabel;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param uploader
+	 * @param cancelButtons
+	 * @param layoutUploads
+	 * @param dropFilesLabel
+	 */
 	public LONIDropHandler(Uploader uploader, Map<String, Image> cancelButtons,
 			VLayout layoutUploads, Label dropFilesLabel) {
 		this.uploader = uploader;
@@ -42,6 +55,11 @@ public class LONIDropHandler implements DropHandler {
 		this.dropFilesLabel = dropFilesLabel;
 	}
 
+	/**
+	 * Handles a Drop Event
+	 * 
+	 * @see com.google.gwt.event.dom.client.DropHandler#onDrop(com.google.gwt.event.dom.client.DropEvent)
+	 */
 	@Override
 	public void onDrop(DropEvent event) {
 		dropFilesLabel.removeStyleName("dropFilesLabelHover");

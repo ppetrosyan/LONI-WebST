@@ -26,11 +26,26 @@ import com.google.gwt.user.client.Window;
 
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 
+/**
+ * Upload Success Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 
+	/**
+	 * Constructor
+	 * 
+	 * @param dataRequester
+	 */
 	public LONIUploadSuccessHandler(LONIDataRequester dataRequester) {
 	}
 
+	/**
+	 * Handles an Upload Success Event
+	 * 
+	 * @see org.moxieapps.gwt.uploader.client.events.UploadSuccessHandler#onUploadSuccess(org.moxieapps.gwt.uploader.client.events.UploadSuccessEvent)
+	 */
 	@Override
 	public boolean onUploadSuccess(UploadSuccessEvent uploadSuccessEvent) {
 		Window.alert(uploadSuccessEvent.getServerData());

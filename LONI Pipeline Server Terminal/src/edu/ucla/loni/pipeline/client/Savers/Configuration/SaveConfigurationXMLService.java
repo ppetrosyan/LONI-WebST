@@ -22,7 +22,18 @@ package edu.ucla.loni.pipeline.client.Savers.Configuration;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Service used to store Configuration Data in server Blobstore
+ * 
+ * @author Jared
+ */
 @RemoteServiceRelativePath("SaveConfigurationXMLServlet")
 public interface SaveConfigurationXMLService extends RemoteService {
+	/**
+	 * Stores Configuration Data in server Blobstore
+	 * 
+	 * @param xmlData
+	 * @return success
+	 */
 	public boolean setXMLData(String xmlData);
 }

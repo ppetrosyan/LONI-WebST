@@ -28,17 +28,34 @@ import org.moxieapps.gwt.uploader.client.events.FileDialogStartHandler;
 import com.google.gwt.user.client.ui.Image;
 import com.smartgwt.client.widgets.layout.VLayout;
 
+/**
+ * File Dialog Start Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIFileDialogStartHandler implements FileDialogStartHandler {
 
 	private final Uploader uploader;
 	private final Map<String, Image> cancelButtons;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param uploader
+	 * @param cancelButtons
+	 * @param layoutUploads
+	 */
 	public LONIFileDialogStartHandler(Uploader uploader,
 			Map<String, Image> cancelButtons, VLayout layoutUploads) {
 		this.uploader = uploader;
 		this.cancelButtons = cancelButtons;
 	}
 
+	/**
+	 * Handles a File Dialog Start Event
+	 * 
+	 * @see org.moxieapps.gwt.uploader.client.events.FileDialogStartHandler#onFileDialogStartEvent(org.moxieapps.gwt.uploader.client.events.FileDialogStartEvent)
+	 */
 	@Override
 	public boolean onFileDialogStartEvent(
 			FileDialogStartEvent fileDialogStartEvent) {

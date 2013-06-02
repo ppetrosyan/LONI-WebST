@@ -21,7 +21,17 @@ package edu.ucla.loni.pipeline.client.Requesters.ResourceUsage;
 
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
+/**
+ * Asynchronous Service used to store Resource Data in server Blobstore
+ * 
+ * @author Jared
+ */
 public interface RequestResourceXMLServiceAsync {
 
+	/**
+	 * Stores Resource Data in server Blobstore
+	 * 
+	 * @param callback
+	 */
 	public void getXMLData(AsyncCallback<String> callback);
 }

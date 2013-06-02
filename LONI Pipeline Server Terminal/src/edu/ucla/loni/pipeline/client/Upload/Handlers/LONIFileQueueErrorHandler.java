@@ -24,8 +24,25 @@ import org.moxieapps.gwt.uploader.client.events.FileQueueErrorHandler;
 
 import com.google.gwt.user.client.Window;
 
+/**
+ * File Queue Error Event Handler
+ * 
+ * @author Jared
+ */
 public class LONIFileQueueErrorHandler implements FileQueueErrorHandler {
 
+	/**
+	 * Constructor
+	 */
+	public LONIFileQueueErrorHandler() {
+
+	}
+
+	/**
+	 * Handles a File Queue Error Event
+	 * 
+	 * @see org.moxieapps.gwt.uploader.client.events.FileQueueErrorHandler#onFileQueueError(org.moxieapps.gwt.uploader.client.events.FileQueueErrorEvent)
+	 */
 	@Override
 	public boolean onFileQueueError(FileQueueErrorEvent fileQueueErrorEvent) {
 		Window.alert("Upload of file "

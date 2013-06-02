@@ -22,7 +22,19 @@ package edu.ucla.loni.pipeline.client.Savers.Configuration;
 import com.google.gwt.user.client.rpc.RemoteService;
 import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
+/**
+ * Service used to store CSV Data in server Blobstore
+ * 
+ * @author Jared
+ */
 @RemoteServiceRelativePath("SaveConfigurationXMLServlet")
 public interface SaveResourceCSVService extends RemoteService {
+
+	/**
+	 * Stores CSV Data in server Blobstore
+	 * 
+	 * @param csvData
+	 * @return success
+	 */
 	public boolean setCSVData(String csvData);
 }
