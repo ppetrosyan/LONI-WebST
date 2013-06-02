@@ -19,6 +19,7 @@
 
 package edu.ucla.loni.pipeline.server.Login;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -28,29 +29,36 @@ import edu.ucla.loni.pipeline.client.Login.SessionService;
 
 public class SessionServiceImpl extends RemoteServiceServlet implements SessionService{
 
-    private static final long serialVersionUID = -6274876845484737659L;
+	private static final long serialVersionUID = -6274876845484737659L;
 
-    public SessionId session(SessionId sessionId) {
-    		System.out.println("SessionServiceImpl.session()");
-            HttpSession httpSession = this.getThreadLocalRequest().getSession(false);
+	public SessionId session(SessionId sessionId) {
+		System.out.println("SessionServiceImpl.session()");
 
-            if(httpSession != null){
-            	System.out.println("session(): httpSession != null");
-                    
-            	try {
-            		sessionId.setSessionId(httpSession.getId());
-            	} catch (IllegalStateException e) {
-            		sessionId.setSessionId("");
-            		System.out.println(e);
-            	}
-            	
-            	System.out.println("return sessionId");
-            	
-            	return sessionId;
-            }
-            
-            System.out.println("return null");
-            return null;
-    }
-    
+		HttpServletRequest request = this.getThreadLocalRequest();
+
+		if (request == null) {
+			System.out.println("request == null");
+
+			return null;
+		}
+
+		HttpSession httpSession = request.getSession(false);
+
+		if(httpSession != null){
+			try {
+				sessionId.setSessionId(httpSession.getId());
+			} catch (IllegalStateException e) {
+				sessionId.setSessionId("");
+				System.out.println(e);
+			}
+
+			System.out.println("return sessionId");
+
+			return sessionId;
+		} else {
+			System.out.println("httpSession == null");
+
+			return null;
+		}
+	}
 }
