@@ -19,17 +19,17 @@
 
 package edu.ucla.loni.pipeline.client.MainPage;
 
-import com.smartgwt.client.widgets.tab.TabSet;
-
+import com.google.gwt.core.client.GWT;
+import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
+import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.Button;
 import com.smartgwt.client.widgets.Img;
-
-import com.smartgwt.client.widgets.layout.VLayout;
-import com.smartgwt.client.types.Alignment;
-import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.ClickEvent;
+import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
+import com.smartgwt.client.widgets.layout.VLayout;
+import com.smartgwt.client.widgets.tab.TabSet;
 
 import edu.ucla.loni.pipeline.client.MainPage.MemoryUsage.MemoryUsageTab;
 import edu.ucla.loni.pipeline.client.MainPage.Preferences.PreferencesTab;
@@ -41,29 +41,21 @@ import edu.ucla.loni.pipeline.client.MainPage.UsersOnline.UsersOnlineTab;
 import edu.ucla.loni.pipeline.client.MainPage.WorkFlows.WorkFlowsTab;
 import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
-import com.google.gwt.core.client.GWT;
-import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.user.client.ui.Anchor;
-import com.google.gwt.user.client.ui.NotificationMole;
 
 public class LONI_Pipeline_ST_Tabset_Display {
 
-	private String userID;
-	private VLayout appLayout;
-	private AsyncClientServices asyncClientServices;
-	private PreferencesTab preferencesTab;
-	private LONINotifications notifications;
-	
+	private final VLayout appLayout;
+	private final AsyncClientServices asyncClientServices;
+	private final LONINotifications notifications;
 
 	public LONI_Pipeline_ST_Tabset_Display(String userID) {
 		appLayout = new VLayout();
-		
+
 		asyncClientServices = new AsyncClientServices();
 		notifications = new LONINotifications();
-		this.userID = userID;
 	}
 
-	public void buildMainPage() {		
+	public void buildMainPage() {
 		appLayout.setMembersMargin(2);
 		appLayout.setLayoutAlign(Alignment.CENTER);
 		appLayout.setAlign(Alignment.CENTER);
@@ -79,7 +71,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		Img logo = new Img(GWT.getModuleBaseURL() + "../images/pipeline.jpg");
 		logo.setHeight("80px");
 		logo.setWidth("384px");
-		headLayout.addMember(logo);		
+		headLayout.addMember(logo);
 
 		VLayout padding = new VLayout();
 		padding.setMembersMargin(0);
@@ -88,6 +80,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 
 		Button logoutBtn = new Button("LogOut");
 		logoutBtn.addClickHandler(new ClickHandler() {
+			@Override
 			public void onClick(ClickEvent event) {
 				// TODO: Logout logic
 			}
@@ -135,33 +128,40 @@ public class LONI_Pipeline_ST_Tabset_Display {
 		});
 
 		// Workflows tab
-		WorkFlowsTab workFlowsTab = new WorkFlowsTab(asyncClientServices, notifications);
+		WorkFlowsTab workFlowsTab = new WorkFlowsTab(asyncClientServices,
+				notifications);
 		tabset.addTab(workFlowsTab.setTab());
 
 		// Users Online tab
-		UsersOnlineTab usersOnlineTab = new UsersOnlineTab(asyncClientServices, notifications);
+		UsersOnlineTab usersOnlineTab = new UsersOnlineTab(asyncClientServices,
+				notifications);
 		tabset.addTab(usersOnlineTab.setTab());
 
 		// Users Usage tab
-		UserUsageTab userUsageTab = new UserUsageTab(asyncClientServices, notifications);
+		UserUsageTab userUsageTab = new UserUsageTab(asyncClientServices,
+				notifications);
 		tabset.addTab(userUsageTab.setTab());
 
 		// Memory Usage tab
-		MemoryUsageTab memoryUsageTab = new MemoryUsageTab(asyncClientServices, notifications);
+		MemoryUsageTab memoryUsageTab = new MemoryUsageTab(asyncClientServices,
+				notifications);
 		tabset.addTab(memoryUsageTab.setTab());
 
 		// Thread Usage tab
-		ThreadUsageTab threadUsageTab = new ThreadUsageTab(asyncClientServices, notifications);
+		ThreadUsageTab threadUsageTab = new ThreadUsageTab(asyncClientServices,
+				notifications);
 		tabset.addTab(threadUsageTab.setTab());
 
 		// Preferences tab
-		preferencesTab = new PreferencesTab(padding, asyncClientServices, notifications);
+		PreferencesTab preferencesTab = new PreferencesTab(padding,
+				asyncClientServices, notifications);
 		tabset.addTab(preferencesTab.setTab());
 
 		// Refresh All Tabs
 		LONIDataRequester dataRequester = new LONIDataRequester(
 				asyncClientServices, memoryUsageTab.getChart(),
-				threadUsageTab.getChart(), preferencesTab, workFlowsTab, usersOnlineTab, userUsageTab, notifications);
+				threadUsageTab.getChart(), preferencesTab, workFlowsTab,
+				usersOnlineTab, userUsageTab, notifications);
 
 		// Uploads tab
 		UploadTab uploadTab = new UploadTab(dataRequester);
