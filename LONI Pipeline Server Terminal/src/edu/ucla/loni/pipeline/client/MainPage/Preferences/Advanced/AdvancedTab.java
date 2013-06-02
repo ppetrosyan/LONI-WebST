@@ -30,33 +30,55 @@ public class AdvancedTab {
 		VLayout layoutAdvanced = new VLayout();
 
 		// failover
+		HLayout layoutAdvancedLabel = new HLayout();
 		com.smartgwt.client.widgets.Label labelAdvancedFailover = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Failover</font></b>");
-		labelAdvancedFailover.setSize("70px", "20px");
-		layoutAdvanced.addMember(labelAdvancedFailover);
-
-		DynamicForm formAdvancedFailover = new DynamicForm();
-
+		labelAdvancedFailover.setSize("200px", "20px");
+		layoutAdvancedLabel.addMember(labelAdvancedFailover);
+		
+		DynamicForm formAdvancedFailoverEnable = new DynamicForm();
 		NativeCheckboxItem failoverEnable = new NativeCheckboxItem();
 		failoverEnable.setTitle("Enable");
+		
+		formAdvancedFailoverEnable.setFields(new FormItem[] { failoverEnable });
+		layoutAdvancedLabel.addMember(formAdvancedFailoverEnable);
+		
+		layoutAdvanced.addMember(layoutAdvancedLabel);
+
+		DynamicForm formAdvancedFailover = new DynamicForm();
     
-		SpinnerItem slaveFreq = new SpinnerItem("slaveFreq", "Slave: Master Check Frequency");
+		final SpinnerItem slaveFreq = new SpinnerItem("slaveFreq", "Slave: Master Check Frequency");
 		slaveFreq.setValue("5");
+		slaveFreq.setDisabled(true);
 
-		SpinnerItem slaveRetries = new SpinnerItem("slaveRetries", "Slave: Number of Retries");
+		final SpinnerItem slaveRetries = new SpinnerItem("slaveRetries", "Slave: Number of Retries");
 		slaveRetries.setValue("3");
+		slaveRetries.setDisabled(true);
 
-		TextItem aliasInterface = new TextItem("aliasInterface", "Alias Interface");
+		final TextItem aliasInterface = new TextItem("aliasInterface", "Alias Interface");
+		aliasInterface.setDisabled(true);
     
-		IntegerItem aliasSubinterface = new IntegerItem("aliasSubinterface", "Alias Subinterface Number");
+		final IntegerItem aliasSubinterface = new IntegerItem("aliasSubinterface", "Alias Subinterface Number");
 		aliasSubinterface.setValue("0");
+		aliasSubinterface.setDisabled(true);
     
-		TextItem postFailover = new TextItem("postFailover", "Post-failover Script");
+		final TextItem postFailover = new TextItem("postFailover", "Post-failover Script");
+		postFailover.setDisabled(true);
 
-		formAdvancedFailover.setFields(new FormItem[] { failoverEnable, slaveFreq, 
-				slaveRetries, aliasInterface, aliasSubinterface, postFailover });
+		formAdvancedFailover.setFields(new FormItem[] { slaveFreq, slaveRetries, aliasInterface, aliasSubinterface, postFailover });
 		MainPageUtils.formatForm(formAdvancedFailover);
 		layoutAdvanced.addMember(formAdvancedFailover);
+
+		failoverEnable.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				Boolean cstat = (Boolean) event.getValue();
+				slaveFreq.setDisabled(!cstat);
+				slaveRetries.setDisabled(!cstat);
+				aliasInterface.setDisabled(!cstat);
+				aliasSubinterface.setDisabled(!cstat);
+				postFailover.setDisabled(!cstat);
+			}
+		});
 
 		// add line
 		com.smartgwt.client.widgets.Label line = new com.smartgwt.client.widgets.Label(
@@ -66,7 +88,7 @@ public class AdvancedTab {
 		// logEmail
 		com.smartgwt.client.widgets.Label labelAdvancedLog = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Log E-Mail</font></b>");
-		labelAdvancedLog.setSize("70px", "20px");
+		labelAdvancedLog.setSize("200px", "20px");
 		layoutAdvanced.addMember(labelAdvancedLog);
 
 		DynamicForm formAdvancedLog = new DynamicForm();
@@ -87,7 +109,7 @@ public class AdvancedTab {
 		// network
 		com.smartgwt.client.widgets.Label labelAdvancedNetwork = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Network</font></b>");
-		labelAdvancedNetwork.setSize("70px", "20px");
+		labelAdvancedNetwork.setSize("200px", "20px");
 		layoutAdvanced.addMember(labelAdvancedNetwork);
 
 		DynamicForm formAdvancedNetwork = new DynamicForm();
@@ -102,16 +124,87 @@ public class AdvancedTab {
 		MainPageUtils.formatForm(formAdvancedNetwork);
 		layoutAdvanced.addMember(formAdvancedNetwork);
 		
+
 		// add line
 		com.smartgwt.client.widgets.Label line3 = new com.smartgwt.client.widgets.Label(
 				"<hr>");
 		layoutAdvanced.addMember(line3);
+
+		// HTTP query server
+		HLayout layoutAdvancedQueryLabel = new HLayout();
+		com.smartgwt.client.widgets.Label labelAdvancedQuery = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>HTTP Query Server</font></b>");
+		labelAdvancedQuery.setSize("200px", "20px");
+		layoutAdvancedQueryLabel.addMember(labelAdvancedQuery);
 		
-		//*
+		DynamicForm formAdvancedQueryEnable = new DynamicForm();
+		
+		NativeCheckboxItem httpEnable = new NativeCheckboxItem();
+		httpEnable.setTitle("Enable");
+		
+		formAdvancedQueryEnable.setFields(new FormItem[]{ httpEnable });
+		layoutAdvancedQueryLabel.addMember(formAdvancedQueryEnable);
+		layoutAdvanced.addMember(layoutAdvancedQueryLabel);
+
+		DynamicForm formAdvancedQuery = new DynamicForm();
+		final IntegerItem port = new IntegerItem("port", "Port");
+		port.setDisabled(true);
+		formAdvancedQuery.setFields(new FormItem[] { port });
+		MainPageUtils.formatForm(formAdvancedQuery);
+		layoutAdvanced.addMember(formAdvancedQuery);
+		
+		httpEnable.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				Boolean cstat = (Boolean) event.getValue();
+				port.setDisabled(!cstat);
+			}
+		});
+		
+		// add line
+		com.smartgwt.client.widgets.Label line4 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutAdvanced.addMember(line4);
+
+		// Low disk space warning
+		HLayout layoutAdvancedDiskLabel = new HLayout();
+		com.smartgwt.client.widgets.Label labelAdvancedDisk = new com.smartgwt.client.widgets.Label(
+				"<b><font size=2>Low Disk Space Warning</font></b>");
+		labelAdvancedDisk.setSize("200px", "20px");
+		layoutAdvancedDiskLabel.addMember(labelAdvancedDisk);
+		
+		DynamicForm formAdvancedDiskEnable = new DynamicForm();
+		
+		NativeCheckboxItem diskEnable = new NativeCheckboxItem();
+		diskEnable.setTitle("Enable");
+		
+		formAdvancedDiskEnable.setFields(new FormItem[]{ diskEnable });
+		layoutAdvancedDiskLabel.addMember(formAdvancedDiskEnable);
+		layoutAdvanced.addMember(layoutAdvancedDiskLabel);
+
+		DynamicForm formAdvancedDisk = new DynamicForm();
+		final SpinnerItem percent = new SpinnerItem("percent", "Warn When Free Disk Space is Lower Than (%)");
+		percent.setDisabled(true);
+		percent.setValue("10");
+		formAdvancedDisk.setFields(new FormItem[] { percent });
+		MainPageUtils.formatForm(formAdvancedDisk);
+		layoutAdvanced.addMember(formAdvancedDisk);
+		
+		diskEnable.addChangeHandler(new ChangeHandler() {
+			public void onChange(ChangeEvent event) {
+				Boolean cstat = (Boolean) event.getValue();
+				percent.setDisabled(!cstat);
+			}
+		});
+
+		// add line
+		com.smartgwt.client.widgets.Label line5 = new com.smartgwt.client.widgets.Label(
+				"<hr>");
+		layoutAdvanced.addMember(line5);
+		
 		// other
 		com.smartgwt.client.widgets.Label labelAdvancedOther = new com.smartgwt.client.widgets.Label(
 				"<b><font size=2>Other</font></b>");
-		labelAdvancedOther.setSize("70px", "20px");
+		labelAdvancedOther.setSize("200px", "20px");
 		layoutAdvanced.addMember(labelAdvancedOther);
 		
 		DynamicForm formAdvancedOther = new DynamicForm();
