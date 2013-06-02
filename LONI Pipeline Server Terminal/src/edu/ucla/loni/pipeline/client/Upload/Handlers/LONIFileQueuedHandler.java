@@ -29,7 +29,7 @@ public class LONIFileQueuedHandler implements FileQueuedHandler {
 	@Override
 	public boolean onFileQueued(final FileQueuedEvent fileQueuedEvent) {
 		// Add Cancel Button Image
-		final Image cancelButton = new Image(GWT
+		/*final Image cancelButton = new Image(GWT
 				.getModuleBaseURL()
 				+ "resources/images/icons/cancel.png");
 		cancelButton.setStyleName("cancelButton");
@@ -49,7 +49,7 @@ public class LONIFileQueuedHandler implements FileQueuedHandler {
 		// Add the Bar and Button to the interface
 		HorizontalPanel progressBarAndButtonPanel = new HorizontalPanel();
 		progressBarAndButtonPanel.add(cancelButton);
-		layoutUploads.addMember(progressBarAndButtonPanel);
+		layoutUploads.addMember(progressBarAndButtonPanel);*/
 
 		return true;
 
