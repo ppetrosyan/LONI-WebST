@@ -41,15 +41,30 @@ import com.google.appengine.api.files.FileReadChannel;
 import com.google.appengine.api.files.FileService;
 import com.google.appengine.api.files.FileServiceFactory;
 
+/**
+ * Retrieves CSV Data from server Blobstore and sends it to client in the form
+ * of a file download.
+ * 
+ * @author Jared
+ */
 public class FileDownloadServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5842494091385532249L;
 	private final Key csvResourceKey;
 
+	/**
+	 * Constructor
+	 */
 	public FileDownloadServlet() {
 		csvResourceKey = KeyFactory.createKey("CSVType", "ResourceData");
 	}
 
+	/**
+	 * Handles HTTP GET Request/Response
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -105,6 +120,12 @@ public class FileDownloadServlet extends HttpServlet {
 		outputStream.close();
 	}
 
+	/**
+	 * Handles HTTP POST Request/Response
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {

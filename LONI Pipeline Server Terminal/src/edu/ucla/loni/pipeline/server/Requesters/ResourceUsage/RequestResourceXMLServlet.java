@@ -27,16 +27,29 @@ import edu.ucla.loni.pipeline.client.Requesters.ResourceUsage.RequestResourceXML
 import edu.ucla.loni.pipeline.server.Utilities.DatastoreUtils;
 import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
+/**
+ * Retrieves Resource Data from server Blobstore
+ * 
+ * @author Jared
+ */
 public class RequestResourceXMLServlet extends RemoteServiceServlet implements
 		RequestResourceXMLService {
 
 	private static final long serialVersionUID = 5448261063802349760L;
 	private final Key xmlResourceKey;
 
+	/**
+	 * Constructor
+	 */
 	public RequestResourceXMLServlet() {
 		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
 	}
 
+	/**
+	 * Retrieves Resource Data from server Blobstore
+	 * 
+	 * @see edu.ucla.loni.pipeline.client.Requesters.ResourceUsage.RequestResourceXMLService#getXMLData()
+	 */
 	@Override
 	public String getXMLData() {
 		String xmlData = "";

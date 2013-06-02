@@ -36,16 +36,29 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveResourceCSVService;
 
+/**
+ * Stores CSV data in server Blobstore
+ * 
+ * @author Jared
+ */
 public class SaveResourceCSVServlet extends RemoteServiceServlet implements
 		SaveResourceCSVService {
 
 	private static final long serialVersionUID = -1248291926712674832L;
 	private final Key csvResourceKey;
 
+	/**
+	 * Constructor
+	 */
 	public SaveResourceCSVServlet() {
 		csvResourceKey = KeyFactory.createKey("CSVType", "ResourceData");
 	}
 
+	/**
+	 * Stores CSV data in server Blobstore
+	 * 
+	 * @see edu.ucla.loni.pipeline.client.Savers.Configuration.SaveResourceCSVService#setCSVData(java.lang.String)
+	 */
 	@Override
 	public boolean setCSVData(String csvData) {
 		DatastoreService dataStore = DatastoreServiceFactory

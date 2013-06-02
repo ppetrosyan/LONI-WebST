@@ -47,8 +47,21 @@ import com.google.appengine.api.files.FileWriteChannel;
 
 import edu.ucla.loni.pipeline.server.Exceptions.BlobKeyIsInvalidException;
 
+/**
+ * Utilities for Storing XML Data to server "Blobstore"
+ * 
+ * @author Jared
+ */
 public class DatastoreUtils {
 
+	/**
+	 * Writes an XML file to server Blobstore
+	 * 
+	 * @param document
+	 * @param xmlKey
+	 * @param respBuilder
+	 * @return success
+	 */
 	public static boolean writeXMLFileToBlobStore(Document document,
 			Key xmlKey, ResponseBuilder respBuilder) {
 		try {
@@ -135,6 +148,13 @@ public class DatastoreUtils {
 		return true;
 	}
 
+	/**
+	 * Reads an XML file from server Blobstore
+	 * 
+	 * @param xmlKey
+	 * @param respBuilder
+	 * @return xmlFile
+	 */
 	public static String readXMLFileFromBlobStore(Key xmlKey,
 			ResponseBuilder respBuilder) {
 		String xmlData = "";

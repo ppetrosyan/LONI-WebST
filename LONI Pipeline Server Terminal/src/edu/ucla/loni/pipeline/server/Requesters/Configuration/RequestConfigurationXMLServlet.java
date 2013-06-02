@@ -27,17 +27,30 @@ import edu.ucla.loni.pipeline.client.Requesters.Configuration.RequestConfigurati
 import edu.ucla.loni.pipeline.server.Utilities.DatastoreUtils;
 import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
+/**
+ * Retrieves Configuration Data from server Blobstore
+ * 
+ * @author Jared
+ */
 public class RequestConfigurationXMLServlet extends RemoteServiceServlet
 		implements RequestConfigurationXMLService {
 
 	private static final long serialVersionUID = 5448261063802349760L;
 	private final Key xmlConfigurationKey;
 
+	/**
+	 * Constructor
+	 */
 	public RequestConfigurationXMLServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType",
 				"ConfigurationData");
 	}
 
+	/**
+	 * Retrieves Configuration Data from server Blobstore
+	 * 
+	 * @see edu.ucla.loni.pipeline.client.Requesters.Configuration.RequestConfigurationXMLService#getXMLData()
+	 */
 	@Override
 	public String getXMLData() {
 		String xmlData = "";

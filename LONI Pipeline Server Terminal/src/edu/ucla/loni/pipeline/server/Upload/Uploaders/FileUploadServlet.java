@@ -42,24 +42,44 @@ import com.google.appengine.api.datastore.KeyFactory;
 import edu.ucla.loni.pipeline.server.Utilities.DatastoreUtils;
 import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
+/**
+ * Handles HTTP GET/POST Requests for File Upload
+ * 
+ * @author Jared
+ */
 public class FileUploadServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 5842494091385532249L;
 
 	private final Key xmlResourceKey, xmlConfigurationKey;
 
+	/**
+	 * Constructor
+	 */
 	public FileUploadServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType",
 				"ConfigurationData");
 		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
 	}
 
+	/**
+	 * Handles HTTP GET Request/Response
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		super.doGet(req, resp);
 	}
 
+	/**
+	 * Handles HTTP POST Request/Response
+	 * 
+	 * @see javax.servlet.http.HttpServlet#doPost(javax.servlet.http.HttpServletRequest,
+	 *      javax.servlet.http.HttpServletResponse)
+	 */
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -82,6 +102,12 @@ public class FileUploadServlet extends HttpServlet {
 		resp.flushBuffer();
 	}
 
+	/**
+	 * Handles Request to Upload File, Builds a Response
+	 * 
+	 * @param req
+	 * @param respBuilder
+	 */
 	private void handleFileUpload(HttpServletRequest req,
 			ResponseBuilder respBuilder) {
 
@@ -111,6 +137,12 @@ public class FileUploadServlet extends HttpServlet {
 		}
 	}
 
+	/**
+	 * Determines XML Data type and stores file on server.
+	 * 
+	 * @param item
+	 * @param respBuilder
+	 */
 	private void handleUploadedFile(FileItemStream item,
 			ResponseBuilder respBuilder) {
 		try {

@@ -19,16 +19,29 @@
 
 package edu.ucla.loni.pipeline.server.Utilities;
 
+/**
+ * Utility class to build a server response for a client
+ * 
+ * @author Jared
+ */
 public class ResponseBuilder {
 	private final StringBuilder respMessage;
 	private int respMessageCounter;
 
+	/**
+	 * Constructor
+	 */
 	public ResponseBuilder() {
 		respMessage = new StringBuilder();
 
 		resetRespMessage();
 	}
 
+	/**
+	 * Returns the complete response message
+	 * 
+	 * @return message
+	 */
 	public String getRespMessage() {
 		if (respMessageCounter == 1) {
 			respMessage.append("None.\n");
@@ -37,6 +50,9 @@ public class ResponseBuilder {
 		return respMessage.toString();
 	}
 
+	/**
+	 * Resets the response message
+	 */
 	public void resetRespMessage() {
 		respMessageCounter = 1;
 
@@ -45,6 +61,11 @@ public class ResponseBuilder {
 		respMessage.append("Message(s) from Server:\n");
 	}
 
+	/**
+	 * Appends a string to the response message
+	 * 
+	 * @param message
+	 */
 	public void appendRespMessage(String message) {
 		respMessage.append(respMessageCounter + ")  " + message);
 

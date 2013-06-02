@@ -19,14 +19,27 @@
 
 package edu.ucla.loni.pipeline.server.Exceptions;
 
+/**
+ * Specifies a BlobKeyIsInvalid Exception
+ * 
+ * @author Jared
+ */
 public class BlobKeyIsInvalidException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Constructor
+	 */
 	public BlobKeyIsInvalidException() {
 		super();
 	}
 
+	/**
+	 * Constructor
+	 * 
+	 * @param message
+	 */
 	public BlobKeyIsInvalidException(String message) {
 		super(message);
 	}

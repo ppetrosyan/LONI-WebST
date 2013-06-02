@@ -37,18 +37,33 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataService;
 
+/**
+ * Retrieves either Configuration or Resource Data from server Blobstore
+ * 
+ * @author Jared
+ * @deprecated
+ */
+@Deprecated
 public class XMLDataServlet extends RemoteServiceServlet implements
 		XMLDataService {
 
 	private static final long serialVersionUID = 5448261063802349760L;
 	private final Key xmlResourceKey, xmlConfigurationKey;
 
+	/**
+	 * Constructor
+	 */
 	public XMLDataServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType",
 				"ConfigurationData");
 		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
 	}
 
+	/**
+	 * Retrieves either Configuration or Resource Data from server Blobstore
+	 * 
+	 * @see edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataService#getXMLData(java.lang.String)
+	 */
 	@Override
 	public String getXMLData(String xmlDataType) {
 
