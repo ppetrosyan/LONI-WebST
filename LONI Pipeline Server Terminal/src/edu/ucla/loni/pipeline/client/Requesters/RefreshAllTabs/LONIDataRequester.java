@@ -197,44 +197,35 @@ public class LONIDataRequester {
 			return;
 		}
 
-		asyncClientServices.reqwebUrlXMLService.getXML(we, ue, pe, GWT_DES_KEY,
-				new AsyncCallback<WebUrlResponseBuilder>() {
-					@Override
-					public void onFailure(Throwable caught) {
-						Window.alert("Retrive of XML file failed, check the URL and try again");
-					}
+		asyncClientServices.reqwebUrlXMLService.getXML(we, ue, pe, GWT_DES_KEY, new AsyncCallback<WebUrlResponseBuilder>() {
+			@Override
+			public void onFailure(Throwable caught) {
+				Window.alert("Retrive of XML file failed, check the URL and try again");
+			}
 
-					@Override
-					public void onSuccess(WebUrlResponseBuilder response) {
-						if ((response.getStatus() == false)
-								|| (response.getXml() == null)) {
-							Window.alert(response.getXml()
-									+ "Retrive of XML file failed, message from server - "
-									+ response.getMessage());
-						} else {
-							try {
-								Document document = XMLParser.parse(response
-										.getXml());
-								document.getDocumentElement().normalize();
-								String rootTag = document.getDocumentElement()
-										.getNodeName();
-								if (rootTag
-										.equalsIgnoreCase("LONIConfigurationData")) {
-									refreshConfigurationTabsWithXml(response
-											.getXml());
-								} else if (rootTag
-										.equalsIgnoreCase("LONIResourceData")) {
-									refreshResourceTabsWithXml(response
-											.getXml());
-								} else {
-									Window.alert("Invalid file format, check the URL and try again");
-								}
-							} catch (Exception e) {
-								Window.alert("Error when parsing server response, check the URL and try again");
-							}
-						}
-
+			@Override
+			public void onSuccess(WebUrlResponseBuilder response) {
+				if ((response.getStatus() == false) || (response.getXml() == null))
+			  	Window.alert("Retrive of XML file failed, message from server - " + response.getMessage());
+			    else {
+			    	try {
+						Document document = XMLParser.parse(response.getXml());
+						document.getDocumentElement().normalize();
+						String rootTag = document.getDocumentElement().getNodeName();
+								
+						if(rootTag.equalsIgnoreCase("LONIConfigurationData"))
+							refreshConfigurationTabsWithXml(response.getXml());
+						else if(rootTag.equalsIgnoreCase("LONIResourceData"))
+							refreshResourceTabsWithXml(response.getXml());
+						else 
+							Window.alert("Invalid file format, check the URL and try again");
 					}
-				});
+			    	catch (Exception e) {
+						Window.alert("Error when parsing server response, check the URL and try again");
+					}
+			    }
+
+			}
+		});
 	}
 }

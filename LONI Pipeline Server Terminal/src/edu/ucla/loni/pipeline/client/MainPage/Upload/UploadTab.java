@@ -122,18 +122,21 @@ public class UploadTab {
 		webUrlBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-				if ((fileUploadForm.getValueAsString("ti_weburl")).length() == 0) {
-					Window.alert("Missing Web URL");
-					return;
-				}
-				if ((fileUploadForm.getValueAsString("ti_username")).length() == 0) {
+	    		if ((((fileUploadForm.getValueAsString("ti_username")) == null)) ||
+		    		((fileUploadForm.getValueAsString("ti_username")).length() == 0)) {
 					Window.alert("Missing username");
 					return;
-				}
-				if ((fileUploadForm.getValueAsString("pi_password")).length() == 0) {
+		    	}
+		    	if ((((fileUploadForm.getValueAsString("pi_password")) == null)) ||
+		    		((fileUploadForm.getValueAsString("pi_password")).length() == 0)) {
 					Window.alert("Missing Password");
 					return;
-				}
+		    	}
+		    	if ((((fileUploadForm.getValueAsString("ti_weburl")) == null)) || 
+			    	((fileUploadForm.getValueAsString("ti_weburl")).length() == 0)) {
+					Window.alert("Missing Web URL");
+					return;
+			    }	
 
 				dataRequester.getWebUrlXml(
 						fileUploadForm.getValueAsString("ti_weburl"),

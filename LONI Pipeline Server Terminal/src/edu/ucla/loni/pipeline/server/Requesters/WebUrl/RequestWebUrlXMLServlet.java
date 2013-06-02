@@ -37,107 +37,115 @@ import org.xml.sax.SAXException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
+import com.googlecode.gwt.crypto.bouncycastle.util.encoders.Base64Encoder;
 import com.googlecode.gwt.crypto.client.TripleDesCipher;
+import com.googlecode.gwt.crypto.gwtx.io.ByteArrayOutputStream;
+import com.googlecode.gwt.crypto.gwtx.io.OutputStream;
 
 import edu.ucla.loni.pipeline.client.Requesters.WebUrl.RequestWebUrlXMLService;
 import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 import edu.ucla.loni.pipeline.server.Utilities.DatastoreUtils;
 import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
-public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements
-		RequestWebUrlXMLService {
+public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements RequestWebUrlXMLService {
 
 	private static final long serialVersionUID = 5448261063802349760L;
-	private final Key xmlResourceKey, xmlConfigurationKey;
+	private Key xmlResourceKey, xmlConfigurationKey;
 	WebUrlResponseBuilder webUrlresponse;
 
 	public RequestWebUrlXMLServlet() {
-		xmlConfigurationKey = KeyFactory.createKey("XMLType",
-				"ConfigurationData");
+		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
 		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
 		webUrlresponse = new WebUrlResponseBuilder();
 	}
 
 	@Override
-	public WebUrlResponseBuilder getXML(String wE, String uE, String pE,
-			byte[] key) {
-
+	public WebUrlResponseBuilder getXML(String wE, String uE, String pE, byte[] key) {	
+		
 		TripleDesCipher cipher = new TripleDesCipher();
 		cipher.setKey(key);
 		String webUrl = "", username = "", password = "";
 		webUrlresponse.setMessage("");
-
+		
 		try {
 			webUrl = cipher.decrypt(wE);
 			username = cipher.decrypt(uE);
 			password = cipher.decrypt(pE);
-		} catch (Exception e) {
+		} 
+		catch (Exception e) {
 			webUrlresponse.setMessage("Error on decryption");
 		}
-
-		if ((webUrl.length() == 0) || (username.length() == 0)
-				|| (password.length() == 0)) {
-			webUrlresponse
-					.setMessage("Missing web URL, username or password sent to server");
+		
+		if ((webUrl.length() == 0) || (username.length() == 0) || (password.length() == 0)) {
+			webUrlresponse.setMessage("Missing web URL, username or password sent to server");
 
 		}
-
+		
 		if (webUrlresponse.getMessage().length() != 0) {
 			webUrlresponse.setStatus(false);
 			return webUrlresponse;
 		}
-
+	
 		try {
-			URL u = new URL(webUrl);
-			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
-			huc.setRequestMethod("GET");
-			huc.setDoOutput(false);
-			int status = huc.getResponseCode();
-			if (status != 200) {
-				throw (new MalformedURLException());
-			}
-			InputStream in = huc.getInputStream();
-
-			BufferedReader d = new BufferedReader(new InputStreamReader(in));
-
-			webUrlresponse.setXml(d.readLine());
-
-			if (webUrlresponse.getXml().length() == 0) {
-				webUrlresponse
-						.setMessage("Empty XML file at target, check URL and try again");
-				webUrlresponse.setStatus(false);
-			} else {
-				webUrlresponse.setStatus(true);
-
-				DocumentBuilderFactory factory = DocumentBuilderFactory
-						.newInstance();
-				DocumentBuilder builder = factory.newDocumentBuilder();
-				Document document = builder.parse(in);
-				document.getDocumentElement().normalize();
-				String rootTag = document.getDocumentElement().getNodeName();
-
-				ResponseBuilder response = new ResponseBuilder();
-
-				if (rootTag.equalsIgnoreCase("LONIConfigurationData")) {
-					DatastoreUtils.writeXMLFileToBlobStore(document,
-							xmlConfigurationKey, response);
-					webUrlresponse.setMessage(response.getRespMessage());
-				} else if (rootTag.equalsIgnoreCase("LONIResourceData")) {
-					DatastoreUtils.writeXMLFileToBlobStore(document,
-							xmlResourceKey, response);
-					webUrlresponse.setMessage(response.getRespMessage());
-				} else {
-					webUrlresponse
-							.setMessage("Invalid file format, check the URL and try again");
-					webUrlresponse.setStatus(false);
-				}
-			}
-		} catch (IOException e) {
+			  	URL u = new URL(webUrl);
+			  	HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+			  	huc.setRequestMethod("GET");
+			  	huc.setDoOutput(false);
+			  	
+			  	Base64Encoder enc = new Base64Encoder();
+			    String userpassword = username + ":" + password;
+			    
+			    OutputStream out = new ByteArrayOutputStream();
+			    enc.encode(userpassword.getBytes(), 0, userpassword.length(), out);
+			    byte[] buffer = {0};
+			    out.write(buffer);
+			    String encodedAuthorization = new String(buffer);
+			    //huc.setRequestProperty("Authorization", "Basic "+ encodedAuthorization);
+			  	
+			  	int status = huc.getResponseCode();
+			  	if (status != 200)
+			  		throw (new MalformedURLException());
+			  	InputStream in = huc.getInputStream();
+			  	
+			  	BufferedReader d = new BufferedReader(new InputStreamReader(in));
+			  	
+			  	webUrlresponse.setXml(d.readLine());
+			  	
+			  	if(webUrlresponse.getXml().length() == 0) {
+			  		webUrlresponse.setMessage("Empty XML file at target, check URL and try again");
+			  		webUrlresponse.setStatus(false);
+			  	}
+			  	else {
+			  		webUrlresponse.setStatus(true);
+			  		
+				  	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				  	DocumentBuilder builder = factory.newDocumentBuilder();
+				  	Document document = builder.parse(in);
+					document.getDocumentElement().normalize();
+					String rootTag = document.getDocumentElement().getNodeName();
+				
+					ResponseBuilder response = new ResponseBuilder();
+				
+					if(rootTag.equalsIgnoreCase("LONIConfigurationData")) {
+						DatastoreUtils.writeXMLFileToBlobStore(document, xmlConfigurationKey, response);
+						webUrlresponse.setMessage(response.getRespMessage());
+					}
+					else if(rootTag.equalsIgnoreCase("LONIResourceData")){
+						DatastoreUtils.writeXMLFileToBlobStore(document, xmlResourceKey, response);
+						webUrlresponse.setMessage(response.getRespMessage());
+					}
+					else
+						webUrlresponse.setMessage("Invalid file format, check the URL and try again");
+			  	}
+		} 
+		catch (IOException e) {
 			webUrlresponse.setMessage("Error on file retrieval, try again");
-			webUrlresponse.setStatus(false);
-		} catch (ParserConfigurationException | SAXException e) {
+		} 
+		catch (ParserConfigurationException | SAXException e) {
 			webUrlresponse.setMessage("Error in parsing retrieved file");
-			webUrlresponse.setStatus(false);
+		} 
+		catch (com.googlecode.gwt.crypto.gwtx.io.IOException e) {
+			webUrlresponse.setMessage("Authentication error");
 		}
 
 		return webUrlresponse;
