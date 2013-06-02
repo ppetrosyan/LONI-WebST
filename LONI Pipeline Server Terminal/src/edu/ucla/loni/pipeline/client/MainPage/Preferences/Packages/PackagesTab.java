@@ -37,10 +37,6 @@ public class PackagesTab {
 	private final ListGrid listUsersPackages = new ListGrid();
 	VLayout layoutUsersPackages = new VLayout();
 
-
-	public ListGrid getGridEnable() {
-		return listUsersPackages;
-	}
 	public PackagesTab() {
 
 	}
@@ -49,7 +45,7 @@ public class PackagesTab {
 		Tab tabPackages = new Tab("Packages");
 
 		layoutUsersPackages.setSize("100%", "100%");
-		layoutUsersPackages.setMembersMargin(5);
+		layoutUsersPackages.setMembersMargin(10);
 
 		com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
 				"Please specify package name and version, the location, and optionally sources and variables.<br>Double-click any cell to edit.");

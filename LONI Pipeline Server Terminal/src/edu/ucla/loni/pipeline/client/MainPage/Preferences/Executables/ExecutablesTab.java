@@ -46,7 +46,7 @@ public class ExecutablesTab {
 
 		Tab tabExecutables = new Tab("Executables");
 		layoutUsersExecutables.setSize("100%", "100%");
-		layoutUsersExecutables.setMembersMargin(5);
+		layoutUsersExecutables.setMembersMargin(10);
 
 		com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
 				"Please specify executable name, version and the location.<br>Double-click any cell to edit.");

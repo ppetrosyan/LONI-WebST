@@ -130,7 +130,7 @@ public class PreferencesTab {
 		// Body with tabs
 		TabSet tabSet = new TabSet();
 		tabSet.setSize("100%", "100%");
-		tabSet.setPaneMargin(10);
+		tabSet.setPaneMargin(30);
 
 		generalTab = new GeneralTab();
 		tabSet.addTab(generalTab.setTab());
