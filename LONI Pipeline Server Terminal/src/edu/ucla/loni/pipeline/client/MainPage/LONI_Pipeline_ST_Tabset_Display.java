@@ -84,7 +84,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 
 		// Notification Layout
 		VLayout notificationLayout = new VLayout();
-		notificationLayout.setHeight("20px");
+		notificationLayout.setHeight("35px");
 		notificationLayout.setWidth("520px");
 		notificationLayout.setLayoutAlign(Alignment.CENTER);
 
