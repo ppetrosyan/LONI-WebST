@@ -1,6 +1,23 @@
-package edu.ucla.loni.pipeline.client.Upload.Handlers;
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
 
-import org.moxieapps.gwt.uploader.client.Uploader;
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
+package edu.ucla.loni.pipeline.client.Upload.Handlers;
 
 import com.google.gwt.event.dom.client.DragOverEvent;
 import com.google.gwt.event.dom.client.DragOverHandler;
@@ -8,18 +25,17 @@ import com.google.gwt.user.client.ui.Label;
 
 public class LONIDragOverHandler implements DragOverHandler {
 
-	private Uploader uploader;
-	private Label dropFilesLabel;
-	
+	private final Label dropFilesLabel;
+
 	public LONIDragOverHandler(Label dropFilesLabel) {
 		this.dropFilesLabel = dropFilesLabel;
 	}
-	
+
 	@Override
 	public void onDragOver(DragOverEvent event) {
-//		if (!uploader.getButtonDisabled()) {
-			dropFilesLabel.addStyleName("dropFilesLabelHover");
-		}
-//	}
-	
+		// if (!uploader.getButtonDisabled()) {
+		dropFilesLabel.addStyleName("dropFilesLabelHover");
+	}
+	// }
+
 }

@@ -1,3 +1,22 @@
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package edu.ucla.loni.pipeline.client.Upload.Handlers;
 
 import java.util.Map;
@@ -7,20 +26,18 @@ import org.moxieapps.gwt.uploader.client.events.FileDialogStartEvent;
 import org.moxieapps.gwt.uploader.client.events.FileDialogStartHandler;
 
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.VerticalPanel;
 import com.smartgwt.client.widgets.layout.VLayout;
 
 public class LONIFileDialogStartHandler implements FileDialogStartHandler {
 
-	private Uploader uploader;
-	private Map<String, Image> cancelButtons;
-	private VLayout layoutUploads;
-	
-	public LONIFileDialogStartHandler(Uploader uploader, Map<String, Image> cancelButtons, VLayout layoutUploads) {
+	private final Uploader uploader;
+	private final Map<String, Image> cancelButtons;
+
+	public LONIFileDialogStartHandler(Uploader uploader,
+			Map<String, Image> cancelButtons, VLayout layoutUploads) {
 		this.uploader = uploader;
 		this.cancelButtons = cancelButtons;
-		this.layoutUploads = layoutUploads;
-	} 
+	}
 
 	@Override
 	public boolean onFileDialogStartEvent(
@@ -28,7 +45,7 @@ public class LONIFileDialogStartHandler implements FileDialogStartHandler {
 		if (uploader.getStats().getUploadsInProgress() <= 0) {
 			// Clear the uploads that have completed, if none
 			// are in process
-			//progressBarPanel.clear();
+			// progressBarPanel.clear();
 			cancelButtons.clear();
 		}
 		return true;

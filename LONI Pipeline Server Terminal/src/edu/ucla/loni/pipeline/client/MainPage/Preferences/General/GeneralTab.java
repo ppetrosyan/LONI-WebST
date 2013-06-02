@@ -1,3 +1,22 @@
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package edu.ucla.loni.pipeline.client.MainPage.Preferences.General;
 
 import com.google.gwt.xml.client.Document;
@@ -18,20 +37,20 @@ import com.smartgwt.client.widgets.tab.Tab;
 import edu.ucla.loni.pipeline.client.MainPage.Utilities.MainPageUtils;
 
 public class GeneralTab {
-	
+
 	private DynamicForm formGeneralBasic;
 	private DynamicForm formGeneralPersistence;
 	private DynamicForm formGeneralServerLibrary;
-	
+
 	private TextItem libraryPathText;
 	private TextItem mappedGuestUser;
 	private CheckboxItem escalationCheckbox;
 	private CheckboxItem enableGuestCheckbox;
-	
+
 	public GeneralTab() {
-		
+
 	}
-	
+
 	public Tab setTab() {
 		Tab tabGeneral = new Tab("General");
 
@@ -61,40 +80,43 @@ public class GeneralTab {
 		TextItem logfileText = new TextItem("logfile", "Log File");
 
 		escalationCheckbox = new CheckboxItem("escalationCheckbox");
-		escalationCheckbox.setTitle("Use privilege escalation - Pipeline server will run commands as the user (sudo as user)");
+		escalationCheckbox
+				.setTitle("Use privilege escalation - Pipeline server will run commands as the user (sudo as user)");
 		escalationCheckbox.setLabelAsTitle(true);
-		
+
 		enableGuestCheckbox = new CheckboxItem("enableGuestCheckbox");
 		enableGuestCheckbox.setTitle("Enable guests");
 		enableGuestCheckbox.setLabelAsTitle(true);
-		
+
 		mappedGuestUser = new TextItem("mappedGuestUser", "Mapped guest user");
 		mappedGuestUser.setVisible(false);
 
 		escalationCheckbox.addChangeHandler(new ChangeHandler() {
+			@Override
 			public void onChange(ChangeEvent event) {
-				if((Boolean) event.getValue() && enableGuestCheckbox.getValueAsBoolean()) {
+				if ((Boolean) event.getValue()
+						&& enableGuestCheckbox.getValueAsBoolean()) {
 					mappedGuestUser.show();
-				}
-				else {
+				} else {
 					mappedGuestUser.clearValue();
 					mappedGuestUser.hide();
 				}
 			}
 		});
-		
+
 		enableGuestCheckbox.addChangeHandler(new ChangeHandler() {
+			@Override
 			public void onChange(ChangeEvent event) {
-				if((Boolean) event.getValue() && escalationCheckbox.getValueAsBoolean()) {
+				if ((Boolean) event.getValue()
+						&& escalationCheckbox.getValueAsBoolean()) {
 					mappedGuestUser.show();
-				}
-				else {
+				} else {
 					mappedGuestUser.clearValue();
 					mappedGuestUser.hide();
 				}
 			}
 		});
-		
+
 		formGeneralBasic.setFields(new FormItem[] { hostText, basicPort,
 				tempdirText, secureCheckbox, scrdirText, logfileText,
 				escalationCheckbox, enableGuestCheckbox, mappedGuestUser });
@@ -161,11 +183,11 @@ public class GeneralTab {
 		librarycheckbox.setTitle("Monitor library update file");
 		librarycheckbox.setLabelAsTitle(true);
 
-		libraryPathText = new TextItem("librarypath",
-				"Library path");
+		libraryPathText = new TextItem("librarypath", "Library path");
 		libraryPathText.setVisible(false);
 
 		librarycheckbox.addChangeHandler(new ChangeHandler() {
+			@Override
 			public void onChange(ChangeEvent event) {
 				Boolean cstat = (Boolean) event.getValue();
 				toggleLibraryPathText(cstat);
@@ -183,143 +205,164 @@ public class GeneralTab {
 		tabGeneral.setPane(layoutGeneral);
 		return tabGeneral;
 	}
-	
+
 	public void toggleLibraryPathText(Boolean cstat) {
 		if (cstat) {
 			libraryPathText.show();
-		}
-		else {
+		} else {
 			libraryPathText.hide();
 			libraryPathText.clearValue();
 		}
 	}
-	
+
 	public void parseGeneralXML(Document doc) {
 		resetFields();
-		
+
 		// basic section
-		Node host = (Node) doc.getElementsByTagName("ServerHostname").item(0);
-		if(host != null) {
+		Node host = doc.getElementsByTagName("ServerHostname").item(0);
+		if (host != null) {
 			String hostVal = host.getFirstChild().getNodeValue();
 			formGeneralBasic.getItem("host").setValue(hostVal);
 		}
-		
-		Node port = (Node) doc.getElementsByTagName("ServerPort").item(0);
-		if(port != null) {
+
+		Node port = doc.getElementsByTagName("ServerPort").item(0);
+		if (port != null) {
 			int portVal = Integer.parseInt(port.getFirstChild().getNodeValue());
 			formGeneralBasic.getItem("port").setValue(portVal);
 		}
-		
-		Node tempdir = (Node) doc.getElementsByTagName("TempDirectory").item(0);
-		if(tempdir != null) {
+
+		Node tempdir = doc.getElementsByTagName("TempDirectory").item(0);
+		if (tempdir != null) {
 			String tempdirVal = tempdir.getFirstChild().getNodeValue();
 			formGeneralBasic.getItem("tempdir").setValue(tempdirVal);
 		}
-		
-		Node secureCheckbox = (Node) doc.getElementsByTagName("Secure").item(0);
-		if(secureCheckbox != null) {
-			Boolean secureCheckboxVal = Boolean.valueOf(secureCheckbox.getFirstChild().getNodeValue());
-			formGeneralBasic.getItem("secureCheckbox").setValue(secureCheckboxVal);
+
+		Node secureCheckbox = doc.getElementsByTagName("Secure").item(0);
+		if (secureCheckbox != null) {
+			Boolean secureCheckboxVal = Boolean.valueOf(secureCheckbox
+					.getFirstChild().getNodeValue());
+			formGeneralBasic.getItem("secureCheckbox").setValue(
+					secureCheckboxVal);
 		}
-		
-		Node scrdir = (Node) doc.getElementsByTagName("ScratchDirectory").item(0);
-		if(scrdir != null) {
+
+		Node scrdir = doc.getElementsByTagName("ScratchDirectory").item(0);
+		if (scrdir != null) {
 			String scrdirVal = scrdir.getFirstChild().getNodeValue();
 			formGeneralBasic.getItem("scrdir").setValue(scrdirVal);
 		}
-		
-		Node logfile = (Node) doc.getElementsByTagName("LogFile").item(0);
-		if(logfile != null) {
+
+		Node logfile = doc.getElementsByTagName("LogFile").item(0);
+		if (logfile != null) {
 			String logfileVal = logfile.getFirstChild().getNodeValue();
 			formGeneralBasic.getItem("logfile").setValue(logfileVal);
 		}
-		
-		Node escalationCheckboxNode = (Node) doc.getElementsByTagName("PrivilegeEscalation").item(0);
-		if(escalationCheckboxNode != null) {
-			Boolean escalationVal = Boolean.valueOf(escalationCheckboxNode.getFirstChild().getNodeValue());
-			formGeneralBasic.getItem("escalationCheckbox").setValue(escalationVal);
+
+		Node escalationCheckboxNode = doc.getElementsByTagName(
+				"PrivilegeEscalation").item(0);
+		if (escalationCheckboxNode != null) {
+			Boolean escalationVal = Boolean.valueOf(escalationCheckboxNode
+					.getFirstChild().getNodeValue());
+			formGeneralBasic.getItem("escalationCheckbox").setValue(
+					escalationVal);
 		}
-		
-		Node enableGuestCheckboxNode = (Node) doc.getElementsByTagName("EnableGuests").item(0);
-		if(enableGuestCheckboxNode != null) {
-			Boolean enableGuestVal = Boolean.valueOf(enableGuestCheckboxNode.getFirstChild().getNodeValue());
-			formGeneralBasic.getItem("enableGuestCheckbox").setValue(enableGuestVal);
+
+		Node enableGuestCheckboxNode = doc.getElementsByTagName("EnableGuests")
+				.item(0);
+		if (enableGuestCheckboxNode != null) {
+			Boolean enableGuestVal = Boolean.valueOf(enableGuestCheckboxNode
+					.getFirstChild().getNodeValue());
+			formGeneralBasic.getItem("enableGuestCheckbox").setValue(
+					enableGuestVal);
 		}
-		
-		Node mappedGuestUserNode = (Node) doc.getElementsByTagName("MappedGuestUser").item(0);
-		if(mappedGuestUserNode != null) {
-			String mappedGuestUserVal = mappedGuestUserNode.getFirstChild().getNodeValue();
-			formGeneralBasic.getItem("mappedGuestUser").setValue(mappedGuestUserVal);
-			if(escalationCheckbox.getValueAsBoolean() && enableGuestCheckbox.getValueAsBoolean()) {
+
+		Node mappedGuestUserNode = doc.getElementsByTagName("MappedGuestUser")
+				.item(0);
+		if (mappedGuestUserNode != null) {
+			String mappedGuestUserVal = mappedGuestUserNode.getFirstChild()
+					.getNodeValue();
+			formGeneralBasic.getItem("mappedGuestUser").setValue(
+					mappedGuestUserVal);
+			if (escalationCheckbox.getValueAsBoolean()
+					&& enableGuestCheckbox.getValueAsBoolean()) {
 				mappedGuestUser.show();
 			}
 		}
-		
+
 		// persistence section
-		Node url = (Node) doc.getElementsByTagName("PersistenceURL").item(0);
-		if(url != null) {
+		Node url = doc.getElementsByTagName("PersistenceURL").item(0);
+		if (url != null) {
 			String urlVal = url.getFirstChild().getNodeValue();
 			formGeneralPersistence.getItem("url").setValue(urlVal);
 		}
-		
-		Node username = (Node) doc.getElementsByTagName("PersistenceUsername").item(0);
-		if(username != null) {
+
+		Node username = doc.getElementsByTagName("PersistenceUsername").item(0);
+		if (username != null) {
 			String usernameVal = username.getFirstChild().getNodeValue();
 			formGeneralPersistence.getItem("username").setValue(usernameVal);
 		}
-		
-		Node password = (Node) doc.getElementsByTagName("PersistencePassword").item(0);
-		if(password != null) {
+
+		Node password = doc.getElementsByTagName("PersistencePassword").item(0);
+		if (password != null) {
 			String passwordVal = password.getFirstChild().getNodeValue();
 			formGeneralPersistence.getItem("password").setValue(passwordVal);
 		}
-		
-		Node si_sessionttl = (Node) doc.getElementsByTagName("SessionTTL").item(0);
-		if(si_sessionttl != null) {
-			int ttlVal = Integer.parseInt(si_sessionttl.getFirstChild().getNodeValue());
+
+		Node si_sessionttl = doc.getElementsByTagName("SessionTTL").item(0);
+		if (si_sessionttl != null) {
+			int ttlVal = Integer.parseInt(si_sessionttl.getFirstChild()
+					.getNodeValue());
 			formGeneralPersistence.getItem("si_sessionttl").setValue(ttlVal);
 		}
-		
-		Node historydoc = (Node) doc.getElementsByTagName("HistoryDirectory").item(0);
-		if(historydoc != null) {
+
+		Node historydoc = doc.getElementsByTagName("HistoryDirectory").item(0);
+		if (historydoc != null) {
 			String historyVal = historydoc.getFirstChild().getNodeValue();
 			formGeneralPersistence.getItem("historydoc").setValue(historyVal);
 		}
-		
-		Node crawlerpurl = (Node) doc.getElementsByTagName("CrawlerURL").item(0);
-		if(crawlerpurl != null) {
+
+		Node crawlerpurl = doc.getElementsByTagName("CrawlerURL").item(0);
+		if (crawlerpurl != null) {
 			String crawlerVal = crawlerpurl.getFirstChild().getNodeValue();
 			formGeneralPersistence.getItem("crawlerpurl").setValue(crawlerVal);
 		}
-		
+
 		// server library section
-		Node location = (Node) doc.getElementsByTagName("ServerLibraryLocation").item(0);
-		if(location != null) {
+		Node location = doc.getElementsByTagName("ServerLibraryLocation").item(
+				0);
+		if (location != null) {
 			String locationVal = location.getFirstChild().getNodeValue();
 			formGeneralServerLibrary.getItem("location").setValue(locationVal);
 		}
-		
-		Node librarycheckbox = (Node) doc.getElementsByTagName("MonitorLibraryCheckbox").item(0);
-		if(librarycheckbox != null) {
-			Boolean librarycheckboxVal = Boolean.valueOf(librarycheckbox.getFirstChild().getNodeValue());
-			formGeneralServerLibrary.getItem("librarycheckbox").setValue(librarycheckboxVal);
+
+		Node librarycheckbox = doc.getElementsByTagName(
+				"MonitorLibraryCheckbox").item(0);
+		if (librarycheckbox != null) {
+			Boolean librarycheckboxVal = Boolean.valueOf(librarycheckbox
+					.getFirstChild().getNodeValue());
+			formGeneralServerLibrary.getItem("librarycheckbox").setValue(
+					librarycheckboxVal);
 			toggleLibraryPathText(librarycheckboxVal);
 		}
-		
-		Node librarypath = (Node) doc.getElementsByTagName("MonitorLibraryPath").item(0);
-		if(librarypath != null) {
+
+		Node librarypath = doc.getElementsByTagName("MonitorLibraryPath").item(
+				0);
+		if (librarypath != null) {
 			String librarypathVal = librarypath.getFirstChild().getNodeValue();
-			formGeneralServerLibrary.getItem("librarypath").setValue(librarypathVal);
+			formGeneralServerLibrary.getItem("librarypath").setValue(
+					librarypathVal);
 		}
-		
-		Node pipeutilitiespath = (Node) doc.getElementsByTagName("PipelineUtilitiesPath").item(0);
-		if(pipeutilitiespath != null) {
-			String pipeutilitiespathVal = pipeutilitiespath.getFirstChild().getNodeValue();
-			formGeneralServerLibrary.getItem("pipeutilitiespath").setValue(pipeutilitiespathVal);
+
+		Node pipeutilitiespath = doc.getElementsByTagName(
+				"PipelineUtilitiesPath").item(0);
+		if (pipeutilitiespath != null) {
+			String pipeutilitiespathVal = pipeutilitiespath.getFirstChild()
+					.getNodeValue();
+			formGeneralServerLibrary.getItem("pipeutilitiespath").setValue(
+					pipeutilitiespathVal);
 		}
-		
+
 	}
-	
+
 	private void resetFields() {
 		formGeneralBasic.clearValues();
 		formGeneralPersistence.clearValues();

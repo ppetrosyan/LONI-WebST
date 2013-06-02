@@ -1,3 +1,22 @@
+/*
+ * This file is part of LONI Pipeline Web-based Server Terminal.
+ * 
+ * LONI Pipeline Web-based Server Terminal is free software: 
+ * you can redistribute it and/or modify it under the terms of the 
+ * GNU Lesser General Public License as published by the Free Software 
+ * Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * LONI Pipeline Web-based Server Terminal is distributed in the hope 
+ * that it will be useful, but WITHOUT ANY WARRANTY; without even the 
+ * implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  
+ * See the GNU Lesser General Public License for more details.
+
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with LONI Pipeline Web-based Server Terminal.
+ * If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package edu.ucla.loni.pipeline.client.Charts;
 
 import java.util.ArrayList;
@@ -8,18 +27,17 @@ import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.widgets.Canvas;
 import com.smartgwt.client.widgets.Label;
 import com.smartgwt.client.widgets.form.DynamicForm;
-import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
+import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
-
 public class LONI_Chart extends VLayout {
 
 	private LineChartPanel chart;
-	private String monitorType;
+	private final String monitorType;
 	private Label initStats;
 	private Label usedStats1;
 	private Label usedStats2;
@@ -32,54 +50,55 @@ public class LONI_Chart extends VLayout {
 	private VLayout statistics;
 
 	// timer redraws charts and updates statistics
-	private Timer timer = new Timer() {
+	private final Timer timer = new Timer() {
+		@Override
 		public void run() {
 			try {
 				chart.updateValues();
 			} catch (Exception e) {
-				System.err.println("Exception thrown in timer.run() in LONI_Chart.java: " + e.getMessage());
+				System.err
+						.println("Exception thrown in timer.run() in LONI_Chart.java: "
+								+ e.getMessage());
 			}
 		}
 	};
 
-	public LONI_Chart(String mt)
-	{
-		this.monitorType = mt;
+	public LONI_Chart(String mt) {
+		monitorType = mt;
 		initialize();
 	}
 
-	public LineChartPanel getChart()
-	{
-		return this.chart;
+	public LineChartPanel getChart() {
+		return chart;
 	}
-	
+
 	public void refreshStats() {
-		if(monitorType.equals("Memory")) {
+		if (monitorType.equals("Memory")) {
 			MemoryStatistics memStats = chart.getMemStatistics();
 			initStats.setContents(memStats.getInitMemMB() + " MB");
 			usedStats1.setContents(memStats.getUsedMemMB() + " MB");
-			usedStats2.setContents(memStats.getUsedCommMemPercent() + "% of committed");
-			usedStats3.setContents(memStats.getUsedMaxMemPercent() + "% of the max");
+			usedStats2.setContents(memStats.getUsedCommMemPercent()
+					+ "% of committed");
+			usedStats3.setContents(memStats.getUsedMaxMemPercent()
+					+ "% of the max");
 			commStats1.setContents(memStats.getCommMemMB() + " MB");
-			commStats2.setContents(memStats.getCommMaxMemPercent() + "% of the max");
+			commStats2.setContents(memStats.getCommMaxMemPercent()
+					+ "% of the max");
 			maxStats.setContents(memStats.getMaxMemMB() + " MB");
-		}
-		else if(monitorType.equals("Thread")) {
+		} else if (monitorType.equals("Thread")) {
 			ArrayList<Integer> thrdStats = chart.getThrdStatistics();
 			thrdCntStats.setContents(thrdStats.get(0) + "");
 			thrdPkStats.setContents(thrdStats.get(1) + "");
-		}
-		else {
-			System.err.println("Incorrect monitorType provided. Check timer.run() in LONI_Chart.java for errors.");
+		} else {
+			System.err
+					.println("Incorrect monitorType provided. Check timer.run() in LONI_Chart.java for errors.");
 			return;
 		}
 	}
 
-	private void initialize()
-	{
+	private void initialize() {
 		// set up memory chart panels
-		if(this.monitorType.equals("Memory"))
-		{
+		if (monitorType.equals("Memory")) {
 			setHeight100();
 			setWidth100();
 
@@ -93,47 +112,50 @@ public class LONI_Chart extends VLayout {
 			initTitle.setWidth(130);
 			initStats = new Label(memStats.getInitMemMB() + " MB");
 			initStats.setWidth(75);
-			
+
 			HLayout initStatLayout = new HLayout();
 			initStatLayout.addMember(initTitle);
 			initStatLayout.addMember(initStats);
-			
+
 			Label usedTitle = new Label("Used memory: ");
 			usedTitle.setWidth(130);
 			usedStats1 = new Label(memStats.getUsedMemMB() + " MB");
 			usedStats1.setWidth(75);
-			usedStats2 = new Label(memStats.getUsedCommMemPercent() + "% of committed");
+			usedStats2 = new Label(memStats.getUsedCommMemPercent()
+					+ "% of committed");
 			usedStats2.setWidth(140);
-			usedStats3 = new Label(memStats.getUsedMaxMemPercent() + "% of the max");
+			usedStats3 = new Label(memStats.getUsedMaxMemPercent()
+					+ "% of the max");
 			usedStats3.setWidth(140);
-			
+
 			HLayout usedStatLayout = new HLayout();
 			usedStatLayout.addMember(usedTitle);
 			usedStatLayout.addMember(usedStats1);
 			usedStatLayout.addMember(usedStats2);
 			usedStatLayout.addMember(usedStats3);
-			
+
 			Label commTitle = new Label("Committed memory: ");
 			commTitle.setWidth(130);
 			commStats1 = new Label(memStats.getCommMemMB() + " MB");
 			commStats1.setWidth(75);
-			commStats2 = new Label(memStats.getCommMaxMemPercent() + "% of the max");
+			commStats2 = new Label(memStats.getCommMaxMemPercent()
+					+ "% of the max");
 			commStats2.setWidth(140);
-			
+
 			HLayout commStatLayout = new HLayout();
 			commStatLayout.addMember(commTitle);
 			commStatLayout.addMember(commStats1);
 			commStatLayout.addMember(commStats2);
-			
+
 			Label maxTitle = new Label("Maximum memory: ");
 			maxTitle.setWidth(130);
 			maxStats = new Label(memStats.getMaxMemMB() + " MB");
 			maxStats.setWidth(75);
-			
+
 			HLayout maxStatLayout = new HLayout();
 			maxStatLayout.addMember(maxTitle);
 			maxStatLayout.addMember(maxStats);
-			
+
 			statistics = new VLayout();
 			statistics.addMember(initStatLayout);
 			statistics.addMember(usedStatLayout);
@@ -194,7 +216,8 @@ public class LONI_Chart extends VLayout {
 				}
 
 			});
-			checkBoxes.setFields(new FormItem[] { initMem, usedMem, commMem, maxMem });
+			checkBoxes.setFields(new FormItem[] { initMem, usedMem, commMem,
+					maxMem });
 			checkBoxes.setAlign(Alignment.LEFT);
 			checkBoxes.setWidth("250px");
 
@@ -215,8 +238,7 @@ public class LONI_Chart extends VLayout {
 			timer.scheduleRepeating(5000);
 		}
 		// set up thread panels
-		else if(this.monitorType.equals("Thread"))
-		{
+		else if (monitorType.equals("Thread")) {
 			setHeight100();
 			setWidth100();
 
@@ -228,18 +250,18 @@ public class LONI_Chart extends VLayout {
 			// create statistics table
 			Label thrdCntTitle = new Label("Thread Count: ");
 			thrdCntStats = new Label(thrdStats.get(0) + "");
-			
+
 			HLayout thrdCntStatsLayout = new HLayout();
 			thrdCntStatsLayout.addMember(thrdCntTitle);
 			thrdCntStatsLayout.addMember(thrdCntStats);
-			
+
 			Label thrdPkTitle = new Label("Thread Peak: ");
 			thrdPkStats = new Label(thrdStats.get(1) + "");
-			
+
 			HLayout thrdPkStatsLayout = new HLayout();
 			thrdPkStatsLayout.addMember(thrdPkTitle);
 			thrdPkStatsLayout.addMember(thrdPkStats);
-			
+
 			statistics = new VLayout();
 			statistics.addMember(thrdCntStatsLayout);
 			statistics.addMember(thrdPkStatsLayout);
@@ -254,10 +276,9 @@ public class LONI_Chart extends VLayout {
 
 			// set timer for 5 seconds
 			timer.scheduleRepeating(5000);
-		}
-		else
-		{
-			System.err.println("Incorrect monitorType provided. Check initialize() in LONI_Chart.java for errors.");
+		} else {
+			System.err
+					.println("Incorrect monitorType provided. Check initialize() in LONI_Chart.java for errors.");
 			return;
 		}
 	}
