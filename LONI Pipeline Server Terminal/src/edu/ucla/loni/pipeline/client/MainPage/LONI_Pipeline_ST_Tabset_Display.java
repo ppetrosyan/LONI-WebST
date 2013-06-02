@@ -8,7 +8,7 @@ import com.smartgwt.client.widgets.Img;
 
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.types.Alignment;
-
+import com.smartgwt.client.widgets.events.ClickHandler;
 import com.smartgwt.client.widgets.events.ClickEvent;
 import com.smartgwt.client.widgets.layout.HLayout;
 
@@ -24,7 +24,6 @@ import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.GWT.UncaughtExceptionHandler;
-import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Anchor;
 import com.google.gwt.user.client.ui.NotificationMole;
 
@@ -46,89 +45,60 @@ public class LONI_Pipeline_ST_Tabset_Display {
 	}
 
 	public void buildMainPage() {		
-		appLayout.setMembersMargin(0);
+		appLayout.setMembersMargin(2);
 		appLayout.setLayoutAlign(Alignment.CENTER);
 		appLayout.setAlign(Alignment.CENTER);
 		appLayout.setAlign(VerticalAlignment.CENTER);
 		appLayout.setHeight100();
 		appLayout.setWidth100();
-		
+
 		// Header with Heading and logout button
 		HLayout headLayout = new HLayout();
 		headLayout.setMembersMargin(10);
 		headLayout.setSize("100%", "80px");
-		
-		// Notification Layout
-		HLayout notificationLayout = new HLayout();
-		notificationLayout.setSize("100%", "20px");
-		notificationLayout.setAlign(Alignment.CENTER);
-		notificationLayout.setAlign(VerticalAlignment.CENTER);
-		notificationLayout.setLayoutAlign(Alignment.CENTER);
-		
-		notificationLayout.addMember(notifications.getNotificationMole());
 
-		headLayout.addMember(notificationLayout);
-		
-		// Logo Layout
-		HLayout logoLayout = new HLayout();
-		logoLayout.setSize("100%", "*");
-		logoLayout.setAlign(Alignment.CENTER);
-		logoLayout.setAlign(VerticalAlignment.CENTER);
-		logoLayout.setLayoutAlign(Alignment.CENTER);
-		
 		Img logo = new Img(GWT.getModuleBaseURL() + "../images/pipeline.jpg");
 		logo.setHeight("80px");
 		logo.setWidth("384px");
-		logoLayout.addMember(logo);		
+		headLayout.addMember(logo);		
 
-		headLayout.addMember(logoLayout);
-			
-		// Logout Layout
-		HLayout logoutLayout = new HLayout();
-		logoutLayout.setSize("100%", "20px");
-		logoutLayout.setAlign(Alignment.CENTER);
-		logoutLayout.setAlign(VerticalAlignment.CENTER);
-		logoutLayout.setLayoutAlign(Alignment.CENTER);
-		
-		Anchor logoutBtn = new Anchor("LogOut");
-		logoutBtn.addClickHandler(new ClickHandler() {
-
-			@Override
-			public void onClick(com.google.gwt.event.dom.client.ClickEvent event) {
-				// TODO: Implement Logout Logic
-				
-			}
-			
-		});
-		
-		logoutLayout.addMember(logoutBtn);
-		
-		headLayout.addMember(logoutLayout);
-		
-		/*padding.setMembersMargin(0);
+		VLayout padding = new VLayout();
+		padding.setMembersMargin(0);
 		padding.setSize("100%", "100%");
-		headLayout.addMember(padding);*/
+		headLayout.addMember(padding);
 
-		
+		Button logoutBtn = new Button("LogOut");
+		logoutBtn.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				// TODO: Logout logic
+			}
+		});
+		headLayout.addMember(logoutBtn);
 
-		/*padding = new VLayout();
+		padding = new VLayout();
 		padding.setMembersMargin(0);
 		padding.setSize("1%", "100%");
-		headLayout.addMember(padding);*/
+		headLayout.addMember(padding);
 
 		appLayout.addMember(headLayout);
 
-		
+		// Notification Layout
+		VLayout notificationLayout = new VLayout();
+		notificationLayout.setHeight("20px");
+		notificationLayout.setWidth("520px");
+		notificationLayout.setLayoutAlign(Alignment.CENTER);
+
+		notificationLayout.addMember(notifications.getNotificationMole());
+
+		appLayout.addMember(notificationLayout);
 
 		// Body with tabs
 		HLayout tabLayout = new HLayout();
 		tabLayout.setMembersMargin(5);
-		tabLayout.setSize("100%", "*");
-		
-		VLayout padding = new VLayout();
+		tabLayout.setSize("100%", "94%");
 		TabSet tabset = buildtabset(padding);
 		tabLayout.addMember(tabset);
-		
+
 		appLayout.addMember(tabset);
 		appLayout.draw();
 	}
