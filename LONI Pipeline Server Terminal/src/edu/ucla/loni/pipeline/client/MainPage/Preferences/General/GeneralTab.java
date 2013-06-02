@@ -27,7 +27,6 @@ import com.smartgwt.client.widgets.form.fields.FormItem;
 import com.smartgwt.client.widgets.form.fields.IntegerItem;
 import com.smartgwt.client.widgets.form.fields.PasswordItem;
 import com.smartgwt.client.widgets.form.fields.SpinnerItem;
-import com.smartgwt.client.widgets.form.fields.StaticTextItem;
 import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.form.fields.events.ChangeEvent;
 import com.smartgwt.client.widgets.form.fields.events.ChangeHandler;
@@ -148,9 +147,7 @@ public class GeneralTab {
 		spinnerItem.setDefaultValue(30);
 		spinnerItem.setMin(0);
 		spinnerItem.setMax(1000);
-
-		StaticTextItem staticTextItem = new StaticTextItem("sessiondays", "");
-		staticTextItem.setDefaultValue("(days from the end of this session)");
+		spinnerItem.setHint("<nobr>(days from the end of this session)</nobr>");
 
 		TextItem historydocText = new TextItem("historydoc",
 				"History Directory");
@@ -159,7 +156,7 @@ public class GeneralTab {
 				"Crawler Persistence URL");
 
 		formGeneralPersistence.setFields(new FormItem[] { urlText,
-				usernameText, passwordText, spinnerItem, staticTextItem,
+				usernameText, passwordText, spinnerItem, 
 				historydocText, crawlerpurlText });
 		MainPageUtils.formatForm(formGeneralPersistence);
 		layoutGeneral.addMember(formGeneralPersistence);

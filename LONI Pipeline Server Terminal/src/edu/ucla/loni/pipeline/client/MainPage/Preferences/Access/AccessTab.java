@@ -141,7 +141,7 @@ public class AccessTab {
 
 		checkboxItem_1 = new CheckboxItem(
 				"cb_enableubjm",
-				"Enable (NOTE: Enabling user management may require some time to adjust user usage accuracy)");
+				"Enable");
 		checkboxItem_1.addChangeHandler(new ChangeHandler() {
 			@Override
 			public void onChange(ChangeEvent event) {
@@ -151,23 +151,20 @@ public class AccessTab {
 		});
 		checkboxItem_1.setLabelAsTitle(true);
 		checkboxItem_1.setValue(false);
-
+		
+		StaticTextItem staticTextItem = new StaticTextItem("note", "");
+		staticTextItem.setDefaultValue("<nobr>(NOTE: Enabling user management may require some time to adjust user usage accuracy)</nobr>");
+		
 		spinnerItem_1 = new SpinnerItem("si_usrpcfreeslots",
 				"One user cannot take more than");
 		spinnerItem_1.setValue(50);
-		// spinnerItem_1.setHint("% of free slots at submission time");
-		// spinnerItem_1.setShowHint(true);
+		spinnerItem_1.setHint("<nobr>% of free slots at submission time</nobr>");
 		spinnerItem_1.setMin(0);
 		spinnerItem_1.setMax(100);
 		spinnerItem_1.setDisabled(true);
 
-		StaticTextItem staticTextItem = new StaticTextItem("percentfreeslots",
-				"");
-		staticTextItem.setDefaultValue("% of free slots at submission time");
-
 		dynamicForm3 = new DynamicForm();
-		dynamicForm3.setFields(new FormItem[] { checkboxItem_1, spinnerItem_1,
-				staticTextItem });
+		dynamicForm3.setFields(new FormItem[] { checkboxItem_1, staticTextItem, spinnerItem_1 });
 		MainPageUtils.formatForm(dynamicForm3);
 		layoutAccess.addMember(dynamicForm3);
 
