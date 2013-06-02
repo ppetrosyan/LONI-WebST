@@ -45,34 +45,60 @@ public class LineChartPanel extends Layout {
 	private final LONI_Chart loniChart;
 	private LineChart chart;
 	private String monitorType;
-	private String color = "D9F6FA";
-	private final int maxEntries = 10;
-	private int start = 0;
-	private int end = maxEntries;
-	private final LineChartOptions options = LineChartOptions.create();
+	private String color;
+	private final int maxEntries;
+	private int start;
+	private int end;
+	private final LineChartOptions options;
 
-	private final ArrayList<String> type = new ArrayList<String>();
-	private final ArrayList<Integer> times = new ArrayList<Integer>();
+	private final ArrayList<String> type;
+	private final ArrayList<Integer> times;
 
-	private final ArrayList<Integer> initMem = new ArrayList<Integer>();
-	private final ArrayList<Integer> usedMem = new ArrayList<Integer>();
-	private final ArrayList<Integer> commMem = new ArrayList<Integer>();
-	private final ArrayList<Integer> maxMem = new ArrayList<Integer>();
-	private final ArrayList<Integer> threadCnt = new ArrayList<Integer>();
-	private final ArrayList<Integer> threadPk = new ArrayList<Integer>();
+	private final ArrayList<Integer> initMem;
+	private final ArrayList<Integer> usedMem;
+	private final ArrayList<Integer> commMem;
+	private final ArrayList<Integer> maxMem;
+	private final ArrayList<Integer> threadCnt;
+	private final ArrayList<Integer> threadPk;
 
-	private MemoryStatistics memStats = new MemoryStatistics();
-	private final ArrayList<Integer> thrdStats = new ArrayList<Integer>();
+	private MemoryStatistics memStats;
+	private final ArrayList<Integer> thrdStats;
 
-	private boolean timeUsed = false;
-	private boolean initUsed = false;
-	private boolean usedUsed = false;
-	private boolean commUsed = false;
-	private boolean maxUsed = false;
-	private boolean threadUsed = false;
+	private boolean timeUsed;
+	private boolean initUsed;
+	private boolean usedUsed;
+	private boolean commUsed;
+	private boolean maxUsed;
+	private boolean threadUsed;
 
 	public LineChartPanel(String mt, LONI_Chart loniChart) {
 		this.loniChart = loniChart;
+		color = "D9F6FA";
+		maxEntries = 10;
+		start = 0;
+		end = maxEntries;
+
+		options = LineChartOptions.create();
+		type = new ArrayList<String>();
+		times = new ArrayList<Integer>();
+
+		initMem = new ArrayList<Integer>();
+		usedMem = new ArrayList<Integer>();
+		commMem = new ArrayList<Integer>();
+		maxMem = new ArrayList<Integer>();
+		threadCnt = new ArrayList<Integer>();
+		threadPk = new ArrayList<Integer>();
+
+		memStats = new MemoryStatistics();
+		thrdStats = new ArrayList<Integer>();
+
+		timeUsed = false;
+		initUsed = false;
+		usedUsed = false;
+		commUsed = false;
+		maxUsed = false;
+		threadUsed = false;
+
 		initialize(mt);
 	}
 
