@@ -20,59 +20,59 @@ public class UsersOnlineRecord extends ListGridRecord {
 
 
   public void setUsername(String user_name) {  
-      setAttribute("username", user_name);  
+      setAttribute("Username", user_name);  
   }  
 
   public String getUsername() {  
-      return getAttributeAsString("username");  
+      return getAttributeAsString("Username");  
   }  
 
   public void setIpAddress(String ip_addr) {  
-      setAttribute("ipAddress", ip_addr);  
+      setAttribute("IPAddress", ip_addr);  
   }  
 
   public String getCountryName() {  
-      return getAttributeAsString("ipAddress");  
+      return getAttributeAsString("IPAddress");  
   }  
 
   public void setPipeInterface(String pipe_interface) {  
-      setAttribute("pipelineInterface", pipe_interface);  
+      setAttribute("PipelineInterface", pipe_interface);  
   }  
 
   public String getPineInterface() {  
-      return getAttributeAsString("pipelineInterface");  
+      return getAttributeAsString("PipelineInterface");  
   }  
   
   public void setPipeVersion(String pipe_interface) {  
-      setAttribute("pipelineVersion", pipe_interface);  
+      setAttribute("PipelineVersion", pipe_interface);  
   }  
 
   public String getPineVersion() {  
-      return getAttributeAsString("pipelineVersion");  
+      return getAttributeAsString("PipelineVersion");  
   }  
 
   public void setOSVersion(String os_ver) {  
-      setAttribute("osVersion", os_ver);  
+      setAttribute("OSVersion", os_ver);  
   }  
-
+ 
   public String getOSVersion() {  
-      return getAttributeAsString("osVersion");  
+      return getAttributeAsString("OSVersion");  
   }  
 
   public void setConnectTime(String connect_time) {  
-      setAttribute("connectTime", connect_time);  
+      setAttribute("ConnectTime", connect_time);  
   }  
 
   public String getConnectTime() {  
-      return getAttributeAsString("connectTime");  
+      return getAttributeAsString("ConnectTime");  
   }  
 
   public void setLastActivity(String last_activity) {  
-      setAttribute("lastActivity", last_activity);  
+      setAttribute("LastActivity", last_activity);  
   }  
 
   public String getLastActivity() {  
-      return getAttributeAsString("lastActivity");  
+      return getAttributeAsString("LastActivity");  
   }  
 
 
