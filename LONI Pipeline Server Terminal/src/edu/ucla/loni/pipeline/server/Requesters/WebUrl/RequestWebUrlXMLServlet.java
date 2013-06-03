@@ -58,6 +58,7 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 	public RequestWebUrlXMLServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
 		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
+		webUrlresponse = new WebUrlResponseBuilder();
 	}
 
 	@Override
