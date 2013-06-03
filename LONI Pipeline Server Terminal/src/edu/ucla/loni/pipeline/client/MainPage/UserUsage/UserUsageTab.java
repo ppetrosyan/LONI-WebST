@@ -72,7 +72,7 @@ public class UserUsageTab {
 
 		// Label that show statistic
 		final com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
-				"Loading...");
+				"Loading... (If it takes too long, check the xml file format)");
 		intro.setSize("500px", "49px");
 		layoutintro.addMember(intro);
 		layoutUserUsage.addMember(layoutintro);

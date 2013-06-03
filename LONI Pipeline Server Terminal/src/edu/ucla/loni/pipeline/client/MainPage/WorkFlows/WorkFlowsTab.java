@@ -82,7 +82,7 @@ public class WorkFlowsTab {
 
 		// Label that show statistic
 		final com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
-				"Loading...");
+				"Loading... (If it takes too long, check the xml file format)");
 		intro.setSize("1000px", "49px");
 		layoutWorkflows.addMember(intro);
 
@@ -203,8 +203,7 @@ public class WorkFlowsTab {
 			Document doc = XMLParser.parse(cleanXml);
 			parseWorkflowsXML(doc);
 		} catch (DOMParseException e) {
-			System.err
-					.println("Could not parse XML file. Check XML file format.");
+			System.err.println("Could not parse XML file. Check XML file format.");
 			return;
 		}
 	}
