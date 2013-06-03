@@ -223,19 +223,19 @@ public class GridTab {
 		chunks = new IntegerItem("chunks",
 				"Break into chunks when number of jobs exceeds");
 		chunks.setDefaultValue(200);
-		chunks.setHint("(default: 200)");
+		chunks.setHint("<nobr>(default: 200)</nobr>");
 		chunks.setDisabled(true);
 
 		fileStat = new SpinnerItem("fileStat", "Use File Stat with Timeout");
 		fileStat.setDefaultValue(0);
 		fileStat.setMin(0);
 		fileStat.setMax(999);
-		fileStat.setHint("(0 - disabled)");
+		fileStat.setHint("<nobr>(0 - disabled)</nobr>");
 		fileStat.setDisabled(true);
 
 		chunkSize = new IntegerItem("chunkSize", "Chunk size");
 		chunkSize.setDefaultValue(50);
-		chunkSize.setHint("(default: 50)");
+		chunkSize.setHint("<nobr>(default: 50)</nobr>");
 		chunkSize.setDisabled(true);
 
 		increaseChunkSize = new CheckboxItem("increaseChunkSize");
@@ -245,7 +245,7 @@ public class GridTab {
 
 		maxChunkSize = new IntegerItem("maxChunkSize", "Maximum chunk size");
 		maxChunkSize.setDefaultValue(400);
-		maxChunkSize.setHint("(default: 400)");
+		maxChunkSize.setHint("<nobr>(default: 400)</nobr>");
 		maxChunkSize.setDisabled(true);
 		maxChunkSize.setVisible(false);
 
@@ -311,14 +311,14 @@ public class GridTab {
 
 		gridPort = new IntegerItem("gridPort", "Port");
 		gridPort.setDefaultValue(8111);
-		gridPort.setHint("(default: 8111)");
+		gridPort.setHint("<nobr>(default: 8111)</nobr>");
 		gridPort.setDisabled(true);
 
 		memItem = new IntegerItem("memItem", "Memory (MB)");
 		memItem.setDisabled(true);
 
 		jarFile = new TextItem("jarFile", "JAR File");
-		jarFile.setHint("(default: <SERVER_PATH>/dist/gridplugins/PipelineGridService.jar)");
+		jarFile.setHint("<nobr>(default: <SERVER_PATH>/dist/gridplugins/PipelineGridService.jar)</nobr>");
 		jarFile.setDisabled(true);
 
 		restartService.addChangeHandler(new ChangeHandler() {
