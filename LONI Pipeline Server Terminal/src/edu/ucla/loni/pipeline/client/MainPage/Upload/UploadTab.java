@@ -103,19 +103,16 @@ public class UploadTab {
 
 		final DynamicForm fileUploadForm = new DynamicForm();
 
-		final TextItem textFieldUsername = new TextItem("ti_username",
-				"Username");
+		final TextItem textFieldUsername = new TextItem("ti_username", "Username");
 		textFieldUsername.setRequired(true);
 
-		final PasswordItem passwordField = new PasswordItem("pi_password",
-				"Password");
+		final PasswordItem passwordField = new PasswordItem("pi_password", "Password");
 		passwordField.setRequired(true);
 
 		final TextItem textFieldWebUrl = new TextItem("ti_weburl", "URL");
 		textFieldWebUrl.setRequired(true);
 
-		fileUploadForm.setFields(new FormItem[] { textFieldUsername,
-				passwordField, textFieldWebUrl });
+		fileUploadForm.setFields(new FormItem[] { textFieldUsername, passwordField, textFieldWebUrl });
 		layoutWebUploads.addMember(fileUploadForm);
 
 		Button webUrlBtn = new Button("Retrieve");
@@ -138,10 +135,13 @@ public class UploadTab {
 					return;
 			    }	
 
-				dataRequester.getWebUrlXml(
-						fileUploadForm.getValueAsString("ti_weburl"),
-						fileUploadForm.getValueAsString("ti_username"),
-						fileUploadForm.getValueAsString("pi_password"));
+				dataRequester.getWebUrlXml(fileUploadForm.getValueAsString("ti_weburl"),
+										   fileUploadForm.getValueAsString("ti_username"),
+										   fileUploadForm.getValueAsString("pi_password"));
+				
+				fileUploadForm.clearValue("ti_username");
+				fileUploadForm.clearValue("pi_password");
+				fileUploadForm.clearValue("ti_weburl");
 			}
 		});
 		layoutWebUploads.addMember(webUrlBtn);
