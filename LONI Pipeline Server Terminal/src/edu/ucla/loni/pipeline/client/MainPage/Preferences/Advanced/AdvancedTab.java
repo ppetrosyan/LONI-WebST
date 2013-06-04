@@ -19,6 +19,9 @@
 
 package edu.ucla.loni.pipeline.client.MainPage.Preferences.Advanced;
 
+import com.google.gwt.xml.client.Document;
+import com.google.gwt.xml.client.Node;
+import com.google.gwt.xml.client.NodeList;
 import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.form.fields.BlurbItem;
 import com.smartgwt.client.widgets.form.fields.CheckboxItem;
@@ -36,7 +39,37 @@ import com.smartgwt.client.widgets.tab.Tab;
 import edu.ucla.loni.pipeline.client.MainPage.Utilities.MainPageUtils;
 
 public class AdvancedTab {
-
+	
+	private NativeCheckboxItem failoverEnable;
+	private SpinnerItem slaveFreq;
+	private SpinnerItem slaveRetries;
+	private TextItem aliasInterface;
+	private IntegerItem aliasSubinterface;
+	private TextItem postFailover;
+	
+	private TextItem logRecipients;
+	private TextItem logSender;
+	private TextItem logSMTPHost;
+	
+	private SpinnerItem packetSize;
+	private SpinnerItem connTimeout;
+	
+	private NativeCheckboxItem httpEnable;
+	private IntegerItem port;
+	
+	private NativeCheckboxItem diskEnable;
+	private SpinnerItem percent;
+	
+	private SpinnerItem maxThreads;
+	private CheckboxItem autoClean;
+	private SpinnerItem maxGenerator;
+	private SpinnerItem serverRefresh;
+	private SpinnerItem maxMissed;
+	private SpinnerItem directoryTimeout;
+	private TextItem extQName;
+	private NativeCheckboxItem missingMod;
+	private NativeCheckboxItem missingFile;
+	
 	public AdvancedTab() {
 
 	}
@@ -54,7 +87,7 @@ public class AdvancedTab {
 		layoutAdvancedLabel.addMember(labelAdvancedFailover);
 
 		DynamicForm formAdvancedFailoverEnable = new DynamicForm();
-		NativeCheckboxItem failoverEnable = new NativeCheckboxItem();
+		failoverEnable = new NativeCheckboxItem();
 		failoverEnable.setTitle("Enable");
 
 		formAdvancedFailoverEnable.setFields(new FormItem[] { failoverEnable });
@@ -64,26 +97,28 @@ public class AdvancedTab {
 
 		DynamicForm formAdvancedFailover = new DynamicForm();
 
-		final SpinnerItem slaveFreq = new SpinnerItem("slaveFreq",
-				"Slave: Master Check Frequency");
+		slaveFreq = new SpinnerItem("slaveFreq",
+				"Slave: Master Check Interval (seconds)");
 		slaveFreq.setValue("5");
+		slaveFreq.setMin(1);
 		slaveFreq.setDisabled(true);
 
-		final SpinnerItem slaveRetries = new SpinnerItem("slaveRetries",
+		slaveRetries = new SpinnerItem("slaveRetries",
 				"Slave: Number of Retries");
 		slaveRetries.setValue("3");
+		slaveRetries.setMin(0);
 		slaveRetries.setDisabled(true);
 
-		final TextItem aliasInterface = new TextItem("aliasInterface",
+		aliasInterface = new TextItem("aliasInterface",
 				"Alias Interface");
 		aliasInterface.setDisabled(true);
 
-		final IntegerItem aliasSubinterface = new IntegerItem(
+		aliasSubinterface = new IntegerItem(
 				"aliasSubinterface", "Alias Subinterface Number");
 		aliasSubinterface.setValue("0");
 		aliasSubinterface.setDisabled(true);
 
-		final TextItem postFailover = new TextItem("postFailover",
+		postFailover = new TextItem("postFailover",
 				"Post-failover Script");
 		postFailover.setDisabled(true);
 
@@ -118,12 +153,12 @@ public class AdvancedTab {
 
 		DynamicForm formAdvancedLog = new DynamicForm();
 
-		TextItem recipients = new TextItem("recipients", "E-mail Recipients");
-		TextItem sender = new TextItem("sender", "E-mail Sender");
-		TextItem SMTPHost = new TextItem("SMTPHost", "SMTP Host");
+		logRecipients = new TextItem("recipients", "E-mail Recipients");
+		logSender = new TextItem("sender", "E-mail Sender");
+		logSMTPHost = new TextItem("SMTPHost", "SMTP Host");
 
 		formAdvancedLog
-				.setFields(new FormItem[] { recipients, sender, SMTPHost });
+				.setFields(new FormItem[] { logRecipients, logSender, logSMTPHost });
 		MainPageUtils.formatForm(formAdvancedLog);
 		layoutAdvanced.addMember(formAdvancedLog);
 
@@ -140,12 +175,14 @@ public class AdvancedTab {
 
 		DynamicForm formAdvancedNetwork = new DynamicForm();
 
-		SpinnerItem packetSize = new SpinnerItem("packetSize", "Packet Size");
+		packetSize = new SpinnerItem("packetSize", "Packet Size");
 		packetSize.setValue("32768");
+		packetSize.setMin(64);
 
-		SpinnerItem connTimeout = new SpinnerItem("connTimeout",
+		connTimeout = new SpinnerItem("connTimeout",
 				"Connection Timeout (seconds)");
 		connTimeout.setValue("3");
+		connTimeout.setMin(1);
 
 		formAdvancedNetwork
 				.setFields(new FormItem[] { packetSize, connTimeout });
@@ -166,7 +203,7 @@ public class AdvancedTab {
 
 		DynamicForm formAdvancedQueryEnable = new DynamicForm();
 
-		NativeCheckboxItem httpEnable = new NativeCheckboxItem();
+		httpEnable = new NativeCheckboxItem();
 		httpEnable.setTitle("Enable");
 
 		formAdvancedQueryEnable.setFields(new FormItem[] { httpEnable });
@@ -174,7 +211,7 @@ public class AdvancedTab {
 		layoutAdvanced.addMember(layoutAdvancedQueryLabel);
 
 		DynamicForm formAdvancedQuery = new DynamicForm();
-		final IntegerItem port = new IntegerItem("port", "Port");
+		port = new IntegerItem("port", "Port");
 		port.setDisabled(true);
 		formAdvancedQuery.setFields(new FormItem[] { port });
 		MainPageUtils.formatForm(formAdvancedQuery);
@@ -202,7 +239,7 @@ public class AdvancedTab {
 
 		DynamicForm formAdvancedDiskEnable = new DynamicForm();
 
-		NativeCheckboxItem diskEnable = new NativeCheckboxItem();
+		diskEnable = new NativeCheckboxItem();
 		diskEnable.setTitle("Enable");
 
 		formAdvancedDiskEnable.setFields(new FormItem[] { diskEnable });
@@ -210,10 +247,12 @@ public class AdvancedTab {
 		layoutAdvanced.addMember(layoutAdvancedDiskLabel);
 
 		DynamicForm formAdvancedDisk = new DynamicForm();
-		final SpinnerItem percent = new SpinnerItem("percent",
+		percent = new SpinnerItem("percent",
 				"Warn When Free Disk Space is Lower Than (%)");
 		percent.setDisabled(true);
 		percent.setValue("10");
+		percent.setMin(0);
+		percent.setMax(100);
 		formAdvancedDisk.setFields(new FormItem[] { percent });
 		MainPageUtils.formatForm(formAdvancedDisk);
 		layoutAdvanced.addMember(formAdvancedDisk);
@@ -239,41 +278,46 @@ public class AdvancedTab {
 
 		DynamicForm formAdvancedOther = new DynamicForm();
 
-		SpinnerItem maxThreads = new SpinnerItem("maxThreads",
+		maxThreads = new SpinnerItem("maxThreads",
 				"Max Threads for Active Jobs");
 		maxThreads.setValue("4");
+		maxThreads.setMin(1);
 
-		CheckboxItem autoClean = new CheckboxItem("autoClean");
+		autoClean = new CheckboxItem("autoClean");
 		autoClean
 				.setTitle("Automatically Clean Up Old Files in Temporary Directory");
 		autoClean.setLabelAsTitle(true);
 
-		SpinnerItem maxGenerator = new SpinnerItem("maxThreads",
+		maxGenerator = new SpinnerItem("maxThreads",
 				"Max Metadata Generator Threads");
 		maxGenerator.setValue("5");
+		maxGenerator.setMin(1);
 
-		SpinnerItem serverRefresh = new SpinnerItem("serverRefresh",
+		serverRefresh = new SpinnerItem("serverRefresh",
 				"Server Status Update Interval (seconds)");
 		serverRefresh.setValue("10");
+		serverRefresh.setMin(1);
 
-		SpinnerItem maxMissed = new SpinnerItem("maxMissed",
+		maxMissed = new SpinnerItem("maxMissed",
 				"Max Consecutive Missed Updates");
 		maxMissed.setValue("3");
+		maxMissed.setMin(1);
 
-		SpinnerItem directoryTimeout = new SpinnerItem("directoryTimeout",
+		directoryTimeout = new SpinnerItem("directoryTimeout",
 				"Recursive Directory Listing Timeout (seconds)");
 		directoryTimeout.setValue("120");
+		directoryTimeout.setMin(60);
 
-		TextItem extQName = new TextItem("extQName",
+		extQName = new TextItem("extQName",
 				"External Network Access Queue Name");
 
 		BlurbItem missing = new BlurbItem("missing");
 		missing.setDefaultValue("Generate warning instead error upon encountering missing...");
 
-		NativeCheckboxItem missingMod = new NativeCheckboxItem("missingMod");
+		missingMod = new NativeCheckboxItem("missingMod");
 		missingMod.setTitle("Module Executable");
 
-		NativeCheckboxItem missingFile = new NativeCheckboxItem("missingFile");
+		missingFile = new NativeCheckboxItem("missingFile");
 		missingFile.setTitle("File Parameters");
 
 		formAdvancedOther.setFields(new FormItem[] { maxThreads, autoClean,
@@ -281,9 +325,161 @@ public class AdvancedTab {
 				extQName, missing, missingMod, missingFile });
 		MainPageUtils.formatForm(formAdvancedOther);
 		layoutAdvanced.addMember(formAdvancedOther);
-		// */
 
 		tabAdvanced.setPane(layoutAdvanced);
 		return tabAdvanced;
+	}
+	
+	public void parseAdvancedXML(Document doc) {
+		// enable failover section
+		Node enableFailover = doc.getElementsByTagName("FailoverEnabled").item(0);
+		if (enableFailover != null) {
+			Boolean enableFailoverVal = Boolean.valueOf(enableFailover.getFirstChild().getNodeValue());
+			failoverEnable.setValue(enableFailoverVal);
+		}
+		
+		Node failoverCheckInterval = doc.getElementsByTagName("FailoverCheckInterval").item(0);
+		if (failoverCheckInterval != null) {
+			String failoverCheckIntervalVal = failoverCheckInterval.getFirstChild().getNodeValue();
+			slaveFreq.setValue(failoverCheckIntervalVal);
+		}
+		
+		Node failoverRetries = doc.getElementsByTagName("FailoverRetries").item(0);
+		if (failoverRetries != null) {
+			String failoverRetriesVal = failoverRetries.getFirstChild().getNodeValue();
+			slaveRetries.setValue(failoverRetriesVal);
+		}
+		
+		Node failoverAliasInterface = doc.getElementsByTagName("FailoverAliasInterface").item(0);
+		if (failoverAliasInterface != null) {
+			String failoverAliasInterfaceVal = failoverAliasInterface.getFirstChild().getNodeValue();
+			aliasInterface.setValue(failoverAliasInterfaceVal);
+		}
+		
+		Node failoverAliasSubInterfaceNum = doc.getElementsByTagName("FailoverAliasSubInterfaceNum").item(0);
+		if (failoverAliasSubInterfaceNum != null) {
+			String failoverAliasSubInterfaceNumVal = failoverAliasSubInterfaceNum.getFirstChild().getNodeValue();
+			aliasSubinterface.setValue(failoverAliasSubInterfaceNumVal);
+		}
+		
+		Node failoverPostScript = doc.getElementsByTagName("FailoverPostScript").item(0);
+		if (failoverPostScript != null) {
+			String failoverPostScriptVal = failoverPostScript.getFirstChild().getNodeValue();
+			postFailover.setValue(failoverPostScriptVal);
+		}
+
+		Node emailerRecipients = doc.getElementsByTagName("EmailerRecipients").item(0);
+		if (emailerRecipients != null) {
+			String emailerRecipientsVal = emailerRecipients.getFirstChild().getNodeValue();
+			logRecipients.setValue(emailerRecipientsVal);
+		}
+
+		Node emailerSender = doc.getElementsByTagName("EmailerSender").item(0);
+		if (emailerSender != null) {
+			String emailerSenderVal = emailerSender.getFirstChild().getNodeValue();
+			logSender.setValue(emailerSenderVal);
+		}
+
+		Node emailerSMTPHost = doc.getElementsByTagName("EmailerSMTPHost").item(0);
+		if (emailerSMTPHost != null) {
+			String emailerSMTPHostVal = emailerSMTPHost.getFirstChild().getNodeValue();
+			logSMTPHost.setValue(emailerSMTPHostVal);
+		}
+
+		Node networkPacketSize = doc.getElementsByTagName("NetworkPacketSize").item(0);
+		if (networkPacketSize != null) {
+			String networkPacketSizeVal = networkPacketSize.getFirstChild().getNodeValue();
+			packetSize.setValue(networkPacketSizeVal);
+		}
+
+		Node connectTimeoutSec = doc.getElementsByTagName("ConnectTimeoutSec").item(0);
+		if (networkPacketSize != null) {
+			String connectTimeoutSecVal = connectTimeoutSec.getFirstChild().getNodeValue();
+			connTimeout.setValue(connectTimeoutSecVal);
+		}
+		
+		NodeList HTTPServerPortList = doc.getElementsByTagName("HTTPServerPort");
+		if(HTTPServerPortList.getLength() != 0)
+		{
+			Node HTTPServerPort = HTTPServerPortList.item(0);
+			if (HTTPServerPort != null) {
+				String HTTPServerPortVal = HTTPServerPort.getFirstChild().getNodeValue();
+				port.setValue(HTTPServerPortVal);
+			}
+			httpEnable.setValue(true);
+		}
+		else
+		{
+			httpEnable.setValue(false);
+		}
+		
+		NodeList warnLowDiskSpacePercentList = doc.getElementsByTagName("WarnLowDiskSpacePercent");
+		if(warnLowDiskSpacePercentList.getLength() != 0)
+		{
+			Node warnLowDiskSpacePercent = warnLowDiskSpacePercentList.item(0);
+			if (warnLowDiskSpacePercent != null) {
+				String warnLowDiskSpacePercentVal = warnLowDiskSpacePercent.getFirstChild().getNodeValue();
+				percent.setValue(warnLowDiskSpacePercentVal);
+			}
+			diskEnable.setValue(true);
+		}
+		else
+		{
+			diskEnable.setValue(false);
+		}
+
+		Node maximumThreadPoolSize = doc.getElementsByTagName("MaximumThreadPoolSize").item(0);
+		if (maximumThreadPoolSize != null) {
+			String maximumThreadPoolSizeVal = maximumThreadPoolSize.getFirstChild().getNodeValue();
+			maxThreads.setValue(maximumThreadPoolSizeVal);
+		}
+
+		Node clearOldTempFilesEnabled = doc.getElementsByTagName("ClearOldTempFilesEnabled").item(0);
+		if (clearOldTempFilesEnabled != null) {
+			Boolean clearOldTempFilesEnabledVal = Boolean.valueOf(clearOldTempFilesEnabled.getFirstChild().getNodeValue());
+			autoClean.setValue(clearOldTempFilesEnabledVal);
+		}
+
+		Node maxConcurrentMetadataGenerator = doc.getElementsByTagName("MaxConcurrentMetadataGenerator").item(0);
+		if (maxConcurrentMetadataGenerator != null) {
+			String maxConcurrentMetadataGeneratorVal = maxConcurrentMetadataGenerator.getFirstChild().getNodeValue();
+			maxGenerator.setValue(maxConcurrentMetadataGeneratorVal);
+		}
+
+		Node serverStatIntervalSec = doc.getElementsByTagName("ServerStatIntervalSec").item(0);
+		if (serverStatIntervalSec != null) {
+			String serverStatIntervalSecVal = serverStatIntervalSec.getFirstChild().getNodeValue();
+			serverRefresh.setValue(serverStatIntervalSecVal);
+		}
+
+		Node connectionTimeoutAfterNumInterval = doc.getElementsByTagName("ConnectionTimeoutAfterNumInterval").item(0);
+		if (connectionTimeoutAfterNumInterval != null) {
+			String connectionTimeoutAfterNumIntervalVal = connectionTimeoutAfterNumInterval.getFirstChild().getNodeValue();
+			maxMissed.setValue(connectionTimeoutAfterNumIntervalVal);
+		}
+
+		Node dirListRecTimeoutSec = doc.getElementsByTagName("DirListRecTimeoutSec").item(0);
+		if (dirListRecTimeoutSec != null) {
+			String dirListRecTimeoutSecVal = dirListRecTimeoutSec.getFirstChild().getNodeValue();
+			directoryTimeout.setValue(dirListRecTimeoutSecVal);
+		}
+
+		Node networkAccessQueue = doc.getElementsByTagName("NetworkAccessQueue").item(0);
+		if (networkAccessQueue != null) {
+			String networkAccessQueueVal = networkAccessQueue.getFirstChild().getNodeValue();
+			extQName.setValue(networkAccessQueueVal);
+		}
+
+		Node warningForExecutableNotFound = doc.getElementsByTagName("WarningForExecutableNotFound").item(0);
+		if (warningForExecutableNotFound != null) {
+			Boolean warningForExecutableNotFoundVal = Boolean.valueOf(warningForExecutableNotFound.getFirstChild().getNodeValue());
+			missingMod.setValue(warningForExecutableNotFoundVal);
+		}
+
+		Node warningForParameterFileNotFound = doc.getElementsByTagName("WarningForParameterFileNotFound").item(0);
+		if (warningForParameterFileNotFound != null) {
+			Boolean warningForParameterFileNotFoundVal = Boolean.valueOf(warningForParameterFileNotFound.getFirstChild().getNodeValue());
+			missingFile.setValue(warningForParameterFileNotFoundVal);
+		}
 	}
 }

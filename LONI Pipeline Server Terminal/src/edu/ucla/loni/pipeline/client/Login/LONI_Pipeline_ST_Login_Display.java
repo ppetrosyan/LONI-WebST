@@ -67,6 +67,7 @@ public class LONI_Pipeline_ST_Login_Display {
 		loginLayout.setHeight("250px");
 		loginLayout.setWidth("280px");
 		loginLayout.setBorder("3px dashed #B0B0B0");
+		loginLayout.setBackgroundColor("#FFFFFF");
 		loginLayout.setMembersMargin(10);
 
 		VLayout padding;
@@ -76,13 +77,12 @@ public class LONI_Pipeline_ST_Login_Display {
 		padding.setSize("100%", "40px");
 		loginLayout.addMember(padding);
 
-		Img logo = new Img(GWT.getModuleBaseURL()
-				+ "../images/pipelineLogo.gif");
+		Img logo = new Img(GWT.getModuleBaseURL() + "../images/logo1.png");
 		logo.setLayoutAlign(Alignment.CENTER);
 		logo.setAlign(Alignment.CENTER);
 		logo.setValign(VerticalAlignment.CENTER);
-		logo.setHeight("148px");
-		logo.setWidth("160px");
+		logo.setHeight("200px");
+		logo.setWidth("234px");
 		loginLayout.addMember(logo);
 
 		padding = new VLayout();

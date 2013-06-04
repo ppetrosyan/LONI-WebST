@@ -36,6 +36,8 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 public class LONI_Chart extends VLayout {
 
+	static int refreshTime = 3000;
+	
 	private LineChartPanel chart;
 	private final String monitorType;
 	private Label initStats;
@@ -109,7 +111,7 @@ public class LONI_Chart extends VLayout {
 
 			// create statistics table
 			Label initTitle = new Label("Initial memory: ");
-			initTitle.setWidth(130);
+			initTitle.setWidth(150);
 			initStats = new Label(memStats.getInitMemMB() + " MB");
 			initStats.setWidth(75);
 
@@ -118,15 +120,15 @@ public class LONI_Chart extends VLayout {
 			initStatLayout.addMember(initStats);
 
 			Label usedTitle = new Label("Used memory: ");
-			usedTitle.setWidth(130);
+			usedTitle.setWidth(150);
 			usedStats1 = new Label(memStats.getUsedMemMB() + " MB");
 			usedStats1.setWidth(75);
 			usedStats2 = new Label(memStats.getUsedCommMemPercent()
 					+ "% of committed");
-			usedStats2.setWidth(140);
+			usedStats2.setWidth(150);
 			usedStats3 = new Label(memStats.getUsedMaxMemPercent()
 					+ "% of the max");
-			usedStats3.setWidth(140);
+			usedStats3.setWidth(150);
 
 			HLayout usedStatLayout = new HLayout();
 			usedStatLayout.addMember(usedTitle);
@@ -135,12 +137,12 @@ public class LONI_Chart extends VLayout {
 			usedStatLayout.addMember(usedStats3);
 
 			Label commTitle = new Label("Committed memory: ");
-			commTitle.setWidth(130);
+			commTitle.setWidth(150);
 			commStats1 = new Label(memStats.getCommMemMB() + " MB");
 			commStats1.setWidth(75);
 			commStats2 = new Label(memStats.getCommMaxMemPercent()
 					+ "% of the max");
-			commStats2.setWidth(140);
+			commStats2.setWidth(150);
 
 			HLayout commStatLayout = new HLayout();
 			commStatLayout.addMember(commTitle);
@@ -148,7 +150,7 @@ public class LONI_Chart extends VLayout {
 			commStatLayout.addMember(commStats2);
 
 			Label maxTitle = new Label("Maximum memory: ");
-			maxTitle.setWidth(130);
+			maxTitle.setWidth(150);
 			maxStats = new Label(memStats.getMaxMemMB() + " MB");
 			maxStats.setWidth(75);
 
@@ -234,8 +236,8 @@ public class LONI_Chart extends VLayout {
 			addMember(top);
 			addMember(chart);
 
-			// set timer for 5 seconds
-			timer.scheduleRepeating(5000);
+			// set timer for 3 seconds
+			timer.scheduleRepeating(refreshTime);
 		}
 		// set up thread panels
 		else if (monitorType.equals("Thread")) {
@@ -274,8 +276,8 @@ public class LONI_Chart extends VLayout {
 			addMember(topPanel);
 			addMember(chart);
 
-			// set timer for 5 seconds
-			timer.scheduleRepeating(5000);
+			// set timer for 3 seconds
+			timer.scheduleRepeating(refreshTime);
 		} else {
 			System.err
 					.println("Incorrect monitorType provided. Check initialize() in LONI_Chart.java for errors.");

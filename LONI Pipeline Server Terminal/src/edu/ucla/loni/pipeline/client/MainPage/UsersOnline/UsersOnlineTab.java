@@ -72,7 +72,7 @@ public class UsersOnlineTab {
 
 		// Label that show statistic
 		final com.smartgwt.client.widgets.Label intro = new com.smartgwt.client.widgets.Label(
-				"Loading...");
+				"Loading... (If it takes too long, check the xml file format)");
 		intro.setSize("500px", "49px");
 		layoutUsersOnline.addMember(intro);
 
@@ -89,28 +89,45 @@ public class UsersOnlineTab {
 		// specific which field you want to expend
 		listUsersOnline.setAutoFitExpandField("pipelineInterface");
 
-		// Need to declare these fields here so we can edit their behavior
+		// Declare fields
+		// Edit the behavior of the fields here
+		final ListGridField usernamefield = new ListGridField("Username",
+				"Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
+		usernamefield.setCellAlign(Alignment.CENTER);
+
+		final ListGridField ipaddressfield = new ListGridField("IPAddress",
+				"IP Address&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
+		ipaddressfield.setCellAlign(Alignment.CENTER);
+
+		final ListGridField pipelineinterfacefield = new ListGridField(
+				"PipelineInterface", "Pipeline Interface");
+		pipelineinterfacefield.setCellAlign(Alignment.CENTER);
+
+		final ListGridField pipelineversionfield = new ListGridField(
+				"PipelineVersion",
+				"Pipeline Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
+		pipelineversionfield.setCellAlign(Alignment.CENTER);
+
+		final ListGridField osversionfield = new ListGridField("OSVersion",
+				"OS Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
+		osversionfield.setCellAlign(Alignment.CENTER);
+
+		final ListGridField connecttimefield = new ListGridField("ConnectTime",
+				"Connect Time&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
+		connecttimefield.setCellAlign(Alignment.CENTER);
+
+		final ListGridField lastactivityfield = new ListGridField(
+				"LastActivity",
+				"Last Activity&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
+		lastactivityfield.setCellAlign(Alignment.CENTER);
+
 		final ListGridField disconnectfield = new ListGridField("Disconnect",
 				"Disconnect&#160;&#160;&#160;&#160;&#160;");
 		disconnectfield.setAlign(Alignment.CENTER);
 
-		listUsersOnline
-				.setFields(
-						new ListGridField("Username",
-								"Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-						new ListGridField("IPAddress",
-								"IP Address&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-						new ListGridField("PipelineInterface",
-								"Pipeline Interface"),
-						new ListGridField("PipelineVersion",
-								"Pipeline Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-						new ListGridField("OSVersion",
-								"OS Version&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-						new ListGridField("ConnectTime",
-								"Connect Time&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-						new ListGridField("LastActivity",
-								"Last Activity&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;"),
-						disconnectfield);
+		listUsersOnline.setFields(usernamefield, ipaddressfield,
+				pipelineinterfacefield, pipelineversionfield, osversionfield,
+				connecttimefield, lastactivityfield, disconnectfield);
 
 		layoutUsersOnline.addMember(listUsersOnline);
 
@@ -193,8 +210,7 @@ public class UsersOnlineTab {
 					public void onSuccess(final String xmlData) {
 						refreshUsersOnline(xmlData);
 						notifications.showMessage(
-								"Users Online Tab refreshed successfully.",
-								true);
+								"Users Online updated successfully.", true);
 
 						// get current time with specific format
 						Date time = new Date();
@@ -218,10 +234,9 @@ public class UsersOnlineTab {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						notifications
-								.showMessage(
-										"Users Online Tab did not refresh successfully.",
-										true);
+						notifications.showMessage(
+								"Users Online did not update successfully.",
+								true);
 					}
 				});
 	}

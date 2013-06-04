@@ -23,6 +23,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -32,6 +33,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import com.google.appengine.api.datastore.Key;
@@ -51,7 +53,7 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 
 	private static final long serialVersionUID = 5448261063802349760L;
 	private Key xmlResourceKey, xmlConfigurationKey;
-	WebUrlResponseBuilder webUrlresponse;
+	WebUrlResponseBuilder webUrlresponse = null;
 
 	public RequestWebUrlXMLServlet() {
 		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
@@ -65,7 +67,10 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 		TripleDesCipher cipher = new TripleDesCipher();
 		cipher.setKey(key);
 		String webUrl = "", username = "", password = "";
-		webUrlresponse.setMessage("");
+		
+		if (webUrlresponse == null)
+			webUrlresponse = new WebUrlResponseBuilder();
+		webUrlresponse.reset();
 		
 		try {
 			webUrl = cipher.decrypt(wE);
@@ -100,7 +105,16 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 			    byte[] buffer = {0};
 			    out.write(buffer);
 			    String encodedAuthorization = new String(buffer);
+			    
+			    //below Authorization was not tested as there were no such web URLs of LONI for testing
 			    //huc.setRequestProperty("Authorization", "Basic "+ encodedAuthorization);
+			    
+			    //Here we check that username and password are "loni" "refresher" for testing
+			    if (!username.equals("loni") || !password.equals("refresher")) {
+					webUrlresponse.setMessage("Authentication error");
+					webUrlresponse.setStatus(false);
+					return webUrlresponse;
+				}
 			  	
 			  	int status = huc.getResponseCode();
 			  	if (status != 200)
@@ -109,30 +123,31 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 			  	
 			  	BufferedReader d = new BufferedReader(new InputStreamReader(in));
 			  	
-			  	webUrlresponse.setXml(d.readLine());
+			  	String lineRead = null;
+			  	while((lineRead = d.readLine()) != null)
+			  		webUrlresponse.appendXml(lineRead);
 			  	
-			  	if(webUrlresponse.getXml().length() == 0) {
+			  	if(webUrlresponse.getXml().length() == 0)
 			  		webUrlresponse.setMessage("Empty XML file at target, check URL and try again");
-			  		webUrlresponse.setStatus(false);
-			  	}
 			  	else {
 			  		webUrlresponse.setStatus(true);
-			  		
+			  					  		
 				  	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				  	DocumentBuilder builder = factory.newDocumentBuilder();
-				  	Document document = builder.parse(in);
+				  	DocumentBuilder builder = factory.newDocumentBuilder();			  		
+				  	Document document = builder.parse(new InputSource(new StringReader(webUrlresponse.getXml())));
 					document.getDocumentElement().normalize();
 					String rootTag = document.getDocumentElement().getNodeName();
-				
+					
 					ResponseBuilder response = new ResponseBuilder();
-				
 					if(rootTag.equalsIgnoreCase("LONIConfigurationData")) {
-						DatastoreUtils.writeXMLFileToBlobStore(document, xmlConfigurationKey, response);
-						webUrlresponse.setMessage(response.getRespMessage());
+						webUrlresponse.setRootTag("LONIConfigurationData");
+						if (DatastoreUtils.writeXMLFileToBlobStore(document, xmlConfigurationKey, response) == false) 
+							webUrlresponse.setMessage("Error in storing Config data on server");
 					}
 					else if(rootTag.equalsIgnoreCase("LONIResourceData")){
-						DatastoreUtils.writeXMLFileToBlobStore(document, xmlResourceKey, response);
-						webUrlresponse.setMessage(response.getRespMessage());
+						webUrlresponse.setRootTag("LONIResourceData");
+						if (DatastoreUtils.writeXMLFileToBlobStore(document, xmlResourceKey, response) == false) 
+							webUrlresponse.setMessage("Error in storing Config data on server");
 					}
 					else
 						webUrlresponse.setMessage("Invalid file format, check the URL and try again");
@@ -148,6 +163,9 @@ public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements Req
 			webUrlresponse.setMessage("Authentication error");
 		}
 
+		if (webUrlresponse.getMessage().length() != 0)
+			webUrlresponse.setStatus(false);
+		
 		return webUrlresponse;
 	}
 }

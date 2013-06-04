@@ -6,6 +6,10 @@
   width: 75px;
 } */
 
+.notificationStyle {
+	white-space: nowrap;
+}
+
 .dropFilesLabel {
     border: 3px dashed #B0B0B0;
     float: left;
