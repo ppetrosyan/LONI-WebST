@@ -24,6 +24,7 @@ import java.util.Map;
 import com.google.gwt.user.client.ui.Image;
 import com.smartgwt.client.widgets.layout.VLayout;
 
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 
 /**
@@ -42,8 +43,9 @@ public class LONIFileUploader extends LONIUploader {
 	 * @param dataRequester
 	 */
 	public LONIFileUploader(Map<String, Image> cancelButtons,
-			VLayout layoutUploads, LONIDataRequester dataRequester) {
-		super(cancelButtons, layoutUploads, dataRequester);
+			VLayout layoutUploads, LONIDataRequester dataRequester,
+			LONINotifications notifications) {
+		super(cancelButtons, layoutUploads, dataRequester, notifications);
 
 		setUploadURL("/FileUploadServlet");
 	}

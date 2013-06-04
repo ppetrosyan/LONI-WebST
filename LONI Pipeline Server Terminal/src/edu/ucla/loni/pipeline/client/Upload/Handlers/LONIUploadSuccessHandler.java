@@ -22,8 +22,7 @@ package edu.ucla.loni.pipeline.client.Upload.Handlers;
 import org.moxieapps.gwt.uploader.client.events.UploadSuccessEvent;
 import org.moxieapps.gwt.uploader.client.events.UploadSuccessHandler;
 
-import com.google.gwt.user.client.Window;
-
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 
 /**
@@ -38,7 +37,11 @@ public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 	 * 
 	 * @param dataRequester
 	 */
-	public LONIUploadSuccessHandler(LONIDataRequester dataRequester) {
+	private final LONINotifications notifications;
+
+	public LONIUploadSuccessHandler(LONIDataRequester dataRequester,
+			LONINotifications notifications) {
+		this.notifications = notifications;
 	}
 
 	/**
@@ -48,7 +51,12 @@ public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 	 */
 	@Override
 	public boolean onUploadSuccess(UploadSuccessEvent uploadSuccessEvent) {
-		Window.alert(uploadSuccessEvent.getServerData());
+		notifications.showMessage(uploadSuccessEvent.getServerData(), true);
+
+		/*
+		 * Window.setTitle("File Upload");
+		 * Window.alert(uploadSuccessEvent.getServerData());
+		 */
 
 		// Refresh all tabs
 		// dataRequester.refreshTabs();

@@ -37,6 +37,7 @@ import com.smartgwt.client.widgets.form.fields.TextItem;
 import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.Tab;
 
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 import edu.ucla.loni.pipeline.client.Upload.Features.LONIDragandDropLabel;
 import edu.ucla.loni.pipeline.client.Upload.Uploaders.LONIFileUploader;
@@ -44,9 +45,12 @@ import edu.ucla.loni.pipeline.client.Upload.Uploaders.LONIFileUploader;
 public class UploadTab {
 
 	private final LONIDataRequester dataRequester;
+	private final LONINotifications notifications;
 
-	public UploadTab(LONIDataRequester dataRequester) {
+	public UploadTab(LONIDataRequester dataRequester,
+			LONINotifications notifications) {
 		this.dataRequester = dataRequester;
+		this.notifications = notifications;
 	}
 
 	public Tab setTab() {
@@ -69,7 +73,7 @@ public class UploadTab {
 		final Map<String, Image> cancelButtons = new LinkedHashMap<String, Image>();
 
 		final LONIFileUploader LONIfileUploader = new LONIFileUploader(
-				cancelButtons, layoutUploads, dataRequester);
+				cancelButtons, layoutUploads, dataRequester, notifications);
 
 		if (Uploader.isAjaxUploadWithProgressEventsSupported()) {
 			final LONIDragandDropLabel fileuploadLabel = new LONIDragandDropLabel(

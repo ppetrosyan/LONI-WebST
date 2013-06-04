@@ -169,29 +169,37 @@ public class FileUploadServlet extends HttpServlet {
 				DatastoreUtils.writeXMLFileToBlobStore(document,
 						xmlConfigurationKey, respBuilder);
 
+				// reset respBuilder (no need to have verbose messages because
+				// upload was successful)
+				respBuilder.resetRespMessage();
+
 				respBuilder
-						.appendRespMessage("File Uploaded Successfully, detected Configuration Data.");
+						.appendRespMessage("Configuration Data uploaded successfully.");
 			} else if (rootTag.equalsIgnoreCase("LONIResourceData")) {
 
 				// Write to Blobstore
 				DatastoreUtils.writeXMLFileToBlobStore(document,
 						xmlResourceKey, respBuilder);
 
+				// reset respBuilder (no need to have verbose messages because
+				// upload was successful)
+				respBuilder.resetRespMessage();
+
 				respBuilder
-						.appendRespMessage("File Uploaded Successfully, detected Resource Data.");
+						.appendRespMessage("Resource Data uploaded successfully.");
 			} else {
 				respBuilder
-						.appendRespMessage("The RootTag of this XML is incorrect.");
+						.appendRespMessage("The RootTag of this XML is incorrect. Please upload either Configuration or Resource Data.");
 			}
 		} catch (ParserConfigurationException e) {
 			respBuilder
-					.appendRespMessage("File uploaded is not a valid XML file.");
+					.appendRespMessage("File uploaded is not a valid XML file. Please try again.");
 		} catch (SAXException e) {
 			respBuilder
-					.appendRespMessage("File uploaded is not a valid XML file.");
+					.appendRespMessage("File uploaded is not a valid XML file. Please try again.");
 		} catch (IOException e) {
 			respBuilder
-					.appendRespMessage("Could not parse file.  Please upload a text file.");
+					.appendRespMessage("Could not parse file.  Please upload a text-based XML file.");
 		}
 	}
 }

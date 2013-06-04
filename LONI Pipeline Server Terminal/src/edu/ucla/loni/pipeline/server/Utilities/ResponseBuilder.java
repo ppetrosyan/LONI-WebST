@@ -26,7 +26,6 @@ package edu.ucla.loni.pipeline.server.Utilities;
  */
 public class ResponseBuilder {
 	private final StringBuilder respMessage;
-	private int respMessageCounter;
 
 	/**
 	 * Constructor
@@ -43,9 +42,9 @@ public class ResponseBuilder {
 	 * @return message
 	 */
 	public String getRespMessage() {
-		if (respMessageCounter == 1) {
-			respMessage.append("None.\n");
-		}
+		/*
+		 * if (respMessageCounter == 1) { respMessage.append("None.\n"); }
+		 */
 
 		return respMessage.toString();
 	}
@@ -54,11 +53,11 @@ public class ResponseBuilder {
 	 * Resets the response message
 	 */
 	public void resetRespMessage() {
-		respMessageCounter = 1;
+		// respMessageCounter = 1;
 
 		respMessage.setLength(0);
 
-		respMessage.append("Message(s) from Server:\n");
+		// respMessage.append("Message(s) from Server:\n");
 	}
 
 	/**
@@ -67,11 +66,13 @@ public class ResponseBuilder {
 	 * @param message
 	 */
 	public void appendRespMessage(String message) {
-		respMessage.append(respMessageCounter + ")  " + message);
+		respMessage.append(message + " ");
 
-		if (!message.endsWith("\n")) {
-			respMessage.append("\n");
-		}
-		respMessageCounter++;
+		/*
+		 * respMessage.append(respMessageCounter + ")  " + message);
+		 * 
+		 * if (!message.endsWith("\n")) { respMessage.append("\n"); }
+		 * respMessageCounter++;
+		 */
 	}
 }

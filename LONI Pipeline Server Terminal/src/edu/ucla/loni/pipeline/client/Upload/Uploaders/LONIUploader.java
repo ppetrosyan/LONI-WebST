@@ -27,6 +27,7 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.user.client.ui.Image;
 import com.smartgwt.client.widgets.layout.VLayout;
 
+import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
 import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogCompleteHandler;
 import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIFileDialogStartHandler;
@@ -46,6 +47,7 @@ public class LONIUploader extends Uploader {
 	private final Map<String, Image> cancelButtons;
 	private final VLayout layoutUploads;
 	private final LONIDataRequester dataRequester;
+	private final LONINotifications notifications;
 
 	/**
 	 * Constructor
@@ -55,10 +57,12 @@ public class LONIUploader extends Uploader {
 	 * @param dataRequester
 	 */
 	public LONIUploader(Map<String, Image> cancelButtons,
-			VLayout layoutUploads, LONIDataRequester dataRequester) {
+			VLayout layoutUploads, LONIDataRequester dataRequester,
+			LONINotifications notifications) {
 		this.cancelButtons = cancelButtons;
 		this.layoutUploads = layoutUploads;
 		this.dataRequester = dataRequester;
+		this.notifications = notifications;
 
 		configure();
 		addHandlers();
@@ -87,7 +91,8 @@ public class LONIUploader extends Uploader {
 	 */
 	private boolean addHandlers() {
 
-		setUploadSuccessHandler(new LONIUploadSuccessHandler(dataRequester));
+		setUploadSuccessHandler(new LONIUploadSuccessHandler(dataRequester,
+				notifications));
 
 		setFileQueuedHandler(new LONIFileQueuedHandler(this, cancelButtons,
 				layoutUploads));

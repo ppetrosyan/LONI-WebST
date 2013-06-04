@@ -200,7 +200,7 @@ public class LONI_Pipeline_ST_Tabset_Display {
 				usersOnlineTab, userUsageTab, notifications);
 
 		// Uploads tab
-		UploadTab uploadTab = new UploadTab(dataRequester);
+		UploadTab uploadTab = new UploadTab(dataRequester, notifications);
 		tabset.addTab(uploadTab.setTab());
 
 		return tabset;
