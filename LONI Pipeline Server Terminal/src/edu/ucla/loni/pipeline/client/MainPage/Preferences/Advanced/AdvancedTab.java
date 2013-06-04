@@ -67,11 +67,13 @@ public class AdvancedTab {
 		final SpinnerItem slaveFreq = new SpinnerItem("slaveFreq",
 				"Slave: Master Check Frequency");
 		slaveFreq.setValue("5");
+		slaveFreq.setMin(1);
 		slaveFreq.setDisabled(true);
 
 		final SpinnerItem slaveRetries = new SpinnerItem("slaveRetries",
 				"Slave: Number of Retries");
 		slaveRetries.setValue("3");
+		slaveRetries.setMin(0);
 		slaveRetries.setDisabled(true);
 
 		final TextItem aliasInterface = new TextItem("aliasInterface",
@@ -142,10 +144,12 @@ public class AdvancedTab {
 
 		SpinnerItem packetSize = new SpinnerItem("packetSize", "Packet Size");
 		packetSize.setValue("32768");
+		packetSize.setMin(64);
 
 		SpinnerItem connTimeout = new SpinnerItem("connTimeout",
 				"Connection Timeout (seconds)");
 		connTimeout.setValue("3");
+		connTimeout.setMin(1);
 
 		formAdvancedNetwork
 				.setFields(new FormItem[] { packetSize, connTimeout });
@@ -214,6 +218,8 @@ public class AdvancedTab {
 				"Warn When Free Disk Space is Lower Than (%)");
 		percent.setDisabled(true);
 		percent.setValue("10");
+		percent.setMin(0);
+		percent.setMax(100);
 		formAdvancedDisk.setFields(new FormItem[] { percent });
 		MainPageUtils.formatForm(formAdvancedDisk);
 		layoutAdvanced.addMember(formAdvancedDisk);
@@ -242,6 +248,7 @@ public class AdvancedTab {
 		SpinnerItem maxThreads = new SpinnerItem("maxThreads",
 				"Max Threads for Active Jobs");
 		maxThreads.setValue("4");
+		maxThreads.setMin(1);
 
 		CheckboxItem autoClean = new CheckboxItem("autoClean");
 		autoClean
@@ -251,18 +258,22 @@ public class AdvancedTab {
 		SpinnerItem maxGenerator = new SpinnerItem("maxThreads",
 				"Max Metadata Generator Threads");
 		maxGenerator.setValue("5");
+		maxGenerator.setMin(1);
 
 		SpinnerItem serverRefresh = new SpinnerItem("serverRefresh",
 				"Server Status Update Interval (seconds)");
 		serverRefresh.setValue("10");
+		serverRefresh.setMin(1);
 
 		SpinnerItem maxMissed = new SpinnerItem("maxMissed",
 				"Max Consecutive Missed Updates");
 		maxMissed.setValue("3");
+		maxMissed.setMin(1);
 
 		SpinnerItem directoryTimeout = new SpinnerItem("directoryTimeout",
 				"Recursive Directory Listing Timeout (seconds)");
 		directoryTimeout.setValue("120");
+		directoryTimeout.setMin(60);
 
 		TextItem extQName = new TextItem("extQName",
 				"External Network Access Queue Name");
@@ -281,7 +292,6 @@ public class AdvancedTab {
 				extQName, missing, missingMod, missingFile });
 		MainPageUtils.formatForm(formAdvancedOther);
 		layoutAdvanced.addMember(formAdvancedOther);
-		// */
 
 		tabAdvanced.setPane(layoutAdvanced);
 		return tabAdvanced;
