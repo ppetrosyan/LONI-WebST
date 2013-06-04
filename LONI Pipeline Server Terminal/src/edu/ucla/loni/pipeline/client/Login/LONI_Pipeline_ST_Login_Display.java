@@ -25,16 +25,17 @@ import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.Cookies;
+import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Button;
-import com.smartgwt.client.data.DataSource;
-import com.smartgwt.client.data.fields.DataSourcePasswordField;
-import com.smartgwt.client.data.fields.DataSourceTextField;
+import com.google.gwt.user.client.ui.FlexTable;
+import com.google.gwt.user.client.ui.HasHorizontalAlignment;
+import com.google.gwt.user.client.ui.PasswordTextBox;
+import com.google.gwt.user.client.ui.TextBox;
 import com.smartgwt.client.types.Alignment;
 import com.smartgwt.client.types.VerticalAlignment;
 import com.smartgwt.client.widgets.Img;
 import com.smartgwt.client.widgets.Label;
-import com.smartgwt.client.widgets.form.DynamicForm;
 import com.smartgwt.client.widgets.layout.HLayout;
 import com.smartgwt.client.widgets.layout.VLayout;
 
@@ -44,6 +45,8 @@ public class LONI_Pipeline_ST_Login_Display {
 	private final HLayout mainLayout;
 	private LONI_Pipeline_ST_Tabset_Display wbst;
 	private final static long TWO_MIN = 1000 * 60 * 2;
+	private TextBox textboxUsername;
+	private PasswordTextBox textboxPassword;
 
 	public LONI_Pipeline_ST_Login_Display() {
 		mainLayout = new HLayout();
@@ -92,27 +95,30 @@ public class LONI_Pipeline_ST_Login_Display {
 		labelSignIn.setHeight("20px");
 		labelSignIn.setWidth100();
 		loginLayout.addMember(labelSignIn);
-
-		DataSource dataSource = new DataSource();
-		dataSource.setID("login");
-
-		final DataSourceTextField textFieldUsername = new DataSourceTextField(
-				"username", "Username");
-		textFieldUsername.setRequired(true);
-
-		final DataSourcePasswordField passwordField = new DataSourcePasswordField(
-				"password", "Password");
-		textFieldUsername.setRequired(true);
-		dataSource.setFields(textFieldUsername, passwordField);
-
-		DynamicForm form = new DynamicForm();
-		form.setAlign(Alignment.CENTER);
-		form.setHeight("50px");
-		form.setWidth100();
-
-		form.setDataSource(dataSource);
-
-		loginLayout.addMember(form);
+		
+		FlexTable flexTable = new FlexTable();
+		loginLayout.addMember(flexTable);
+		flexTable.setWidth("345px");
+		flexTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
+		flexTable.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_CENTER);
+		
+		final Label labelUsername = new Label("Username:");
+		labelUsername.setAlign(Alignment.CENTER);
+		labelUsername.setHeight("20px");
+		flexTable.setWidget(0, 0, labelUsername);
+		
+		textboxUsername = new TextBox();
+		textboxUsername.setValue("loni");
+		flexTable.setWidget(0, 1, textboxUsername);
+		
+		final Label labelPassword = new Label("Password:");
+		labelPassword.setAlign(Alignment.CENTER);
+		labelPassword.setHeight("20px");
+		flexTable.setWidget(1, 0, labelPassword);
+		
+		textboxPassword = new PasswordTextBox();
+		textboxPassword.setValue("123");
+		flexTable.setWidget(1, 1, textboxPassword);
 
 		VLayout buttonLayout = new VLayout();
 		buttonLayout.setLayoutAlign(Alignment.CENTER);
@@ -133,8 +139,21 @@ public class LONI_Pipeline_ST_Login_Display {
 			public void onClick(ClickEvent event) {
 				System.out.println("onClick()");
 
-				user.setUsername("abc");
-				user.setPassword("123");
+				user.setUsername(textboxUsername.getText());
+				user.setPassword(textboxPassword.getText());
+				
+				System.out.println("Username = " + user.getUsername());
+				System.out.println("Password = " + user.getPassword());
+
+				if (user.getUsername().equals("loni") == false) {
+					Window.alert("Wrong username");
+					return;
+				}
+				
+				if (user.getPassword().equals("123") == false) {
+					Window.alert("Wrong password");
+					return;
+				}
 
 				LoginServiceAsync loginServiceAsync = GWT
 						.create(LoginService.class);
