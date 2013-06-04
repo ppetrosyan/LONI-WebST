@@ -49,6 +49,7 @@ public class PreferencesTab {
 	private AccessTab accessTab;
 	private PackagesTab packagesTab;
 	private ExecutablesTab executablesTab;
+	private AdvancedTab advancedTab;
 	private final AsyncClientServices asyncClientServices;
 	private final LONINotifications notifications;
 
@@ -147,7 +148,7 @@ public class PreferencesTab {
 		executablesTab = new ExecutablesTab();
 		tabSet.addTab(executablesTab.setTab());
 
-		AdvancedTab advancedTab = new AdvancedTab();
+		advancedTab = new AdvancedTab();
 		tabSet.addTab(advancedTab.setTab());
 
 		tabSet.draw();
@@ -163,6 +164,8 @@ public class PreferencesTab {
 	}
 
 	private void parsePrefXML(String xml) {
+		System.out.println("parsePrefXML");
+		
 		// remove whitespace
 		String cleanXml = xml.replaceAll("\t", "");
 		cleanXml.replaceAll("\n", "");
@@ -175,6 +178,7 @@ public class PreferencesTab {
 			accessTab.parseAccessXML(doc);
 			packagesTab.parsePackageXML(doc);
 			executablesTab.parseExecutablesXML(doc);
+			advancedTab.parseAdvancedXML(doc);
 		} catch (DOMParseException e) {
 			System.err
 					.println("Could not parse XML file. Check XML file format.");

@@ -65,6 +65,9 @@
             <FreeSlots>98</FreeSlots>
             <WorkflowManageEnable>false</WorkflowManageEnable>
         </Access>
+        <Advanced>
+            <FailoverEnabled>true</FailoverEnabled>
+        </Advanced>
 		<Packages>
 			<PackageName>AAL</PackageName>
 			<Version>*</Version>
