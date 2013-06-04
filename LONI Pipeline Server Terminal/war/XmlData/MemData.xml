@@ -134,72 +134,6 @@
 			<CommittedMemory>7101</CommittedMemory>
 			<MaxMemory>7281</MaxMemory>
 		</Step>
-		<Step ID="22">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="23">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="24">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="25">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="26">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="27">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="28">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="29">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="30">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="31">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
-		<Step ID="32">
-			<InitialMemory>0</InitialMemory>
-			<UsedMemory>417</UsedMemory>
-			<CommittedMemory>495</CommittedMemory>
-			<MaxMemory>7281</MaxMemory>
-		</Step>
 	</MemoryUsage>
 	<ThreadUsage>
 		<Step ID="0">
@@ -288,50 +222,6 @@
 		</Step>
 		<Step ID="21">
 			<ThreadCount>401</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="22">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="23">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="24">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="25">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="26">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="27">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="28">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="29">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="30">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="31">
-			<ThreadCount>92</ThreadCount>
-			<ThreadPeak>440</ThreadPeak>
-		</Step>
-		<Step ID="32">
-			<ThreadCount>92</ThreadCount>
 			<ThreadPeak>440</ThreadPeak>
 		</Step>
 	</ThreadUsage>
