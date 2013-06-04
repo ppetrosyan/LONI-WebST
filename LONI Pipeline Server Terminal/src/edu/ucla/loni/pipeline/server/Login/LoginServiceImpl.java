@@ -46,9 +46,9 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 		System.out.println("storeUserInSession()");
 
 		if((user != null) && 
-				(user.getUsername().equals("abc")) &&
+				(user.getUsername().equals("loni")) &&
 				(user.getPassword().equals("123"))) {
-			System.out.println("abc & 123");
+			System.out.println("Correct username and password");
 			//                    return getThreadLocalRequest().getSession().getId();
 
 			HttpSession httpSession = this.getThreadLocalRequest().getSession(true);
@@ -57,11 +57,11 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 			System.out.println("httpSessionId = " + httpSession.getId());
 
 			return httpSession.getId();
+		} else {
+			System.out.println("Wrong username and password");
+			return null;
 		}
 
-		System.out.println("not abc & 123");
-		
-		return null;
 	}
 
 	private void deleteUserFromSession() {
