@@ -87,17 +87,16 @@ public class PreferencesTab {
 							public void onSuccess(final String xmlData) {
 								refreshPrefTab(xmlData);
 
-								notifications
-										.showMessage(
-												"Preferences Tab refreshed successfully.",
-												true);
+								notifications.showMessage(
+										"Preferences updated successfully.",
+										true);
 							}
 
 							@Override
 							public void onFailure(Throwable caught) {
 								notifications
 										.showMessage(
-												"Preferences Tab did not refresh successfully.",
+												"Preferences did not update successfully.",
 												true);
 							}
 						});
@@ -165,7 +164,7 @@ public class PreferencesTab {
 
 	private void parsePrefXML(String xml) {
 		System.out.println("parsePrefXML");
-		
+
 		// remove whitespace
 		String cleanXml = xml.replaceAll("\t", "");
 		cleanXml.replaceAll("\n", "");

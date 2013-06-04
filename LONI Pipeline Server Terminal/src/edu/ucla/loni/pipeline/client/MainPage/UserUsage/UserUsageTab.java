@@ -86,29 +86,30 @@ public class UserUsageTab {
 
 		// specific which field you want to expend
 		listUserUsage.setAutoFitExpandField("workflowID");
-		
-		// Declare fields for User Usage list 
+
+		// Declare fields for User Usage list
 		// Edit the behavior of the fields here
 		final ListGridField usernamefield = new ListGridField(
 				"username",
 				"Username&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
 		usernamefield.setCellAlign(Alignment.CENTER);
-		
-		final ListGridField workflowidfield = new ListGridField("workflowID", "Workflow ID");
+
+		final ListGridField workflowidfield = new ListGridField("workflowID",
+				"Workflow ID");
 		workflowidfield.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField nodenamefield = new ListGridField(
 				"nodeName",
 				"NodeName&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
 		nodenamefield.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField instancefield = new ListGridField(
 				"instance",
 				"Instance&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
 		instancefield.setCellAlign(Alignment.RIGHT);
 
-		listUserUsage
-				.setFields(usernamefield,workflowidfield, nodenamefield, instancefield );
+		listUserUsage.setFields(usernamefield, workflowidfield, nodenamefield,
+				instancefield);
 
 		// List UserUsageCount
 		listUserUsageCount.setSize("50%", "50%");
@@ -120,19 +121,18 @@ public class UserUsageTab {
 		// specific which field you want to expend
 		listUserUsageCount.setAutoFitExpandField("username");
 
-		
-		// Declare fields for User Usage Count list 
+		// Declare fields for User Usage Count list
 		// Edit the behavior of the fields here
-		final ListGridField username2field = new ListGridField("username", "Username");
+		final ListGridField username2field = new ListGridField("username",
+				"Username");
 		username2field.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField countfield = new ListGridField(
 				"count",
 				"Count&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;");
 		countfield.setCellAlign(Alignment.RIGHT);
-		
-		listUserUsageCount
-				.setFields(username2field, countfield);
+
+		listUserUsageCount.setFields(username2field, countfield);
 
 		layoutUserUsage.addMember(listUserUsage);
 		layoutUserUsage.addMember(listUserUsageCount);
@@ -182,14 +182,15 @@ public class UserUsageTab {
 								+ ft.format(time));
 
 						notifications.showMessage(
-								"User Usage Tab refreshed successfully.", true);
+								"User Usage updated successfully.", true);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						notifications.showMessage(
-								"User Usage Tab did not refresh successfully.",
-								true);
+						notifications
+								.showMessage(
+										"User Usage did not update successfully.",
+										true);
 					}
 				});
 	}

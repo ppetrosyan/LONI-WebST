@@ -91,8 +91,7 @@ public class MemoryUsageTab {
 						memChart.getChart().refreshChart(xmlData);
 
 						notifications.showMessage(
-								"Memory Usage Tab refreshed successfully.",
-								true);
+								"Memory Usage updated successfully.", true);
 					}
 
 					@Override
@@ -100,7 +99,7 @@ public class MemoryUsageTab {
 						if (clicked) {
 							notifications
 									.showMessage(
-											"Memory Usage Tab did not refresh successfully.",
+											"Memory Usage did not update successfully.",
 											true);
 						}
 					}

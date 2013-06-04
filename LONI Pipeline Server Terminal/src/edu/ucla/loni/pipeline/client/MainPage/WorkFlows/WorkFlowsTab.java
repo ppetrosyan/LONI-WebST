@@ -220,14 +220,13 @@ public class WorkFlowsTab {
 								+ ft.format(time));
 
 						notifications.showMessage(
-								"Workflows Tab refreshed successfully.", true);
+								"Workflows updated successfully.", true);
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
 						notifications.showMessage(
-								"Workflows Tab did not refresh successfully.",
-								true);
+								"Workflows did not update successfully.", true);
 					}
 				});
 	}

@@ -91,8 +91,7 @@ public class ThreadUsageTab {
 						thrdChart.getChart().refreshChart(xmlData);
 
 						notifications.showMessage(
-								"Thread Usage Tab refreshed successfully.",
-								true);
+								"Thread Usage updated successfully.", true);
 					}
 
 					@Override
@@ -100,7 +99,7 @@ public class ThreadUsageTab {
 						if (clicked) {
 							notifications
 									.showMessage(
-											"Thread Usage Tab did not refresh successfully.",
+											"Thread Usage did not update successfully.",
 											true);
 						}
 					}
