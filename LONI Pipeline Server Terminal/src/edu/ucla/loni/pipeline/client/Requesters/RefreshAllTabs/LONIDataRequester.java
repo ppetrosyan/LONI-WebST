@@ -21,8 +21,6 @@ package edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs;
 
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.rpc.AsyncCallback;
-import com.google.gwt.xml.client.Document;
-import com.google.gwt.xml.client.XMLParser;
 import com.googlecode.gwt.crypto.client.TripleDesCipher;
 
 import edu.ucla.loni.pipeline.client.Charts.LONI_Chart;
@@ -93,9 +91,8 @@ public class LONIDataRequester {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						notifications.showMessage(
-								"Resource Tabs did not refresh successfully.",
-								true);
+						notifications
+								.showMessage("ERROR: Resource Tabs did not refresh successfully.");
 					}
 				});
 	}
@@ -116,9 +113,7 @@ public class LONIDataRequester {
 					@Override
 					public void onFailure(Throwable caught) {
 						notifications
-								.showMessage(
-										"Configuration Tabs did not refresh successfully.",
-										true);
+								.showMessage("ERROR: Configuration Tabs did not refresh successfully.");
 					}
 				});
 	}
@@ -139,8 +134,7 @@ public class LONIDataRequester {
 	private void refreshConfigurationTabsWithXml(String xmlData) {
 		/** Preferences Tab */
 		preferencesTab.refreshPrefTab(xmlData);
-		notifications.showMessage("Configuration Tabs refreshed successfully.",
-				true);
+		notifications.showMessage("Configuration Tabs refreshed successfully.");
 	}
 
 	/**
@@ -165,8 +159,7 @@ public class LONIDataRequester {
 		/** Thread Usage Tab */
 		thrdChart.getChart().refreshChart(xmlData);
 
-		notifications
-				.showMessage("Resource Tabs refreshed successfully.", true);
+		notifications.showMessage("Resource Tabs refreshed successfully.");
 	}
 
 	/**
@@ -197,27 +190,35 @@ public class LONIDataRequester {
 			return;
 		}
 
-		asyncClientServices.reqwebUrlXMLService.getXML(we, ue, pe, GWT_DES_KEY, new AsyncCallback<WebUrlResponseBuilder>() {
-			@Override
-			public void onFailure(Throwable caught) {
-				Window.alert("Retrive of XML file failed, check the URL and try again");
-			}
+		asyncClientServices.reqwebUrlXMLService.getXML(we, ue, pe, GWT_DES_KEY,
+				new AsyncCallback<WebUrlResponseBuilder>() {
+					@Override
+					public void onFailure(Throwable caught) {
+						Window.alert("Retrive of XML file failed, check the URL and try again");
+					}
 
-			@Override
-			public void onSuccess(WebUrlResponseBuilder response) {
-				if ((response.getStatus() == false) || (response.getXml() == null))
-					Window.alert("Retrive of XML file failed, message from server - " + response.getMessage());
-			    else {		
-			    	String rootTag = response.getRootTag();
-					if(rootTag.equalsIgnoreCase("LONIConfigurationData"))
-						refreshConfigurationTabsWithXml(response.getXml());
-					else if (rootTag.equalsIgnoreCase("LONIResourceData"))
-						refreshResourceTabsWithXml(response.getXml());
-					else 
-						Window.alert(rootTag + "Invalid file format, check the URL and try again");
-			    }
+					@Override
+					public void onSuccess(WebUrlResponseBuilder response) {
+						if ((response.getStatus() == false)
+								|| (response.getXml() == null)) {
+							Window.alert("Retrive of XML file failed, message from server - "
+									+ response.getMessage());
+						} else {
+							String rootTag = response.getRootTag();
+							if (rootTag
+									.equalsIgnoreCase("LONIConfigurationData")) {
+								refreshConfigurationTabsWithXml(response
+										.getXml());
+							} else if (rootTag
+									.equalsIgnoreCase("LONIResourceData")) {
+								refreshResourceTabsWithXml(response.getXml());
+							} else {
+								Window.alert(rootTag
+										+ "Invalid file format, check the URL and try again");
+							}
+						}
 
-			}
-		});
+					}
+				});
 	}
 }

@@ -90,17 +90,15 @@ public class ThreadUsageTab {
 						/** Thread Usage Tab */
 						thrdChart.getChart().refreshChart(xmlData);
 
-						notifications.showMessage(
-								"Thread Usage updated successfully.", true);
+						notifications
+								.showMessage("Thread Usage updated successfully.");
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
 						if (clicked) {
 							notifications
-									.showMessage(
-											"Thread Usage did not update successfully.",
-											true);
+									.showMessage("ERROR: Thread Usage did not update successfully.");
 						}
 					}
 				});

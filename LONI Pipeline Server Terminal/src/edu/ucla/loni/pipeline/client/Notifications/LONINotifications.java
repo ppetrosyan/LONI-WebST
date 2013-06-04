@@ -20,6 +20,7 @@
 package edu.ucla.loni.pipeline.client.Notifications;
 
 import com.google.gwt.user.client.Timer;
+import com.google.gwt.user.client.ui.LONINotificationsHelper;
 import com.google.gwt.user.client.ui.NotificationMole;
 
 /**
@@ -30,12 +31,22 @@ import com.google.gwt.user.client.ui.NotificationMole;
 public class LONINotifications {
 
 	private final NotificationMole notificationMole;
+	private final LONINotificationsHelper helper;
+	private final Timer timer;
 
 	/**
 	 * Constructor
 	 */
 	public LONINotifications() {
 		notificationMole = new NotificationMole();
+		helper = new LONINotificationsHelper(notificationMole);
+
+		timer = new Timer() {
+			@Override
+			public void run() {
+				notificationMole.hideNow();
+			}
+		};
 
 		configureNotifications();
 	}
@@ -48,7 +59,7 @@ public class LONINotifications {
 		notificationMole.setAnimationDuration(500);
 		notificationMole.setHeight("100%");
 		notificationMole.setWidth("100%");
-		notificationMole.setStyleName("notificationStyle");
+		notificationMole.setStyleName("notificationNormal");
 	}
 
 	/**
@@ -57,25 +68,27 @@ public class LONINotifications {
 	 * @param message
 	 * @param timer
 	 */
-	public void showMessage(String message, boolean timer) {
+	public void showMessage(String message) {
 		/*
 		 * if (notificationMole.isVisible()) { notificationMole.hideNow(); }
 		 */
 
-		notificationMole.show(message);
+		if (message.startsWith("ERROR:")) {
+			// notificationMole.setStyleName("notificationError");
+			notificationMole.show(message);
+			helper.setBackgroundColor("#F5C6D6");
 
-		if (timer) {
-			Timer t = new Timer() {
-				@Override
-				public void run() {
-					notificationMole.hideNow();
-				}
-			};
+			// Schedule the timer to run once in 5 seconds.
+			timer.schedule(5000);
+		} else {
+			// notificationMole.setStyleName("notificationNormal");
+			helper.setBackgroundColor("#E5EDF9");
+
+			notificationMole.show(message);
 
 			// Schedule the timer to run once in 3 seconds.
-			t.schedule(3000);
+			timer.schedule(3000);
 		}
-
 	}
 
 	/**

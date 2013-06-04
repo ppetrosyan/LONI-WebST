@@ -6,8 +6,13 @@
   width: 75px;
 } */
 
-.notificationStyle {
+.notificationNormal {
 	white-space: nowrap;
+}
+
+.notificationError {
+	white-space: nowrap;
+	color: #FFFFFF;
 }
 
 .dropFilesLabel {

@@ -51,7 +51,7 @@ public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 	 */
 	@Override
 	public boolean onUploadSuccess(UploadSuccessEvent uploadSuccessEvent) {
-		notifications.showMessage(uploadSuccessEvent.getServerData(), true);
+		notifications.showMessage(uploadSuccessEvent.getServerData());
 
 		/*
 		 * Window.setTitle("File Upload");

@@ -90,17 +90,15 @@ public class MemoryUsageTab {
 						/** Memory Usage Tab */
 						memChart.getChart().refreshChart(xmlData);
 
-						notifications.showMessage(
-								"Memory Usage updated successfully.", true);
+						notifications
+								.showMessage("Memory Usage updated successfully.");
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
 						if (clicked) {
 							notifications
-									.showMessage(
-											"Memory Usage did not update successfully.",
-											true);
+									.showMessage("ERROR: Memory Usage did not update successfully.");
 						}
 					}
 				});

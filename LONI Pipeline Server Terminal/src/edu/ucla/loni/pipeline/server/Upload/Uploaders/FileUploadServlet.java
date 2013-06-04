@@ -174,7 +174,7 @@ public class FileUploadServlet extends HttpServlet {
 				respBuilder.resetRespMessage();
 
 				respBuilder
-						.appendRespMessage("Configuration Data uploaded successfully.");
+						.appendRespMessage("LONI Configuration Data was uploaded successfully.");
 			} else if (rootTag.equalsIgnoreCase("LONIResourceData")) {
 
 				// Write to Blobstore
@@ -186,20 +186,20 @@ public class FileUploadServlet extends HttpServlet {
 				respBuilder.resetRespMessage();
 
 				respBuilder
-						.appendRespMessage("Resource Data uploaded successfully.");
+						.appendRespMessage("LONI Resource Data was uploaded successfully.");
 			} else {
 				respBuilder
-						.appendRespMessage("The RootTag of this XML is incorrect. Please upload either Configuration or Resource Data.");
+						.appendRespMessage("ERROR: Please upload either LONI Configuration or Resource Data.");
 			}
 		} catch (ParserConfigurationException e) {
 			respBuilder
-					.appendRespMessage("File uploaded is not a valid XML file. Please try again.");
+					.appendRespMessage("ERROR: File uploaded is not a valid XML file. Please try again.");
 		} catch (SAXException e) {
 			respBuilder
-					.appendRespMessage("File uploaded is not a valid XML file. Please try again.");
+					.appendRespMessage("ERROR: File uploaded is not a valid XML file. Please try again.");
 		} catch (IOException e) {
 			respBuilder
-					.appendRespMessage("Could not parse file.  Please upload a text-based XML file.");
+					.appendRespMessage("ERROR: Could not parse file.  Please upload a text-based XML file.");
 		}
 	}
 }

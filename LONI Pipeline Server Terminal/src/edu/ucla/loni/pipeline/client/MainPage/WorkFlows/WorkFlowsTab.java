@@ -219,14 +219,14 @@ public class WorkFlowsTab {
 								+ "&#160;) " + "&#160;&#160;&#160;Updated: "
 								+ ft.format(time));
 
-						notifications.showMessage(
-								"Workflows updated successfully.", true);
+						notifications
+								.showMessage("Workflows updated successfully.");
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
-						notifications.showMessage(
-								"Workflows did not update successfully.", true);
+						notifications
+								.showMessage("ERROR: Workflows did not update successfully.");
 					}
 				});
 	}

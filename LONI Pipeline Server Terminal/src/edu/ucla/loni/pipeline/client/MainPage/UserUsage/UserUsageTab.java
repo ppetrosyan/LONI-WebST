@@ -181,16 +181,14 @@ public class UserUsageTab {
 								+ "&#160;) " + "&#160;&#160;&#160;Updated: "
 								+ ft.format(time));
 
-						notifications.showMessage(
-								"User Usage updated successfully.", true);
+						notifications
+								.showMessage("User Usage updated successfully.");
 					}
 
 					@Override
 					public void onFailure(Throwable caught) {
 						notifications
-								.showMessage(
-										"User Usage did not update successfully.",
-										true);
+								.showMessage("ERROR: User Usage did not update successfully.");
 					}
 				});
 	}

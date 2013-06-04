@@ -209,8 +209,8 @@ public class UsersOnlineTab {
 					@Override
 					public void onSuccess(final String xmlData) {
 						refreshUsersOnline(xmlData);
-						notifications.showMessage(
-								"Users Online updated successfully.", true);
+						notifications
+								.showMessage("Users Online updated successfully.");
 
 						// get current time with specific format
 						Date time = new Date();
@@ -234,9 +234,8 @@ public class UsersOnlineTab {
 
 					@Override
 					public void onFailure(Throwable caught) {
-						notifications.showMessage(
-								"Users Online did not update successfully.",
-								true);
+						notifications
+								.showMessage("ERROR: Users Online did not update successfully.");
 					}
 				});
 	}
