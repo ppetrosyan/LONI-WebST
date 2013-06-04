@@ -43,7 +43,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 import com.smartgwt.client.widgets.tab.Tab;
 import com.smartgwt.client.widgets.tab.events.TabSelectedEvent;
 import com.smartgwt.client.widgets.tab.events.TabSelectedHandler;
-import com.smartgwt.client.types.Alignment;
 
 import edu.ucla.loni.pipeline.client.MainPage.Services.AsyncClientServices;
 import edu.ucla.loni.pipeline.client.Notifications.LONINotifications;
@@ -102,50 +101,58 @@ public class WorkFlowsTab {
 
 		// Declare fields
 		// Edit the behavior of the fields here
-		final ListGridField workflowfield = new ListGridField("workflowID", "Workflow ID");
+		final ListGridField workflowfield = new ListGridField("workflowID",
+				"Workflow ID");
 		workflowfield.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField usernamefield = new ListGridField("username",
 				"Username&#160;&#160;&#160;&#160;&#160;");
 		usernamefield.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField statefield = new ListGridField("state",
 				"State&#160;&#160;&#160;&#160;&#160;");
 		statefield.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField starttimefield = new ListGridField("startTime",
 				"Start Time&#160;&#160;&#160;&#160;&#160;");
 		starttimefield.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField endtimefield = new ListGridField("endTime",
 				"End Time&#160;&#160;&#160;&#160;&#160;");
 		endtimefield.setCellAlign(Alignment.CENTER);
-		
+
 		final ListGridField durationfield = new ListGridField("duration",
 				"Duration&#160;&#160;&#160;&#160;&#160;");
 		durationfield.setCellAlign(Alignment.CENTER);
-		
-		final ListGridField numofnodefield = new ListGridField("numofnode", "N&#160;&#160;&#160;");
+
+		final ListGridField numofnodefield = new ListGridField("numofnode",
+				"N&#160;&#160;&#160;");
 		numofnodefield.setCellAlign(Alignment.RIGHT);
-		
-		final ListGridField numofinstancesfield = new ListGridField("numofinstances", "I&#160;&#160;&#160;");
+
+		final ListGridField numofinstancesfield = new ListGridField(
+				"numofinstances", "I&#160;&#160;&#160;");
 		numofinstancesfield.setCellAlign(Alignment.RIGHT);
-		
-		final ListGridField numBacklogfield = new ListGridField("numBacklog", "B&#160;&#160;&#160;");
+
+		final ListGridField numBacklogfield = new ListGridField("numBacklog",
+				"B&#160;&#160;&#160;");
 		numBacklogfield.setCellAlign(Alignment.RIGHT);
-		
-		final ListGridField numSubmittingfield = new ListGridField("numSubmitting", "S&#160;&#160;&#160;");
+
+		final ListGridField numSubmittingfield = new ListGridField(
+				"numSubmitting", "S&#160;&#160;&#160;");
 		numSubmittingfield.setCellAlign(Alignment.RIGHT);
-		
-		final ListGridField numQueuedfield = new ListGridField("numQueued", "Q&#160;&#160;&#160;");
+
+		final ListGridField numQueuedfield = new ListGridField("numQueued",
+				"Q&#160;&#160;&#160;");
 		numQueuedfield.setCellAlign(Alignment.RIGHT);
-		
-		final ListGridField numRunningfield = new ListGridField("numRunning", "R&#160;&#160;&#160;");
+
+		final ListGridField numRunningfield = new ListGridField("numRunning",
+				"R&#160;&#160;&#160;");
 		numRunningfield.setCellAlign(Alignment.RIGHT);
-		
-		final ListGridField numCompletedfield = new ListGridField("numCompleted", "C&#160;&#160;&#160;");
+
+		final ListGridField numCompletedfield = new ListGridField(
+				"numCompleted", "C&#160;&#160;&#160;");
 		numCompletedfield.setCellAlign(Alignment.RIGHT);
-		
+
 		final ListGridField stopfield = new ListGridField("stop",
 				"Stop/Reset&#160;&#160;&#160;&#160;&#160;");
 		stopfield.setAlign(Alignment.CENTER);
@@ -158,20 +165,11 @@ public class WorkFlowsTab {
 				"View&#160;&#160;&#160;&#160;&#160;");
 		viewfield.setAlign(Alignment.CENTER);
 
-		listWorkflows.setFields(workflowfield,
-				usernamefield,
-				statefield,
-				starttimefield,
-				endtimefield,
-				durationfield,
-				numofnodefield,
-				numofinstancesfield,
-				numBacklogfield,
-				numSubmittingfield,
-				numQueuedfield, 
-				numRunningfield,
-				numCompletedfield,
-				stopfield, pausefield, viewfield);
+		listWorkflows.setFields(workflowfield, usernamefield, statefield,
+				starttimefield, endtimefield, durationfield, numofnodefield,
+				numofinstancesfield, numBacklogfield, numSubmittingfield,
+				numQueuedfield, numRunningfield, numCompletedfield, stopfield,
+				pausefield, viewfield);
 
 		// No default data
 		layoutWorkflows.addMember(listWorkflows);
@@ -244,7 +242,8 @@ public class WorkFlowsTab {
 			Document doc = XMLParser.parse(cleanXml);
 			parseWorkflowsXML(doc);
 		} catch (DOMParseException e) {
-			System.err.println("Could not parse XML file. Check XML file format.");
+			System.err
+					.println("Could not parse XML file. Check XML file format.");
 			return;
 		}
 	}

@@ -50,7 +50,7 @@ public class UploadTab {
 	}
 
 	public Tab setTab() {
-		Tab tabUpload = new Tab("Upload");
+		Tab tabUpload = new Tab("Import Data");
 
 		VLayout layoutMain = new VLayout();
 		layoutMain.setSize("100%", "100%");
@@ -103,42 +103,49 @@ public class UploadTab {
 
 		final DynamicForm fileUploadForm = new DynamicForm();
 
-		final TextItem textFieldUsername = new TextItem("ti_username", "Username");
+		final TextItem textFieldUsername = new TextItem("ti_username",
+				"Username");
 		textFieldUsername.setRequired(true);
 
-		final PasswordItem passwordField = new PasswordItem("pi_password", "Password");
+		final PasswordItem passwordField = new PasswordItem("pi_password",
+				"Password");
 		passwordField.setRequired(true);
 
 		final TextItem textFieldWebUrl = new TextItem("ti_weburl", "URL");
 		textFieldWebUrl.setRequired(true);
 
-		fileUploadForm.setFields(new FormItem[] { textFieldUsername, passwordField, textFieldWebUrl });
+		fileUploadForm.setFields(new FormItem[] { textFieldUsername,
+				passwordField, textFieldWebUrl });
 		layoutWebUploads.addMember(fileUploadForm);
 
 		Button webUrlBtn = new Button("Retrieve");
 		webUrlBtn.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
-	    		if ((((fileUploadForm.getValueAsString("ti_username")) == null)) ||
-		    		((fileUploadForm.getValueAsString("ti_username")).length() == 0)) {
+				if ((((fileUploadForm.getValueAsString("ti_username")) == null))
+						|| ((fileUploadForm.getValueAsString("ti_username"))
+								.length() == 0)) {
 					Window.alert("Missing username");
 					return;
-		    	}
-		    	if ((((fileUploadForm.getValueAsString("pi_password")) == null)) ||
-		    		((fileUploadForm.getValueAsString("pi_password")).length() == 0)) {
+				}
+				if ((((fileUploadForm.getValueAsString("pi_password")) == null))
+						|| ((fileUploadForm.getValueAsString("pi_password"))
+								.length() == 0)) {
 					Window.alert("Missing Password");
 					return;
-		    	}
-		    	if ((((fileUploadForm.getValueAsString("ti_weburl")) == null)) || 
-			    	((fileUploadForm.getValueAsString("ti_weburl")).length() == 0)) {
+				}
+				if ((((fileUploadForm.getValueAsString("ti_weburl")) == null))
+						|| ((fileUploadForm.getValueAsString("ti_weburl"))
+								.length() == 0)) {
 					Window.alert("Missing Web URL");
 					return;
-			    }	
+				}
 
-				dataRequester.getWebUrlXml(fileUploadForm.getValueAsString("ti_weburl"),
-										   fileUploadForm.getValueAsString("ti_username"),
-										   fileUploadForm.getValueAsString("pi_password"));
-				
+				dataRequester.getWebUrlXml(
+						fileUploadForm.getValueAsString("ti_weburl"),
+						fileUploadForm.getValueAsString("ti_username"),
+						fileUploadForm.getValueAsString("pi_password"));
+
 				fileUploadForm.clearValue("ti_username");
 				fileUploadForm.clearValue("pi_password");
 				fileUploadForm.clearValue("ti_weburl");

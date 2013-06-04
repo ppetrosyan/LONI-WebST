@@ -19,6 +19,7 @@
 
 package edu.ucla.loni.pipeline.client.Notifications;
 
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.NotificationMole;
 
 /**
@@ -62,12 +63,18 @@ public class LONINotifications {
 
 		notificationMole.show(message);
 
-		/*
-		 * if(timer) { Timer t = new Timer() { public void run() {
-		 * notificationMole.show("Welcome, " + userID, false); } };
-		 * 
-		 * // Schedule the timer to run once in 3 seconds. t.schedule(3000); }
-		 */
+		if (timer) {
+			Timer t = new Timer() {
+				@Override
+				public void run() {
+					notificationMole.hideNow();
+				}
+			};
+
+			// Schedule the timer to run once in 3 seconds.
+			t.schedule(3000);
+		}
+
 	}
 
 	/**
