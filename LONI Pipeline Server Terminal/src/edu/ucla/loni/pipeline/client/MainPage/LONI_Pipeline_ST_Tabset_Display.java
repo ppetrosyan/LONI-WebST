@@ -125,11 +125,18 @@ public class LONI_Pipeline_ST_Tabset_Display {
 
 		// Notification Layout
 		VLayout notificationLayout = new VLayout();
-		notificationLayout.setHeight("35px");
-		notificationLayout.setWidth("520px");
+		notificationLayout.setHeight("25px");
+		notificationLayout.setWidth("100%");
 		notificationLayout.setLayoutAlign(Alignment.CENTER);
 
-		notificationLayout.addMember(notifications.getNotificationMole());
+		VLayout notificationContainer = new VLayout();
+		notificationContainer.setHeight("20px");
+		notificationContainer.setWidth("100%");
+		notificationContainer.setLayoutAlign(Alignment.CENTER);
+
+		notificationContainer.addMember(notifications.getNotificationMole());
+
+		notificationLayout.addMember(notificationContainer);
 
 		appLayout.addMember(notificationLayout);
 

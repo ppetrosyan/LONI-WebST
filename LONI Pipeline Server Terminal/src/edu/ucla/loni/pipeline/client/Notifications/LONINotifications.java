@@ -46,8 +46,9 @@ public class LONINotifications {
 	private void configureNotifications() {
 		notificationMole.setTitle("LONI Notifications");
 		notificationMole.setAnimationDuration(500);
-		notificationMole.setHeight("15px");
-		notificationMole.setWidth("500px");
+		notificationMole.setHeight("100%");
+		notificationMole.setWidth("100%");
+		notificationMole.setStyleName("notificationStyle");
 	}
 
 	/**
