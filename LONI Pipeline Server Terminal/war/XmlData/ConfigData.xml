@@ -104,5 +104,15 @@
 			<Version>1.1</Version>
 			<Location>/usr/local</Location>
 		</Executables>
+		<Advanced>
+		    <FailoverEnabled>1</FailoverEnabled>
+		    <FailoverCheckInterval>2</FailoverCheckInterval>
+		    <FailoverRetries>3</FailoverRetries>
+		    <FailoverAliasInterface>133</FailoverAliasInterface>
+		    <FailoverAliasSubInterfaceNum>10</FailoverAliasSubInterfaceNum>
+		    <EmailerRecipients>Peter</EmailerRecipients>
+		    <EmailerSender>Paul</EmailerSender>
+		    
+		</Advanced>
     </Preferences>
 </LONIConfigurationData>
