@@ -1,0 +1,367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<LONIData>
+	<MemoryUsage>
+		<Step ID="0">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="1">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="2">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="3">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="4">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="5">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="6">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="7">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="8">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="9">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="10">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>417</UsedMemory>
+			<CommittedMemory>495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="11">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>3115</UsedMemory>
+			<CommittedMemory>3495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="12">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>3115</UsedMemory>
+			<CommittedMemory>3495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="13">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>3115</UsedMemory>
+			<CommittedMemory>3495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="14">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>3115</UsedMemory>
+			<CommittedMemory>3495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="15">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>3115</UsedMemory>
+			<CommittedMemory>3495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="16">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>3115</UsedMemory>
+			<CommittedMemory>3495</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="17">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>6983</UsedMemory>
+			<CommittedMemory>7101</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="18">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>6983</UsedMemory>
+			<CommittedMemory>7101</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="19">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>6983</UsedMemory>
+			<CommittedMemory>7101</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="20">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>6983</UsedMemory>
+			<CommittedMemory>7101</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+		<Step ID="21">
+			<InitialMemory>0</InitialMemory>
+			<UsedMemory>6983</UsedMemory>
+			<CommittedMemory>7101</CommittedMemory>
+			<MaxMemory>7281</MaxMemory>
+		</Step>
+	</MemoryUsage>
+	<ThreadUsage>
+		<Step ID="0">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="1">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="2">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="3">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="4">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="5">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="6">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="7">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="8">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="9">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="10">
+			<ThreadCount>211</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="11">
+			<ThreadCount>92</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="12">
+			<ThreadCount>92</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="13">
+			<ThreadCount>92</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="14">
+			<ThreadCount>92</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="15">
+			<ThreadCount>92</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="16">
+			<ThreadCount>92</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="17">
+			<ThreadCount>401</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="18">
+			<ThreadCount>401</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="19">
+			<ThreadCount>401</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="20">
+			<ThreadCount>401</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+		<Step ID="21">
+			<ThreadCount>401</ThreadCount>
+			<ThreadPeak>440</ThreadPeak>
+		</Step>
+	</ThreadUsage>
+	<Workflows>
+		<WorkflowEntry>  
+			<WorkflowID>11373</WorkflowID>  
+			<Username>William</Username>  
+			<State>Running</State>  
+			<StartTime>12:30</StartTime>  
+			<EndTime>13:00</EndTime>  
+			<Duration>00:30</Duration>  
+			<NumOfNode>4</NumOfNode>  
+			<NumOfInstances>3</NumOfInstances>  
+			<NumBacklog>1</NumBacklog>  
+			<NumSubmitting>1</NumSubmitting>  
+			<NumQueued>0</NumQueued>  
+			<NumRunning>2</NumRunning>  
+			<NumCompleted>1</NumCompleted>  
+		</WorkflowEntry>  
+		<WorkflowEntry>  
+			<WorkflowID>26453</WorkflowID>  
+			<Username>Peter</Username>  
+			<State>Stop</State>  
+			<StartTime>11:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>02:30</Duration>  
+			<NumOfNode>1</NumOfNode>  
+			<NumOfInstances>0</NumOfInstances>  
+			<NumBacklog>2</NumBacklog>  
+			<NumSubmitting>0</NumSubmitting>  
+			<NumQueued>5</NumQueued>  
+			<NumRunning>1</NumRunning>  
+			<NumCompleted>1</NumCompleted>  
+		</WorkflowEntry>  
+		<WorkflowEntry>  
+			<WorkflowID>32135</WorkflowID>  
+			<Username>John</Username>  
+			<State>Backlog</State>  
+			<StartTime>13:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>00:30</Duration>  
+			<NumOfNode>3</NumOfNode>  
+			<NumOfInstances>4</NumOfInstances>  
+			<NumBacklog>0</NumBacklog>  
+			<NumSubmitting>0</NumSubmitting>  
+			<NumQueued>5</NumQueued>  
+			<NumRunning>3</NumRunning>  
+			<NumCompleted>0</NumCompleted>  
+		</WorkflowEntry>  
+		<WorkflowEntry>  
+			<WorkflowID>26450</WorkflowID>  
+			<Username>Peter</Username>  
+			<State>Running</State>  
+			<StartTime>11:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>02:30</Duration>  
+			<NumOfNode>1</NumOfNode>  
+			<NumOfInstances>3</NumOfInstances>  
+			<NumBacklog>2</NumBacklog>  
+			<NumSubmitting>11</NumSubmitting>  
+			<NumQueued>20</NumQueued>  
+			<NumRunning>1</NumRunning>  
+			<NumCompleted>1</NumCompleted>  
+		</WorkflowEntry>  
+		<WorkflowEntry>  
+			<WorkflowID>98456</WorkflowID>  
+			<Username>John</Username>  
+			<State>Pause</State>  
+			<StartTime>13:30</StartTime>  
+			<EndTime>14:00</EndTime>  
+			<Duration>00:30</Duration>  
+			<NumOfNode>3</NumOfNode>  
+			<NumOfInstances>7</NumOfInstances>  
+			<NumBacklog>2</NumBacklog>  
+			<NumSubmitting>1</NumSubmitting>  
+			<NumQueued>5</NumQueued>  
+			<NumRunning>5</NumRunning>  
+			<NumCompleted>0</NumCompleted>  
+		</WorkflowEntry>  
+	</Workflows>
+	<UsersOnline>
+		<UsersOnlineEntry>  
+			<Username>Jack</Username>  
+			<IPAddress>192.168.0.1</IPAddress>  
+			<PipelineInterface>Client</PipelineInterface>  
+			<PipelineVersion>5.7.0 build 111</PipelineVersion>  
+			<OSVersion>Window</OSVersion>  
+			<ConnectTime>00:30</ConnectTime>  
+			<LastActivity>13:11</LastActivity>
+			<Disconnect>13:41</Disconnect>  
+		</UsersOnlineEntry> 
+		<UsersOnlineEntry>  
+			<Username>Peter</Username>  
+			<IPAddress>192.168.0.2</IPAddress>  
+			<PipelineInterface>Client</PipelineInterface>  
+			<PipelineVersion>5.7.0 build 111</PipelineVersion>  
+			<OSVersion>Mac OS</OSVersion>  
+			<ConnectTime>01:00</ConnectTime>  
+			<LastActivity>13:11</LastActivity>
+			<Disconnect>14:11</Disconnect>  
+		</UsersOnlineEntry> 
+			<UsersOnlineEntry>  
+			<Username>May</Username>  
+			<IPAddress>192.168.0.4</IPAddress>  
+			<PipelineInterface>Client</PipelineInterface>  
+			<PipelineVersion>5.7.0 build 122</PipelineVersion>  
+			<OSVersion>Mac OS</OSVersion>  
+			<ConnectTime>01:00</ConnectTime>  
+			<LastActivity>13:11</LastActivity>
+			<Disconnect>14:11</Disconnect>  
+		</UsersOnlineEntry> 
+	</UsersOnline>
+	<UserUsage>
+		<UserUsageEntry>  
+			<Username>Peter</Username>  
+			<WorkflowID>23451321124-3213214421</WorkflowID>  
+			<NodeName>Some Node Name</NodeName>  
+			<Instance>2</Instance>  
+		</UserUsageEntry> 
+		<UserUsageEntry>  
+			<Username>Peter</Username>  
+			<WorkflowID>23451321124-3213214468</WorkflowID>  
+			<NodeName>Some Node Name2</NodeName>  
+			<Instance>4</Instance>  
+		</UserUsageEntry> 
+		<UserUsageEntry>  
+			<Username>Tommy</Username>  
+			<WorkflowID>54354543224-3213214468</WorkflowID>  
+			<NodeName>Some Node Name3</NodeName>  
+			<Instance>21</Instance>  
+		</UserUsageEntry> 
+	</UserUsage>
+	<UserUsageCount>
+		<UserUsageCountEntry>  
+			<Username>Peter</Username>  
+			<Count>2</Count>  
+		</UserUsageCountEntry> 
+		<UserUsageCountEntry>  
+			<Username>Tommy</Username>  
+			<Count>1</Count>  
+		</UserUsageCountEntry> 
+	</UserUsageCount>
+</LONIData>
