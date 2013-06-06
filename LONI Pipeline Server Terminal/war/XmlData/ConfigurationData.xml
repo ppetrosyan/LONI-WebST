@@ -20,7 +20,7 @@
 		     <CrawlerURL>www.google.com/crawler</CrawlerURL>
 		     <ServerLibraryLocation>/usr/library</ServerLibraryLocation>
 		     <MonitorLibraryCheckbox>true</MonitorLibraryCheckbox>
-		     <MonitorLibraryPath>/usr/library/monitor/<MonitorLibraryPath>
+		     <MonitorLibraryPath>/usr/library/monitor</MonitorLibraryPath>
 		     <PipelineUtilitiesPath>/usr/local/pipeline/utils</PipelineUtilitiesPath>
 	    </General>
         <Grid>
