@@ -3,36 +3,36 @@
 <LONIConfigurationData>
     <Preferences>
 	    <General>
-		     <ServerHostname>blahblahblahtidalwave.edu</ServerHostname>
+		     <ServerHostname>loni.ucla.edu</ServerHostname>
 		     <ServerPort>9045</ServerPort>
 		     <TempDirectory>/tmp/moretmp/nestedtmp</TempDirectory>
 		     <Secure>true</Secure>
-		     <ScratchDirectory>scratchscratch/scratchscratch/scratch</ScratchDirectory>
+		     <ScratchDirectory>/usr/local/scratch</ScratchDirectory>
 		     <LogFile>/log/tree/branch/leaf.log</LogFile>
 		     <PrivilegeEscalation>true</PrivilegeEscalation>
 		     <EnableGuests>true</EnableGuests>
-		     <MappedGuestUser>OreMan</MappedGuestUser>
-		     <PersistenceURL>abcdefghijklmnopqrxtuvwxyz.com</PersistenceURL>
+		     <MappedGuestUser>Guest</MappedGuestUser>
+		     <PersistenceURL>www.google.com</PersistenceURL>
 		     <PersistenceUsername>PersistentMan</PersistenceUsername>
 		     <PersistencePassword>123456</PersistencePassword>
 		     <SessionTTL>32</SessionTTL>
-		     <HistoryDirectory>Go watch the history channel</HistoryDirectory>
-		     <CrawlerURL>Nyarlathotep.net</CrawlerURL>
-		     <ServerLibraryLocation>Once again, at the library...</ServerLibraryLocation>
+		     <HistoryDirectory>/usr/local/history</HistoryDirectory>
+		     <CrawlerURL>www.google.com/crawler</CrawlerURL>
+		     <ServerLibraryLocation>/usr/library</ServerLibraryLocation>
 		     <MonitorLibraryCheckbox>true</MonitorLibraryCheckbox>
-		     <MonitorLibraryPath>Monitoring libraries... must be boring</MonitorLibraryPath>
-		     <PipelineUtilitiesPath>I LIEK TURTLEZ!!</PipelineUtilitiesPath>
+		     <MonitorLibraryPath>/usr/library/monitor</MonitorLibraryPath>
+		     <PipelineUtilitiesPath>/usr/local/pipeline/utils</PipelineUtilitiesPath>
 	    </General>
         <Grid>
             <EnableGrid>true</EnableGrid>
-            <GridEngineNativeSpec>All your base are belong to us.</GridEngineNativeSpec>
-            <JobNamePrefix>Ima firin' mah lazor!</JobNamePrefix>
-            <JobSubmissionQueue>Longcat is long...</JobSubmissionQueue>
-            <ComplexResourceAttributes>I see what you did there.</ComplexResourceAttributes>
+            <GridEngineNativeSpec>Grid Specification</GridEngineNativeSpec>
+            <JobNamePrefix>loni_job</JobNamePrefix>
+            <JobSubmissionQueue>/usr/local/job/queue</JobSubmissionQueue>
+            <ComplexResourceAttributes>Sample Attribute</ComplexResourceAttributes>
             <ReportSGE>true</ReportSGE>
             <GridVariablesPolicy>Allow all variables, except specified</GridVariablesPolicy>
-            <SpecifiedVariables>Flying unicorn death beam!</SpecifiedVariables>
-            <PrefixBeforeVar>I can has cheezburgerz...?</PrefixBeforeVar>
+            <SpecifiedVariables>Default Specified</SpecifiedVariables>
+            <PrefixBeforeVar>prefix_</PrefixBeforeVar>
             <MaxNumParallelSub>42</MaxNumParallelSub>
             <MaxNumResubmissions>42</MaxNumResubmissions>
             <TotalNumSlots>Known number</TotalNumSlots>
@@ -43,24 +43,24 @@
             <ChunkSize>72</ChunkSize>
             <GraduallyIncreaseChunkSize>true</GraduallyIncreaseChunkSize>
             <MaxChunkSize>732</MaxChunkSize>
-            <GridPlugin>DRMAA</GridPlugin>
-            <JarFiles>NyanCat</JarFiles>
-            <JarFilesClass>Nyan nyan nyan nyan nyan nyan~</JarFilesClass>
+            <GridPlugin>Plugin</GridPlugin>
+            <JarFiles>sample.jar</JarFiles>
+            <JarFilesClass>sample.class</JarFilesClass>
             <RestartService>true</RestartService>
             <GridPort>1234</GridPort>
             <GridMemory>9001</GridMemory>
-            <RestartJarFile>That one over there!</RestartJarFile>
+            <RestartJarFile>test.jar</RestartJarFile>
             <EnableMonitored>true</EnableMonitored>
             <GridEngineAdmin>false</GridEngineAdmin>
-            <GridAccountURL>http://www.4chan.org/</GridAccountURL>
+            <GridAccountURL>www.google.com/accounts</GridAccountURL>
             <GridUsername>Ramirez</GridUsername>
             <GridPassword>Ramirez, do everything!</GridPassword>
         </Grid>
         <Access>
             <ServerAdmins>Rock, Paper, Scissors, Lizard, Spock</ServerAdmins>
             <AccessControlMode>1 - Executables: restricted below. Remote File Browser: no restrictions</AccessControlMode>
-            <AccessUsers>Random Stunt Double #7</AccessUsers>
-            <AccessDirectories>Everything in existence... and then some</AccessDirectories>
+            <AccessUsers>Bobby</AccessUsers>
+            <AccessDirectories>/usr/local/access</AccessDirectories>
             <JobManageEnable>true</JobManageEnable>
             <FreeSlots>98</FreeSlots>
             <WorkflowManageEnable>false</WorkflowManageEnable>
@@ -112,7 +112,6 @@
 		    <FailoverAliasSubInterfaceNum>10</FailoverAliasSubInterfaceNum>
 		    <EmailerRecipients>Peter</EmailerRecipients>
 		    <EmailerSender>Paul</EmailerSender>
-		    
 		</Advanced>
     </Preferences>
 </LONIConfigurationData>
