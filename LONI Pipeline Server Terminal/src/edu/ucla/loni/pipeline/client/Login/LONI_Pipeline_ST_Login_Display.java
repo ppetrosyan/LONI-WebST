@@ -119,6 +119,12 @@ public class LONI_Pipeline_ST_Login_Display {
 		textboxPassword = new PasswordTextBox();
 		textboxPassword.setValue("123");
 		flexTable.setWidget(1, 1, textboxPassword);
+		
+//		final Label labelErrorMessage = new Label("test");
+//		labelSignIn.setAlign(Alignment.CENTER);
+//		labelSignIn.setHeight("20px");
+//		labelSignIn.setWidth100();
+//		loginLayout.addMember(labelErrorMessage);
 
 		VLayout buttonLayout = new VLayout();
 		buttonLayout.setLayoutAlign(Alignment.CENTER);
@@ -147,11 +153,13 @@ public class LONI_Pipeline_ST_Login_Display {
 
 				if (user.getUsername().equals("loni") == false) {
 					Window.alert("Wrong username");
+//					labelErrorMessage.setTitle("hello");
 					return;
 				}
 				
 				if (user.getPassword().equals("123") == false) {
 					Window.alert("Wrong password");
+//					labelErrorMessage.setTitle("hello");
 					return;
 				}
 
