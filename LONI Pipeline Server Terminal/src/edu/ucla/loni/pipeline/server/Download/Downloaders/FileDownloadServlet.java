@@ -44,8 +44,6 @@ import com.google.appengine.api.files.FileServiceFactory;
 /**
  * Retrieves CSV Data from server Blobstore and sends it to client in the form
  * of a file download.
- * 
- * @author Jared
  */
 public class FileDownloadServlet extends HttpServlet {
 

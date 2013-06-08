@@ -29,8 +29,6 @@ import com.google.gwt.user.client.ui.Image;
 
 /**
  * Upload Error Event Handler
- * 
- * @author Jared
  */
 public class LONIUploadErrorHandler implements UploadErrorHandler {
 

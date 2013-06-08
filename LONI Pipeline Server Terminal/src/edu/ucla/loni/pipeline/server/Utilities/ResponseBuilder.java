@@ -21,8 +21,6 @@ package edu.ucla.loni.pipeline.server.Utilities;
 
 /**
  * Utility class to build a server response for a client
- * 
- * @author Jared
  */
 public class ResponseBuilder {
 	private final StringBuilder respMessage;

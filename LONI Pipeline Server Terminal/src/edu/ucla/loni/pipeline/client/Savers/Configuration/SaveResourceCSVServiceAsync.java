@@ -22,10 +22,7 @@ package edu.ucla.loni.pipeline.client.Savers.Configuration;
 import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
- * Asynchronous Service used to store CSV Data in server Blobstore
- * 
- * @author Jared
- * 
+ * Asynchronous Service used to store CSV Data in server Blobstore *
  */
 public interface SaveResourceCSVServiceAsync {
 

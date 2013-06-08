@@ -49,123 +49,140 @@ import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 import edu.ucla.loni.pipeline.server.Utilities.DatastoreUtils;
 import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
-public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements RequestWebUrlXMLService {
+public class RequestWebUrlXMLServlet extends RemoteServiceServlet implements
+		RequestWebUrlXMLService {
 
 	private static final long serialVersionUID = 5448261063802349760L;
-	private Key xmlResourceKey, xmlConfigurationKey;
+	private final Key xmlResourceKey, xmlConfigurationKey;
 	WebUrlResponseBuilder webUrlresponse = null;
 
 	public RequestWebUrlXMLServlet() {
-		xmlConfigurationKey = KeyFactory.createKey("XMLType", "ConfigurationData");
+		xmlConfigurationKey = KeyFactory.createKey("XMLType",
+				"ConfigurationData");
 		xmlResourceKey = KeyFactory.createKey("XMLType", "ResourceData");
 		webUrlresponse = new WebUrlResponseBuilder();
 	}
 
 	@Override
-	public WebUrlResponseBuilder getXML(String wE, String uE, String pE, byte[] key) {	
-		
+	public WebUrlResponseBuilder getXML(String wE, String uE, String pE,
+			byte[] key) {
+
 		TripleDesCipher cipher = new TripleDesCipher();
 		cipher.setKey(key);
 		String webUrl = "", username = "", password = "";
-		
-		if (webUrlresponse == null)
+
+		if (webUrlresponse == null) {
 			webUrlresponse = new WebUrlResponseBuilder();
+		}
 		webUrlresponse.reset();
-		
+
 		try {
 			webUrl = cipher.decrypt(wE);
 			username = cipher.decrypt(uE);
 			password = cipher.decrypt(pE);
-		} 
-		catch (Exception e) {
+		} catch (Exception e) {
 			webUrlresponse.setMessage("Error on decryption");
 		}
-		
-		if ((webUrl.length() == 0) || (username.length() == 0) || (password.length() == 0)) {
-			webUrlresponse.setMessage("Missing web URL, username or password sent to server");
+
+		if ((webUrl.length() == 0) || (username.length() == 0)
+				|| (password.length() == 0)) {
+			webUrlresponse
+					.setMessage("Missing web URL, username or password sent to server");
 
 		}
-		
+
 		if (webUrlresponse.getMessage().length() != 0) {
 			webUrlresponse.setStatus(false);
 			return webUrlresponse;
 		}
-	
+
 		try {
-			  	URL u = new URL(webUrl);
-			  	HttpURLConnection huc = (HttpURLConnection) u.openConnection();
-			  	huc.setRequestMethod("GET");
-			  	huc.setDoOutput(false);
-			  	
-			  	Base64Encoder enc = new Base64Encoder();
-			    String userpassword = username + ":" + password;
-			    
-			    OutputStream out = new ByteArrayOutputStream();
-			    enc.encode(userpassword.getBytes(), 0, userpassword.length(), out);
-			    byte[] buffer = {0};
-			    out.write(buffer);
-			    String encodedAuthorization = new String(buffer);
-			    
-			    //below Authorization was not tested as there were no such web URLs of LONI for testing
-			    //huc.setRequestProperty("Authorization", "Basic "+ encodedAuthorization);
-			    
-			    //Here we check that username and password are "loni" "refresher" for testing
-			    if (!username.equals("loni") || !password.equals("refresher")) {
-					webUrlresponse.setMessage("Authentication error");
-					webUrlresponse.setStatus(false);
-					return webUrlresponse;
+			URL u = new URL(webUrl);
+			HttpURLConnection huc = (HttpURLConnection) u.openConnection();
+			huc.setRequestMethod("GET");
+			huc.setDoOutput(false);
+
+			Base64Encoder enc = new Base64Encoder();
+			String userpassword = username + ":" + password;
+
+			OutputStream out = new ByteArrayOutputStream();
+			enc.encode(userpassword.getBytes(), 0, userpassword.length(), out);
+			byte[] buffer = { 0 };
+			out.write(buffer);
+			new String(buffer);
+
+			// below Authorization was not tested as there were no such web URLs
+			// of LONI for testing
+			// huc.setRequestProperty("Authorization", "Basic "+
+			// encodedAuthorization);
+
+			// Here we check that username and password are "loni" "refresher"
+			// for testing
+			if (!username.equals("loni") || !password.equals("refresher")) {
+				webUrlresponse.setMessage("Authentication error");
+				webUrlresponse.setStatus(false);
+				return webUrlresponse;
+			}
+
+			int status = huc.getResponseCode();
+			if (status != 200) {
+				throw (new MalformedURLException());
+			}
+			InputStream in = huc.getInputStream();
+
+			BufferedReader d = new BufferedReader(new InputStreamReader(in));
+
+			String lineRead = null;
+			while ((lineRead = d.readLine()) != null) {
+				webUrlresponse.appendXml(lineRead);
+			}
+
+			if (webUrlresponse.getXml().length() == 0) {
+				webUrlresponse
+						.setMessage("Empty XML file at target, check URL and try again");
+			} else {
+				webUrlresponse.setStatus(true);
+
+				DocumentBuilderFactory factory = DocumentBuilderFactory
+						.newInstance();
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document document = builder.parse(new InputSource(
+						new StringReader(webUrlresponse.getXml())));
+				document.getDocumentElement().normalize();
+				String rootTag = document.getDocumentElement().getNodeName();
+
+				ResponseBuilder response = new ResponseBuilder();
+				if (rootTag.equalsIgnoreCase("LONIConfigurationData")) {
+					webUrlresponse.setRootTag("LONIConfigurationData");
+					if (DatastoreUtils.writeXMLFileToBlobStore(document,
+							xmlConfigurationKey, response) == false) {
+						webUrlresponse
+								.setMessage("Error in storing Config data on server");
+					}
+				} else if (rootTag.equalsIgnoreCase("LONIResourceData")) {
+					webUrlresponse.setRootTag("LONIResourceData");
+					if (DatastoreUtils.writeXMLFileToBlobStore(document,
+							xmlResourceKey, response) == false) {
+						webUrlresponse
+								.setMessage("Error in storing Config data on server");
+					}
+				} else {
+					webUrlresponse
+							.setMessage("Invalid file format, check the URL and try again");
 				}
-			  	
-			  	int status = huc.getResponseCode();
-			  	if (status != 200)
-			  		throw (new MalformedURLException());
-			  	InputStream in = huc.getInputStream();
-			  	
-			  	BufferedReader d = new BufferedReader(new InputStreamReader(in));
-			  	
-			  	String lineRead = null;
-			  	while((lineRead = d.readLine()) != null)
-			  		webUrlresponse.appendXml(lineRead);
-			  	
-			  	if(webUrlresponse.getXml().length() == 0)
-			  		webUrlresponse.setMessage("Empty XML file at target, check URL and try again");
-			  	else {
-			  		webUrlresponse.setStatus(true);
-			  					  		
-				  	DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-				  	DocumentBuilder builder = factory.newDocumentBuilder();			  		
-				  	Document document = builder.parse(new InputSource(new StringReader(webUrlresponse.getXml())));
-					document.getDocumentElement().normalize();
-					String rootTag = document.getDocumentElement().getNodeName();
-					
-					ResponseBuilder response = new ResponseBuilder();
-					if(rootTag.equalsIgnoreCase("LONIConfigurationData")) {
-						webUrlresponse.setRootTag("LONIConfigurationData");
-						if (DatastoreUtils.writeXMLFileToBlobStore(document, xmlConfigurationKey, response) == false) 
-							webUrlresponse.setMessage("Error in storing Config data on server");
-					}
-					else if(rootTag.equalsIgnoreCase("LONIResourceData")){
-						webUrlresponse.setRootTag("LONIResourceData");
-						if (DatastoreUtils.writeXMLFileToBlobStore(document, xmlResourceKey, response) == false) 
-							webUrlresponse.setMessage("Error in storing Config data on server");
-					}
-					else
-						webUrlresponse.setMessage("Invalid file format, check the URL and try again");
-			  	}
-		} 
-		catch (IOException e) {
+			}
+		} catch (IOException e) {
 			webUrlresponse.setMessage("Error on file retrieval, try again");
-		} 
-		catch (ParserConfigurationException | SAXException e) {
+		} catch (ParserConfigurationException | SAXException e) {
 			webUrlresponse.setMessage("Error in parsing retrieved file");
-		} 
-		catch (com.googlecode.gwt.crypto.gwtx.io.IOException e) {
+		} catch (com.googlecode.gwt.crypto.gwtx.io.IOException e) {
 			webUrlresponse.setMessage("Authentication error");
 		}
 
-		if (webUrlresponse.getMessage().length() != 0)
+		if (webUrlresponse.getMessage().length() != 0) {
 			webUrlresponse.setStatus(false);
-		
+		}
+
 		return webUrlresponse;
 	}
 }

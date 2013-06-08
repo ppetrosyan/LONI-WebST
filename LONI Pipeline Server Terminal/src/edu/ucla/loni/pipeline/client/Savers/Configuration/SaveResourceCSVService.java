@@ -24,8 +24,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * Service used to store CSV Data in server Blobstore
- * 
- * @author Jared
  */
 @RemoteServiceRelativePath("SaveConfigurationXMLServlet")
 public interface SaveResourceCSVService extends RemoteService {

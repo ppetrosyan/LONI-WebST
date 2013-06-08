@@ -29,8 +29,6 @@ import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
 /**
  * Retrieves Configuration Data from server Blobstore
- * 
- * @author Jared
  */
 public class RequestConfigurationXMLServlet extends RemoteServiceServlet
 		implements RequestConfigurationXMLService {

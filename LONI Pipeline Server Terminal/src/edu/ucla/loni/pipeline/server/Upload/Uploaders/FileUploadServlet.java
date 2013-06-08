@@ -44,8 +44,6 @@ import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
 /**
  * Handles HTTP GET/POST Requests for File Upload
- * 
- * @author Jared
  */
 public class FileUploadServlet extends HttpServlet {
 

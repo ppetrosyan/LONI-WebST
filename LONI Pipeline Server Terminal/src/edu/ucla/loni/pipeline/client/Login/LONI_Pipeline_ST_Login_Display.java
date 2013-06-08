@@ -95,36 +95,38 @@ public class LONI_Pipeline_ST_Login_Display {
 		labelSignIn.setHeight("20px");
 		labelSignIn.setWidth100();
 		loginLayout.addMember(labelSignIn);
-		
+
 		FlexTable flexTable = new FlexTable();
 		loginLayout.addMember(flexTable);
 		flexTable.setWidth("345px");
-		flexTable.getCellFormatter().setHorizontalAlignment(0, 0, HasHorizontalAlignment.ALIGN_CENTER);
-		flexTable.getCellFormatter().setHorizontalAlignment(1, 0, HasHorizontalAlignment.ALIGN_CENTER);
-		
+		flexTable.getCellFormatter().setHorizontalAlignment(0, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
+		flexTable.getCellFormatter().setHorizontalAlignment(1, 0,
+				HasHorizontalAlignment.ALIGN_CENTER);
+
 		final Label labelUsername = new Label("Username:");
 		labelUsername.setAlign(Alignment.CENTER);
 		labelUsername.setHeight("20px");
 		flexTable.setWidget(0, 0, labelUsername);
-		
+
 		textboxUsername = new TextBox();
 		textboxUsername.setValue("loni");
 		flexTable.setWidget(0, 1, textboxUsername);
-		
+
 		final Label labelPassword = new Label("Password:");
 		labelPassword.setAlign(Alignment.CENTER);
 		labelPassword.setHeight("20px");
 		flexTable.setWidget(1, 0, labelPassword);
-		
+
 		textboxPassword = new PasswordTextBox();
 		textboxPassword.setValue("123");
 		flexTable.setWidget(1, 1, textboxPassword);
-		
-//		final Label labelErrorMessage = new Label("test");
-//		labelSignIn.setAlign(Alignment.CENTER);
-//		labelSignIn.setHeight("20px");
-//		labelSignIn.setWidth100();
-//		loginLayout.addMember(labelErrorMessage);
+
+		// final Label labelErrorMessage = new Label("test");
+		// labelSignIn.setAlign(Alignment.CENTER);
+		// labelSignIn.setHeight("20px");
+		// labelSignIn.setWidth100();
+		// loginLayout.addMember(labelErrorMessage);
 
 		VLayout buttonLayout = new VLayout();
 		buttonLayout.setLayoutAlign(Alignment.CENTER);
@@ -147,19 +149,19 @@ public class LONI_Pipeline_ST_Login_Display {
 
 				user.setUsername(textboxUsername.getText());
 				user.setPassword(textboxPassword.getText());
-				
+
 				System.out.println("Username = " + user.getUsername());
 				System.out.println("Password = " + user.getPassword());
 
 				if (user.getUsername().equals("loni") == false) {
 					Window.alert("Wrong username");
-//					labelErrorMessage.setTitle("hello");
+					// labelErrorMessage.setTitle("hello");
 					return;
 				}
-				
+
 				if (user.getPassword().equals("123") == false) {
 					Window.alert("Wrong password");
-//					labelErrorMessage.setTitle("hello");
+					// labelErrorMessage.setTitle("hello");
 					return;
 				}
 

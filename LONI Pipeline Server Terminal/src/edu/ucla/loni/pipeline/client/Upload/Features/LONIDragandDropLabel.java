@@ -33,8 +33,6 @@ import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIDropHandler;
 
 /**
  * Constructs a Drag and Drop Label for the Web interface
- * 
- * @author Jared
  */
 public class LONIDragandDropLabel extends Label {
 

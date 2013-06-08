@@ -49,8 +49,6 @@ import edu.ucla.loni.pipeline.server.Exceptions.BlobKeyIsInvalidException;
 
 /**
  * Utilities for Storing XML Data to server "Blobstore"
- * 
- * @author Jared
  */
 public class DatastoreUtils {
 

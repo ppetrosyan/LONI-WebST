@@ -26,8 +26,6 @@ import com.google.gwt.user.client.Window;
 
 /**
  * File Queue Error Event Handler
- * 
- * @author Jared
  */
 public class LONIFileQueueErrorHandler implements FileQueueErrorHandler {
 

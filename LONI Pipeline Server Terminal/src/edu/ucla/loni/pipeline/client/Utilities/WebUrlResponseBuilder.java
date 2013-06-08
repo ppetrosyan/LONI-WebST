@@ -33,10 +33,10 @@ public class WebUrlResponseBuilder implements Serializable {
 		xml = new String();
 		message = new String();
 		rootTag = new String();
-		
+
 		reset();
 	}
-	
+
 	public void reset() {
 		xml = "";
 		message = "";
@@ -59,17 +59,18 @@ public class WebUrlResponseBuilder implements Serializable {
 	public void appendXml(String xml) {
 		this.xml += xml;
 	}
-	
+
 	public void appendMessage(String message) {
-		if (this.message.length() != 0)
+		if (this.message.length() != 0) {
 			this.message += "\n";
+		}
 		this.message += message;
 	}
-	
+
 	public void setRootTag(String rootTag) {
 		this.rootTag = rootTag;
 	}
-	
+
 	public String getXml() {
 		return xml;
 	}
@@ -81,7 +82,7 @@ public class WebUrlResponseBuilder implements Serializable {
 	public boolean getStatus() {
 		return status;
 	}
-	
+
 	public String getRootTag() {
 		return rootTag;
 	}

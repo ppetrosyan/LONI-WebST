@@ -24,8 +24,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * Service used to store Resource Data in server Blobstore
- * 
- * @author Jared
  */
 @RemoteServiceRelativePath("RequestResourceXMLServlet")
 public interface RequestResourceXMLService extends RemoteService {

@@ -37,7 +37,7 @@ import com.smartgwt.client.widgets.layout.VLayout;
 public class LONI_Chart extends VLayout {
 
 	static int refreshTime = 3000;
-	
+
 	private LineChartPanel chart;
 	private final String monitorType;
 	private Label initStats;

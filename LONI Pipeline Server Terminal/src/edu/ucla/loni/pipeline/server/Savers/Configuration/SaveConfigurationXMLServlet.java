@@ -39,8 +39,6 @@ import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
 /**
  * Stores Configuration data in server Blobstore
- * 
- * @author Jared
  */
 public class SaveConfigurationXMLServlet extends RemoteServiceServlet implements
 		SaveConfigurationXMLService {

@@ -29,8 +29,6 @@ import com.google.gwt.user.client.ui.Image;
 
 /**
  * Upload Complete Event Handler
- * 
- * @author Jared
  */
 public class LONIUploadCompleteHandler implements UploadCompleteHandler {
 

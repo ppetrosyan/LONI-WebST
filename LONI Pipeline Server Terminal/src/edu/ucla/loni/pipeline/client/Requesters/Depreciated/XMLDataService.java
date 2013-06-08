@@ -25,7 +25,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 /**
  * Service used to retrieve either Configuration or Resource Data from server
  * 
- * @author Jared
  * @deprecated
  */
 @Deprecated

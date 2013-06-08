@@ -30,8 +30,6 @@ import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester
 /**
  * Constructs an Uploader for the web interface that is tied to the
  * FileUploadServlet
- * 
- * @author Jared
  */
 public class LONIFileUploader extends LONIUploader {
 

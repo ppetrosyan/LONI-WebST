@@ -30,8 +30,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 /**
  * File Queued Event Handler
- * 
- * @author Jared
  */
 public class LONIFileQueuedHandler implements FileQueuedHandler {
 

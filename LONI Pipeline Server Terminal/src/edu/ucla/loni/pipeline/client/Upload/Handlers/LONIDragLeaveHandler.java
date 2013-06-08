@@ -24,8 +24,6 @@ import com.google.gwt.user.client.ui.Label;
 
 /**
  * Drag Leave Event Handler
- * 
- * @author Jared
  */
 public class LONIDragLeaveHandler implements DragLeaveHandler {
 

@@ -34,9 +34,6 @@ import edu.ucla.loni.pipeline.client.Utilities.WebUrlResponseBuilder;
 
 /**
  * Client-side Service used to request data from the server and refresh tabs
- * 
- * @author Jared
- * @author Deepak
  */
 public class LONIDataRequester {
 

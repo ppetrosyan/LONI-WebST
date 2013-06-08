@@ -30,8 +30,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 /**
  * File Dialog Start Event Handler
- * 
- * @author Jared
  */
 public class LONIFileDialogStartHandler implements FileDialogStartHandler {
 

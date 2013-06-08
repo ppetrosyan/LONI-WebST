@@ -27,14 +27,16 @@ import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 import edu.ucla.loni.pipeline.client.Login.SessionId;
 import edu.ucla.loni.pipeline.client.Login.SessionService;
 
-public class SessionServiceImpl extends RemoteServiceServlet implements SessionService{
+public class SessionServiceImpl extends RemoteServiceServlet implements
+		SessionService {
 
 	private static final long serialVersionUID = -6274876845484737659L;
 
+	@Override
 	public SessionId session(SessionId sessionId) {
 		System.out.println("SessionServiceImpl.session()");
 
-		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpServletRequest request = getThreadLocalRequest();
 
 		if (request == null) {
 			System.out.println("request == null");
@@ -44,7 +46,7 @@ public class SessionServiceImpl extends RemoteServiceServlet implements SessionS
 
 		HttpSession httpSession = request.getSession(false);
 
-		if(httpSession != null){
+		if (httpSession != null) {
 			try {
 				sessionId.setSessionId(httpSession.getId());
 			} catch (IllegalStateException e) {

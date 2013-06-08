@@ -25,8 +25,6 @@ import org.moxieapps.gwt.uploader.client.events.FileDialogCompleteHandler;
 
 /**
  * File Dialog Complete Event Handler
- * 
- * @author Jared
  */
 public class LONIFileDialogCompleteHandler implements FileDialogCompleteHandler {
 

@@ -23,8 +23,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * Service used to Retrieve Configuration Data from server
- * 
- * @author Jared
  */
 public interface RequestConfigurationXMLServiceAsync {
 

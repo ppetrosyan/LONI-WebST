@@ -24,8 +24,6 @@ import com.google.gwt.user.client.rpc.RemoteServiceRelativePath;
 
 /**
  * Service used to Retrieve Configuration Data from server
- * 
- * @author Jared
  */
 @RemoteServiceRelativePath("RequestConfigurationXMLServlet")
 public interface RequestConfigurationXMLService extends RemoteService {

@@ -23,8 +23,6 @@ import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * Asynchronous Service used to store Resource Data in server Blobstore
- * 
- * @author Jared
  */
 public interface RequestResourceXMLServiceAsync {
 

@@ -22,21 +22,23 @@ package edu.ucla.loni.pipeline.server.Login;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.google.gwt.user.client.Window;
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 import edu.ucla.loni.pipeline.client.Login.LoginService;
 import edu.ucla.loni.pipeline.client.Login.UserDTO;
 
-public class LoginServiceImpl extends RemoteServiceServlet implements LoginService{
+public class LoginServiceImpl extends RemoteServiceServlet implements
+		LoginService {
 
 	private static final long serialVersionUID = 270628040929463623L;
 
+	@Override
 	public String login(UserDTO user) {
 		System.out.println("LoginServiceImpl.login()");
 		return storeUserInSession(user);
 	}
 
+	@Override
 	public void logout() {
 		System.out.println("LoginServiceImpl.logout()");
 		deleteUserFromSession();
@@ -45,13 +47,12 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	private String storeUserInSession(UserDTO user) {
 		System.out.println("storeUserInSession()");
 
-		if((user != null) && 
-				(user.getUsername().equals("loni")) &&
-				(user.getPassword().equals("123"))) {
+		if ((user != null) && (user.getUsername().equals("loni"))
+				&& (user.getPassword().equals("123"))) {
 			System.out.println("Correct username and password");
-			//                    return getThreadLocalRequest().getSession().getId();
+			// return getThreadLocalRequest().getSession().getId();
 
-			HttpSession httpSession = this.getThreadLocalRequest().getSession(true);
+			HttpSession httpSession = getThreadLocalRequest().getSession(true);
 
 			httpSession.setMaxInactiveInterval(1000 * 60 * 2);
 			System.out.println("httpSessionId = " + httpSession.getId());
@@ -67,7 +68,7 @@ public class LoginServiceImpl extends RemoteServiceServlet implements LoginServi
 	private void deleteUserFromSession() {
 		System.out.println("deleteUserFormSession()");
 
-		HttpServletRequest request = this.getThreadLocalRequest();
+		HttpServletRequest request = getThreadLocalRequest();
 
 		if (request == null) {
 			System.out.println("request == null");

@@ -27,8 +27,6 @@ import edu.ucla.loni.pipeline.client.Requesters.RefreshAllTabs.LONIDataRequester
 
 /**
  * Upload Success Event Handler
- * 
- * @author Jared
  */
 public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 
@@ -52,14 +50,6 @@ public class LONIUploadSuccessHandler implements UploadSuccessHandler {
 	@Override
 	public boolean onUploadSuccess(UploadSuccessEvent uploadSuccessEvent) {
 		notifications.showMessage(uploadSuccessEvent.getServerData());
-
-		/*
-		 * Window.setTitle("File Upload");
-		 * Window.alert(uploadSuccessEvent.getServerData());
-		 */
-
-		// Refresh all tabs
-		// dataRequester.refreshTabs();
 
 		return true;
 	}

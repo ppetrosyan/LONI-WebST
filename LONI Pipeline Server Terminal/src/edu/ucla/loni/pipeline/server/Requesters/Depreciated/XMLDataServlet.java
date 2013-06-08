@@ -40,7 +40,6 @@ import edu.ucla.loni.pipeline.client.Requesters.Depreciated.XMLDataService;
 /**
  * Retrieves either Configuration or Resource Data from server Blobstore
  * 
- * @author Jared
  * @deprecated
  */
 @Deprecated

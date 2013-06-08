@@ -25,7 +25,6 @@ import com.google.gwt.event.logical.shared.ResizeEvent;
 import com.google.gwt.event.logical.shared.ResizeHandler;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.xml.client.Document;
-//import com.google.gwt.xml.client.NamedNodeMap;
 import com.google.gwt.xml.client.Node;
 import com.google.gwt.xml.client.NodeList;
 import com.google.gwt.xml.client.XMLParser;
@@ -52,7 +51,7 @@ public class LineChartPanel extends Layout {
 	private final LineChartOptions options;
 
 	private final ArrayList<String> type;
-	//private final ArrayList<Integer> times;
+	// private final ArrayList<Integer> times;
 
 	private final ArrayList<Integer> initMem;
 	private final ArrayList<Integer> usedMem;
@@ -80,7 +79,7 @@ public class LineChartPanel extends Layout {
 
 		options = LineChartOptions.create();
 		type = new ArrayList<String>();
-		//times = new ArrayList<Integer>();
+		// times = new ArrayList<Integer>();
 
 		initMem = new ArrayList<Integer>();
 		usedMem = new ArrayList<Integer>();
@@ -126,9 +125,11 @@ public class LineChartPanel extends Layout {
 
 				for (int i = 0; i < memPoints.getLength(); i++) {
 					Node stepNode = memPoints.item(i);
-					/*NamedNodeMap memPointAttr = stepNode.getAttributes();
-					Node stepAttrNode = memPointAttr.getNamedItem("ID");
-					times.add(Integer.parseInt(stepAttrNode.getNodeValue()));*/
+					/*
+					 * NamedNodeMap memPointAttr = stepNode.getAttributes();
+					 * Node stepAttrNode = memPointAttr.getNamedItem("ID");
+					 * times.add(Integer.parseInt(stepAttrNode.getNodeValue()));
+					 */
 
 					Node initNode = stepNode.getFirstChild();
 					initMem.add(Integer.parseInt(initNode.getFirstChild()
@@ -166,9 +167,11 @@ public class LineChartPanel extends Layout {
 
 				for (int i = 0; i < threadPoints.getLength(); i++) {
 					Node stepNode = threadPoints.item(i);
-					/*NamedNodeMap threadPointAttr = stepNode.getAttributes();
-					Node stepAttrNode = threadPointAttr.getNamedItem("ID");
-					times.add(Integer.parseInt(stepAttrNode.getNodeValue()));*/
+					/*
+					 * NamedNodeMap threadPointAttr = stepNode.getAttributes();
+					 * Node stepAttrNode = threadPointAttr.getNamedItem("ID");
+					 * times.add(Integer.parseInt(stepAttrNode.getNodeValue()));
+					 */
 
 					Node cntNode = stepNode.getFirstChild();
 					threadCnt.add(Integer.parseInt(cntNode.getFirstChild()
@@ -202,7 +205,7 @@ public class LineChartPanel extends Layout {
 			start = 0;
 			end = maxEntries;
 
-			//times.clear();
+			// times.clear();
 			initMem.clear();
 			usedMem.clear();
 			commMem.clear();
@@ -219,7 +222,7 @@ public class LineChartPanel extends Layout {
 			start = 0;
 			end = maxEntries;
 
-			//times.clear();
+			// times.clear();
 			threadCnt.clear();
 			threadPk.clear();
 			thrdStats.clear();
@@ -246,11 +249,12 @@ public class LineChartPanel extends Layout {
 		// memory color
 		if (usedUsed) {
 			int tmp = 0;
-			if((end % initMem.size()) != 0)
+			if ((end % initMem.size()) != 0) {
 				tmp = (end % initMem.size()) - 1;
-			else
+			} else {
 				tmp = initMem.size() - 1;
-			
+			}
+
 			// yellow
 			if (usedMem.get(tmp) > .3 * maxMem.get(tmp)
 					&& usedMem.get(tmp) <= .8 * maxMem.get(tmp)) {
@@ -265,11 +269,12 @@ public class LineChartPanel extends Layout {
 		// thread color
 		else if (threadUsed) {
 			int tmp = 0;
-			if((end % threadCnt.size()) != 0)
+			if ((end % threadCnt.size()) != 0) {
 				tmp = (end % threadCnt.size()) - 1;
-			else
+			} else {
 				tmp = threadCnt.size() - 1;
-			
+			}
+
 			// yellow
 			if (threadCnt.get(tmp) > .3 * threadPk.get(tmp)
 					&& threadCnt.get(tmp) <= .8 * threadPk.get(tmp)) {
@@ -292,12 +297,13 @@ public class LineChartPanel extends Layout {
 		if (monitorType.equals("Memory") && !initMem.isEmpty()
 				&& !usedMem.isEmpty() && !commMem.isEmpty()
 				&& !maxMem.isEmpty()) {
-			
+
 			int tmp = 0;
-			if((end % initMem.size()) != 0)
+			if ((end % initMem.size()) != 0) {
 				tmp = (end % initMem.size()) - 1;
-			else
+			} else {
 				tmp = initMem.size() - 1;
+			}
 
 			int currInitMem = initMem.get(tmp);
 			int currUsedMem = usedMem.get(tmp);
@@ -324,10 +330,11 @@ public class LineChartPanel extends Layout {
 		else if (monitorType.equals("Thread") && !threadCnt.isEmpty()
 				&& !threadPk.isEmpty()) {
 			int tmp = 0;
-			if((end % threadCnt.size()) != 0)
+			if ((end % threadCnt.size()) != 0) {
 				tmp = (end % threadCnt.size()) - 1;
-			else
+			} else {
 				tmp = threadCnt.size() - 1;
+			}
 			thrdStats.clear();
 			thrdStats.add(threadCnt.get(tmp));
 			thrdStats.add(threadPk.get(tmp));
@@ -344,16 +351,17 @@ public class LineChartPanel extends Layout {
 	public void updateValues() {
 		try {
 			// increment start and end if there are more values in arrays
-			/*if ((monitorType.equals("Memory") && end < initMem.size()
-					&& end < usedMem.size() && end < commMem.size()
-					&& end < maxMem.size() && end < times.size())
-					|| ((monitorType.equals("Thread") && end < threadCnt.size()
-							&& end < threadPk.size() && end < times.size()))) {
-				start++;
-				end++;
-			}*/
-			/*start = (start + 1) % times.size();
-			end = (end + 1) % times.size();*/
+			/*
+			 * if ((monitorType.equals("Memory") && end < initMem.size() && end
+			 * < usedMem.size() && end < commMem.size() && end < maxMem.size()
+			 * && end < times.size()) || ((monitorType.equals("Thread") && end <
+			 * threadCnt.size() && end < threadPk.size() && end <
+			 * times.size()))) { start++; end++; }
+			 */
+			/*
+			 * start = (start + 1) % times.size(); end = (end + 1) %
+			 * times.size();
+			 */
 			start++;
 			end++;
 			calculateStatistics();
@@ -493,14 +501,14 @@ public class LineChartPanel extends Layout {
 
 			// draw next points, if any
 			if (timeUsed) {
-				dataTable.addRows(maxEntries);		
+				dataTable.addRows(maxEntries);
 				int next = start;
 				for (int t = 0; t < maxEntries; t++) {
 					if (next >= end) {
 						break;
 					}
-					//dataTable.setValue(t, 0, times.get(next));
-					//next = (next + 1) % times.size();
+					// dataTable.setValue(t, 0, times.get(next));
+					// next = (next + 1) % times.size();
 					dataTable.setValue(t, 0, next);
 					next++;
 				}
@@ -513,9 +521,10 @@ public class LineChartPanel extends Layout {
 						if (next >= end) {
 							break;
 						}
-						//dataTable.setValue(row, 1, initMem.get(next));
-						//next = (next + 1) % times.size();
-						dataTable.setValue(row, 1, initMem.get(next % initMem.size()));
+						// dataTable.setValue(row, 1, initMem.get(next));
+						// next = (next + 1) % times.size();
+						dataTable.setValue(row, 1,
+								initMem.get(next % initMem.size()));
 						next++;
 					}
 				}
@@ -525,9 +534,10 @@ public class LineChartPanel extends Layout {
 						if (next >= end) {
 							break;
 						}
-						//dataTable.setValue(row, 2, usedMem.get(next));
-						//next = (next + 1) % times.size();
-						dataTable.setValue(row, 2, usedMem.get(next % usedMem.size()));
+						// dataTable.setValue(row, 2, usedMem.get(next));
+						// next = (next + 1) % times.size();
+						dataTable.setValue(row, 2,
+								usedMem.get(next % usedMem.size()));
 						next++;
 					}
 				}
@@ -537,9 +547,10 @@ public class LineChartPanel extends Layout {
 						if (next >= end) {
 							break;
 						}
-						//dataTable.setValue(row, 3, commMem.get(next));
-						//next = (next + 1) % times.size();
-						dataTable.setValue(row, 3, commMem.get(next % commMem.size()));
+						// dataTable.setValue(row, 3, commMem.get(next));
+						// next = (next + 1) % times.size();
+						dataTable.setValue(row, 3,
+								commMem.get(next % commMem.size()));
 						next++;
 					}
 				}
@@ -549,9 +560,10 @@ public class LineChartPanel extends Layout {
 						if (next >= end) {
 							break;
 						}
-						//dataTable.setValue(row, 4, maxMem.get(next));
-						//next = (next + 1) % times.size();
-						dataTable.setValue(row, 4, maxMem.get(next % maxMem.size()));
+						// dataTable.setValue(row, 4, maxMem.get(next));
+						// next = (next + 1) % times.size();
+						dataTable.setValue(row, 4,
+								maxMem.get(next % maxMem.size()));
 						next++;
 					}
 				}
@@ -562,9 +574,10 @@ public class LineChartPanel extends Layout {
 						if (next >= end) {
 							break;
 						}
-						//dataTable.setValue(row, 1, threadCnt.get(next));
-						//next = (next + 1) % times.size();
-						dataTable.setValue(row, 1, threadCnt.get(next % threadCnt.size()));
+						// dataTable.setValue(row, 1, threadCnt.get(next));
+						// next = (next + 1) % times.size();
+						dataTable.setValue(row, 1,
+								threadCnt.get(next % threadCnt.size()));
 						next++;
 					}
 					next = start;
@@ -572,9 +585,10 @@ public class LineChartPanel extends Layout {
 						if (next >= end) {
 							break;
 						}
-						//dataTable.setValue(row, 2, threadPk.get(next));
-						//next = (next + 1) % times.size();
-						dataTable.setValue(row, 2, threadPk.get(next % threadPk.size()));
+						// dataTable.setValue(row, 2, threadPk.get(next));
+						// next = (next + 1) % times.size();
+						dataTable.setValue(row, 2,
+								threadPk.get(next % threadPk.size()));
 						next++;
 					}
 				}

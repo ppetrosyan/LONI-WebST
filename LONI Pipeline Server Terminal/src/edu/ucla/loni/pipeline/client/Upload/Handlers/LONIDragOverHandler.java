@@ -25,8 +25,6 @@ import com.google.gwt.user.client.ui.Label;
 
 /**
  * Drag Over Event Handler
- * 
- * @author Jared
  */
 public class LONIDragOverHandler implements DragOverHandler {
 

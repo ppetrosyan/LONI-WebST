@@ -31,8 +31,6 @@ import com.smartgwt.client.widgets.layout.VLayout;
 
 /**
  * Drop Event Handler
- * 
- * @author Jared
  */
 public class LONIDropHandler implements DropHandler {
 

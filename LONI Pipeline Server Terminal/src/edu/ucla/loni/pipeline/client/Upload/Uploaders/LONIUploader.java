@@ -39,8 +39,6 @@ import edu.ucla.loni.pipeline.client.Upload.Handlers.LONIUploadSuccessHandler;
 
 /**
  * Constructs an Uploader Service for web interface
- * 
- * @author Jared
  */
 public class LONIUploader extends Uploader {
 

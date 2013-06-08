@@ -39,27 +39,27 @@ import com.smartgwt.client.widgets.tab.Tab;
 import edu.ucla.loni.pipeline.client.MainPage.Utilities.MainPageUtils;
 
 public class AdvancedTab {
-	
+
 	private NativeCheckboxItem failoverEnable;
 	private SpinnerItem slaveFreq;
 	private SpinnerItem slaveRetries;
 	private TextItem aliasInterface;
 	private IntegerItem aliasSubinterface;
 	private TextItem postFailover;
-	
+
 	private TextItem logRecipients;
 	private TextItem logSender;
 	private TextItem logSMTPHost;
-	
+
 	private SpinnerItem packetSize;
 	private SpinnerItem connTimeout;
-	
+
 	private NativeCheckboxItem httpEnable;
 	private IntegerItem port;
-	
+
 	private NativeCheckboxItem diskEnable;
 	private SpinnerItem percent;
-	
+
 	private SpinnerItem maxThreads;
 	private CheckboxItem autoClean;
 	private SpinnerItem maxGenerator;
@@ -69,7 +69,7 @@ public class AdvancedTab {
 	private TextItem extQName;
 	private NativeCheckboxItem missingMod;
 	private NativeCheckboxItem missingFile;
-	
+
 	public AdvancedTab() {
 
 	}
@@ -109,17 +109,15 @@ public class AdvancedTab {
 		slaveRetries.setMin(0);
 		slaveRetries.setDisabled(true);
 
-		aliasInterface = new TextItem("aliasInterface",
-				"Alias Interface");
+		aliasInterface = new TextItem("aliasInterface", "Alias Interface");
 		aliasInterface.setDisabled(true);
 
-		aliasSubinterface = new IntegerItem(
-				"aliasSubinterface", "Alias Subinterface Number");
+		aliasSubinterface = new IntegerItem("aliasSubinterface",
+				"Alias Subinterface Number");
 		aliasSubinterface.setValue("0");
 		aliasSubinterface.setDisabled(true);
 
-		postFailover = new TextItem("postFailover",
-				"Post-failover Script");
+		postFailover = new TextItem("postFailover", "Post-failover Script");
 		postFailover.setDisabled(true);
 
 		formAdvancedFailover
@@ -157,8 +155,8 @@ public class AdvancedTab {
 		logSender = new TextItem("sender", "E-mail Sender");
 		logSMTPHost = new TextItem("SMTPHost", "SMTP Host");
 
-		formAdvancedLog
-				.setFields(new FormItem[] { logRecipients, logSender, logSMTPHost });
+		formAdvancedLog.setFields(new FormItem[] { logRecipients, logSender,
+				logSMTPHost });
 		MainPageUtils.formatForm(formAdvancedLog);
 		layoutAdvanced.addMember(formAdvancedLog);
 
@@ -329,156 +327,196 @@ public class AdvancedTab {
 		tabAdvanced.setPane(layoutAdvanced);
 		return tabAdvanced;
 	}
-	
+
 	public void parseAdvancedXML(Document doc) {
 		// enable failover section
-		Node enableFailover = doc.getElementsByTagName("FailoverEnabled").item(0);
+		Node enableFailover = doc.getElementsByTagName("FailoverEnabled").item(
+				0);
 		if (enableFailover != null) {
-			Boolean enableFailoverVal = Boolean.valueOf(enableFailover.getFirstChild().getNodeValue());
+			Boolean enableFailoverVal = Boolean.valueOf(enableFailover
+					.getFirstChild().getNodeValue());
 			failoverEnable.setValue(enableFailoverVal);
 		}
-		
-		Node failoverCheckInterval = doc.getElementsByTagName("FailoverCheckInterval").item(0);
+
+		Node failoverCheckInterval = doc.getElementsByTagName(
+				"FailoverCheckInterval").item(0);
 		if (failoverCheckInterval != null) {
-			String failoverCheckIntervalVal = failoverCheckInterval.getFirstChild().getNodeValue();
+			String failoverCheckIntervalVal = failoverCheckInterval
+					.getFirstChild().getNodeValue();
 			slaveFreq.setValue(failoverCheckIntervalVal);
 		}
-		
-		Node failoverRetries = doc.getElementsByTagName("FailoverRetries").item(0);
+
+		Node failoverRetries = doc.getElementsByTagName("FailoverRetries")
+				.item(0);
 		if (failoverRetries != null) {
-			String failoverRetriesVal = failoverRetries.getFirstChild().getNodeValue();
+			String failoverRetriesVal = failoverRetries.getFirstChild()
+					.getNodeValue();
 			slaveRetries.setValue(failoverRetriesVal);
 		}
-		
-		Node failoverAliasInterface = doc.getElementsByTagName("FailoverAliasInterface").item(0);
+
+		Node failoverAliasInterface = doc.getElementsByTagName(
+				"FailoverAliasInterface").item(0);
 		if (failoverAliasInterface != null) {
-			String failoverAliasInterfaceVal = failoverAliasInterface.getFirstChild().getNodeValue();
+			String failoverAliasInterfaceVal = failoverAliasInterface
+					.getFirstChild().getNodeValue();
 			aliasInterface.setValue(failoverAliasInterfaceVal);
 		}
-		
-		Node failoverAliasSubInterfaceNum = doc.getElementsByTagName("FailoverAliasSubInterfaceNum").item(0);
+
+		Node failoverAliasSubInterfaceNum = doc.getElementsByTagName(
+				"FailoverAliasSubInterfaceNum").item(0);
 		if (failoverAliasSubInterfaceNum != null) {
-			String failoverAliasSubInterfaceNumVal = failoverAliasSubInterfaceNum.getFirstChild().getNodeValue();
+			String failoverAliasSubInterfaceNumVal = failoverAliasSubInterfaceNum
+					.getFirstChild().getNodeValue();
 			aliasSubinterface.setValue(failoverAliasSubInterfaceNumVal);
 		}
-		
-		Node failoverPostScript = doc.getElementsByTagName("FailoverPostScript").item(0);
+
+		Node failoverPostScript = doc
+				.getElementsByTagName("FailoverPostScript").item(0);
 		if (failoverPostScript != null) {
-			String failoverPostScriptVal = failoverPostScript.getFirstChild().getNodeValue();
+			String failoverPostScriptVal = failoverPostScript.getFirstChild()
+					.getNodeValue();
 			postFailover.setValue(failoverPostScriptVal);
 		}
 
-		Node emailerRecipients = doc.getElementsByTagName("EmailerRecipients").item(0);
+		Node emailerRecipients = doc.getElementsByTagName("EmailerRecipients")
+				.item(0);
 		if (emailerRecipients != null) {
-			String emailerRecipientsVal = emailerRecipients.getFirstChild().getNodeValue();
+			String emailerRecipientsVal = emailerRecipients.getFirstChild()
+					.getNodeValue();
 			logRecipients.setValue(emailerRecipientsVal);
 		}
 
 		Node emailerSender = doc.getElementsByTagName("EmailerSender").item(0);
 		if (emailerSender != null) {
-			String emailerSenderVal = emailerSender.getFirstChild().getNodeValue();
+			String emailerSenderVal = emailerSender.getFirstChild()
+					.getNodeValue();
 			logSender.setValue(emailerSenderVal);
 		}
 
-		Node emailerSMTPHost = doc.getElementsByTagName("EmailerSMTPHost").item(0);
+		Node emailerSMTPHost = doc.getElementsByTagName("EmailerSMTPHost")
+				.item(0);
 		if (emailerSMTPHost != null) {
-			String emailerSMTPHostVal = emailerSMTPHost.getFirstChild().getNodeValue();
+			String emailerSMTPHostVal = emailerSMTPHost.getFirstChild()
+					.getNodeValue();
 			logSMTPHost.setValue(emailerSMTPHostVal);
 		}
 
-		Node networkPacketSize = doc.getElementsByTagName("NetworkPacketSize").item(0);
+		Node networkPacketSize = doc.getElementsByTagName("NetworkPacketSize")
+				.item(0);
 		if (networkPacketSize != null) {
-			String networkPacketSizeVal = networkPacketSize.getFirstChild().getNodeValue();
+			String networkPacketSizeVal = networkPacketSize.getFirstChild()
+					.getNodeValue();
 			packetSize.setValue(networkPacketSizeVal);
 		}
 
-		Node connectTimeoutSec = doc.getElementsByTagName("ConnectTimeoutSec").item(0);
+		Node connectTimeoutSec = doc.getElementsByTagName("ConnectTimeoutSec")
+				.item(0);
 		if (networkPacketSize != null) {
-			String connectTimeoutSecVal = connectTimeoutSec.getFirstChild().getNodeValue();
+			String connectTimeoutSecVal = connectTimeoutSec.getFirstChild()
+					.getNodeValue();
 			connTimeout.setValue(connectTimeoutSecVal);
 		}
-		
-		NodeList HTTPServerPortList = doc.getElementsByTagName("HTTPServerPort");
-		if(HTTPServerPortList.getLength() != 0)
-		{
+
+		NodeList HTTPServerPortList = doc
+				.getElementsByTagName("HTTPServerPort");
+		if (HTTPServerPortList.getLength() != 0) {
 			Node HTTPServerPort = HTTPServerPortList.item(0);
 			if (HTTPServerPort != null) {
-				String HTTPServerPortVal = HTTPServerPort.getFirstChild().getNodeValue();
+				String HTTPServerPortVal = HTTPServerPort.getFirstChild()
+						.getNodeValue();
 				port.setValue(HTTPServerPortVal);
 			}
 			httpEnable.setValue(true);
-		}
-		else
-		{
+		} else {
 			httpEnable.setValue(false);
 		}
-		
-		NodeList warnLowDiskSpacePercentList = doc.getElementsByTagName("WarnLowDiskSpacePercent");
-		if(warnLowDiskSpacePercentList.getLength() != 0)
-		{
+
+		NodeList warnLowDiskSpacePercentList = doc
+				.getElementsByTagName("WarnLowDiskSpacePercent");
+		if (warnLowDiskSpacePercentList.getLength() != 0) {
 			Node warnLowDiskSpacePercent = warnLowDiskSpacePercentList.item(0);
 			if (warnLowDiskSpacePercent != null) {
-				String warnLowDiskSpacePercentVal = warnLowDiskSpacePercent.getFirstChild().getNodeValue();
+				String warnLowDiskSpacePercentVal = warnLowDiskSpacePercent
+						.getFirstChild().getNodeValue();
 				percent.setValue(warnLowDiskSpacePercentVal);
 			}
 			diskEnable.setValue(true);
-		}
-		else
-		{
+		} else {
 			diskEnable.setValue(false);
 		}
 
-		Node maximumThreadPoolSize = doc.getElementsByTagName("MaximumThreadPoolSize").item(0);
+		Node maximumThreadPoolSize = doc.getElementsByTagName(
+				"MaximumThreadPoolSize").item(0);
 		if (maximumThreadPoolSize != null) {
-			String maximumThreadPoolSizeVal = maximumThreadPoolSize.getFirstChild().getNodeValue();
+			String maximumThreadPoolSizeVal = maximumThreadPoolSize
+					.getFirstChild().getNodeValue();
 			maxThreads.setValue(maximumThreadPoolSizeVal);
 		}
 
-		Node clearOldTempFilesEnabled = doc.getElementsByTagName("ClearOldTempFilesEnabled").item(0);
+		Node clearOldTempFilesEnabled = doc.getElementsByTagName(
+				"ClearOldTempFilesEnabled").item(0);
 		if (clearOldTempFilesEnabled != null) {
-			Boolean clearOldTempFilesEnabledVal = Boolean.valueOf(clearOldTempFilesEnabled.getFirstChild().getNodeValue());
+			Boolean clearOldTempFilesEnabledVal = Boolean
+					.valueOf(clearOldTempFilesEnabled.getFirstChild()
+							.getNodeValue());
 			autoClean.setValue(clearOldTempFilesEnabledVal);
 		}
 
-		Node maxConcurrentMetadataGenerator = doc.getElementsByTagName("MaxConcurrentMetadataGenerator").item(0);
+		Node maxConcurrentMetadataGenerator = doc.getElementsByTagName(
+				"MaxConcurrentMetadataGenerator").item(0);
 		if (maxConcurrentMetadataGenerator != null) {
-			String maxConcurrentMetadataGeneratorVal = maxConcurrentMetadataGenerator.getFirstChild().getNodeValue();
+			String maxConcurrentMetadataGeneratorVal = maxConcurrentMetadataGenerator
+					.getFirstChild().getNodeValue();
 			maxGenerator.setValue(maxConcurrentMetadataGeneratorVal);
 		}
 
-		Node serverStatIntervalSec = doc.getElementsByTagName("ServerStatIntervalSec").item(0);
+		Node serverStatIntervalSec = doc.getElementsByTagName(
+				"ServerStatIntervalSec").item(0);
 		if (serverStatIntervalSec != null) {
-			String serverStatIntervalSecVal = serverStatIntervalSec.getFirstChild().getNodeValue();
+			String serverStatIntervalSecVal = serverStatIntervalSec
+					.getFirstChild().getNodeValue();
 			serverRefresh.setValue(serverStatIntervalSecVal);
 		}
 
-		Node connectionTimeoutAfterNumInterval = doc.getElementsByTagName("ConnectionTimeoutAfterNumInterval").item(0);
+		Node connectionTimeoutAfterNumInterval = doc.getElementsByTagName(
+				"ConnectionTimeoutAfterNumInterval").item(0);
 		if (connectionTimeoutAfterNumInterval != null) {
-			String connectionTimeoutAfterNumIntervalVal = connectionTimeoutAfterNumInterval.getFirstChild().getNodeValue();
+			String connectionTimeoutAfterNumIntervalVal = connectionTimeoutAfterNumInterval
+					.getFirstChild().getNodeValue();
 			maxMissed.setValue(connectionTimeoutAfterNumIntervalVal);
 		}
 
-		Node dirListRecTimeoutSec = doc.getElementsByTagName("DirListRecTimeoutSec").item(0);
+		Node dirListRecTimeoutSec = doc.getElementsByTagName(
+				"DirListRecTimeoutSec").item(0);
 		if (dirListRecTimeoutSec != null) {
-			String dirListRecTimeoutSecVal = dirListRecTimeoutSec.getFirstChild().getNodeValue();
+			String dirListRecTimeoutSecVal = dirListRecTimeoutSec
+					.getFirstChild().getNodeValue();
 			directoryTimeout.setValue(dirListRecTimeoutSecVal);
 		}
 
-		Node networkAccessQueue = doc.getElementsByTagName("NetworkAccessQueue").item(0);
+		Node networkAccessQueue = doc
+				.getElementsByTagName("NetworkAccessQueue").item(0);
 		if (networkAccessQueue != null) {
-			String networkAccessQueueVal = networkAccessQueue.getFirstChild().getNodeValue();
+			String networkAccessQueueVal = networkAccessQueue.getFirstChild()
+					.getNodeValue();
 			extQName.setValue(networkAccessQueueVal);
 		}
 
-		Node warningForExecutableNotFound = doc.getElementsByTagName("WarningForExecutableNotFound").item(0);
+		Node warningForExecutableNotFound = doc.getElementsByTagName(
+				"WarningForExecutableNotFound").item(0);
 		if (warningForExecutableNotFound != null) {
-			Boolean warningForExecutableNotFoundVal = Boolean.valueOf(warningForExecutableNotFound.getFirstChild().getNodeValue());
+			Boolean warningForExecutableNotFoundVal = Boolean
+					.valueOf(warningForExecutableNotFound.getFirstChild()
+							.getNodeValue());
 			missingMod.setValue(warningForExecutableNotFoundVal);
 		}
 
-		Node warningForParameterFileNotFound = doc.getElementsByTagName("WarningForParameterFileNotFound").item(0);
+		Node warningForParameterFileNotFound = doc.getElementsByTagName(
+				"WarningForParameterFileNotFound").item(0);
 		if (warningForParameterFileNotFound != null) {
-			Boolean warningForParameterFileNotFoundVal = Boolean.valueOf(warningForParameterFileNotFound.getFirstChild().getNodeValue());
+			Boolean warningForParameterFileNotFoundVal = Boolean
+					.valueOf(warningForParameterFileNotFound.getFirstChild()
+							.getNodeValue());
 			missingFile.setValue(warningForParameterFileNotFoundVal);
 		}
 	}

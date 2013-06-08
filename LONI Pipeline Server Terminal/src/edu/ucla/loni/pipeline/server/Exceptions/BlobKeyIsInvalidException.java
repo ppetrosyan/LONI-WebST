@@ -21,8 +21,6 @@ package edu.ucla.loni.pipeline.server.Exceptions;
 
 /**
  * Specifies a BlobKeyIsInvalid Exception
- * 
- * @author Jared
  */
 public class BlobKeyIsInvalidException extends RuntimeException {
 

@@ -69,19 +69,13 @@ public class LONINotifications {
 	 * @param timer
 	 */
 	public void showMessage(String message) {
-		/*
-		 * if (notificationMole.isVisible()) { notificationMole.hideNow(); }
-		 */
-
 		if (message.startsWith("ERROR:")) {
-			// notificationMole.setStyleName("notificationError");
 			notificationMole.show(message);
 			helper.setBackgroundColor("#F5C6D6");
 
 			// Schedule the timer to run once in 5 seconds.
 			timer.schedule(5000);
 		} else {
-			// notificationMole.setStyleName("notificationNormal");
 			helper.setBackgroundColor("#E5EDF9");
 
 			notificationMole.show(message);

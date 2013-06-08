@@ -29,8 +29,6 @@ import edu.ucla.loni.pipeline.server.Utilities.ResponseBuilder;
 
 /**
  * Retrieves Resource Data from server Blobstore
- * 
- * @author Jared
  */
 public class RequestResourceXMLServlet extends RemoteServiceServlet implements
 		RequestResourceXMLService {

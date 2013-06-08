@@ -156,8 +156,8 @@ public class GeneralTab {
 				"Crawler Persistence URL");
 
 		formGeneralPersistence.setFields(new FormItem[] { urlText,
-				usernameText, passwordText, spinnerItem, 
-				historydocText, crawlerpurlText });
+				usernameText, passwordText, spinnerItem, historydocText,
+				crawlerpurlText });
 		MainPageUtils.formatForm(formGeneralPersistence);
 		layoutGeneral.addMember(formGeneralPersistence);
 

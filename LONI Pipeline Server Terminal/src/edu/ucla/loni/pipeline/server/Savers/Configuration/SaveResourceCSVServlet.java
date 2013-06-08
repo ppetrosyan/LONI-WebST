@@ -38,8 +38,6 @@ import edu.ucla.loni.pipeline.client.Savers.Configuration.SaveResourceCSVService
 
 /**
  * Stores CSV data in server Blobstore
- * 
- * @author Jared
  */
 public class SaveResourceCSVServlet extends RemoteServiceServlet implements
 		SaveResourceCSVService {
